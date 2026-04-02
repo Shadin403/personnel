@@ -7,8 +7,8 @@
     <!-- Header Actions -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-300">
         <div class="space-y-1">
-            <h2 class="text-2xl font-bold text-slate-900 tracking-tight uppercase">Personnel Directory [সদস্য তালিকা]</h2>
-            <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Global Registry Assets &bull; Live Database Mode</p>
+            <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Personnel Directory [সদস্য তালিকা]</h2>
+            <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Registry Assets &bull; Strategic Database Mode</p>
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('admin.soldiers.create') }}" class="btn-military flex items-center gap-2 shadow-md active:scale-95">
@@ -22,41 +22,41 @@
     <div class="classic-card p-6 bg-white border border-slate-300">
         <form action="{{ route('admin.soldiers.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="md:col-span-1">
-                <label class="text-[9px] font-bold text-military-secondary uppercase tracking-[0.2em] mb-2 block">Search Node [নাম / নং / পদবী]</label>
+                <label class="text-[11px] font-bold text-military-secondary uppercase tracking-widest mb-2 block opacity-70">Search Records [নাম / নং / পদবী]</label>
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </span>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="NAME [নাম] / NO. [নং] / RANK" 
-                           class="w-full pl-10 pr-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[11px] font-bold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Name / Service No. / Rank" 
+                           class="w-full pl-10 pr-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[13px] font-medium tracking-tight focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner">
                 </div>
             </div>
             
             <div>
-                <label class="text-[9px] font-bold text-military-secondary uppercase tracking-[0.2em] mb-2 block">Force Classification</label>
-                <select name="user_type" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[11px] font-bold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                    <option value="">ALL CLASSIFICATIONS</option>
-                    <option value="CO" {{ request('user_type') == 'CO' ? 'selected' : '' }}>COMMAND OFFICER (CO)</option>
-                    <option value="JCO" {{ request('user_type') == 'JCO' ? 'selected' : '' }}>JUNIOR OFFICER (JCO)</option>
-                    <option value="Staff" {{ request('user_type') == 'Staff' ? 'selected' : '' }}>STAFF PERSONNEL</option>
+                <label class="text-[11px] font-bold text-military-secondary uppercase tracking-widest mb-2 block opacity-70">Classification</label>
+                <select name="user_type" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[13px] font-medium tracking-tight focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
+                    <option value="">All Classifications</option>
+                    <option value="CO" {{ request('user_type') == 'CO' ? 'selected' : '' }}>Command Officer (CO)</option>
+                    <option value="JCO" {{ request('user_type') == 'JCO' ? 'selected' : '' }}>Junior Officer (JCO)</option>
+                    <option value="Staff" {{ request('user_type') == 'Staff' ? 'selected' : '' }}>Staff Personnel</option>
                 </select>
             </div>
 
             <div>
-                <label class="text-[9px] font-bold text-military-secondary uppercase tracking-[0.2em] mb-2 block">Coy. [কোম্পানী]</label>
-                <select name="company" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[11px] font-bold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                    <option value="">ALL COYs</option>
+                <label class="text-[11px] font-bold text-military-secondary uppercase tracking-widest mb-2 block opacity-70">Company [কোম্পানী]</label>
+                <select name="company" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[13px] font-medium tracking-tight focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
+                    <option value="">All Companies</option>
                     @php 
                         $coyList = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'HQ'];
                     @endphp
                     @foreach($coyList as $coy)
-                    <option value="{{ $coy }}" {{ request('company') == $coy ? 'selected' : '' }}>{{ strtoupper($coy) }} COY.</option>
+                    <option value="{{ $coy }}" {{ request('company') == $coy ? 'selected' : '' }}>{{ $coy }} Coy.</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="flex-1 py-2.5 bg-military-primary text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-military-secondary hover:bg-military-secondary transition-all shadow-md">
+                <button type="submit" class="flex-1 py-2.5 bg-military-primary text-white text-[12px] font-bold uppercase tracking-widest border border-military-secondary hover:bg-military-secondary transition-all shadow-md">
                     Apply Filter
                 </button>
                 <a href="{{ route('admin.soldiers.index') }}" class="px-4 py-2.5 bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all border border-slate-200 shadow-sm">
@@ -72,46 +72,46 @@
             <table class="w-full text-left">
                 <thead class="bg-military-primary text-white">
                     <tr>
-                        <th class="px-4 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-center w-12">S/N</th>
-                        <th class="px-4 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-center w-16">Image</th>
-                        <th class="px-6 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-left">Name [নাম]</th>
-                        <th class="px-6 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-left">Service No [সেনা নং]</th>
-                        <th class="px-6 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-left">Coy. & Appt [কোম্পানী ও নিয়োগ]</th>
-                        <th class="px-6 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-left">Class</th>
-                        <th class="px-6 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-left">Readiness</th>
-                        <th class="px-6 py-5 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90 border-b border-military-secondary text-right">Operations</th>
+                        <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-12">S/N</th>
+                        <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-16">Image</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Name [নাম]</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Service No [সেনা নং]</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Coy. & Appt [কোম্পানী ও নিয়োগ]</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Class</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Readiness</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-right">Operations</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200">
                     @forelse($soldiers as $soldier)
                     <tr class="hover:bg-military-bg/30 transition-colors group">
                         <td class="px-4 py-5 text-center">
-                            <span class="text-[11px] font-bold text-slate-400 font-mono">{{ $loop->iteration }}</span>
+                            <span class="text-[12px] font-bold text-slate-400 font-mono">{{ $loop->iteration }}</span>
                         </td>
                         <td class="px-4 py-5">
-                            <div class="w-12 h-12 rounded-none border border-slate-200 overflow-hidden bg-slate-50 p-0.5 group-hover:border-military-primary transition-all mx-auto">
+                            <div class="w-12 h-12 rounded-none border border-slate-200 overflow-hidden bg-slate-50 p-0.5 group-hover:border-military-primary transition-all mx-auto shadow-sm">
                                 <img src="{{ $soldier->photo_url }}" alt="" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                             </div>
                         </td>
                         <td class="px-6 py-5">
-                            <p class="text-[11px] font-bold text-slate-900 uppercase tracking-tight">{{ $soldier->name }}</p>
+                            <p class="text-[13px] font-bold text-slate-900 tracking-tight">{{ $soldier->name }} [নাম]</p>
                         </td>
                         <td class="px-6 py-5">
                             <div class="space-y-0.5">
-                                <p class="text-[11px] font-bold text-military-primary uppercase tracking-widest font-mono">{{ $soldier->number }}</p>
-                                <p class="text-[8px] font-semibold text-slate-400 uppercase tracking-tighter">{{ $soldier->batch }} BATCH</p>
+                                <p class="text-[13px] font-bold text-military-primary tracking-wide font-mono">{{ $soldier->number }}</p>
+                                <p class="text-[10px] font-semibold text-slate-400 opacity-80">{{ $soldier->batch }} Batch</p>
                             </div>
                         </td>
                         <td class="px-6 py-5">
-                            <p class="text-[11px] font-bold text-military-secondary uppercase tracking-tighter">{{ $soldier->rank }}</p>
-                            <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">{{ strtoupper($soldier->company) }} COY. &bull; APPT: {{ strtoupper($soldier->appointment) }}</p>
+                            <p class="text-[13px] font-bold text-military-secondary tracking-tight">{{ $soldier->rank }}</p>
+                            <p class="text-[11px] font-medium text-slate-500">{{ $soldier->company }} Coy. &bull; Appt: {{ $soldier->appointment }}</p>
                         </td>
                         <td class="px-6 py-5">
                             <div class="space-y-1.5">
-                                <span class="bg-military-bg text-military-primary text-[9px] font-bold px-2 py-0.5 border border-military-primary/20 uppercase tracking-widest">
+                                <span class="bg-military-bg text-military-primary text-[10px] font-bold px-2.5 py-1 border border-military-primary/20 tracking-wide">
                                     {{ $soldier->user_type }}
                                     @if($soldier->is_active)
-                                        <span class="ml-1 text-[8px] opacity-60">(ACTIVE)</span>
+                                        <span class="ml-1 text-[9px] opacity-60">(Active)</span>
                                     @endif
                                 </span>
                             </div>
@@ -126,10 +126,10 @@
                                 };
                             @endphp
                             <div class="flex flex-col gap-2 w-32">
-                                <span class="inline-flex items-center px-3 py-1 rounded-none text-[9px] font-bold border uppercase tracking-widest {{ $statusStyle }}">
+                                <span class="inline-flex items-center px-3 py-1 text-[11px] font-bold border tracking-wide {{ $statusStyle }}">
                                     {{ $soldier->overall_status }}
                                 </span>
-                                <div class="w-full h-1 bg-slate-100 rounded-none overflow-hidden border border-slate-200">
+                                <div class="w-full h-1.5 bg-slate-100 overflow-hidden border border-slate-200">
                                     @php
                                         $width = match($soldier->overall_status) {
                                             'Excellent' => '100%',
@@ -150,17 +150,17 @@
                         </td>
                         <td class="px-6 py-5 text-right">
                             <div class="flex items-center justify-end gap-2 transition-all duration-300">
-                                <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="px-4 py-2 bg-military-secondary text-white hover:bg-military-primary transition-all font-bold text-[9px] uppercase tracking-widest shadow-md">
-                                    GEN REPORT
+                                <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="px-4 py-2.5 bg-military-secondary text-white hover:bg-military-primary transition-all font-bold text-[10px] tracking-widest shadow-md">
+                                    Gen Report
                                 </a>
                                 <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all shadow-sm" title="Modify Node">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                 </a>
-                                <form action="{{ route('admin.soldiers.destroy', $soldier) }}" method="POST" class="inline" onsubmit="return confirm('CRITICAL: Permanent termination of personnel node record. Proceed?');">
+                                <form action="{{ route('admin.soldiers.destroy', $soldier) }}" method="POST" class="inline" onsubmit="return confirm('Confirm permanent record removal?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2.5 bg-white border border-slate-200 text-slate-300 hover:text-military-danger hover:border-military-danger transition-all shadow-sm" title="Purge Record">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </form>
                             </div>
@@ -173,8 +173,8 @@
                                 <div class="w-16 h-16 bg-military-bg border border-slate-100 rounded-none flex items-center justify-center mx-auto text-slate-300">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                 </div>
-                                <h4 class="text-sm font-bold text-slate-900 uppercase tracking-widest italic">Zero Signal Lock</h4>
-                                <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-tight">Verify registry coordinates or database uplink status.</p>
+                                <h4 class="text-[15px] font-bold text-slate-900 tracking-tight">No Results Found</h4>
+                                <p class="text-[12px] text-slate-500 font-medium tracking-tight">Ensure your search coordinates are correct or verify database connectivity.</p>
                             </div>
                         </td>
                     </tr>

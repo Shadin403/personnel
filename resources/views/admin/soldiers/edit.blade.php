@@ -10,9 +10,9 @@
             <a href="{{ route('admin.soldiers.index') }}" class="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all group shadow-sm">
                 <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             </a>
-            <div>
-                <h2 class="text-3xl font-bold text-slate-900 tracking-tight uppercase">Modify Personnel Node [সদস্য তথ্য সংশোধন]</h2>
-                <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Updating Strategic Profile Data for {{ $soldier->number }}</p>
+            <div class="space-y-1">
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Modify Personnel Node [সদস্য তথ্য সংশোধন]</h2>
+                <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Update strategic record for: <span class="text-military-primary font-extrabold">{{ $soldier->name }}</span></p>
             </div>
         </div>
         <div class="flex gap-3">
@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="md:col-span-3">
-                    <label class="text-[9px] font-bold text-military-secondary uppercase tracking-widest ml-1 mb-3 block">Personnel Visual Identification [ছবি] (HD PHOTO)</label>
+                    <label class="text-[12px] font-bold text-military-secondary mb-2 block tracking-wide opacity-80">Personnel Visual Identification [ছবি] (HD PHOTO)</label>
                     <div x-data="{ photoName: null, photoPreview: '{{ $soldier->photo_url }}' }" class="flex items-center gap-8">
                         <input type="file" name="photo" class="hidden" x-ref="photo"
                                @change="
@@ -217,11 +217,12 @@
 
         <!-- Section 4: Performance & Leave -->
         <div class="classic-card overflow-hidden border border-slate-300">
-            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <h3 class="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Strategic Objectives & Deployment [কৌশলগত লক্ষ্য ও ডেপ্লয়মেন্ট] (SEC-04)</h3>
+            <div class="bg-military-secondary px-8 py-4 border-b border-black/20 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-8 bg-military-accent shadow-[0_0_10px_rgba(107,142,35,0.4)]"></div>
+                    <h3 class="text-[14px] font-bold text-white tracking-widest uppercase">Tactical Performance & Physical Metrics</h3>
                 </div>
+                <span class="text-[11px] font-bold text-military-accent opacity-50 tracking-tighter">PERF_NODE_04</span>
             </div>
             <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white">
                 <div class="grid grid-cols-2 gap-4">

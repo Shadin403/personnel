@@ -77,11 +77,10 @@
         .btn-military {
             background: #2F4F3E;
             color: white;
-            padding: 0.5rem 1.25rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-size: 11px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 13px;
             border: 1px solid #1F2937;
             transition: all 0.2s;
         }
@@ -105,44 +104,44 @@
                 <!-- Sidebar Header -->
                 <div class="flex items-center gap-4 h-16 bg-slate-950 px-6 border-b border-white/5">
                     <img src="{{ asset('assets/logos/SAJHSF.png') }}" alt="Logo" class="h-8 w-auto">
-                    <span class="text-sm font-bold tracking-widest text-white uppercase whitespace-nowrap">
-                        ADMIN <span class="text-military-accent">PANEL</span>
+                    <span class="text-lg font-bold tracking-tight text-white whitespace-nowrap">
+                        Management <span class="text-military-accent font-extrabold">System</span>
                     </span>
                 </div>
                 
                 <!-- User Info -->
                 <div class="px-6 py-6 border-b border-white/5 bg-black/20">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded bg-military-primary flex items-center justify-center text-white font-semibold border border-white/10 uppercase shadow-lg text-sm">
+                        <div class="w-10 h-10 rounded-none bg-military-primary flex items-center justify-center text-white font-bold border border-white/10 shadow-lg text-base">
                             {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
                         </div>
                         <div>
-                            <p class="text-[11px] font-bold text-gray-200 uppercase tracking-widest">{{ Auth::user()->name ?? 'Command Admin' }}</p>
-                            <p class="text-[9px] text-military-accent font-semibold uppercase tracking-tighter">Authorized Operator</p>
+                            <p class="text-[13px] font-bold text-gray-100 tracking-tight">{{ Auth::user()->name ?? 'System Admin' }}</p>
+                            <p class="text-[11px] text-military-accent font-bold tracking-wide uppercase opacity-70">Authorized Administrator</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Navigation -->
                 <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto custom-scrollbar">
-                    <p class="px-4 text-[9px] font-semibold uppercase tracking-[0.25em] text-slate-500 mb-2">Operational Core</p>
+                    <p class="px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-3 opacity-40">Operational Center</p>
                     <a href="{{ route('admin.dashboard') }}" 
-                       class="flex items-center gap-3 px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                       class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                         Dashboard
                     </a>
                     
-                    <p class="px-4 pt-6 text-[9px] font-semibold uppercase tracking-[0.25em] text-slate-500 mb-2">Personnel Node [নাম ও নং]</p>
+                    <p class="px-4 pt-8 text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-3 opacity-40">Force Management</p>
                     <a href="{{ route('admin.soldiers.index') }}" 
-                       class="flex items-center gap-3 px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] transition-all duration-200 group {{ request()->routeIs('admin.soldiers.index') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        Directory
+                       class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.soldiers.index') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Personnel Directory
                     </a>
 
                     <a href="{{ route('admin.soldiers.create') }}" 
-                       class="flex items-center gap-3 px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] transition-all duration-200 group {{ request()->routeIs('admin.soldiers.create') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-                        Enrollment
+                       class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.soldiers.create') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                        New Enrollment
                     </a>
                 </nav>
 
@@ -150,8 +149,8 @@
                 <div class="p-4 border-t border-white/5 bg-black/40">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="flex items-center w-full gap-3 px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-all duration-200">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <button type="submit" class="flex items-center w-full gap-3 px-4 py-3 text-[12px] font-bold text-red-500 hover:bg-red-500/10 transition-all duration-200">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             Terminate Connection
                         </button>
                     </form>
@@ -167,15 +166,15 @@
                     <button @click="sidebarOpen = !sidebarOpen" class="text-military-primary hover:text-military-secondary lg:hidden">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
-                    <h1 class="text-[11px] font-bold text-military-primary uppercase tracking-[0.3em]">@yield('title', 'Admin Panel')</h1>
+                    <h1 class="text-[13px] font-bold text-military-primary tracking-tight">@yield('title', 'Admin Panel')</h1>
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">{{ now()->format('D, d M Y') }}</span>
+                    <span class="text-[12px] font-medium text-slate-400 tracking-tight">{{ now()->format('D, d M Y') }}</span>
                     <div class="h-4 w-px bg-slate-200"></div>
                     <div class="flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span class="text-[9px] font-bold text-emerald-700 uppercase tracking-widest">Active Ops</span>
+                        <span class="text-[11px] font-bold text-emerald-700 tracking-tight">Active Operations</span>
                     </div>
                 </div>
             </header>
