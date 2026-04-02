@@ -12,10 +12,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
+    <!-- Theme Initialization Script -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -100,6 +110,26 @@
             border-bottom: 2px solid #1F2937;
         }
 
+        .dark .classic-card {
+            background: #1e293b;
+            border-color: #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark .bg-parchment { background-color: #0f172a; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .border-slate-300 { border-color: #334155; }
+        .dark .border-slate-200 { border-color: #1e293b; }
+        .dark .divide-slate-100 { border-color: #334155; }
+        .dark .text-military-primary { color: #4ade80; }
+        .dark .text-military-secondary { color: #f1f5f9; }
+        .dark .text-slate-400 { color: #94a3b8; }
+        .dark .text-slate-500 { color: #cbd5e1; }
+        .dark .hover\:bg-slate-50:hover { background-color: #334155; }
+        .dark .bg-slate-50 { background-color: #0f172a; }
+        .dark .bg-slate-100 { background-color: #0f172a; }
+        .dark .bg-military-bg { background-color: #334155; }
+
         .btn-military {
             background: #2F4F3E;
             color: white;
@@ -131,7 +161,21 @@
     @yield('styles')
 </head>
 
-<body class="h-full overflow-hidden bg-parchment font-sans text-military antialiased" x-data="{ sidebarOpen: false }">
+<body class="h-full overflow-hidden bg-parchment font-sans text-military antialiased transition-colors duration-300" 
+      x-data="{ 
+          sidebarOpen: false, 
+          darkMode: localStorage.getItem('theme') === 'dark',
+          toggleTheme() {
+              this.darkMode = !this.darkMode;
+              if (this.darkMode) {
+                  document.documentElement.classList.add('dark');
+                  localStorage.setItem('theme', 'dark');
+              } else {
+                  document.documentElement.classList.remove('dark');
+                  localStorage.setItem('theme', 'light');
+              }
+          }
+      }">
     <div class="flex h-full">
         <!-- Sidebar -->
         <aside
@@ -234,6 +278,12 @@
                 </div>
 
                 <div class="flex items-center gap-4">
+                    <!-- Theme Selector -->
+                    <button @click="toggleTheme()" class="p-2 transition-colors duration-200 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700">
+                        <svg x-show="!darkMode" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <svg x-show="darkMode" class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                    </button>
+
                     <span
                         class="text-[12px] font-medium text-slate-400 tracking-tight">{{ now()->format('D, d M Y') }}</span>
                     <div class="h-4 w-px bg-slate-200"></div>
