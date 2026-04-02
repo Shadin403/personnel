@@ -96,41 +96,7 @@
     </div>
 
     <!-- Command & Control Hierarchy (Force Navigator) -->
-    <div class="classic-card overflow-hidden animate-fade-in shadow-xl" x-data="{ 
-        nodes: @json($treeNodes),
-        selectedCoy: null,
-        selectedPl: null,
-        selectedSec: null,
-        
-        get coys() {
-            return this.nodes.filter(n => n.unit_type === 'company' || (!n.pid && n.unit_type === 'officer'));
-        },
-        get pls() {
-            if (!this.selectedCoy) return [];
-            return this.nodes.filter(n => n.pid == this.selectedCoy);
-        },
-        get secs() {
-            if (!this.selectedPl) return [];
-            return this.nodes.filter(n => n.pid == this.selectedPl);
-        },
-        get soldiers() {
-            if (!this.selectedSec) return [];
-            return this.nodes.filter(n => n.pid == this.selectedSec);
-        },
-        
-        selectCoy(id) {
-            this.selectedCoy = id;
-            this.selectedPl = null;
-            this.selectedSec = null;
-        },
-        selectPl(id) {
-            this.selectedPl = id;
-            this.selectedSec = null;
-        },
-        selectSec(id) {
-            this.selectedSec = id;
-        }
-    }">
+    <div class="classic-card overflow-hidden animate-fade-in shadow-xl" x-data="forceNavigator()">
         <div class="px-8 py-5 classic-card-header flex items-center justify-between bg-military-primary">
             <div class="flex items-center gap-4">
                 <svg class="w-6 h-6 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
@@ -143,13 +109,12 @@
 
         <div class="bg-white p-1">
             <div class="grid grid-cols-1 md:grid-cols-4 min-h-[400px]">
-                
                 <!-- Column 1: Company / HQ -->
                 <div class="border-r border-slate-200">
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-200">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Unit [কোম্পানী]</h4>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
                         <template x-for="coy in coys" :key="coy.id">
                             <button @click="selectCoy(coy.id)" 
                                     :class="selectedCoy == coy.id ? 'bg-military-primary text-white' : 'hover:bg-military-bg text-slate-700'"
@@ -169,7 +134,7 @@
                     <div class="bg-slate-100/50 px-4 py-3 border-b border-slate-200">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Platoon [প্লাটুন]</h4>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
                         <template x-if="!selectedCoy">
                             <div class="p-8 text-center">
                                 <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Select a Unit first</p>
@@ -187,9 +152,7 @@
                             </button>
                         </template>
                         <template x-if="selectedCoy && pls.length === 0">
-                            <div class="p-8 text-center">
-                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Platoons Found</p>
-                            </div>
+                            <div class="p-8 text-center text-slate-400 text-[10px] uppercase font-bold tracking-widest">No Platoons Found</div>
                         </template>
                     </div>
                 </div>
@@ -199,7 +162,7 @@
                     <div class="bg-slate-100/30 px-4 py-3 border-b border-slate-200">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Section [সেকশন]</h4>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
                         <template x-if="!selectedPl">
                             <div class="p-8 text-center">
                                 <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Select a Platoon</p>
@@ -217,48 +180,39 @@
                             </button>
                         </template>
                         <template x-if="selectedPl && secs.length === 0">
-                            <div class="p-8 text-center">
-                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Sections Found</p>
-                            </div>
+                            <div class="p-8 text-center text-slate-400 text-[10px] uppercase font-bold tracking-widest">No Sections Found</div>
                         </template>
                     </div>
                 </div>
 
-                <!-- Column 4: Soldiers List -->
+                <!-- Column 4: Soldiers -->
                 <div class="bg-white">
                     <div class="bg-military-bg px-4 py-3 border-b border-slate-200">
                         <h4 class="text-[10px] font-black text-military-primary uppercase tracking-widest">Personnel Results [সদস্য তালিকা]</h4>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
                         <template x-if="!selectedSec">
                             <div class="p-12 text-center h-full flex flex-col items-center justify-center space-y-4">
-                                <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m16-10a4 4 0 11-8 0 4 4 0 018 0zM9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m16-10a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Drill down to see soldiers</p>
                             </div>
                         </template>
                         <template x-for="sol in soldiers" :key="sol.id">
-                            <a :href="sol.profile_url" 
-                               class="block px-6 py-4 hover:bg-slate-50 transition-all group">
+                            <a :href="sol.profile_url" class="block px-6 py-4 hover:bg-slate-50 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div class="w-10 h-10 border border-slate-300 p-0.5 bg-white">
                                         <img :src="sol.img" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                                     </div>
                                     <div class="flex-1">
-                                        <p class="text-[12px] font-bold text-military-secondary group-hover:text-military-primary transition-colors" x-text="sol.name"></p>
+                                        <p class="text-[12px] font-bold text-military-secondary group-hover:text-military-primary" x-text="sol.name"></p>
                                         <p class="text-[10px] font-medium text-slate-500" x-text="sol.title"></p>
                                     </div>
                                     <svg class="w-4 h-4 text-slate-300 translate-x-2 group-hover:translate-x-0 group-hover:text-military-primary transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </div>
                             </a>
                         </template>
-                        <template x-if="selectedSec && soldiers.length === 0">
-                            <div class="p-12 text-center">
-                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Soldiers assigned</p>
-                            </div>
-                        </template>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -422,5 +376,45 @@
 @endsection
 
 @section('scripts')
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+    function forceNavigator() {
+        return {
+            nodes: @json($treeNodes),
+            selectedCoy: null,
+            selectedPl: null,
+            selectedSec: null,
+
+            get coys() {
+                // Return root officers (like CO) and Companies
+                return this.nodes.filter(n => n.unit_type === 'company' || (!n.pid && n.unit_type === 'officer'));
+            },
+            get pls() {
+                if (!this.selectedCoy) return [];
+                return this.nodes.filter(n => n.pid == this.selectedCoy);
+            },
+            get secs() {
+                if (!this.selectedPl) return [];
+                return this.nodes.filter(n => n.pid == this.selectedPl);
+            },
+            get soldiers() {
+                if (!this.selectedSec) return [];
+                return this.nodes.filter(n => n.pid == this.selectedSec);
+            },
+
+            selectCoy(id) {
+                this.selectedCoy = id;
+                this.selectedPl = null;
+                this.selectedSec = null;
+            },
+            selectPl(id) {
+                this.selectedPl = id;
+                this.selectedSec = null;
+            },
+            selectSec(id) {
+                this.selectedSec = id;
+            }
+        }
+    }
+</script>
 @endsection
