@@ -46,7 +46,10 @@ class Soldier extends Model
         if ($this->photo) {
             return asset('storage/' . $this->photo);
         }
-        return asset('images/default-avatar.png');
+        
+        // Generate a dynamic placeholder using the soldier's name
+        $name = urlencode($this->name);
+        return "https://ui-avatars.com/api/?name={$name}&background=2F4F3E&color=fff&bold=true";
     }
 
     public function getShootingGradeAttribute(): string
