@@ -1,0 +1,72 @@
+aravel Personnel Management Admin Panel
+Overview
+Build a premium Laravel admin panel replicating the TestApplication from http://118.179.177.37 - a military/security personnel (soldier) management system. The original app is basic ASP.NET; we'll rebuild it as a Laravel app with premium Tailwind CSS UI.
+
+Application Pages (from site analysis)
+Page	Route	Description
+Login	/login	Email + Password auth
+Dashboard	/admin/dashboard	Overview stats
+Soldier List (Admin Panel)	/admin/soldiers	Table with all soldiers
+Enroll New	/admin/soldiers/create	User type dropdown + enroll
+Update Profile	/admin/soldiers/{id}/edit	Full profile form
+Download TRG	/admin/soldiers/{id}/download-trg	PDF download
+Tech Stack
+Framework: Laravel 11
+UI: Tailwind CSS (CDN) + Alpine.js
+Database: MySQL
+Auth: Laravel Breeze/built-in
+Implementation Plan
+Phase 1: Laravel Project Setup
+composer create-project laravel/laravel soldier-management
+Directory: d:\laragon\www\soldier-management
+
+Phase 2: Database Migrations
+users table (admin auth - email:
+admin@gmail.com
+, pass: 123456)
+soldiers table with all profile fields:
+id, name, number, company (coy), user_type
+rank, blood_group, home_district, appointment, batch
+photo (file path)
+ipft_biannual_1, ipft_biannual_2
+shoot_ret, shoot_ap, shoot_ets, shoot_total
+speed_march, grenade_fire
+course_status, commander_status
+timestamps
+Phase 3: Auth Setup
+Admin seeder with email:
+admin@gmail.com
+, password: 123456
+Login/logout routes
+Middleware protection for admin routes
+Phase 4: Premium Tailwind UI
+Dark sidebar layout
+Dashboard with stats cards
+Data tables with actions
+Modern forms with validation
+Badge/tag components
+Phase 5: All Pages
+Login page (premium design)
+Dashboard (stats overview)
+Soldiers list (searchable table)
+Create/Enroll form
+Edit/Update Profile form
+TRG download
+Proposed Changes
+[NEW] d:\laragon\www\soldier-management\ - Full Laravel project
+Key files:
+
+database/migrations/ - all migration files
+database/seeders/AdminSeeder.php - default admin user
+app/Models/Soldier.php
+app/Http/Controllers/Auth/LoginController.php
+app/Http/Controllers/Admin/SoldierController.php
+resources/views/ - all blade templates
+routes/web.php
+Verification Plan
+Run migrations: php artisan migrate --seed
+Test login with
+admin@gmail.com
+ / 123456
+Verify all 5 pages load correctly
+Test CRUD operations

@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SoldierController;
+
+// Redirect root to login
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+// Auth Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Admin Routes (protected)
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Soldiers CRUD
+    Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
+    Route::get('/soldiers/create', [SoldierController::class, 'create'])->name('soldiers.create');
+    Route::post('/soldiers', [SoldierController::class, 'store'])->name('soldiers.store');
+    Route::get('/soldiers/{soldier}', [SoldierController::class, 'show'])->name('soldiers.show');
+    Route::get('/soldiers/{soldier}/edit', [SoldierController::class, 'edit'])->name('soldiers.edit');
+    Route::put('/soldiers/{soldier}', [SoldierController::class, 'update'])->name('soldiers.update');
+    Route::delete('/soldiers/{soldier}', [SoldierController::class, 'destroy'])->name('soldiers.destroy');
+    Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
+});

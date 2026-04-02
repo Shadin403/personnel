@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Soldier extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'number',
+        'rank',
+        'user_type',
+        'company',
+        'appointment',
+        'batch',
+        'blood_group',
+        'home_district',
+        'photo',
+        'ipft_biannual_1',
+        'ipft_biannual_2',
+        'shoot_ret',
+        'shoot_ap',
+        'shoot_ets',
+        'shoot_total',
+        'speed_march',
+        'grenade_fire',
+        'course_status',
+        'commander_status',
+        'leave_plan',
+        'sports_participation',
+        'nil_fire',
+        'cdr_plan_this_yr',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function getPhotoUrlAttribute(): string
+    {
+        if ($this->photo) {
+            return asset('storage/' . $this->photo);
+        }
+        return asset('images/default-avatar.png');
+    }
+
+    public function getShootingGradeAttribute(): string
+    {
+        $total = (int) $this->shoot_total;
+        if ($total >= 270) return 'Expert';
+        if ($total >= 240) return 'Sharpshooter';
+        if ($total >= 210) return 'Marksman';
+        return 'Trainee';
+    }
+
+    public function getOverallStatusAttribute(): string
+    {
+        $checks = [
+            $this->ipft_biannual_1 === 'Pass',
+            $this->ipft_biannual_2 === 'Pass',
+            $this->speed_march === 'Pass',
+            $this->grenade_fire === 'Pass',
+        ];
+
+        $passed = array_sum($checks);
+        $total = count($checks);
+
+        if ($passed === $total) return 'Excellent';
+        if ($passed >= $total * 0.75) return 'Good';
+        if ($passed >= $total * 0.5) return 'Average';
+        return 'Needs Improvement';
+    }
+}
