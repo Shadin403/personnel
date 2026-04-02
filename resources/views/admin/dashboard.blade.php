@@ -95,46 +95,170 @@
         </div>
     </div>
 
-    <!-- Command & Control Hierarchy (Org Chart) -->
-    <div class="classic-card overflow-hidden animate-fade-in shadow-xl">
-        <div class="px-8 py-4 classic-card-header flex items-center justify-between">
+    <!-- Command & Control Hierarchy (Force Navigator) -->
+    <div class="classic-card overflow-hidden animate-fade-in shadow-xl" x-data="{ 
+        nodes: @json($treeNodes),
+        selectedCoy: null,
+        selectedPl: null,
+        selectedSec: null,
+        
+        get coys() {
+            return this.nodes.filter(n => n.unit_type === 'company' || (!n.pid && n.unit_type === 'officer'));
+        },
+        get pls() {
+            if (!this.selectedCoy) return [];
+            return this.nodes.filter(n => n.pid == this.selectedCoy);
+        },
+        get secs() {
+            if (!this.selectedPl) return [];
+            return this.nodes.filter(n => n.pid == this.selectedPl);
+        },
+        get soldiers() {
+            if (!this.selectedSec) return [];
+            return this.nodes.filter(n => n.pid == this.selectedSec);
+        },
+        
+        selectCoy(id) {
+            this.selectedCoy = id;
+            this.selectedPl = null;
+            this.selectedSec = null;
+        },
+        selectPl(id) {
+            this.selectedPl = id;
+            this.selectedSec = null;
+        },
+        selectSec(id) {
+            this.selectedSec = id;
+        }
+    }">
+        <div class="px-8 py-5 classic-card-header flex items-center justify-between bg-military-primary">
             <div class="flex items-center gap-4">
-                <svg class="w-5 h-5 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <svg class="w-6 h-6 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <div>
-                  <h3 class="text-[11px] font-bold text-white uppercase tracking-[0.3em]">Command & Control Structure [কমান্ড ও কন্ট্রোল স্ট্রাকচার]</h3>
-                  <p class="text-[9px] font-semibold text-white/40 uppercase tracking-widest mt-0.5">Real-time Force Hierarchy & Deployment Visualization</p>
+                    <h3 class="text-[12px] font-black text-white uppercase tracking-[0.3em]">Force Navigator [কৌশলগত ইউনিট সিলেকশন]</h3>
+                    <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-0.5">Cascading Personnel Directory &bull; Command View</p>
                 </div>
             </div>
-            <button onclick="chart.fit()" class="px-4 py-1.5 bg-white/10 border border-white/20 text-white text-[9px] font-bold uppercase tracking-widest hover:bg-white/20 transition-all flex items-center gap-2">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
-                Fit Perspective
-            </button>
         </div>
-        <div class="p-8 bg-slate-50 border-b border-slate-200">
-            <div id="tree" class="shadow-inner"></div>
-            
-            <div class="mt-6 flex flex-wrap gap-4 items-center border-t border-slate-200 pt-6">
-                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Unit Signature Legend:</span>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 bg-red-600"></span>
-                    <span class="text-[10px] font-bold text-military-secondary">OFFICER / HQ</span>
+
+        <div class="bg-white p-1">
+            <div class="grid grid-cols-1 md:grid-cols-4 min-h-[400px]">
+                
+                <!-- Column 1: Company / HQ -->
+                <div class="border-r border-slate-200">
+                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-200">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Unit [কোম্পানী]</h4>
+                    </div>
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                        <template x-for="coy in coys" :key="coy.id">
+                            <button @click="selectCoy(coy.id)" 
+                                    :class="selectedCoy == coy.id ? 'bg-military-primary text-white' : 'hover:bg-military-bg text-slate-700'"
+                                    class="w-full text-left px-5 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                <div>
+                                    <p class="text-[11px] font-bold uppercase tracking-wider" x-text="coy.name"></p>
+                                    <p class="text-[9px] font-semibold opacity-70" x-text="coy.title"></p>
+                                </div>
+                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" :class="selectedCoy == coy.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </template>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 bg-military-primary"></span>
-                    <span class="text-[10px] font-bold text-military-secondary">COMPANY</span>
+
+                <!-- Column 2: Platoon -->
+                <div class="border-r border-slate-200 bg-slate-50/30">
+                    <div class="bg-slate-100/50 px-4 py-3 border-b border-slate-200">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Platoon [প্লাটুন]</h4>
+                    </div>
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                        <template x-if="!selectedCoy">
+                            <div class="p-8 text-center">
+                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Select a Unit first</p>
+                            </div>
+                        </template>
+                        <template x-for="pl in pls" :key="pl.id">
+                            <button @click="selectPl(pl.id)" 
+                                    :class="selectedPl == pl.id ? 'bg-military-accent text-white' : 'hover:bg-military-bg text-slate-700'"
+                                    class="w-full text-left px-5 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                <div>
+                                    <p class="text-[11px] font-bold uppercase tracking-wider" x-text="pl.name"></p>
+                                    <p class="text-[9px] font-semibold opacity-70" x-text="pl.title"></p>
+                                </div>
+                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedPl == pl.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </template>
+                        <template x-if="selectedCoy && pls.length === 0">
+                            <div class="p-8 text-center">
+                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Platoons Found</p>
+                            </div>
+                        </template>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 bg-military-accent"></span>
-                    <span class="text-[10px] font-bold text-military-secondary">PLATOON</span>
+
+                <!-- Column 3: Section -->
+                <div class="border-r border-slate-200 bg-slate-100/10">
+                    <div class="bg-slate-100/30 px-4 py-3 border-b border-slate-200">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Section [সেকশন]</h4>
+                    </div>
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                        <template x-if="!selectedPl">
+                            <div class="p-8 text-center">
+                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Select a Platoon</p>
+                            </div>
+                        </template>
+                        <template x-for="sec in secs" :key="sec.id">
+                            <button @click="selectSec(sec.id)" 
+                                    :class="selectedSec == sec.id ? 'bg-amber-600 text-white' : 'hover:bg-military-bg text-slate-700'"
+                                    class="w-full text-left px-5 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                <div>
+                                    <p class="text-[11px] font-bold uppercase tracking-wider" x-text="sec.name"></p>
+                                    <p class="text-[9px] font-semibold opacity-70" x-text="sec.title"></p>
+                                </div>
+                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedSec == sec.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </template>
+                        <template x-if="selectedPl && secs.length === 0">
+                            <div class="p-8 text-center">
+                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Sections Found</p>
+                            </div>
+                        </template>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 bg-amber-600"></span>
-                    <span class="text-[10px] font-bold text-military-secondary">SECTION</span>
+
+                <!-- Column 4: Soldiers List -->
+                <div class="bg-white">
+                    <div class="bg-military-bg px-4 py-3 border-b border-slate-200">
+                        <h4 class="text-[10px] font-black text-military-primary uppercase tracking-widest">Personnel Results [সদস্য তালিকা]</h4>
+                    </div>
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px] soldier-list">
+                        <template x-if="!selectedSec">
+                            <div class="p-12 text-center h-full flex flex-col items-center justify-center space-y-4">
+                                <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m16-10a4 4 0 11-8 0 4 4 0 018 0zM9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Drill down to see soldiers</p>
+                            </div>
+                        </template>
+                        <template x-for="sol in soldiers" :key="sol.id">
+                            <a :href="sol.profile_url" 
+                               class="block px-6 py-4 hover:bg-slate-50 transition-all group">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 border border-slate-300 p-0.5 bg-white">
+                                        <img :src="sol.img" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-[12px] font-bold text-military-secondary group-hover:text-military-primary transition-colors" x-text="sol.name"></p>
+                                        <p class="text-[10px] font-medium text-slate-500" x-text="sol.title"></p>
+                                    </div>
+                                    <svg class="w-4 h-4 text-slate-300 translate-x-2 group-hover:translate-x-0 group-hover:text-military-primary transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </div>
+                            </a>
+                        </template>
+                        <template x-if="selectedSec && soldiers.length === 0">
+                            <div class="p-12 text-center">
+                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Soldiers assigned</p>
+                            </div>
+                        </template>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 bg-slate-500"></span>
-                    <span class="text-[10px] font-bold text-military-secondary">SOLDIER</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -298,81 +422,5 @@
 @endsection
 
 @section('scripts')
-<script src="https://balkan.app/js/orgchart.js"></script>
-<script>
-    var chart;
-    document.addEventListener('DOMContentLoaded', function() {
-        var data = @json($treeNodes);
-
-        OrgChart.templates.military = Object.assign({}, OrgChart.templates.ana);
-        OrgChart.templates.military.size = [200, 80];
-        OrgChart.templates.military.node = '<rect x="0" y="0" height="80" width="200" fill="#ffffff" stroke-width="1.5" stroke="#2F4F3E" rx="0" ry="0"></rect>';
-        OrgChart.templates.military.field_0 = '<text style="font-size: 13px; font-weight: 900;" fill="#2F4F3E" x="100" y="32" text-anchor="middle">{val}</text>';
-        OrgChart.templates.military.field_1 = '<text style="font-size: 10px; font-weight: 700; opacity: 0.7;" fill="#6B8E23" x="100" y="52" text-anchor="middle">{val}</text>';
-        
-        // Tags
-        OrgChart.templates.military_officer = Object.assign({}, OrgChart.templates.military);
-        OrgChart.templates.military_officer.node = '<rect x="0" y="0" height="80" width="200" fill="#fef2f2" stroke-width="2" stroke="#B91C1C" rx="0" ry="0"></rect>';
-
-        OrgChart.templates.military_company = Object.assign({}, OrgChart.templates.military);
-        OrgChart.templates.military_company.node = '<rect x="0" y="0" height="80" width="200" fill="#f0fdf4" stroke-width="2" stroke="#2F4F3E" rx="0" ry="0"></rect>';
-
-        OrgChart.templates.military_platoon = Object.assign({}, OrgChart.templates.military);
-        OrgChart.templates.military_platoon.node = '<rect x="0" y="0" height="80" width="200" fill="#f7fee7" stroke-width="2" stroke="#6B8E23" rx="0" ry="0"></rect>';
-
-        OrgChart.templates.military_section = Object.assign({}, OrgChart.templates.military);
-        OrgChart.templates.military_section.node = '<rect x="0" y="0" height="80" width="200" fill="#fffbeb" stroke-width="2" stroke="#D97706" rx="0" ry="0"></rect>';
-
-        chart = new OrgChart(document.getElementById("tree"), {
-            template: "military",
-            enableSearch: false,
-            mouseWheel: OrgChart.action.zoom,
-            nodeBinding: {
-                field_0: "name",
-                field_1: "title"
-            },
-            collapse: {
-                level: 2,
-                allChildren: true
-            },
-            layout: OrgChart.mixed,
-            nodes: data,
-            tags: {
-                "officer": { template: "military_officer" },
-                "company": { template: "military_company" },
-                "platoon": { template: "military_platoon" },
-                "section": { 
-                    template: "military_section",
-                    subTreeConfig: {
-                        layout: OrgChart.vertical
-                    }
-                },
-                "soldier": { template: "military" }
-            }
-        });
-
-        // Click handler: Expand if children exist, otherwise navigate to profile
-        chart.on('click', function(sender, args) {
-            var nodeData = chart.get(args.node.id);
-            var node = chart.getNode(args.node.id);
-            
-            // If it has children, expand/collapse it
-            if (node.children && node.children.length > 0) {
-                // Check if currently collapsed
-                if (node.state === OrgChart.COLLAPSED) {
-                    chart.expand(args.node.id);
-                } else {
-                    chart.collapse(args.node.id);
-                }
-                return false; // prevent default (navigation if any)
-            } else {
-                // Leaf node (Soldier): Navigate to profile
-                if(nodeData && nodeData.profile_url) {
-                    window.location.href = nodeData.profile_url;
-                    return false;
-                }
-            }
-        });
-    });
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.min.js"></script>
 @endsection
