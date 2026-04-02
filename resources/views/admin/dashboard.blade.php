@@ -331,21 +331,46 @@
                 field_0: "name",
                 field_1: "title"
             },
+            collapse: {
+                level: 2,
+                allChildren: true
+            },
+            layout: OrgChart.mixed,
             nodes: data,
             tags: {
                 "officer": { template: "military_officer" },
                 "company": { template: "military_company" },
                 "platoon": { template: "military_platoon" },
-                "section": { template: "military_section" },
+                "section": { 
+                    template: "military_section",
+                    subTreeConfig: {
+                        layout: OrgChart.vertical
+                    }
+                },
                 "soldier": { template: "military" }
             }
         });
 
+        // Click handler: Expand if children exist, otherwise navigate to profile
         chart.on('click', function(sender, args) {
             var nodeData = chart.get(args.node.id);
-            if(nodeData && nodeData.profile_url) {
-                window.location.href = nodeData.profile_url;
-                return false;
+            var node = chart.getNode(args.node.id);
+            
+            // If it has children, expand/collapse it
+            if (node.children && node.children.length > 0) {
+                // Check if currently collapsed
+                if (node.state === OrgChart.COLLAPSED) {
+                    chart.expand(args.node.id);
+                } else {
+                    chart.collapse(args.node.id);
+                }
+                return false; // prevent default (navigation if any)
+            } else {
+                // Leaf node (Soldier): Navigate to profile
+                if(nodeData && nodeData.profile_url) {
+                    window.location.href = nodeData.profile_url;
+                    return false;
+                }
             }
         });
     });
