@@ -118,11 +118,11 @@
                     <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
                         <template x-for="coy in coys" :key="coy.id">
                             <button @click="selectCoy(coy.id)" 
-                                    :class="selectedCoy == coy.id ? 'bg-military-primary text-white' : 'hover:bg-military-bg text-slate-700'"
-                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                    :class="selectedCoy == coy.id ? 'bg-military-primary text-white' : 'hover:bg-military-bg text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
+                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none border-b border-slate-100 dark:border-slate-800 last:border-0">
                                 <div>
                                     <p class="text-[11px] font-black uppercase tracking-wider" x-text="coy.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70" x-text="coy.appointment"></p>
+                                    <p class="text-[9px] font-semibold opacity-70 dark:opacity-50" x-text="coy.appointment"></p>
                                 </div>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" :class="selectedCoy == coy.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                             </button>
@@ -145,11 +145,11 @@
                         </template>
                         <template x-for="pl in pls" :key="pl.id">
                             <button @click="selectPl(pl.id)" 
-                                    :class="selectedPl == pl.id ? 'bg-military-accent text-white' : 'hover:bg-military-bg text-slate-700'"
-                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                    :class="selectedPl == pl.id ? 'bg-military-accent text-white' : 'hover:bg-military-bg text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
+                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none border-b border-slate-100 dark:border-slate-800 last:border-0">
                                 <div>
                                     <p class="text-[11px] font-black uppercase tracking-wider" x-text="pl.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70" x-text="pl.appointment"></p>
+                                    <p class="text-[9px] font-semibold opacity-70 dark:opacity-50" x-text="pl.appointment"></p>
                                 </div>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedPl == pl.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                             </button>
@@ -172,11 +172,11 @@
                         </template>
                         <template x-for="sec in secs" :key="sec.id">
                             <button @click="selectSec(sec.id)" 
-                                    :class="selectedSec == sec.id ? 'bg-amber-600 text-white' : 'hover:bg-military-bg text-slate-700'"
-                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                    :class="selectedSec == sec.id ? 'bg-amber-600 text-white' : 'hover:bg-military-bg text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
+                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none border-b border-slate-100 dark:border-slate-800 last:border-0">
                                 <div>
                                     <p class="text-[11px] font-black uppercase tracking-wider" x-text="sec.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70" x-text="sec.appointment"></p>
+                                    <p class="text-[9px] font-semibold opacity-70 dark:opacity-50" x-text="sec.appointment"></p>
                                 </div>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedSec == sec.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                             </button>
@@ -236,8 +236,8 @@
                                                 <p class="text-[10px] font-bold text-slate-400 uppercase" x-text="sol.rank"></p>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 border-b border-slate-100">
-                                            <span class="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded uppercase" x-text="sol.appointment"></span>
+                                        <td class="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+                                            <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded uppercase" x-text="sol.appointment"></span>
                                         </td>
                                         <td class="px-6 py-4 border-b border-slate-100 text-right">
                                             <a :href="sol.profile_url" class="inline-flex items-center gap-2 px-4 py-2 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-military-secondary transition-all shadow-md">

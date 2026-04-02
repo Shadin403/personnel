@@ -30,18 +30,18 @@
                 extend: {
                     colors: {
                         military: {
-                            primary: '#2F4F3E',
-                            secondary: '#1F2937',
-                            accent: '#6B8E23',
-                            bg: '#F5F1E8',
-                            text: '#1F2937',
-                            'text-light': '#E5E7EB',
-                            warning: '#D97706',
-                            danger: '#B91C1C',
-                            success: '#15803D',
+                            primary: '#1e3a2f', /* Deeper, richer emerald */
+                            secondary: '#0f172a', /* Deep midnight */
+                            accent: '#84cc16', /* Tactical lime for highlights */
+                            bg: '#f8fafc', /* Super clean background */
+                            text: '#0f172a',
+                            'text-light': '#f1f5f9',
+                            warning: '#f59e0b',
+                            danger: '#ef4444',
+                            success: '#22c55e',
                         },
                         slate: {
-                            950: '#0a0a0a',
+                            950: '#020617',
                         }
                     },
                     fontFamily: {
@@ -99,36 +99,49 @@
 
         .classic-card {
             background: white;
-            border: 1px solid #d1d5db;
-            box-shadow: 2px 2px 0 0 rgba(47, 79, 62, 0.05);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border-radius: 0.25rem;
         }
 
         .classic-card-header {
-            background: #2F4F3E;
+            background: #1e3a2f;
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 2px solid #1F2937;
+            padding: 0.85rem 1.5rem;
+            border-bottom: 2px solid rgba(0,0,0,0.2);
         }
 
         .dark .classic-card {
             background: #1e293b;
             border-color: #334155;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
         }
 
-        .dark .bg-parchment { background-color: #0f172a; }
+        .dark .classic-card-header {
+            background: #064e3b;
+            border-bottom-color: #065f46;
+        }
+
+        .dark .bg-parchment { background-color: #020617; }
         .dark .bg-white { background-color: #1e293b; }
         .dark .border-slate-300 { border-color: #334155; }
         .dark .border-slate-200 { border-color: #1e293b; }
         .dark .divide-slate-100 { border-color: #334155; }
-        .dark .text-military-primary { color: #4ade80; }
-        .dark .text-military-secondary { color: #f1f5f9; }
+        .dark .divide-slate-200 { border-color: #334155; }
+        .dark .text-military-primary { color: #84cc16; }
+        .dark .text-military-secondary { color: #f8fafc; }
         .dark .text-slate-400 { color: #94a3b8; }
         .dark .text-slate-500 { color: #cbd5e1; }
+        .dark .text-gray-100 { color: #f8fafc; }
+        .dark .text-slate-700 { color: #e2e8f0; }
         .dark .hover\:bg-slate-50:hover { background-color: #334155; }
         .dark .bg-slate-50 { background-color: #0f172a; }
         .dark .bg-slate-100 { background-color: #0f172a; }
-        .dark .bg-military-bg { background-color: #334155; }
+        .dark .bg-military-bg { background-color: #1e293b; }
+        .dark .bg-emerald-50 { background-color: #064e3b; color: #4ade80; border-color: #065f46; }
+        .dark .bg-slate-950 { background-color: #020617; }
+        .dark .bg-black\/20 { background-color: rgba(0,0,0,0.4); }
+        .dark .bg-black\/40 { background-color: rgba(0,0,0,0.6); }
 
         .btn-military {
             background: #2F4F3E;
