@@ -22,25 +22,25 @@ class AdminSeeder extends Seeder
             ]
         );
 
-        // 1. Root Officer (CO)
+        // 1. Root Office (HQ)
         $root = Soldier::create([
-            'name' => 'Lt Col Mahfuzur Rahman',
-            'number' => 'BA-7241',
+            'name' => 'BATTALION HQ',
+            'number' => 'HQ-001',
             'rank' => 'Lt Col',
             'unit_type' => 'officer',
-            'appointment' => 'Commanding Officer (9EB)',
+            'appointment' => 'CO: Lt Col Mahfuzur Rahman',
             'is_active' => true,
             'sort_order' => 1,
         ]);
 
-        // 2. Alpha Company (Coy Cdr)
+        // 2. Alpha Company
         $coy = Soldier::create([
-            'name' => 'Maj Tanvir Ahmed',
-            'number' => 'BA-8512',
+            'name' => 'ALPHA COMPANY',
+            'number' => 'COY-ALPHA',
             'rank' => 'Major',
             'parent_id' => $root->id,
             'unit_type' => 'company',
-            'appointment' => 'Alpha Company Commander',
+            'appointment' => 'OC: Maj Tanvir Ahmed',
             'is_active' => true,
             'sort_order' => 1,
         ]);
@@ -48,24 +48,24 @@ class AdminSeeder extends Seeder
         // 3. Company Level Units
         // 3.1 Company Headquarter (CHQ)
         $chq = Soldier::create([
-            'name' => 'MWO Karim Uddin',
-            'number' => '7045123',
+            'name' => 'COMPANY HQ (CHQ)',
+            'number' => 'CHQ-001',
             'rank' => 'MWO',
             'parent_id' => $coy->id,
-            'unit_type' => 'officer', // Using officer style for CHQ head
-            'appointment' => 'CHM (Company HQ)',
+            'unit_type' => 'platoon',
+            'appointment' => 'CHM: MWO Karim Uddin',
             'is_active' => true,
             'sort_order' => 1,
         ]);
 
         // 3.2 Support Platoon
         $supportPl = Soldier::create([
-            'name' => 'Captain Sifat Hasan',
-            'number' => 'BA-9642',
+            'name' => 'SUPPORT PLATOON',
+            'number' => 'SUP-PL',
             'rank' => 'Captain',
             'parent_id' => $coy->id,
             'unit_type' => 'platoon',
-            'appointment' => 'Support Platoon Commander',
+            'appointment' => 'PL CDR: Captain Sifat Hasan',
             'is_active' => true,
             'sort_order' => 2,
         ]);
@@ -73,26 +73,26 @@ class AdminSeeder extends Seeder
         // 3.3 Numbered Platoons
         for ($p = 1; $p <= 3; $p++) {
             $pl = Soldier::create([
-                'name' => "Lieutenant Faisal ($p PL)",
-                'number' => "BA-102$p",
+                'name' => "$p PLATOON",
+                'number' => "PL-00$p",
                 'rank' => 'Lieutenant',
                 'parent_id' => $coy->id,
                 'unit_type' => 'platoon',
-                'appointment' => "Platoon Commander ($p PL)",
+                'appointment' => "PL CDR: Lieutenant Faisal ($p PL)",
                 'is_active' => true,
-                'sort_order' => $p + 2, // PL 1 starts at 3
+                'sort_order' => $p + 2,
             ]);
 
             // 4. Sections for Platoon 1
             if ($p === 1) {
                 for ($s = 1; $s <= 3; $s++) {
                     $sec = Soldier::create([
-                        'name' => "Sgt Nazmul (Section $s)",
-                        'number' => "SN-500$s",
+                        'name' => "SECTION $s",
+                        'number' => "SEC-00$s",
                         'rank' => 'Sergeant',
                         'parent_id' => $pl->id,
                         'unit_type' => 'section',
-                        'appointment' => "Section Commander ($s SEC)",
+                        'appointment' => "SEC CDR: Sgt Nazmul",
                         'is_active' => true,
                         'sort_order' => $s,
                     ]);

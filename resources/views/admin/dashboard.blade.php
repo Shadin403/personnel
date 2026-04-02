@@ -90,7 +90,6 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                 </div>
             </div>
-            <h3 class="text-3xl font-bold text-military-warning tabular-nums tracking-tighter">{{ $stats['staff'] }}</h3>
             <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-military-warning tracking-tight">Support Personnel Logistics Validated</div>
         </div>
     </div>
@@ -102,26 +101,28 @@
                 <svg class="w-6 h-6 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <div>
                     <h3 class="text-[12px] font-black text-white uppercase tracking-[0.3em]">Force Navigator [কৌশলগত ইউনিট সিলেকশন]</h3>
-                    <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-0.5">Cascading Personnel Directory &bull; Command View</p>
+                    <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-0.5">Cascading Unit Directory &bull; Tactical Command View</p>
                 </div>
             </div>
         </div>
 
         <div class="bg-white p-1">
-            <div class="grid grid-cols-1 md:grid-cols-4 min-h-[400px]">
-                <!-- Column 1: Company / HQ -->
+            <!-- Cascading Selectors -->
+            <div class="grid grid-cols-1 md:grid-cols-3 border-b border-slate-200">
+                <!-- Column 1: Unit (Company) -->
                 <div class="border-r border-slate-200">
-                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-200">
+                    <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Unit [কোম্পানী]</h4>
+                        <span class="px-2 py-0.5 bg-military-primary text-white text-[9px] font-bold rounded">LEVEL 01</span>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
                         <template x-for="coy in coys" :key="coy.id">
                             <button @click="selectCoy(coy.id)" 
                                     :class="selectedCoy == coy.id ? 'bg-military-primary text-white' : 'hover:bg-military-bg text-slate-700'"
-                                    class="w-full text-left px-5 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none">
                                 <div>
-                                    <p class="text-[11px] font-bold uppercase tracking-wider" x-text="coy.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70" x-text="coy.title"></p>
+                                    <p class="text-[11px] font-black uppercase tracking-wider" x-text="coy.name"></p>
+                                    <p class="text-[9px] font-semibold opacity-70" x-text="coy.appointment"></p>
                                 </div>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" :class="selectedCoy == coy.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                             </button>
@@ -130,87 +131,124 @@
                 </div>
 
                 <!-- Column 2: Platoon -->
-                <div class="border-r border-slate-200 bg-slate-50/30">
-                    <div class="bg-slate-100/50 px-4 py-3 border-b border-slate-200">
+                <div class="border-r border-slate-200 bg-slate-50/20">
+                    <div class="bg-slate-100/50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Platoon [প্লাটুন]</h4>
+                        <span class="px-2 py-0.5 bg-military-accent text-white text-[9px] font-bold rounded">LEVEL 02</span>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
                         <template x-if="!selectedCoy">
-                            <div class="p-8 text-center">
-                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Select a Unit first</p>
+                            <div class="p-12 text-center flex flex-col items-center justify-center space-y-3 opacity-30">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v4M7 7h10"></path></svg>
+                                <p class="text-[10px] font-bold uppercase tracking-widest">Select Unit Above</p>
                             </div>
                         </template>
                         <template x-for="pl in pls" :key="pl.id">
                             <button @click="selectPl(pl.id)" 
                                     :class="selectedPl == pl.id ? 'bg-military-accent text-white' : 'hover:bg-military-bg text-slate-700'"
-                                    class="w-full text-left px-5 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none">
                                 <div>
-                                    <p class="text-[11px] font-bold uppercase tracking-wider" x-text="pl.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70" x-text="pl.title"></p>
+                                    <p class="text-[11px] font-black uppercase tracking-wider" x-text="pl.name"></p>
+                                    <p class="text-[9px] font-semibold opacity-70" x-text="pl.appointment"></p>
                                 </div>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedPl == pl.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                             </button>
-                        </template>
-                        <template x-if="selectedCoy && pls.length === 0">
-                            <div class="p-8 text-center text-slate-400 text-[10px] uppercase font-bold tracking-widest">No Platoons Found</div>
                         </template>
                     </div>
                 </div>
 
                 <!-- Column 3: Section -->
-                <div class="border-r border-slate-200 bg-slate-100/10">
-                    <div class="bg-slate-100/30 px-4 py-3 border-b border-slate-200">
+                <div class="bg-slate-50/50">
+                    <div class="bg-slate-100/30 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Section [সেকশন]</h4>
+                        <span class="px-2 py-0.5 bg-amber-600 text-white text-[9px] font-bold rounded">LEVEL 03</span>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
+                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
                         <template x-if="!selectedPl">
-                            <div class="p-8 text-center">
-                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Select a Platoon</p>
+                            <div class="p-12 text-center flex flex-col items-center justify-center space-y-3 opacity-30">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v4M7 7h10"></path></svg>
+                                <p class="text-[10px] font-bold uppercase tracking-widest">Select Platoon Above</p>
                             </div>
                         </template>
                         <template x-for="sec in secs" :key="sec.id">
                             <button @click="selectSec(sec.id)" 
                                     :class="selectedSec == sec.id ? 'bg-amber-600 text-white' : 'hover:bg-military-bg text-slate-700'"
-                                    class="w-full text-left px-5 py-4 transition-all flex items-center justify-between group focus:outline-none">
+                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none">
                                 <div>
-                                    <p class="text-[11px] font-bold uppercase tracking-wider" x-text="sec.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70" x-text="sec.title"></p>
+                                    <p class="text-[11px] font-black uppercase tracking-wider" x-text="sec.name"></p>
+                                    <p class="text-[9px] font-semibold opacity-70" x-text="sec.appointment"></p>
                                 </div>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedSec == sec.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                             </button>
                         </template>
-                        <template x-if="selectedPl && secs.length === 0">
-                            <div class="p-8 text-center text-slate-400 text-[10px] uppercase font-bold tracking-widest">No Sections Found</div>
-                        </template>
                     </div>
                 </div>
+            </div>
 
-                <!-- Column 4: Soldiers -->
-                <div class="bg-white">
-                    <div class="bg-military-bg px-4 py-3 border-b border-slate-200">
-                        <h4 class="text-[10px] font-black text-military-primary uppercase tracking-widest">Personnel Results [সদস্য তালিকা]</h4>
+            <!-- Full-Width Results Table -->
+            <div class="p-6 bg-slate-50 min-h-[300px]">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-6 bg-military-primary"></div>
+                            <h4 class="text-[11px] font-black text-military-secondary uppercase tracking-widest">Personnel Directory [সদস্য তালিকা]</h4>
+                        </div>
+                        <template x-if="selectedSec">
+                            <span class="text-[10px] font-bold text-military-primary bg-military-bg px-3 py-1 rounded-full uppercase tracking-widest" x-text="soldiers.length + ' SOLDIERS FOUND'"></span>
+                        </template>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[400px]">
-                        <template x-if="!selectedSec">
-                            <div class="p-12 text-center h-full flex flex-col items-center justify-center space-y-4">
-                                <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m16-10a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Drill down to see soldiers</p>
-                            </div>
-                        </template>
-                        <template x-for="sol in soldiers" :key="sol.id">
-                            <a :href="sol.profile_url" class="block px-6 py-4 hover:bg-slate-50 transition-all group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 border border-slate-300 p-0.5 bg-white">
-                                        <img :src="sol.img" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-[12px] font-bold text-military-secondary group-hover:text-military-primary" x-text="sol.name"></p>
-                                        <p class="text-[10px] font-medium text-slate-500" x-text="sol.title"></p>
-                                    </div>
-                                    <svg class="w-4 h-4 text-slate-300 translate-x-2 group-hover:translate-x-0 group-hover:text-military-primary transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                                </div>
-                            </a>
-                        </template>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-military-bg/50">
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">photo</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">Service No</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">Rank & Name</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">Appointment</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-if="!selectedSec">
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-20 text-center">
+                                            <div class="flex flex-col items-center justify-center space-y-4 opacity-20">
+                                                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                                <p class="text-[12px] font-black uppercase tracking-[0.3em]">Complete navigation to view personnel</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template x-for="sol in soldiers" :key="sol.id">
+                                    <tr class="hover:bg-slate-50 transition-colors group">
+                                        <td class="px-6 py-4 border-b border-slate-100">
+                                            <div class="w-10 h-10 border border-slate-200 p-0.5 rounded overflow-hidden">
+                                                <img :src="sol.img" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 border-b border-slate-100">
+                                            <span class="text-[11px] font-black text-military-secondary tracking-tight" x-text="sol.number"></span>
+                                        </td>
+                                        <td class="px-6 py-4 border-b border-slate-100">
+                                            <div>
+                                                <p class="text-[12px] font-black text-military-primary mb-0.5 uppercase" x-text="sol.name"></p>
+                                                <p class="text-[10px] font-bold text-slate-400 uppercase" x-text="sol.rank"></p>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 border-b border-slate-100">
+                                            <span class="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded uppercase" x-text="sol.appointment"></span>
+                                        </td>
+                                        <td class="px-6 py-4 border-b border-slate-100 text-right">
+                                            <a :href="sol.profile_url" class="inline-flex items-center gap-2 px-4 py-2 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-military-secondary transition-all shadow-md">
+                                                <span>View Dossier</span>
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
