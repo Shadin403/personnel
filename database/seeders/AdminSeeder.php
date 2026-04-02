@@ -22,132 +22,100 @@ class AdminSeeder extends Seeder
             ]
         );
 
-        // Create sample soldiers
-        $soldiers = [
-            [
-                'name' => 'SGT. Rahman, Abdur',
-                'number' => 'BD-001',
-                'rank' => 'Sergeant',
-                'user_type' => 'CO',
-                'company' => 'Alpha',
-                'appointment' => 'Platoon Commander',
-                'batch' => '2020',
-                'blood_group' => 'O+',
-                'home_district' => 'Dhaka',
-                'ipft_biannual_1' => 'Pass',
-                'ipft_biannual_2' => 'Pass',
-                'shoot_ret' => '85',
-                'shoot_ap' => '78',
-                'shoot_ets' => '90',
-                'shoot_total' => '253',
-                'speed_march' => 'Pass',
-                'grenade_fire' => 'Pass',
-                'course_status' => 'Completed',
-                'commander_status' => 'Approved',
-                'leave_plan' => 'Planned for Dec 2026',
-                'sports_participation' => 'Football, Volleyball',
-                'nil_fire' => 'None',
-            ],
-            [
-                'name' => 'CPL. Islam, Md. Nazrul',
-                'number' => 'BD-002',
-                'rank' => 'Corporal',
-                'user_type' => 'Staff',
-                'company' => 'Bravo',
-                'appointment' => 'Section Commander',
-                'batch' => '2021',
-                'blood_group' => 'A+',
-                'home_district' => 'Chittagong',
-                'ipft_biannual_1' => 'Pass',
-                'ipft_biannual_2' => 'Fail',
-                'shoot_ret' => '75',
-                'shoot_ap' => '80',
-                'shoot_ets' => '70',
-                'shoot_total' => '225',
-                'speed_march' => 'Pass',
-                'grenade_fire' => 'Pass',
-                'course_status' => 'In Progress',
-                'commander_status' => 'Pending',
-                'leave_plan' => 'Planned for Aug 2026',
-                'sports_participation' => 'Basket Ball',
-                'nil_fire' => 'None',
-            ],
-            [
-                'name' => 'PVT. Hossain, Kamal',
-                'number' => 'BD-003',
-                'rank' => 'Private',
-                'user_type' => 'CO',
-                'company' => 'Charlie',
-                'appointment' => 'Rifleman',
-                'batch' => '2022',
-                'blood_group' => 'B+',
-                'home_district' => 'Sylhet',
-                'ipft_biannual_1' => 'Pass',
-                'ipft_biannual_2' => 'Pass',
-                'shoot_ret' => '92',
-                'shoot_ap' => '88',
-                'shoot_ets' => '95',
-                'shoot_total' => '275',
-                'speed_march' => 'Pass',
-                'grenade_fire' => 'Fail',
-                'course_status' => 'Completed',
-                'commander_status' => 'Approved',
-                'leave_plan' => 'Planned for June 2026',
-                'sports_participation' => 'Cricket',
-                'nil_fire' => 'None',
-            ],
-            [
-                'name' => 'LT. Ahmed, Farhan',
-                'number' => 'BD-004',
-                'rank' => 'Lieutenant',
-                'user_type' => 'Staff',
-                'company' => 'HQ',
-                'appointment' => 'Intelligence Officer',
-                'batch' => '2019',
-                'blood_group' => 'AB+',
-                'home_district' => 'Rajshahi',
-                'ipft_biannual_1' => 'Pass',
-                'ipft_biannual_2' => 'Pass',
-                'shoot_ret' => '95',
-                'shoot_ap' => '92',
-                'shoot_ets' => '98',
-                'shoot_total' => '285',
-                'speed_march' => 'Pass',
-                'grenade_fire' => 'Pass',
-                'course_status' => 'Completed',
-                'commander_status' => 'Approved',
-                'leave_plan' => 'Planned for Nov 2026',
-                'sports_participation' => 'Tennis',
-                'nil_fire' => 'None',
-            ],
-            [
-                'name' => 'SGT. Khan, Mizanur',
-                'number' => 'BD-005',
-                'rank' => 'Sergeant',
-                'user_type' => 'CO',
-                'company' => 'Delta',
-                'appointment' => 'Medical Sergeant',
-                'batch' => '2020',
-                'blood_group' => 'O-',
-                'home_district' => 'Khulna',
-                'ipft_biannual_1' => 'Fail',
-                'ipft_biannual_2' => 'Pass',
-                'shoot_ret' => '70',
-                'shoot_ap' => '65',
-                'shoot_ets' => '72',
-                'shoot_total' => '207',
-                'speed_march' => 'Fail',
-                'grenade_fire' => 'Pass',
-                'course_status' => 'Not Started',
-                'commander_status' => 'Pending',
-                'leave_plan' => 'Planned for Sept 2026',
-                'sports_participation' => 'Badminton',
-                'nil_fire' => 'None',
-            ],
-        ];
+        // 1. Root Officer (CO)
+        $root = Soldier::create([
+            'name' => 'Lt Col Mahfuzur Rahman',
+            'number' => 'BA-7241',
+            'rank' => 'Lt Col',
+            'unit_type' => 'officer',
+            'appointment' => 'Commanding Officer (9EB)',
+            'is_active' => true,
+            'sort_order' => 1,
+        ]);
 
-        foreach ($soldiers as $soldier) {
-            Soldier::create($soldier);
+        // 2. Alpha Company (Coy Cdr)
+        $coy = Soldier::create([
+            'name' => 'Maj Tanvir Ahmed',
+            'number' => 'BA-8512',
+            'rank' => 'Major',
+            'parent_id' => $root->id,
+            'unit_type' => 'company',
+            'appointment' => 'Alpha Company Commander',
+            'is_active' => true,
+            'sort_order' => 1,
+        ]);
+
+        // 3. Company Level Units
+        // 3.1 Company Headquarter (CHQ)
+        $chq = Soldier::create([
+            'name' => 'MWO Karim Uddin',
+            'number' => '7045123',
+            'rank' => 'MWO',
+            'parent_id' => $coy->id,
+            'unit_type' => 'officer', // Using officer style for CHQ head
+            'appointment' => 'CHM (Company HQ)',
+            'is_active' => true,
+            'sort_order' => 1,
+        ]);
+
+        // 3.2 Support Platoon
+        $supportPl = Soldier::create([
+            'name' => 'Captain Sifat Hasan',
+            'number' => 'BA-9642',
+            'rank' => 'Captain',
+            'parent_id' => $coy->id,
+            'unit_type' => 'platoon',
+            'appointment' => 'Support Platoon Commander',
+            'is_active' => true,
+            'sort_order' => 2,
+        ]);
+
+        // 3.3 Numbered Platoons
+        for ($p = 1; $p <= 3; $p++) {
+            $pl = Soldier::create([
+                'name' => "Lieutenant Faisal ($p PL)",
+                'number' => "BA-102$p",
+                'rank' => 'Lieutenant',
+                'parent_id' => $coy->id,
+                'unit_type' => 'platoon',
+                'appointment' => "Platoon Commander ($p PL)",
+                'is_active' => true,
+                'sort_order' => $p + 2, // PL 1 starts at 3
+            ]);
+
+            // 4. Sections for Platoon 1
+            if ($p === 1) {
+                for ($s = 1; $s <= 3; $s++) {
+                    $sec = Soldier::create([
+                        'name' => "Sgt Nazmul (Section $s)",
+                        'number' => "SN-500$s",
+                        'rank' => 'Sergeant',
+                        'parent_id' => $pl->id,
+                        'unit_type' => 'section',
+                        'appointment' => "Section Commander ($s SEC)",
+                        'is_active' => true,
+                        'sort_order' => $s,
+                    ]);
+
+                    // 5. Soldiers for Section 1
+                    if ($s === 1) {
+                        for ($sol = 1; $sol <= 3; $sol++) {
+                            Soldier::create([
+                                'name' => "Soldier No. $sol",
+                                'number' => "10254$sol",
+                                'rank' => 'Sainik',
+                                'parent_id' => $sec->id,
+                                'unit_type' => 'soldier',
+                                'appointment' => 'Rifleman',
+                                'is_active' => true,
+                                'sort_order' => $sol,
+                                'ipft_biannual_1' => 'Excellent',
+                                'shoot_total' => '245',
+                            ]);
+                        }
+                    }
+                }
+            }
         }
     }
 }

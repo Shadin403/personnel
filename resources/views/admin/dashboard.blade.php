@@ -2,6 +2,26 @@
 
 @section('title', 'Operations Dashboard')
 
+@section('styles')
+<style>
+    #tree {
+        width: 100%;
+        height: 600px;
+        background-color: #F8F9FA;
+        border: 1px solid #d1d5db;
+    }
+    
+    .node rect {
+        fill: #ffffff !important;
+        stroke: #2F4F3E !important;
+        stroke-width: 2px !important;
+    }
+
+    /* Balkan OrgChart Templates CSS overrides */
+    .orgchart-container { background: transparent !important; }
+</style>
+@endsection
+
 @section('content')
 <div class="space-y-10 animate-fade-in pb-20">
     <!-- Welcome Section -->
@@ -72,6 +92,50 @@
             </div>
             <h3 class="text-3xl font-bold text-military-warning tabular-nums tracking-tighter">{{ $stats['staff'] }}</h3>
             <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-military-warning tracking-tight">Support Personnel Logistics Validated</div>
+        </div>
+    </div>
+
+    <!-- Command & Control Hierarchy (Org Chart) -->
+    <div class="classic-card overflow-hidden animate-fade-in shadow-xl">
+        <div class="px-8 py-4 classic-card-header flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <svg class="w-5 h-5 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <div>
+                  <h3 class="text-[11px] font-bold text-white uppercase tracking-[0.3em]">Command & Control Structure [কমান্ড ও কন্ট্রোল স্ট্রাকচার]</h3>
+                  <p class="text-[9px] font-semibold text-white/40 uppercase tracking-widest mt-0.5">Real-time Force Hierarchy & Deployment Visualization</p>
+                </div>
+            </div>
+            <button onclick="chart.fit()" class="px-4 py-1.5 bg-white/10 border border-white/20 text-white text-[9px] font-bold uppercase tracking-widest hover:bg-white/20 transition-all flex items-center gap-2">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                Fit Perspective
+            </button>
+        </div>
+        <div class="p-8 bg-slate-50 border-b border-slate-200">
+            <div id="tree" class="shadow-inner"></div>
+            
+            <div class="mt-6 flex flex-wrap gap-4 items-center border-t border-slate-200 pt-6">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Unit Signature Legend:</span>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-red-600"></span>
+                    <span class="text-[10px] font-bold text-military-secondary">OFFICER / HQ</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-military-primary"></span>
+                    <span class="text-[10px] font-bold text-military-secondary">COMPANY</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-military-accent"></span>
+                    <span class="text-[10px] font-bold text-military-secondary">PLATOON</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-amber-600"></span>
+                    <span class="text-[10px] font-bold text-military-secondary">SECTION</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-slate-500"></span>
+                    <span class="text-[10px] font-bold text-military-secondary">SOLDIER</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -231,4 +295,59 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="https://balkan.app/js/orgchart.js"></script>
+<script>
+    var chart;
+    document.addEventListener('DOMContentLoaded', function() {
+        var data = @json($treeNodes);
+
+        OrgChart.templates.military = Object.assign({}, OrgChart.templates.ana);
+        OrgChart.templates.military.size = [200, 80];
+        OrgChart.templates.military.node = '<rect x="0" y="0" height="80" width="200" fill="#ffffff" stroke-width="1.5" stroke="#2F4F3E" rx="0" ry="0"></rect>';
+        OrgChart.templates.military.field_0 = '<text style="font-size: 13px; font-weight: 900;" fill="#2F4F3E" x="100" y="32" text-anchor="middle">{val}</text>';
+        OrgChart.templates.military.field_1 = '<text style="font-size: 10px; font-weight: 700; opacity: 0.7;" fill="#6B8E23" x="100" y="52" text-anchor="middle">{val}</text>';
+        
+        // Tags
+        OrgChart.templates.military_officer = Object.assign({}, OrgChart.templates.military);
+        OrgChart.templates.military_officer.node = '<rect x="0" y="0" height="80" width="200" fill="#fef2f2" stroke-width="2" stroke="#B91C1C" rx="0" ry="0"></rect>';
+
+        OrgChart.templates.military_company = Object.assign({}, OrgChart.templates.military);
+        OrgChart.templates.military_company.node = '<rect x="0" y="0" height="80" width="200" fill="#f0fdf4" stroke-width="2" stroke="#2F4F3E" rx="0" ry="0"></rect>';
+
+        OrgChart.templates.military_platoon = Object.assign({}, OrgChart.templates.military);
+        OrgChart.templates.military_platoon.node = '<rect x="0" y="0" height="80" width="200" fill="#f7fee7" stroke-width="2" stroke="#6B8E23" rx="0" ry="0"></rect>';
+
+        OrgChart.templates.military_section = Object.assign({}, OrgChart.templates.military);
+        OrgChart.templates.military_section.node = '<rect x="0" y="0" height="80" width="200" fill="#fffbeb" stroke-width="2" stroke="#D97706" rx="0" ry="0"></rect>';
+
+        chart = new OrgChart(document.getElementById("tree"), {
+            template: "military",
+            enableSearch: false,
+            mouseWheel: OrgChart.action.zoom,
+            nodeBinding: {
+                field_0: "name",
+                field_1: "title"
+            },
+            nodes: data,
+            tags: {
+                "officer": { template: "military_officer" },
+                "company": { template: "military_company" },
+                "platoon": { template: "military_platoon" },
+                "section": { template: "military_section" },
+                "soldier": { template: "military" }
+            }
+        });
+
+        chart.on('click', function(sender, args) {
+            var nodeData = chart.get(args.node.id);
+            if(nodeData && nodeData.profile_url) {
+                window.location.href = nodeData.profile_url;
+                return false;
+            }
+        });
+    });
+</script>
 @endsection

@@ -38,6 +38,20 @@ class DashboardController extends Controller
             ->groupBy('company')
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentSoldiers', 'trainingStats', 'bloodGroups', 'companies'));
+        // Hierarchical Tree Data
+        $treeNodes = Soldier::orderBy('sort_order', 'asc')->get()->map(function ($soldier) {
+            return [
+                'id' => $soldier->id,
+                'pid' => $soldier->parent_id,
+                'name' => $soldier->name,
+                'title' => $soldier->rank . ' - ' . $soldier->appointment,
+                'unit_type' => $soldier->unit_type,
+                'img' => $soldier->photo_url,
+                'profile_url' => route('admin.soldiers.show', $soldier->id),
+                'tags' => [$soldier->unit_type ?? 'soldier'],
+            ];
+        });
+
+        return view('admin.dashboard', compact('stats', 'recentSoldiers', 'trainingStats', 'bloodGroups', 'companies', 'treeNodes'));
     }
 }

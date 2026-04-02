@@ -148,7 +148,52 @@
             </div>
         </div>
 
-        <!-- Section 3: Training Metrics -->
+        <!-- Section 3: Chain of Command -->
+        <div class="classic-card overflow-hidden border border-slate-300">
+            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <h3 class="text-[10px] font-bold text-white uppercase tracking-widest">Chain of Command & Hierarchy (SEC-03)</h3>
+                </div>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white text-military-primary">
+                <div class="space-y-1.5">
+                    <label class="text-[9px] font-bold text-military-secondary uppercase tracking-widest ml-1">Unit Type [ইউনিটের ধরন]</label>
+                    <select name="unit_type" class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
+                        <option value="">SELECT UNIT TYPE</option>
+                        <option value="officer" {{ old('unit_type', $soldier->unit_type) == 'officer' ? 'selected' : '' }}>OFFICER / PCR (TOP ROOT)</option>
+                        <option value="company" {{ old('unit_type', $soldier->unit_type) == 'company' ? 'selected' : '' }}>COMPANY (A, B, C, D)</option>
+                        <option value="platoon" {{ old('unit_type', $soldier->unit_type) == 'platoon' ? 'selected' : '' }}>PLATOON (PL)</option>
+                        <option value="section" {{ old('unit_type', $soldier->unit_type) == 'section' ? 'selected' : '' }}>SECTION / GROUP</option>
+                        <option value="soldier" {{ old('unit_type', $soldier->unit_type) == 'soldier' ? 'selected' : '' }}>INDIVIDUAL SOLDIER</option>
+                    </select>
+                    @error('unit_type') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-[9px] font-bold text-military-secondary uppercase tracking-widest ml-1">Reports To / Superior [উর্ধ্বতন কর্মকর্তা]</label>
+                    <select name="parent_id" class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
+                        <option value="">NO SUPERIOR (ROOT NODE)</option>
+                        @foreach($superiors as $superior)
+                            <option value="{{ $superior->id }}" {{ old('parent_id', $soldier->parent_id) == $superior->id ? 'selected' : '' }}>
+                                {{ strtoupper($superior->rank) }} {{ strtoupper($superior->name) }} ({{ $superior->number }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('parent_id') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="space-y-1.5 md:col-span-2">
+                    <label class="text-[9px] font-bold text-military-secondary uppercase tracking-widest ml-1">Seniority / Serial [সিনিয়রিটি / সিরিয়াল নম্বর]</label>
+                    <input type="number" name="sort_order" value="{{ old('sort_order', $soldier->sort_order) }}" 
+                           class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner">
+                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-tight mt-1">Defines horizontal position in the tree (Lower number appears first/left)</p>
+                    @error('sort_order') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Training Metrics -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- IPFT Card -->
             <div class="classic-card overflow-hidden border border-slate-300">

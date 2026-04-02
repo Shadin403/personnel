@@ -43,7 +43,8 @@ class SoldierController extends Controller
 
     public function create()
     {
-        return view('admin.soldiers.create');
+        $superiors = Soldier::orderBy('name')->get();
+        return view('admin.soldiers.create', compact('superiors'));
     }
 
     public function store(Request $request)
@@ -71,8 +72,9 @@ class SoldierController extends Controller
             'commander_status' => 'nullable|string',
             'cdr_plan_this_yr' => 'nullable|string',
             'leave_plan' => 'nullable|string',
-            'sports_participation' => 'nullable|string',
-            'nil_fire' => 'nullable|string',
+            'parent_id' => 'nullable|exists:soldiers,id',
+            'unit_type' => 'nullable|string',
+            'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -93,7 +95,8 @@ class SoldierController extends Controller
 
     public function edit(Soldier $soldier)
     {
-        return view('admin.soldiers.edit', compact('soldier'));
+        $superiors = Soldier::where('id', '!=', $soldier->id)->orderBy('name')->get();
+        return view('admin.soldiers.edit', compact('soldier', 'superiors'));
     }
 
     public function update(Request $request, Soldier $soldier)
@@ -118,11 +121,9 @@ class SoldierController extends Controller
             'speed_march' => 'nullable|string',
             'grenade_fire' => 'nullable|string',
             'course_status' => 'nullable|string',
-            'commander_status' => 'nullable|string',
-            'cdr_plan_this_yr' => 'nullable|string',
-            'leave_plan' => 'nullable|string',
-            'sports_participation' => 'nullable|string',
-            'nil_fire' => 'nullable|string',
+            'parent_id' => 'nullable|exists:soldiers,id',
+            'unit_type' => 'nullable|string',
+            'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
 

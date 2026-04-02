@@ -32,8 +32,8 @@ class Soldier extends Model
         'commander_status',
         'leave_plan',
         'sports_participation',
-        'nil_fire',
-        'cdr_plan_this_yr',
+        'unit_type',
+        'parent_id',
         'is_active',
     ];
 
@@ -74,5 +74,15 @@ class Soldier extends Model
         if ($passed >= $total * 0.75) return 'Good';
         if ($passed >= $total * 0.5) return 'Average';
         return 'Needs Improvement';
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Soldier::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Soldier::class, 'parent_id');
     }
 }
