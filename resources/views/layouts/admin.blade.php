@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,7 +34,7 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['Roboto', 'Inter', 'sans-serif'],
+                        sans: ['Hind Siliguri', 'Inter', 'sans-serif'],
                     },
                 }
             }
@@ -63,35 +63,44 @@
         
         .classic-card {
             background: white;
-            border: 1px solid #d1d5db;
-            box-shadow: 2px 2px 0 0 rgba(47, 79, 62, 0.05);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border-radius: 0.5rem;
         }
         
         .classic-card-header {
             background: #2F4F3E;
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 2px solid #1F2937;
+            padding: 1rem 1.75rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
         }
 
         .btn-military {
             background: #2F4F3E;
             color: white;
-            padding: 0.6rem 1.5rem;
+            padding: 0.75rem 1.75rem;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.05em;
             font-size: 13px;
-            border: 1px solid #1F2937;
-            transition: all 0.2s;
+            border-radius: 0.375rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
         }
         .btn-military:hover {
-            background: #1F2937;
+            background: #1a3a2a;
             transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
         
-        .bg-parchment { background-color: #F5F1E8; }
-        .text-military { color: #1F2937; }
+        .bg-parchment { background-color: #f8fafc; } /* Lighter, cleaner background */
+        .text-military { color: #0f172a; }
         .border-military { border-color: #2F4F3E; }
+        
+        /* Modern table styles */
+        table th {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+        }
     </style>
     @yield('styles')
 </head>
