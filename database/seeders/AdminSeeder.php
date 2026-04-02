@@ -97,22 +97,20 @@ class AdminSeeder extends Seeder
                         'sort_order' => $s,
                     ]);
 
-                    // 5. Soldiers for Section 1
-                    if ($s === 1) {
-                        for ($sol = 1; $sol <= 3; $sol++) {
-                            Soldier::create([
-                                'name' => "Soldier No. $sol",
-                                'number' => "10254$sol",
-                                'rank' => 'Sainik',
-                                'parent_id' => $sec->id,
-                                'unit_type' => 'soldier',
-                                'appointment' => 'Rifleman',
-                                'is_active' => true,
-                                'sort_order' => $sol,
-                                'ipft_biannual_1' => 'Excellent',
-                                'shoot_total' => '245',
-                            ]);
-                        }
+                    // 5. Soldiers for ALL Sections
+                    for ($sol = 1; $sol <= 3; $sol++) {
+                        Soldier::create([
+                            'name' => "Soldier No. $sol (SEC $s)",
+                            'number' => "10254" . $s . $sol,
+                            'rank' => 'Sainik',
+                            'parent_id' => $sec->id,
+                            'unit_type' => 'soldier',
+                            'appointment' => 'Rifleman',
+                            'is_active' => true,
+                            'sort_order' => $sol,
+                            'ipft_biannual_1' => 'Excellent',
+                            'shoot_total' => '245',
+                        ]);
                     }
                 }
             }
