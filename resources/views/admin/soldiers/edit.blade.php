@@ -148,15 +148,13 @@
                     </div>
                     <div class="p-8 space-y-10">
                         <!-- Firing Scores -->
-                        <div>
-                            <p class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-6 border-b border-military-primary/10 pb-2">Firing Efficiency (Shoot Results)</p>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
                                 <div class="space-y-2">
-                                    <label class="text-[10px] font-bold text-slate-500 uppercase">Ni (Ret) Score</label>
+                                    <label class="text-[10px] font-bold text-slate-500 uppercase">Grouping</label>
                                     <input type="text" name="shoot_ret" value="{{ old('shoot_ret', $soldier->shoot_ret) }}" class="w-full p-4 tactical-input text-sm font-bold text-center">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="text-[10px] font-bold text-slate-500 uppercase">AP Score</label>
+                                    <label class="text-[10px] font-bold text-slate-500 uppercase">Hit</label>
                                     <input type="text" name="shoot_ap" value="{{ old('shoot_ap', $soldier->shoot_ap) }}" class="w-full p-4 tactical-input text-sm font-bold text-center">
                                 </div>
                                 <div class="space-y-2">
@@ -164,8 +162,15 @@
                                     <input type="text" name="shoot_ets" value="{{ old('shoot_ets', $soldier->shoot_ets) }}" class="w-full p-4 tactical-input text-sm font-bold text-center">
                                 </div>
                                 <div class="space-y-2">
+                                    <label class="text-[10px] font-bold text-slate-500 uppercase">Night Fire</label>
+                                    <input type="text" name="nil_fire" value="{{ old('nil_fire', $soldier->nil_fire) }}" class="w-full p-4 tactical-input text-sm font-bold text-center border-amber-500/30" placeholder="Passed">
+                                </div>
+                                <div class="space-y-2">
                                     <label class="text-[10px] font-bold text-slate-500 uppercase">Total Score</label>
                                     <input type="text" name="shoot_total" value="{{ old('shoot_total', $soldier->shoot_total) }}" class="w-full p-4 tactical-input text-sm font-black text-military-primary text-center bg-military-primary/5">
+                                </div>
+                            </div>
+ $soldier->shoot_total) }}" class="w-full p-4 tactical-input text-sm font-black text-military-primary text-center bg-military-primary/5">
                                 </div>
                             </div>
                         </div>
@@ -173,13 +178,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <!-- IPFT -->
                             <div class="space-y-6">
-                                <p class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-4">Physical Attributes (IPFT)</p>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-2">
+                                           <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-slate-400 uppercase">Biannual 01</label>
                                         <select name="ipft_biannual_1" class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                             <option value="Pass" {{ $soldier->ipft_biannual_1 == 'Pass' ? 'selected' : '' }}>Pass</option>
                                             <option value="Failed" {{ $soldier->ipft_biannual_1 == 'Failed' ? 'selected' : '' }}>Failed</option>
+                                            <option value="Attend" {{ $soldier->ipft_biannual_1 == 'Attend' ? 'selected' : '' }}>Attend</option>
+                                            <option value="Not Attend" {{ $soldier->ipft_biannual_1 == 'Not Attend' ? 'selected' : '' }}>Not Attend</option>
                                         </select>
                                     </div>
                                     <div class="space-y-2">
@@ -187,6 +192,8 @@
                                         <select name="ipft_biannual_2" class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                             <option value="Pass" {{ $soldier->ipft_biannual_2 == 'Pass' ? 'selected' : '' }}>Pass</option>
                                             <option value="Failed" {{ $soldier->ipft_biannual_2 == 'Failed' ? 'selected' : '' }}>Failed</option>
+                                            <option value="Attend" {{ $soldier->ipft_biannual_2 == 'Attend' ? 'selected' : '' }}>Attend</option>
+                                            <option value="Not Attend" {{ $soldier->ipft_biannual_2 == 'Not Attend' ? 'selected' : '' }}>Not Attend</option>
                                         </select>
                                     </div>
                                 </div>
@@ -197,16 +204,15 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-slate-400 uppercase">Speed March</label>
-                                        <select name="speed_march" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                            <option value="Pass" {{ $soldier->speed_march == 'Pass' ? 'selected' : '' }}>Pass</option>
-                                            <option value="Fail" {{ $soldier->speed_march == 'Fail' ? 'selected' : '' }}>Fail</option>
-                                        </select>
+                                        <input type="text" name="speed_march" value="{{ old('speed_march', $soldier->speed_march) }}" placeholder="Pass / 3 of 4" class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                     </div>
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-slate-400 uppercase">Grenade Fire</label>
-                                        <select name="grenade_fire" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                            <option value="Pass" {{ $soldier->grenade_fire == 'Pass' ? 'selected' : '' }}>Pass</option>
-                                            <option value="Fail" {{ $soldier->grenade_fire == 'Fail' ? 'selected' : '' }}>Fail</option>
+                                        <input type="text" name="grenade_fire" value="{{ old('grenade_fire', $soldier->grenade_fire) }}" placeholder="Pass / 2 of 4" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    </div>
+                                </div>
+                            </div>
+== 'Fail' ? 'selected' : '' }}>Fail</option>
                                         </select>
                                     </div>
                                 </div>
@@ -278,10 +284,6 @@
                                 <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Sports/Games Participation</label>
                                 <input type="text" name="sports_participation" value="{{ old('sports_participation', $soldier->sports_participation) }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="ATHLETICS">
                             </div>
-                            <div class="space-y-2">
-                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Ni Firing (Nil Fire)</label>
-                                <input type="text" name="nil_fire" value="{{ old('nil_fire', $soldier->nil_fire) }}" class="w-full p-4 tactical-input text-sm font-bold uppercase">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -293,11 +295,17 @@
                 <div class="bg-white border border-slate-200 shadow-xl p-8 sticky top-10">
                     <div class="text-center space-y-8">
                         <div>
-                            <h4 class="card-title-tactical text-military-primary mb-2">Personnel Asset Photo</h4>
+                            <h4 class="card-title-tactical text-military-primary mb-2">Upload a Picture</h4>
                         </div>
                         <div x-data="{ photoPreview: '{{ $soldier->photo ? asset('storage/' . $soldier->photo) : null }}' }" class="relative group mx-auto w-Full aspect-[3/4] border-4 border-double border-slate-200 flex items-center justify-center overflow-hidden bg-slate-50">
                             <template x-if="photoPreview">
                                 <img :src="photoPreview" class="w-full h-full object-cover">
+                            </template>
+                            <template x-if="!photoPreview">
+                                <div class="text-center p-8">
+                                    <svg class="w-16 h-16 text-slate-200 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"></path></svg>
+                                    <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Drop Personnel Asset Here</p>
+                                </div>
                             </template>
                             <input type="file" name="photo" class="absolute inset-0 opacity-0 cursor-pointer z-20"
                                    @change="const reader = new FileReader(); reader.onload = (e) => photoPreview = e.target.result; reader.readAsDataURL($event.target.files[0])">

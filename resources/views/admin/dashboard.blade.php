@@ -132,8 +132,8 @@
             <div class="text-center mb-20 space-y-4">
                 <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50">
                     Level 02 &bull; Companies</p>
-                <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Battalion
-                    Structure</h2>
+                <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Companies
+                </h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 <template x-for="coy in companies" :key="coy.id">
@@ -217,7 +217,8 @@
             <div class="text-center mb-12 space-y-4">
                 <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50"
                     x-text="'Level 05 &bull; ' + selectedSec?.name"></p>
-                <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">View Personnel / View Soldier</h2>
+                <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">View
+                    Personnel / View Soldier</h2>
                 <div class="flex items-center justify-center gap-3">
                     <span
                         class="px-3 py-1 bg-military-primary/10 text-military-primary text-[10px] font-bold uppercase tracking-widest"
@@ -274,14 +275,19 @@
                                             <a :href="sol.profile_url"
                                                 class="inline-flex items-center gap-2 px-4 py-2 bg-military-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-lg active:scale-95 group-hover:-translate-x-1">
                                                 <span>View Profile</span>
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                                 </svg>
                                             </a>
                                             <a :href="sol.edit_url"
                                                 class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-amber-600 transition-all shadow-lg active:scale-95 group-hover:-translate-x-1">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                    </path>
                                                 </svg>
                                                 <span>EDIT</span>
                                             </a>
