@@ -4,57 +4,61 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Soldier;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $currentCompany = $request->query('company');
+        $currentPlatoon = $request->query('platoon');
+        $currentSection = $request->query('section');
+
         $stats = [
             'total' => Soldier::count(),
             'active' => Soldier::where('is_active', true)->count(),
-            'co' => Soldier::where('user_type', 'CO')->count(),
-            'staff' => Soldier::where('user_type', 'Staff')->count(),
         ];
 
-        $recentSoldiers = Soldier::latest()->take(5)->get();
+        // 🏗️ 5-Level Hierarchy Definitions
+        $companies = ['Alpha (A) Coy', 'Bravo (B) Coy', 'Charlie (C) Coy', 'Delta (D) Coy', 'HQ Coy'];
+        $platoons = ['1 PL', '2 PL', '3 PL', 'SP PL', 'Coy HQ'];
+        $sections = ['1 Sec', '2 Sec', '3 Sec', 'PL HQ'];
 
-        // Training stats
-        $trainingStats = [
-            'ipft_pass' => Soldier::where('ipft_biannual_1', 'Pass')->where('ipft_biannual_2', 'Pass')->count(),
-            'speed_march_pass' => Soldier::where('speed_march', 'Pass')->count(),
-            'grenade_pass' => Soldier::where('grenade_fire', 'Pass')->count(),
-            'courses_completed' => Soldier::where('course_status', 'Completed')->count(),
+        $viewData = [
+            'level' => 1,
+            'title' => '9 E Bengal (Battalion)',
+            'items' => $companies,
+            'type' => 'company',
+            'breadcrumbs' => [],
         ];
 
-        // Blood group distribution
-        $bloodGroups = Soldier::selectRaw('blood_group, COUNT(*) as count')
-            ->whereNotNull('blood_group')
-            ->groupBy('blood_group')
-            ->get();
+        if ($currentCompany) {
+            $viewData['level'] = 2;
+            $viewData['title'] = $currentCompany;
+            $viewData['items'] = $platoons;
+            $viewData['type'] = 'platoon';
+            $viewData['breadcrumbs'][] = ['name' => '9E Bengal', 'url' => route('admin.dashboard')];
+        }
 
-        // Company distribution
-        $companies = Soldier::selectRaw('company, COUNT(*) as count')
-            ->whereNotNull('company')
-            ->groupBy('company')
-            ->get();
+        if ($currentPlatoon) {
+            $viewData['level'] = 3;
+            $viewData['title'] = $currentPlatoon;
+            $viewData['items'] = $sections;
+            $viewData['type'] = 'section';
+            $viewData['breadcrumbs'][] = ['name' => $currentCompany, 'url' => route('admin.dashboard', ['company' => $currentCompany])];
+        }
 
-        // Hierarchical Tree Data
-        $treeNodes = Soldier::orderBy('sort_order', 'asc')->get()->map(function ($soldier) {
-            return [
-                'id' => $soldier->id,
-                'pid' => $soldier->parent_id,
-                'name' => $soldier->name,
-                'rank' => $soldier->rank,
-                'number' => $soldier->number,
-                'appointment' => $soldier->appointment,
-                'title' => $soldier->rank . ' - ' . $soldier->appointment,
-                'unit_type' => $soldier->unit_type,
-                'img' => $soldier->photo_url,
-                'profile_url' => route('admin.soldiers.show', $soldier->id),
-                'tags' => [$soldier->unit_type ?? 'soldier'],
-            ];
-        });
+        if ($currentSection) {
+            $viewData['level'] = 4;
+            $viewData['title'] = $currentSection;
+            $viewData['items'] = Soldier::where('company', $currentCompany)
+                ->where('platoon', $currentPlatoon)
+                ->where('section', $currentSection)
+                ->get();
+            $viewData['type'] = 'personnel';
+            $viewData['breadcrumbs'][] = ['name' => $currentPlatoon, 'url' => route('admin.dashboard', ['company' => $currentCompany, 'platoon' => $currentPlatoon])];
+        }
 
-        return view('admin.dashboard', compact('stats', 'recentSoldiers', 'trainingStats', 'bloodGroups', 'companies', 'treeNodes'));
+        return view('admin.dashboard', compact('stats', 'viewData', 'currentCompany', 'currentPlatoon', 'currentSection'));
     }
 }

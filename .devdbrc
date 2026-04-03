@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "d:\\laragon\\www\\vue-app-1\\soldier-management\\database\\database.sqlite"
+  }
+]
