@@ -298,8 +298,9 @@
                         </select>
                     </div>
                     <div class="space-y-2">
-                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Unit Seniority</label>
-                        <input type="number" name="sort_order" value="0" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: 1">
+                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Position Number [তালিকায় অবস্থান]</label>
+                        <input type="number" name="sort_order" value="{{ $nextOrder }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: 1">
+                        <p class="text-[9px] text-military-primary font-bold uppercase tracking-widest mt-1 opacity-70">Recommended Next Position: #{{ $nextOrder }}</p>
                     </div>
                     <div class="space-y-2">
                         <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Batch / Intake</label>

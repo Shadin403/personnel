@@ -31,7 +31,7 @@ class SoldierController extends Controller
 
     public function index(Request $request)
     {
-        $query = Soldier::query();
+        $query = Soldier::query()->orderBy('sort_order', 'asc');
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
@@ -49,7 +49,7 @@ class SoldierController extends Controller
             $query->where('company', $request->company);
         }
 
-        $soldiers = $query->latest()->paginate(15)->withQueryString();
+        $soldiers = $query->paginate(50)->withQueryString();
 
         $stats = [
             'total' => Soldier::count(),
@@ -61,10 +61,20 @@ class SoldierController extends Controller
         return view('admin.soldiers.index', compact('soldiers', 'stats'));
     }
 
+    public function updateOrder(Request $request)
+    {
+        $order = $request->order; // Array of IDs in the new order
+        foreach ($order as $index => $id) {
+            Soldier::where('id', $id)->update(['sort_order' => $index + 1]);
+        }
+        return response()->json(['success' => true]);
+    }
+
     public function create()
     {
         $units = \App\Models\Unit::all();
-        return view('admin.soldiers.create', compact('units'));
+        $nextOrder = Soldier::max('sort_order') + 1;
+        return view('admin.soldiers.create', compact('units', 'nextOrder'));
     }
 
     public function store(Request $request)
@@ -101,42 +111,16 @@ class SoldierController extends Controller
             'leave_plan' => 'nullable|string',
             'sports_participation' => 'nullable|string',
             'nil_fire' => 'nullable|string',
-            'parent_id' => 'nullable|exists:soldiers,id',
-            'unit_type' => 'nullable|string',
-            'sort_order' => 'nullable|integer',
+            'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
+            'sort_order' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('photo')) {
             $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
         }
 
-        $soldier = Soldier::create($validated);
-
-        // Save Relationships
-        if ($request->has('courses')) {
-            foreach ($request->courses as $course) {
-                if (!empty($course['name'])) {
-                    $soldier->courses()->create($course);
-                }
-            }
-        }
-
-        if ($request->has('training_plans')) {
-            foreach ($request->training_plans as $plan) {
-                if (!empty($plan['year'])) {
-                    $soldier->trainingPlans()->create($plan);
-                }
-            }
-        }
-
-        if ($request->has('unit_trainings')) {
-            foreach ($request->unit_trainings as $ut) {
-                if (!empty($ut['year'])) {
-                    $soldier->unitTrainings()->create($ut);
-                }
-            }
-        }
+        Soldier::create($validated);
 
         return redirect()->route('admin.soldiers.index')
             ->with('success', 'Strategic node enrolled successfully!');
@@ -182,10 +166,9 @@ class SoldierController extends Controller
             'speed_march' => 'nullable|string',
             'grenade_fire' => 'nullable|string',
             'course_status' => 'nullable|string',
-            'parent_id' => 'nullable|exists:soldiers,id',
-            'unit_type' => 'nullable|string',
-            'sort_order' => 'nullable|integer',
+            'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
+            'sort_order' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -197,34 +180,6 @@ class SoldierController extends Controller
 
         $validated['is_active'] = $request->has('is_active') ? true : false;
         $soldier->update($validated);
-
-        // Sync Relationships
-        if ($request->has('courses')) {
-            $soldier->courses()->delete();
-            foreach ($request->courses as $course) {
-                if (!empty($course['name'])) {
-                    $soldier->courses()->create($course);
-                }
-            }
-        }
-
-        if ($request->has('training_plans')) {
-            $soldier->trainingPlans()->delete();
-            foreach ($request->training_plans as $plan) {
-                if (!empty($plan['year'])) {
-                    $soldier->trainingPlans()->create($plan);
-                }
-            }
-        }
-
-        if ($request->has('unit_trainings')) {
-            $soldier->unitTrainings()->delete();
-            foreach ($request->unit_trainings as $ut) {
-                if (!empty($ut['year'])) {
-                    $soldier->unitTrainings()->create($ut);
-                }
-            }
-        }
 
         return redirect()->route('admin.soldiers.index')
             ->with('success', 'Profile updated successfully!');

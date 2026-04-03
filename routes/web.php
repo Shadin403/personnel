@@ -32,6 +32,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('units', UnitController::class);
 
     // Soldiers CRUD
+    Route::post('/soldiers/update-order', [SoldierController::class, 'updateOrder'])->name('soldiers.update-order');
     Route::get('/soldiers/weak', [SoldierController::class, 'weak'])->name('soldiers.weak');
     Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
     Route::get('/soldiers/create', [SoldierController::class, 'create'])->name('soldiers.create');

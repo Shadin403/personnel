@@ -276,8 +276,9 @@
                         </select>
                     </div>
                     <div class="space-y-2">
-                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Unit Seniority</label>
+                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Position Number [তালিকায় অবস্থান]</label>
                         <input type="number" name="sort_order" value="{{ old('sort_order', $soldier->sort_order) }}" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Lower numbers appear first in the list.</p>
                     </div>
                     <div class="space-y-2">
                         <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Batch / Intake</label>

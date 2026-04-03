@@ -11,7 +11,7 @@
             <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Registry Assets &bull; Strategic Database Mode</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.soldiers.create') }}" class="btn-military flex items-center gap-2 shadow-md active:scale-95">
+            <a href="{{ route('admin.soldiers.create') }}" class="btn-military flex items-center gap-2 shadow-md active:scale-95 px-6">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                 New Enrollment
             </a>
@@ -59,9 +59,6 @@
                 <button type="submit" class="flex-1 py-2.5 bg-military-primary text-white text-[12px] font-bold uppercase tracking-widest border border-military-secondary hover:bg-military-secondary transition-all shadow-md">
                     Apply Filter
                 </button>
-                <a href="{{ route('admin.soldiers.index') }}" class="px-4 py-2.5 bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all border border-slate-200 shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                </a>
             </div>
         </form>
     </div>
@@ -72,12 +69,11 @@
             <table class="w-full text-left">
                 <thead class="bg-military-primary text-white">
                     <tr>
-                        <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-12">S/N</th>
+                        <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-12">Pos</th>
                         <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-16">Image</th>
                         <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Name [নাম]</th>
                         <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Service No [সেনা নং]</th>
                         <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Coy. & Appt [কোম্পানী ও নিয়োগ]</th>
-                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Class</th>
                         <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Readiness</th>
                         <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-right">Operations</th>
                     </tr>
@@ -86,7 +82,9 @@
                     @forelse($soldiers as $soldier)
                     <tr class="hover:bg-military-bg/30 transition-colors group">
                         <td class="px-4 py-5 text-center">
-                            <span class="text-[12px] font-bold text-slate-400 font-mono">{{ $loop->iteration }}</span>
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-military-primary text-[11px] font-black border border-slate-200 shadow-inner">
+                                {{ $soldier->sort_order ?? 0 }}
+                            </span>
                         </td>
                         <td class="px-4 py-5">
                             <div class="w-12 h-12 rounded-none border border-slate-200 overflow-hidden bg-slate-50 p-0.5 group-hover:border-military-primary transition-all mx-auto shadow-sm">
@@ -94,89 +92,42 @@
                             </div>
                         </td>
                         <td class="px-6 py-5">
-                            <p class="text-[13px] font-bold text-slate-900 tracking-tight">{{ $soldier->name }} [নাম]</p>
+                            <p class="text-[13px] font-bold text-slate-900 tracking-tight">{{ $soldier->name }}</p>
                         </td>
                         <td class="px-6 py-5">
-                            <div class="space-y-0.5">
-                                <p class="text-[13px] font-bold text-military-primary tracking-wide font-mono">{{ $soldier->number }}</p>
-                                <p class="text-[10px] font-semibold text-slate-400 opacity-80">{{ $soldier->batch }} Batch</p>
-                            </div>
+                            <p class="text-[13px] font-bold text-military-primary tracking-wide font-mono">{{ $soldier->number }}</p>
                         </td>
                         <td class="px-6 py-5">
-                            <p class="text-[13px] font-bold text-military-secondary tracking-tight">{{ $soldier->rank }}</p>
-                            <p class="text-[11px] font-medium text-slate-500">{{ $soldier->company }} Coy. &bull; Appt: {{ $soldier->appointment }}</p>
-                        </td>
-                        <td class="px-6 py-5">
-                            <div class="space-y-1.5">
-                                <span class="bg-military-bg text-military-primary text-[10px] font-bold px-2.5 py-1 border border-military-primary/20 tracking-wide">
-                                    {{ $soldier->user_type }}
-                                    @if($soldier->is_active)
-                                        <span class="ml-1 text-[9px] opacity-60">(Active)</span>
-                                    @endif
-                                </span>
-                            </div>
+                            <p class="text-[12px] font-bold text-military-secondary tracking-tight">{{ $soldier->rank }}</p>
+                            <p class="text-[11px] font-medium text-slate-500 mt-0.5">{{ $soldier->company }} Coy. &bull; {{ $soldier->appointment }}</p>
                         </td>
                         <td class="px-6 py-5">
                             @php 
                                 $statusStyle = match($soldier->overall_status) {
-                                    'Excellent' => 'text-white bg-military-success border-military-success shadow-[0_0_8px_rgba(21,128,61,0.2)]',
-                                    'Good' => 'text-white bg-military-primary border-military-primary shadow-[0_0_8px_rgba(47,79,62,0.2)]',
-                                    'Average' => 'text-white bg-military-warning border-military-warning shadow-[0_0_8px_rgba(217,119,6,0.2)]',
-                                    default => 'text-white bg-military-danger border-military-danger shadow-[0_0_8px_rgba(185,28,28,0.2)]'
+                                    'Excellent' => 'text-white bg-military-success border-military-success',
+                                    'Good' => 'text-white bg-military-primary border-military-primary',
+                                    'Average' => 'text-white bg-military-warning border-military-warning',
+                                    default => 'text-white bg-military-danger border-military-danger'
                                 };
                             @endphp
-                            <div class="flex flex-col gap-2 w-32">
-                                <span class="inline-flex items-center px-3 py-1 text-[11px] font-bold border tracking-wide {{ $statusStyle }}">
-                                    {{ $soldier->overall_status }}
-                                </span>
-                                <div class="w-full h-1.5 bg-slate-100 overflow-hidden border border-slate-200">
-                                    @php
-                                        $width = match($soldier->overall_status) {
-                                            'Excellent' => '100%',
-                                            'Good' => '75%',
-                                            'Average' => '50%',
-                                            default => '25%'
-                                        };
-                                        $barColor = match($soldier->overall_status) {
-                                            'Excellent' => 'bg-military-success',
-                                            'Good' => 'bg-military-primary',
-                                            'Average' => 'bg-military-warning',
-                                            default => 'bg-military-danger'
-                                        };
-                                    @endphp
-                                    <div class="h-full {{ $barColor }} transition-all duration-1000 shadow-inner" style="width: {{ $width }}"></div>
-                                </div>
-                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold border tracking-wide {{ $statusStyle }}">
+                                {{ $soldier->overall_status }}
+                            </span>
                         </td>
                         <td class="px-6 py-5 text-right">
-                            <div class="flex items-center justify-end gap-2 transition-all duration-300">
-                                <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="px-4 py-2.5 bg-military-secondary text-white hover:bg-military-primary transition-all font-bold text-[10px] tracking-widest shadow-md">
-                                    Gen Report
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="px-3 py-2 bg-military-secondary text-white hover:bg-military-primary transition-all font-bold text-[10px] tracking-widest shadow-md">
+                                    Report
                                 </a>
-                                <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all shadow-sm" title="Modify Node">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="p-2 bg-white border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all shadow-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                 </a>
-                                <form action="{{ route('admin.soldiers.destroy', $soldier) }}" method="POST" class="inline" onsubmit="return confirm('Confirm permanent record removal?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-2.5 bg-white border border-slate-200 text-slate-300 hover:text-military-danger hover:border-military-danger transition-all shadow-sm" title="Purge Record">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </form>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="px-8 py-20 text-center">
-                            <div class="max-w-xs mx-auto space-y-4">
-                                <div class="w-16 h-16 bg-military-bg border border-slate-100 rounded-none flex items-center justify-center mx-auto text-slate-300">
-                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                </div>
-                                <h4 class="text-[15px] font-bold text-slate-900 tracking-tight">No Results Found</h4>
-                                <p class="text-[12px] text-slate-500 font-medium tracking-tight">Ensure your search coordinates are correct or verify database connectivity.</p>
-                            </div>
-                        </td>
+                        <td colspan="7" class="px-8 py-20 text-center italic text-slate-400">No personnel found.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -190,14 +141,4 @@
         @endif
     </div>
 </div>
-@endsection
-
-@section('styles')
-<style>
-    .pagination { @apply flex items-center justify-center gap-1; }
-    .page-item { @apply inline-block; }
-    .page-link { @apply flex items-center justify-center w-10 h-10 bg-white border border-slate-300 rounded-none text-[10px] font-bold text-military-secondary hover:bg-military-primary hover:text-white hover:border-military-primary transition-all shadow-sm; }
-    .active .page-link { @apply bg-military-primary border-military-primary text-white shadow-md; }
-    .disabled .page-link { @apply opacity-30 cursor-not-allowed hover:bg-white hover:text-military-secondary hover:border-slate-300; }
-</style>
 @endsection
