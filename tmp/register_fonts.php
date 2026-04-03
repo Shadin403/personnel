@@ -39,4 +39,5 @@ foreach ($fonts as $family => $variants) {
     }
 }
 
+echo "Saving to: " . $fontMetrics->getUserFontsFilePath() . "\n";
 echo "Font registration complete. Check storage/fonts for .php files.\n";
