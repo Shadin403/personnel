@@ -22,9 +22,14 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
+use App\Http\Controllers\Admin\UnitController;
+
 // Admin Routes (protected)
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Units CRUD
+    Route::resource('units', UnitController::class);
 
     // Soldiers CRUD
     Route::get('/soldiers/weak', [SoldierController::class, 'weak'])->name('soldiers.weak');
