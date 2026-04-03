@@ -271,6 +271,17 @@ class SoldierController extends Controller
     private function generateTrgContent(Soldier $soldier): string
     {
         $date = now()->format('d M Y');
+        $unitPath = 'N/A';
+        if ($soldier->unit) {
+            $path = [];
+            $curr = $soldier->unit;
+            while($curr) {
+                $path[] = $uName = $curr->name;
+                $curr = $curr->parent;
+            }
+            $unitPath = implode(' > ', array_reverse($path));
+        }
+
         return <<<TEXT
 ================================================================================
                     TRAINING RECORD GENERATION (TRG)
@@ -279,34 +290,33 @@ class SoldierController extends Controller
 Date: {$date}
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-PERSONAL INFORMATION [ব্যক্তিগত তথ্য]
+STRATEGIC IDENTITY [সদস্যের তথ্য]
 --------------------------------------------------------------------------------
-Name [নাম]      : {$soldier->name}
+Name [নাম]      : {$soldier->name} ({$soldier->name_bn})
 No. [নং]        : {$soldier->number}
-Rank [পদবী]     : {$soldier->rank}
-User Type       : {$soldier->user_type}
-Coy. (Company)  : {$soldier->company}
-Appt            : {$soldier->appointment}
+Rank [পদবী]     : {$soldier->rank} ({$soldier->rank_bn})
+Unit Hierarchy  : {$unitPath}
+Appointment     : {$soldier->appointment} ({$soldier->appointment_bn})
 Batch [ব্যাচ]   : {$soldier->batch}
-Blood Group     : {$soldier->blood_group} [রক্তের গ্রুপ]
-Home District   : {$soldier->home_district} [নিজ জেলা]
-Status          : {$soldier->overall_status}
+Blood Group     : {$soldier->blood_group} [রক্ত]
+Home District   : {$soldier->home_district} [জেলা]
+Readiness       : {$soldier->overall_status}
 
 --------------------------------------------------------------------------------
-TRAINING RESULTS [প্রশিক্ষণ ফলাফল]
+TACTICAL DRILLS [প্রশিক্ষণ ফলাফল]
 --------------------------------------------------------------------------------
 IPFT (Biannual 1): {$soldier->ipft_biannual_1}
 IPFT (Biannual 2): {$soldier->ipft_biannual_2}
-Speed march     : {$soldier->speed_march}
-Grenade firing  : {$soldier->grenade_fire}
+Speed march     : {$soldier->speed_march} [X/4 Format]
+Grenade firing  : {$soldier->grenade_fire} [X/4 Format]
 
 --------------------------------------------------------------------------------
-FIRING RESULT SECTION (Ret) [ফায়ারিং ফলাফল]
+NI FIRING (STH) RESULTS [ফায়ারিং ফলাফল]
 --------------------------------------------------------------------------------
-Ni firing (STH) : {$soldier->shoot_ret} [টার্গেটে hit score]
-AP              : {$soldier->shoot_ap} [ফায়ারিং সাব-স্কোর]
-ETS             : {$soldier->shoot_ets} [ইটিএস স্কোর]
-Total [মোট]     : {$soldier->shoot_total} [মোট score]
+Grouping [গ্রুপিং] : {$soldier->shoot_ret}
+Hit [হিট]         : {$soldier->shoot_ap}
+ETS [ইটিএস]       : {$soldier->shoot_ets}
+Total [মোট]       : {$soldier->shoot_total}
 Grade           : {$soldier->shooting_grade}
 
 --------------------------------------------------------------------------------
@@ -324,7 +334,7 @@ Ni firing       : {$soldier->nil_fire}
 --------------------------------------------------------------------------------
 
 ================================================================================
-                          END OF RECORD
+                          END OF STRATEGIC RECORD
 ================================================================================
 TEXT;
     }

@@ -217,7 +217,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div class="lg:col-span-8 space-y-8">
                 <!-- 2. Core Identity -->
-                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                <div class="bg-white border border-slate-200 shadow-xl">
                     <div class="px-8 py-5 section-header flex items-center justify-between text-white">
                         <h3 class="card-title-tactical">SEC-01: Strategic Identity [মূল তথ্য]</h3>
                     </div>
@@ -262,7 +262,7 @@
                 </div>
 
                 <!-- 3. Operational Metrics (TRG CARD) -->
-                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                <div class="bg-white border border-slate-200 shadow-xl">
                     <div class="px-8 py-5 bg-military-primary flex items-center justify-between text-white">
                         <h3 class="card-title-tactical">SEC-02: Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
                     </div>
@@ -341,7 +341,7 @@
                 </div>
 
                 <!-- 4. Course History -->
-                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                <div class="bg-white border border-slate-200 shadow-xl">
                     <div class="px-8 py-5 bg-slate-800 flex items-center justify-between text-white">
                         <h3 class="card-title-tactical">SEC-03: Training & Courses [প্রশিক্ষণ ও কোর্স]</h3>
                         <button type="button" @click="courses.push({name: '', year: '', result: ''})" class="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-[9px] font-black uppercase tracking-widest transition-all">Add Course Record</button>
@@ -383,7 +383,7 @@
                 </div>
 
                 <!-- 5. Strategic Planning -->
-                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                <div class="bg-white border border-slate-200 shadow-xl">
                     <div class="px-8 py-5 bg-amber-600 flex items-center justify-between text-white">
                         <h3 class="card-title-tactical">SEC-04: Strategic Forecast [নিযুক্তি ও পরিকল্পনা]</h3>
                     </div>

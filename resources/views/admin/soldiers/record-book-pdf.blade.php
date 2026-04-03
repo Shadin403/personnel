@@ -103,36 +103,50 @@
 
     <table class="info-table">
         <tr>
-            <th>ব্যক্তিগত নং (Personal No):</th>
-            <td>{{ $soldier->personal_no }}</td>
+            <th>সৈনিকের নাম (Name):</th>
+            <td>{{ $soldier->name }} ({{ $soldier->name_bn ?? 'নাম নেই' }})</td>
+        </tr>
+        <tr>
+            <th>সেনা নং (Service No):</th>
+            <td>{{ $soldier->number }}</td>
         </tr>
         <tr>
             <th>পদবী (Rank):</th>
             <td>{{ $soldier->rank }} ({{ $soldier->rank_bn ?? 'সৈনিক' }})</td>
         </tr>
         <tr>
-            <th>নাম (Name):</th>
-            <td>{{ $soldier->name }} ({{ $soldier->name_bn ?? 'নাম নেই' }})</td>
-        </tr>
-        <tr>
             <th>নিযুক্তি (Appointment):</th>
             <td>{{ $soldier->appointment }} ({{ $soldier->appointment_bn ?? 'নিযুক্তি' }})</td>
         </tr>
         <tr>
-            <th>ইউনিট/সাব ইউনিট (Unit/Sub Unit):</th>
-            <td>{{ $soldier->unit }} / {{ $soldier->sub_unit }}</td>
+            <th>ইউনিট (Unit Hierarchy):</th>
+            <td>
+                @if($soldier->unit)
+                    @php
+                        $path = [];
+                        $curr = $soldier->unit;
+                        while($curr) {
+                            $path[] = $curr->name;
+                            $curr = $curr->parent;
+                        }
+                        echo implode(' > ', array_reverse($path));
+                    @endphp
+                @else
+                    N/A
+                @endif
+            </td>
         </tr>
         <tr>
             <th>ভর্তির তারিখ (Date of Enrolment):</th>
-            <td>{{ $soldier->enrolment_date ? $soldier->enrolment_date->format('d M Y') : '' }}</td>
+            <td>{{ $soldier->enrolment_date ? \Carbon\Carbon::parse($soldier->enrolment_date)->format('d M Y') : 'N/A' }}</td>
         </tr>
         <tr>
             <th>পদবী প্রাপ্তি (Date of Rank):</th>
-            <td>{{ $soldier->rank_date ? $soldier->rank_date->format('d M Y') : '' }}</td>
+            <td>{{ $soldier->rank_date ? \Carbon\Carbon::parse($soldier->rank_date)->format('d M Y') : 'N/A' }}</td>
         </tr>
         <tr>
             <th>শিক্ষাগত যোগ্যতা (Civil Education):</th>
-            <td>{{ $soldier->education }}</td>
+            <td>{{ $soldier->civil_education ?? 'N/A' }}</td>
         </tr>
         <tr>
             <th>রক্তের গ্রুপ (Blood Group):</th>
@@ -189,16 +203,38 @@
         <table class="trg-table">
             <thead>
                 <tr>
-                    <th>নি ফায়ারিং (Ni Firing)</th>
+                    <th colspan="4" style="background: #333; color: white;">নি ফায়ারিং (Ni Firing - STH) ফলাফল</th>
+                </tr>
+                <tr>
+                    <th>গ্রুপিং (Grouping)</th>
+                    <th>হিট (Hit)</th>
+                    <th>ইটিএস (ETS)</th>
+                    <th>মোট পয়েন্ট (Total)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $soldier->shoot_ret ?? '0' }}</td>
+                    <td>{{ $soldier->shoot_ap ?? '0' }}</td>
+                    <td>{{ $soldier->shoot_ets ?? '0' }}</td>
+                    <td style="font-weight: bold;">{{ $soldier->shoot_total ?? '0' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table class="trg-table">
+            <thead>
+                <tr>
                     <th>গ্রেনেড ফায়ারিং (Grenade)</th>
                     <th>স্পিড মার্চ (Speed March)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $soldier->ni_firing_status ?: '2/4' }}</td>
-                    <td>{{ $soldier->grenade_firing_status ?: '2/4' }}</td>
-                    <td>{{ $soldier->speed_march_status ?: '2/4' }}</td>
+                    <td>{{ $soldier->grenade_fire ?? '0/4' }}</td>
+                    <td>{{ $soldier->speed_march ?? '0/4' }}</td>
                 </tr>
             </tbody>
         </table>

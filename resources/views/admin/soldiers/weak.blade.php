@@ -65,20 +65,30 @@
                             
                             <!-- Failed Metrics -->
                             <div class="flex flex-wrap gap-2">
-                                @if($soldier->ipft_biannual_1 == 'Failed') <span class="failure-tag">IPFT-1 FAIL</span> @endif
-                                @if($soldier->ipft_biannual_2 == 'Failed') <span class="failure-tag">IPFT-2 FAIL</span> @endif
-                                @if($soldier->speed_march == 'Fail') <span class="failure-tag">SPD MARCH FAIL</span> @endif
-                                @if($soldier->grenade_fire == 'Fail') <span class="failure-tag">GREN FIRE FAIL</span> @endif
-                                @if((int)$soldier->shoot_total < 180) <span class="failure-tag">LOW FIRE ({{ $soldier->shoot_total }})</span> @endif
+                                @if($soldier->ipft_biannual_1 == 'Fail') <span class="failure-tag">IPFT-1 FAIL</span> @endif
+                                @if($soldier->ipft_biannual_2 == 'Fail') <span class="failure-tag">IPFT-2 FAIL</span> @endif
+                                @php
+                                    $smVal = (int) substr($soldier->speed_march, 0, 1);
+                                    $gfVal = (int) substr($soldier->grenade_fire, 0, 1);
+                                @endphp
+                                @if($soldier->speed_march == 'Fail' || ($soldier->speed_march && str_contains($soldier->speed_march, '/') && $smVal < 2)) 
+                                    <span class="failure-tag">SPD MARCH FAIL ({{ $soldier->speed_march }})</span> 
+                                @endif
+                                @if($soldier->grenade_fire == 'Fail' || ($soldier->grenade_fire && str_contains($soldier->grenade_fire, '/') && $gfVal < 2)) 
+                                    <span class="failure-tag">GREN FIRE FAIL ({{ $soldier->grenade_fire }})</span> 
+                                @endif
+                                @if((int)$soldier->shoot_total > 0 && (int)$soldier->shoot_total < 210) 
+                                    <span class="failure-tag">LOW FIRE ({{ $soldier->shoot_total }})</span> 
+                                @endif
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <div class="space-y-0.5">
-                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Parent Unit</p>
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Operational Unit</p>
                             <p class="text-[10px] font-bold text-military-primary dark:text-military-accent uppercase tracking-tight">
-                                {{ $soldier->parent ? $soldier->parent->name : 'N/A' }}
+                                {{ $soldier->unit ? $soldier->unit->name : 'Unassigned' }}
                             </p>
                         </div>
                         <a href="{{ route('admin.soldiers.show', $soldier) }}" class="p-2 bg-slate-950 text-white hover:bg-red-600 transition-colors shadow-lg active:scale-95">

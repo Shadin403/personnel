@@ -21,14 +21,10 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('admin.soldiers.download-record-book', $soldier) }}" class="px-6 py-3.5 bg-slate-900 border border-slate-700 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all flex items-center gap-3 shadow-lg group">
                 <svg class="w-5 h-5 text-military-accent group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                Download Record Book [PDF]
+                Record Book [PDF]
             </a>
-            <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="btn-military flex items-center gap-3 shadow-lg active:scale-95 group">
-                <svg class="w-5 h-5 text-white/50 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path></svg>
-                Operational TRG
-            </a>
-            <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="px-6 py-3.5 bg-white border border-slate-300 text-military-secondary text-[12px] font-bold hover:bg-military-bg hover:border-military-primary transition-all flex items-center gap-3 shadow-sm">
-                <svg class="w-5 h-5 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="px-6 py-3.5 bg-military-accent text-slate-900 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all flex items-center gap-3 shadow-lg active:scale-95 group">
+                <svg class="w-5 h-5 text-slate-900/50 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 Modify Records
             </a>
         </div>
@@ -51,16 +47,21 @@
                 </div>
                 
                 <h3 class="text-2xl font-bold text-slate-900 text-center tracking-tight">{{ $soldier->name }}</h3>
-                <p class="text-military-primary font-bold tracking-wide text-[13px] mt-2 mb-8 bg-military-bg px-5 py-1.5 border border-military-primary/10">{{ $soldier->rank ?? 'Rank Unassigned' }}</p>
+                <div class="space-y-1">
+                    <p class="text-military-primary font-black tracking-widest text-[13px] mt-2 bg-military-bg px-5 py-2 border border-military-primary/10">{{ $soldier->rank ?? 'Rank Unassigned' }}</p>
+                    @if($soldier->rank_bn)
+                        <p class="text-military-secondary font-bold text-[11px] font-bengali text-center opacity-70 italic">{{ $soldier->rank_bn }}</p>
+                    @endif
+                </div>
                 
                 <div class="w-full grid grid-cols-2 gap-4 py-8 border-y border-slate-100">
                     <div class="text-center">
-                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-none">Coy. [কোম্পানী]</p>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-none">Coy Group [গ্রুপ]</p>
                         <p class="text-[13px] font-bold text-slate-900 mt-2">{{ $soldier->company ?? 'N/A' }}</p>
                     </div>
                     <div class="text-center border-l border-slate-100">
-                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-none">Blood Group [রক্তের গ্রুপ]</p>
-                        <p class="text-[13px] font-bold text-military-danger mt-2">{{ $soldier->blood_group ?? 'N/A' }}</p>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-none">Blood Group [রক্ত]</p>
+                        <p class="text-[13px] font-bold text-military-danger mt-2 uppercase">{{ $soldier->blood_group ?? 'N/A' }}</p>
                     </div>
                 </div>
 
@@ -77,19 +78,53 @@
             </div>
 
             <!-- Deployment Sidebar -->
-            <div class="classic-card p-6 border border-slate-300 bg-military-bg text-left">
-                <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2 opacity-50">
-                    <span class="w-1.5 h-1.5 rounded-full bg-military-secondary animate-pulse shadow-[0_0_8px_#1F2937]"></span>
-                    Operational Grid
+            <div class="classic-card p-6 border border-slate-300 bg-military-bg text-left relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-military-primary/5 rounded-full blur-2xl"></div>
+                
+                <h4 class="text-[11px] font-black text-slate-500 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-military-secondary animate-pulse"></span>
+                    Chain of Command
                 </h4>
-                <div class="space-y-6 text-left">
-                    <div class="text-left border-b border-slate-200 pb-4">
-                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-3 text-left">Appt [অ্যাপয়েন্টমেন্ট]</p>
-                        <p class="text-[13px] font-bold text-military-secondary text-left">{{ $soldier->appointment ?? 'No active post' }}</p>
+                
+                <div class="space-y-6 text-left relative z-10">
+                    <div class="text-left border-b border-slate-200/50 pb-4">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-3">Appointment [নিয়োগ]</p>
+                        <p class="text-[14px] font-black text-military-secondary">{{ $soldier->appointment ?? 'No active post' }}</p>
+                        @if($soldier->appointment_bn)
+                            <p class="text-[11px] font-bold text-military-primary font-bengali mt-1 opacity-80">{{ $soldier->appointment_bn }}</p>
+                        @endif
                     </div>
+
+                    <div class="text-left border-b border-slate-200/50 pb-4">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-3">Tactical Deployment</p>
+                        <div class="space-y-2">
+                            @if($soldier->unit)
+                                @php
+                                    $path = [];
+                                    $curr = $soldier->unit;
+                                    while($curr) {
+                                        $path[] = $curr;
+                                        $curr = $curr->parent;
+                                    }
+                                    $path = array_reverse($path);
+                                @endphp
+                                @foreach($path as $index => $u)
+                                    <div class="flex items-center gap-2">
+                                        @if($index > 0) <span class="text-slate-300 ml-1">↳</span> @endif
+                                        <div class="px-3 py-1 bg-white border border-slate-200 text-[10px] font-black text-slate-600 uppercase tracking-widest shadow-sm">
+                                            {{ $u->type }}: {{ $u->name }}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p class="text-[12px] font-bold text-slate-400 italic">Unassigned to Tactical Grid</p>
+                            @endif
+                        </div>
+                    </div>
+
                     <div class="text-left">
-                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-3 text-left">Batch [ব্যাচ]</p>
-                        <p class="text-[13px] font-bold text-military-secondary text-left">{{ $soldier->batch ?? 'N/A' }}</p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-3">Batch [ব্যাচ]</p>
+                        <p class="text-[14px] font-black text-slate-700">{{ $soldier->batch ?? 'N/A' }}</p>
                     </div>
                 </div>
             </div>

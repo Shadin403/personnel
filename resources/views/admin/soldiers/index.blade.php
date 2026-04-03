@@ -114,14 +114,21 @@
                                 {{ $soldier->overall_status }}
                             </span>
                         </td>
-                        <td class="px-6 py-5 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="px-3 py-2 bg-military-secondary text-white hover:bg-military-primary transition-all font-bold text-[10px] tracking-widest shadow-md">
-                                    Report
+                        <td class="px-6 py-5 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-3">
+                                <a href="{{ route('admin.soldiers.show', $soldier) }}" class="px-4 py-2 bg-military-primary/5 border border-military-primary/20 text-military-primary text-[10px] font-black uppercase tracking-widest hover:bg-military-primary hover:text-white transition-all shadow-sm">
+                                    View Personnel
                                 </a>
-                                <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="p-2 bg-white border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all shadow-sm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="px-4 py-2 bg-amber-500/5 border border-amber-500/20 text-amber-600 text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm">
+                                    Edit Profile
                                 </a>
+                                <form action="{{ route('admin.soldiers.destroy', $soldier) }}" method="POST" onsubmit="return confirm('Personnel De-listing Confirmation: Are you sure?')" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="p-2 text-slate-300 hover:text-red-500 transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
