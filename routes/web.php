@@ -24,6 +24,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Soldiers CRUD
+    Route::get('/soldiers/weak', [SoldierController::class, 'weak'])->name('soldiers.weak');
     Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
     Route::get('/soldiers/create', [SoldierController::class, 'create'])->name('soldiers.create');
     Route::post('/soldiers', [SoldierController::class, 'store'])->name('soldiers.store');

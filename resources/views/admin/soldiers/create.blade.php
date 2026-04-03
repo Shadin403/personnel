@@ -1,368 +1,267 @@
 @extends('layouts.admin')
 
-@section('title', 'Personnel Enrollment')
+@section('title', 'Strategic Personnel Enrollment')
+
+@section('styles')
+<style>
+    .tactical-input {
+        background: rgba(248, 250, 252, 0.8);
+        border: 1.5px solid #e2e8f0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tactical-input:focus {
+        border-color: #2F4F3E;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(47, 79, 62, 0.1);
+    }
+    .dark .tactical-input {
+        background: rgba(15, 23, 42, 0.6);
+        border-color: rgba(132, 204, 22, 0.1);
+        color: white;
+    }
+    .dark .tactical-input:focus {
+        border-color: #84cc16;
+        background: rgba(15, 23, 42, 0.9);
+        box-shadow: 0 0 0 4px rgba(132, 204, 22, 0.1);
+    }
+    .section-header {
+        background: linear-gradient(90deg, #2F4F3E, #1e3a2f);
+    }
+    [x-cloak] { display: none !important; }
+</style>
+@endsection
 
 @section('content')
-<div class="max-w-5xl mx-auto space-y-10 animate-fade-in pb-20">
+<div class="max-w-6xl mx-auto pb-20 px-4" x-data="enrollmentForm()">
     <!-- Header -->
-    <div class="flex items-center justify-between pb-6 border-b border-slate-300">
-        <div class="flex items-center gap-5">
-            <a href="{{ route('admin.soldiers.index') }}" class="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all group shadow-sm">
-                <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
+        <div class="flex items-center gap-6">
+            <a href="{{ route('admin.soldiers.index') }}" class="group p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-military-primary transition-all shadow-sm">
+                <svg class="w-6 h-6 text-slate-400 group-hover:text-military-primary transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             </a>
             <div class="space-y-1">
-            <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Personnel Enrollment [নতুন সদস্য অন্তর্ভুক্তি]</h2>
-            <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Initialize strategic personnel node record</p>
+                <h1 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight uppercase">Enrollment <span class="text-military-primary dark:text-military-accent">Portal</span></h1>
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-[0.4em]">Strategic Personnel & Unit Initialization [সদস্য ও ইউনিট অন্তর্ভুক্তি]</p>
+            </div>
         </div>
+        <div class="flex items-center gap-4 bg-military-primary/5 p-4 border-l-4 border-military-primary">
+            <div class="text-right">
+                <p class="text-[10px] font-black text-military-primary uppercase tracking-widest">System Status</p>
+                <p class="text-[12px] font-bold text-slate-700 dark:text-slate-300">Ready for Strategic Input</p>
+            </div>
         </div>
     </div>
 
-    <!-- Form -->
-    <form action="{{ route('admin.soldiers.store') }}" method="POST" enctype="multipart/form-data" class="space-y-12">
+    <!-- Main Form -->
+    <form action="{{ route('admin.soldiers.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
         @csrf
         
-        <!-- Section 1: Basic Identity -->
-        <div class="classic-card overflow-hidden border border-slate-300">
-            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    <h3 class="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Personnel Core Identity (SEC-01)</h3>
-                </div>
+        <!-- Level & Unit Type Selector -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-5">
+                <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z"/></svg>
             </div>
-            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-8 bg-white">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Name [নাম] *</label>
-                    <input type="text" name="name" value="{{ old('name') }}" required
-                           class="w-full px-4 py-3 bg-military-bg border @error('name') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="EX: NAME OF PERSONNEL">
-                    @error('name') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">No. (Service Number) *</label>
-                    <input type="text" name="number" value="{{ old('number') }}" required
-                           class="w-full px-4 py-3 bg-military-bg border @error('number') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="SERVICE NUMBER">
-                    @error('number') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Force Classification *</label>
-                    <select name="user_type" required
-                            class="w-full px-4 py-3 bg-military-bg border @error('user_type') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                        <option value="CO" {{ old('user_type') == 'CO' ? 'selected' : '' }}>COMMISSIONED OFFICER (CO)</option>
-                        <option value="Staff" {{ old('user_type') == 'Staff' ? 'selected' : '' }}>SUPPORT STAFF PERSONNEL</option>
-                        <option value="JCO" {{ old('user_type') == 'JCO' ? 'selected' : '' }}>JUNIOR OFFICER (JCO)</option>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+                <div class="space-y-4">
+                    <label class="flex items-center gap-2 text-[11px] font-black text-military-primary uppercase tracking-widest">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        Unit Selection [ইউনিটের ধরন]
+                    </label>
+                    <select name="unit_type" x-model="unitType" required
+                            class="w-full p-4 tactical-input text-sm font-bold uppercase tracking-wider appearance-none cursor-pointer">
+                        <option value="officer">OFFICER / ROOT HQ (ব্যাটালিয়ন সদর)</option>
+                        <option value="company">COMPANY (কোম্পানি - Level 2)</option>
+                        <option value="platoon">PLATOON (প্লাটুন - Level 3)</option>
+                        <option value="section">SECTION (সেকশন - Level 4)</option>
+                        <option value="soldier">INDIVIDUAL SOLDIER (সৈনিক - Level 5)</option>
                     </select>
-                    @error('user_type') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Designated Rank</label>
-                    <input type="text" name="rank" value="{{ old('rank') }}"
-                           class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="RANK [পদবী]">
-                    @error('rank') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Appt (Appointment)</label>
-                    <input type="text" name="appointment" value="{{ old('appointment') }}"
-                           class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="DEPLOYED DUTY POST">
-                    @error('appointment') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Batch [ব্যাচ]</label>
-                    <input type="text" name="batch" value="{{ old('batch') }}"
-                           class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="YEAR / INTAKE ID">
-                    @error('batch') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
+                <div class="space-y-4">
+                    <label class="flex items-center gap-2 text-[11px] font-black text-military-primary uppercase tracking-widest">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                        Parent Entity [কার অধীনে]
+                    </label>
+                    <select name="parent_id" class="w-full p-4 tactical-input text-sm font-bold uppercase tracking-wider appearance-none cursor-pointer">
+                        <option value="">NO SUPERIOR / TOP LEVEL</option>
+                        <template x-for="unit in filteredParents" :key="unit.id">
+                            <option :value="unit.id" x-text="`${unit.rank} ${unit.name} (${unit.number})`"></option>
+                        </template>
+                    </select>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest" x-text="parentHint"></p>
                 </div>
             </div>
         </div>
 
-        <!-- Section 2: Deployment & Bio -->
-        <div class="classic-card overflow-hidden border border-slate-300">
-            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                    <h3 class="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Bio-Metric & Deployment Data (SEC-02)</h3>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Core Identity Card -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg group">
+                    <div class="px-8 py-5 section-header flex items-center justify-between">
+                        <h3 class="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3">
+                            <svg class="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            Personnel Identity Data (SEC-01)
+                        </h3>
+                        <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Required Fields</span>
+                    </div>
+                    <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Name [পুরো নাম]</label>
+                            <input type="text" name="name" value="{{ old('name') }}" required class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="Enter Full Name">
+                            @error('name') <p class="text-red-500 text-[10px] font-bold uppercase mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Service Number [নং]</label>
+                            <input type="text" name="number" value="{{ old('number') }}" required class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: 123456">
+                            @error('number') <p class="text-red-500 text-[10px] font-bold uppercase mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Rank [পদবী]</label>
+                            <input type="text" name="rank" value="{{ old('rank') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: MAJOR">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Appointment [নিযুক্তি]</label>
+                            <input type="text" name="appointment" value="{{ old('appointment') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: PL CDR / OC">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Classification [শ্রেণীবিভাগ]</label>
+                            <select name="user_type" required class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                                <option value="CO">COMMISSIONED OFFICER (CO)</option>
+                                <option value="JCO">JUNIOR OFFICER (JCO)</option>
+                                <option value="Staff" selected>SUPPORT STAFF / SAINIK</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Home District [নিজ জেলা]</label>
+                            <input type="text" name="home_district" value="{{ old('home_district') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="Enter District">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training & Metrics (Only for Soldiers) -->
+                <div x-show="unitType === 'soldier'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" class="space-y-8">
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
+                        <div class="px-8 py-5 bg-military-accent flex items-center justify-between">
+                            <h3 class="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3">
+                                <svg class="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                Training Metrics (SEC-02)
+                            </h3>
+                        </div>
+                        <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">IPFT-1</label>
+                                <select name="ipft_biannual_1" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    <option value="">N/A</option>
+                                    @foreach(['Excellent', 'Good', 'Average', 'Failed'] as $r)
+                                        <option value="{{ $r }}">{{ strtoupper($r) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">IPFT-2</label>
+                                <select name="ipft_biannual_2" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    <option value="">N/A</option>
+                                    @foreach(['Excellent', 'Good', 'Average', 'Failed'] as $r)
+                                        <option value="{{ $r }}">{{ strtoupper($r) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Speed March</label>
+                                <select name="speed_march" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    <option value="Pass">PASS</option>
+                                    <option value="Fail">FAIL</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Grenade</label>
+                                <select name="grenade_fire" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    <option value="Pass">PASS</option>
+                                    <option value="Fail">FAIL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-8 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot Hit</label>
+                                <input type="text" name="shoot_ret" class="w-full p-3 tactical-input text-xs font-bold font-mono" placeholder="00">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot AP</label>
+                                <input type="text" name="shoot_ap" class="w-full p-3 tactical-input text-xs font-bold font-mono" placeholder="00">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot ETS</label>
+                                <input type="text" name="shoot_ets" class="w-full p-3 tactical-input text-xs font-bold font-mono" placeholder="00">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total</label>
+                                <input type="text" name="shoot_total" class="w-full p-3 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-sm font-black text-center" placeholder="000">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-8 bg-white">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Coy. (Company)</label>
-                    <select name="company" class="w-full px-4 py-3 bg-military-bg border @error('company') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                        <option value="">NOT ASSIGNED</option>
-                        @foreach(['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'HQ'] as $coy)
-                            <option value="{{ $coy }}" {{ old('company') == $coy ? 'selected' : '' }}>{{ strtoupper($coy) }} UNIT</option>
-                        @endforeach
-                    </select>
-                    @error('company') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
 
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Blood Group [রক্তের গ্রুপ]</label>
-                    <select name="blood_group" class="w-full px-4 py-3 bg-military-bg border @error('blood_group') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                        <option value="">UNSPECIFIED</option>
-                        @foreach(['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'] as $bg)
-                            <option value="{{ $bg }}" {{ old('blood_group') == $bg ? 'selected' : '' }}>{{ $bg }} GROUP</option>
-                        @endforeach
-                    </select>
-                    @error('blood_group') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Home District [নিজ জেলা]</label>
-                    <input type="text" name="home_district" value="{{ old('home_district') }}"
-                           class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="ORIGIN TOWNSHIP">
-                    @error('home_district') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="md:col-span-3">
-                    <label class="text-[12px] font-bold text-military-secondary mb-2 block tracking-wide opacity-80">Personnel Visual Identification (HD PHOTO)</label>
-                    <div x-data="{ photoName: null, photoPreview: null }" class="flex items-center gap-8">
-                        <input type="file" name="photo" class="hidden" x-ref="photo"
-                               @change="
-                                    photoName = $refs.photo.files[0].name;
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        photoPreview = e.target.result;
-                                    };
-                                    reader.readAsDataURL($refs.photo.files[0]);
-                               ">
-                        <div class="w-24 h-24 rounded-none bg-military-bg border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden shrink-0 group relative cursor-pointer hover:border-military-primary hover:bg-white transition-all shadow-inner" @click="$refs.photo.click()">
+            <!-- Side Card: Photo & Misc -->
+            <div class="space-y-8">
+                <!-- Photo Upload -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg p-8">
+                    <div class="text-center space-y-6">
+                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest block">Photo Analysis [ছবি]</label>
+                        <div x-data="{ photoPreview: null }" class="relative group mx-auto w-40 h-52 border-2 border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-800/50">
                             <template x-if="photoPreview">
                                 <img :src="photoPreview" class="w-full h-full object-cover">
                             </template>
                             <template x-if="!photoPreview">
-                                <div class="text-center">
-                                    <svg class="w-8 h-8 text-slate-300 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-tighter">UPLOAD</span>
+                                <div class="text-center p-4">
+                                    <svg class="w-10 h-10 text-slate-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+                                    <p class="text-[8px] font-black text-slate-400 uppercase">Click to Deploy Photo</p>
                                 </div>
                             </template>
+                            <input type="file" name="photo" class="absolute inset-0 opacity-0 cursor-pointer"
+                                   @change="const reader = new FileReader(); reader.onload = (e) => photoPreview = e.target.result; reader.readAsDataURL($event.target.files[0])">
                         </div>
-                        <div class="space-y-1">
-                            <button type="button" @click="$refs.photo.click()" class="text-[10px] font-bold text-military-primary uppercase tracking-[0.2em] border-b border-military-primary pb-0.5 hover:text-military-secondary hover:border-military-secondary transition-all">Select Image Assets</button>
-                            <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-widest mt-2">Payload Max: 2.0MB &bull; MIME: JPG, PNG, WEBP</p>
-                        </div>
-                    </div>
-                    @error('photo') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 3: Chain of Command -->
-        <div class="classic-card overflow-hidden border border-slate-300">
-            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    <h3 class="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Chain of Command & Hierarchy (SEC-03)</h3>
-                </div>
-            </div>
-            <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white text-military-primary">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Unit Type [ইউনিটের ধরন]</label>
-                    <select name="unit_type" class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                        <option value="">SELECT UNIT TYPE</option>
-                        <option value="officer" {{ old('unit_type') == 'officer' ? 'selected' : '' }}>OFFICER / PCR (TOP ROOT)</option>
-                        <option value="company" {{ old('unit_type') == 'company' ? 'selected' : '' }}>COMPANY (A, B, C, D)</option>
-                        <option value="platoon" {{ old('unit_type') == 'platoon' ? 'selected' : '' }}>PLATOON (PL)</option>
-                        <option value="section" {{ old('unit_type') == 'section' ? 'selected' : '' }}>SECTION / GROUP</option>
-                        <option value="soldier" {{ old('unit_type', 'soldier') == 'soldier' ? 'selected' : '' }}>INDIVIDUAL SOLDIER</option>
-                    </select>
-                    @error('unit_type') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Reports To / Superior [উর্ধ্বতন কর্মকর্তা]</label>
-                    <select name="parent_id" class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer">
-                        <option value="">NO SUPERIOR (ROOT NODE)</option>
-                        @foreach($superiors as $superior)
-                            <option value="{{ $superior->id }}" {{ old('parent_id') == $superior->id ? 'selected' : '' }}>
-                                {{ strtoupper($superior->rank) }} {{ strtoupper($superior->name) }} ({{ $superior->number }})
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-tight mt-1">Select the person this soldier reports to directly</p>
-                    @error('parent_id') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5 md:col-span-2">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Seniority / Serial [সিনিয়রিটি / সিরিয়াল নম্বর]</label>
-                    <input type="number" name="sort_order" value="{{ old('sort_order', 0) }}" 
-                           class="w-full px-4 py-3 bg-military-bg border border-slate-200 rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all shadow-inner"
-                           placeholder="e.g. 1 for CHQ, 3 for PL 1...">
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-tight mt-1">Defines horizontal position in the tree (Lower number appears first/left)</p>
-                    @error('sort_order') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- IPFT Card -->
-            <div class="classic-card overflow-hidden border border-slate-300">
-                <div class="px-8 py-4 bg-military-accent flex items-center justify-between border-b-2 border-military-secondary/20">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        <h3 class="text-[10px] font-bold text-white uppercase tracking-[0.3em]">IPFT (Individual Physical Fitness Test)</h3>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">JPG/PNG MAX 2.0MB</p>
                     </div>
                 </div>
-                <div class="p-8 space-y-6 bg-white">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Biannual Matrix 01</label>
-                        <select name="ipft_biannual_1" class="w-full px-4 py-3 bg-military-bg border @error('ipft_biannual_1') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-accent focus:bg-white transition-all appearance-none cursor-pointer">
-                            <option value="">NOT EXAMINED</option>
-                            @foreach(['Excellent', 'Good', 'Average', 'Failed'] as $r)
-                                <option value="{{ $r }}" {{ old('ipft_biannual_1') == $r ? 'selected' : '' }}>{{ strtoupper($r) }}</option>
+
+                <!-- Bio Data -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg p-8 space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Blood Group</label>
+                        <select name="blood_group" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                            <option value="">SELECT</option>
+                            @foreach(['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'] as $bg)
+                                <option value="{{ $bg }}">{{ $bg }}</option>
                             @endforeach
                         </select>
-                        @error('ipft_biannual_1') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Biannual Matrix 02</label>
-                        <select name="ipft_biannual_2" class="w-full px-4 py-3 bg-military-bg border @error('ipft_biannual_2') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-accent focus:bg-white transition-all appearance-none cursor-pointer">
-                            <option value="">NOT EXAMINED</option>
-                            @foreach(['Excellent', 'Good', 'Average', 'Failed'] as $r)
-                                <option value="{{ $r }}" {{ old('ipft_biannual_2') == $r ? 'selected' : '' }}>{{ strtoupper($r) }}</option>
-                            @endforeach
-                        </select>
-                        @error('ipft_biannual_2') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
+                    <div class="space-y-2">
+                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Unit Seniority</label>
+                        <input type="number" name="sort_order" value="0" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: 1">
                     </div>
-                </div>
-            </div>
-
-            <!-- Shooting Card -->
-            <div class="classic-card overflow-hidden border border-slate-300">
-                <div class="px-8 py-4 bg-military-secondary flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        <h3 class="text-[10px] font-bold text-white uppercase tracking-widest">Training & Combat Metrics</h3>
-                    </div>
-                </div>
-                <div class="p-8 grid grid-cols-2 gap-4 bg-white">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Shoot to hit [টার্গেটে hit score]</label>
-                        <input type="text" name="shoot_ret" value="{{ old('shoot_ret') }}" class="w-full px-4 py-3 bg-military-bg border @error('shoot_ret') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-secondary transition-all font-mono shadow-inner">
-                        @error('shoot_ret') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">AP (Firing sub-score) [ফায়ারিং সাব-স্কোর]</label>
-                        <input type="text" name="shoot_ap" value="{{ old('shoot_ap') }}" class="w-full px-4 py-3 bg-military-bg border @error('shoot_ap') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-secondary transition-all font-mono shadow-inner">
-                        @error('shoot_ap') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">ETS (Firing/test sub-score)</label>
-                        <input type="text" name="shoot_ets" value="{{ old('shoot_ets') }}" class="w-full px-4 py-3 bg-military-bg border @error('shoot_ets') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-secondary transition-all font-mono shadow-inner">
-                        @error('shoot_ets') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Total [মোট score]</label>
-                        <input type="text" name="shoot_total" value="{{ old('shoot_total') }}" class="w-full px-4 py-3 bg-slate-100 text-military-secondary border @error('shoot_total') border-military-danger @else border-slate-300 @enderror rounded-none text-base font-bold focus:outline-none focus:ring-1 focus:ring-military-secondary transition-all font-mono shadow-lg text-center">
-                        @error('shoot_total') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
+                    <div class="space-y-2">
+                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Batch / Intake</label>
+                        <input type="text" name="batch" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="EX: 2024-1">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Section 4: Performance & Leave -->
-        <div class="classic-card overflow-hidden border border-slate-300">
-            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <h3 class="text-[10px] font-bold text-white uppercase tracking-[0.3em]">Strategic Objectives & Deployment (SEC-04)</h3>
-                </div>
+        <!-- Footer Actions -->
+        <div class="flex flex-col md:flex-row items-center justify-between py-10 border-t border-slate-200 dark:border-slate-800 gap-8">
+            <div class="flex items-center gap-4">
+                <div class="w-3 h-3 rounded-full bg-military-primary animate-pulse"></div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Secure Connection Active &bull; AES-256</p>
             </div>
-            <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">spd March</label>
-                        <select name="speed_march" class="w-full px-4 py-3 bg-military-bg border @error('speed_march') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
-                            <option value="">SELECT STATUS</option>
-                            <option value="Pass" {{ old('speed_march') == 'Pass' ? 'selected' : '' }}>PASS</option>
-                            <option value="Fail" {{ old('speed_march') == 'Fail' ? 'selected' : '' }}>FAIL</option>
-                            <option value="N/A" {{ old('speed_march') == 'N/A' ? 'selected' : '' }}>NOT APPLICABLE</option>
-                        </select>
-                        @error('speed_march') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Gren Fire</label>
-                        <select name="grenade_fire" class="w-full px-4 py-3 bg-military-bg border @error('grenade_fire') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
-                            <option value="">SELECT STATUS</option>
-                            <option value="Pass" {{ old('grenade_fire') == 'Pass' ? 'selected' : '' }}>PASS</option>
-                            <option value="Fail" {{ old('grenade_fire') == 'Fail' ? 'selected' : '' }}>FAIL</option>
-                            <option value="N/A" {{ old('grenade_fire') == 'N/A' ? 'selected' : '' }}>NOT APPLICABLE</option>
-                        </select>
-                        @error('grenade_fire') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="space-y-1.5 col-span-2">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Commander Auth Status</label>
-                        <select name="commander_status" class="w-full px-4 py-3 bg-military-bg border @error('commander_status') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
-                            <option value="Standby" {{ old('commander_status') == 'Standby' ? 'selected' : '' }}>STANDBY (INITIAL)</option>
-                            <option value="Active" {{ old('commander_status', 'Active') == 'Active' ? 'selected' : '' }}>ACTIVE (AUTHORIZED)</option>
-                            <option value="Revoked" {{ old('commander_status') == 'Revoked' ? 'selected' : '' }}>REVOKED (LOCKED)</option>
-                        </select>
-                        @error('commander_status') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 ml-1">Course/Cdr Completed</label>
-                        <input type="text" name="course_status" value="{{ old('course_status') }}" class="w-full px-4 py-3 bg-military-bg border @error('course_status') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary shadow-inner" placeholder="KEY CERTIFICATIONS">
-                        @error('course_status') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-military-primary ml-1">Course/Cdr Plan This Yr</label>
-                        <input type="text" name="cdr_plan_this_yr" value="{{ old('cdr_plan_this_yr') }}" class="w-full px-4 py-3 bg-military-secondary text-white border @error('cdr_plan_this_yr') border-military-danger @else border-military-secondary @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-military-accent shadow-xl placeholder-white/40" placeholder="PLANNED OBJECTIVES">
-                        @error('cdr_plan_this_yr') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">P.lve Plan</label>
-                    <input type="text" name="leave_plan" value="{{ old('leave_plan') }}" class="w-full px-4 py-3 bg-military-bg border @error('leave_plan') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary shadow-inner" placeholder="PLANNED ROTATIONS">
-                    @error('leave_plan') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Nil Fire</label>
-                    <input type="text" name="nil_fire" value="{{ old('nil_fire') }}" class="w-full px-4 py-3 bg-military-bg border @error('nil_fire') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary shadow-inner" placeholder="PRECISION METRIC">
-                    @error('nil_fire') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="md:col-span-2 space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-700 ml-1">Participation in Games & Sports [খেলাধুলায় অংশগ্রহণ]</label>
-                    <textarea name="sports_participation" rows="3" class="w-full px-4 py-3 bg-military-bg border @error('sports_participation') border-military-danger @else border-slate-200 @enderror rounded-none text-[11px] font-semibold uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all resize-none shadow-inner" placeholder="DETAILS OF COMPETITIVE ENGAGEMENTS...">{{ old('sports_participation') }}</textarea>
-                    @error('sports_participation') <p class="text-military-danger text-[9px] font-bold uppercase tracking-tight mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
-            
-            <div class="px-8 py-4 bg-military-bg border-t border-slate-200 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" name="is_active" value="1" class="sr-only peer" checked>
-                        <div class="w-10 h-5 bg-slate-300 rounded-full peer peer-checked:bg-military-success peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all shadow-inner"></div>
-                        <span class="ml-3 text-[11px] font-bold text-slate-700">Active System Connection Status</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 5: Authentication & Save -->
-        <div class="flex items-center justify-between py-10 border-t border-slate-300">
-            <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full bg-military-primary shadow-[0_0_8px_#2F4F3E] animate-pulse"></div>
-                <p class="text-[11px] font-bold text-slate-500">Authenticated by Command-Net Systems</p>
-            </div>
-            <div class="flex items-center gap-5">
-                <a href="{{ route('admin.soldiers.index') }}" class="px-8 py-3 bg-white border border-slate-300 text-slate-600 text-[11px] font-bold hover:text-military-danger hover:border-military-danger transition-all shadow-sm">
+            <div class="flex items-center gap-6">
+                <a href="{{ route('admin.soldiers.index') }}" class="px-10 py-4 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-[11px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all">
                     Abort Protocol
                 </a>
-                <button type="submit" class="btn-military px-12 py-3 text-[11px] shadow-xl active:scale-95">
-                    Commit to Core Database
+                <button type="submit" class="px-14 py-4 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-military-secondary transition-all active:scale-95">
+                    Commit to Database
                 </button>
             </div>
         </div>
@@ -370,15 +269,34 @@
 </div>
 @endsection
 
-@section('styles')
-<style>
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
+@section('scripts')
+<script>
+    function enrollmentForm() {
+        return {
+            unitType: 'soldier',
+            allUnits: @json($units),
+            
+            get filteredParents() {
+                if (this.unitType === 'officer') return [];
+                
+                let targetType = '';
+                if (this.unitType === 'company') targetType = 'officer';
+                if (this.unitType === 'platoon') targetType = 'company';
+                if (this.unitType === 'section') targetType = 'platoon';
+                if (this.unitType === 'soldier') targetType = 'section';
+                
+                return this.allUnits.filter(u => u.unit_type === targetType);
+            },
+
+            get parentHint() {
+                if (this.unitType === 'officer') return 'OFFICERS are top-level root entities.';
+                if (this.unitType === 'company') return 'COMPANIES must report to BATTALION HQ (Officer).';
+                if (this.unitType === 'platoon') return 'PLATOONS must report to a COMPANY.';
+                if (this.unitType === 'section') return 'SECTIONS must report to a PLATOON.';
+                if (this.unitType === 'soldier') return 'SOLDIERS must report to a SECTION.';
+                return '';
+            }
+        }
     }
-    .animate-shake {
-        animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
-    }
-</style>
+</script>
 @endsection

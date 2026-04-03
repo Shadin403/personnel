@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\Storage;
 
 class SoldierController extends Controller
 {
+    public function weak(Request $request)
+    {
+        $soldiers = Soldier::where('unit_type', 'soldier')
+            ->where(function ($q) {
+                $q->where('ipft_biannual_1', 'Failed')
+                  ->orWhere('ipft_biannual_2', 'Failed')
+                  ->orWhere('speed_march', 'Fail')
+                  ->orWhere('grenade_fire', 'Fail')
+                  ->orWhereRaw('CAST(shoot_total AS UNSIGNED) < 180');
+            })
+            ->latest()
+            ->paginate(20);
+
+        return view('admin.soldiers.weak', compact('soldiers'));
+    }
+
     public function index(Request $request)
     {
         $query = Soldier::query();
@@ -43,8 +59,8 @@ class SoldierController extends Controller
 
     public function create()
     {
-        $superiors = Soldier::orderBy('name')->get();
-        return view('admin.soldiers.create', compact('superiors'));
+        $units = Soldier::orderBy('name')->get(['id', 'name', 'number', 'rank', 'unit_type']);
+        return view('admin.soldiers.create', compact('units'));
     }
 
     public function store(Request $request)
@@ -72,6 +88,8 @@ class SoldierController extends Controller
             'commander_status' => 'nullable|string',
             'cdr_plan_this_yr' => 'nullable|string',
             'leave_plan' => 'nullable|string',
+            'sports_participation' => 'nullable|string',
+            'nil_fire' => 'nullable|string',
             'parent_id' => 'nullable|exists:soldiers,id',
             'unit_type' => 'nullable|string',
             'sort_order' => 'nullable|integer',
@@ -85,7 +103,7 @@ class SoldierController extends Controller
         Soldier::create($validated);
 
         return redirect()->route('admin.soldiers.index')
-            ->with('success', 'Soldier enrolled successfully!');
+            ->with('success', 'Strategic node enrolled successfully!');
     }
 
     public function show(Soldier $soldier)
@@ -95,8 +113,8 @@ class SoldierController extends Controller
 
     public function edit(Soldier $soldier)
     {
-        $superiors = Soldier::where('id', '!=', $soldier->id)->orderBy('name')->get();
-        return view('admin.soldiers.edit', compact('soldier', 'superiors'));
+        $units = Soldier::where('id', '!=', $soldier->id)->orderBy('name')->get(['id', 'name', 'number', 'rank', 'unit_type']);
+        return view('admin.soldiers.edit', compact('soldier', 'units'));
     }
 
     public function update(Request $request, Soldier $soldier)

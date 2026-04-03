@@ -58,12 +58,20 @@
 @section('content')
 <div class="min-h-[80vh] flex flex-col justify-center relative" x-data="hierarchicalExplorer()">
     
-    <!-- Navigation Control -->
-    <div class="fixed top-20 left-10 lg:left-72 z-40" x-show="level > 1" x-cloak x-transition>
-        <button @click="back()" class="flex items-center gap-2 px-6 py-2.5 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-xl active:scale-95 border border-white/10">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            BACK
-        </button>
+    <!-- Navigation Controls -->
+    <div class="fixed top-20 left-10 lg:left-72 right-10 z-40 flex items-center justify-between pointer-events-none">
+        <div class="pointer-events-auto" x-show="level > 1" x-cloak x-transition>
+            <button @click="back()" class="flex items-center gap-2 px-6 py-2.5 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-xl active:scale-95 border border-white/10">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                BACK
+            </button>
+        </div>
+        <div class="pointer-events-auto ml-auto">
+            <a href="{{ route('admin.soldiers.create') }}" class="flex items-center gap-2 px-6 py-2.5 bg-military-accent text-slate-900 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-xl active:scale-95 border border-military-accent/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                ENROLL PERSONNEL
+            </a>
+        </div>
     </div>
 
     <!-- Level 1: Main Interface -->

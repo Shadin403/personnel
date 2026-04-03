@@ -245,6 +245,16 @@
                         Personnel Directory
                     </a>
 
+                    <a href="{{ route('admin.soldiers.weak') }}"
+                        class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.soldiers.weak') ? 'bg-red-600/20 text-red-500 shadow-lg translate-x-1' : 'text-slate-400 hover:bg-red-500/5 hover:text-red-400' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
+                        </svg>
+                        Strategic Weakness
+                    </a>
+
                     <a href="{{ route('admin.soldiers.create') }}"
                         class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.soldiers.create') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
