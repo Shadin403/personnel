@@ -139,7 +139,7 @@
             <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-military-accent shadow-[0_0_15px_#84cc16]"></div>
 
             <div class="mb-8">
-                <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Personnel Login</h3>
+                <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Admin Login</h3>
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Authorize Core Sector
                     Access</p>
             </div>

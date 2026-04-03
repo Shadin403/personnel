@@ -95,8 +95,8 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Core Identity Card -->
             <div class="lg:col-span-2 space-y-8">
+                <!-- Core Identity -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg group">
                     <div class="px-8 py-5 section-header flex items-center justify-between">
                         <h3 class="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3">
@@ -127,8 +127,8 @@
                         <div class="space-y-2">
                             <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Classification [শ্রেণীবিভাগ]</label>
                             <select name="user_type" required class="w-full p-4 tactical-input text-sm font-bold uppercase">
-                                <option value="CO">COMMISSIONED OFFICER (CO)</option>
-                                <option value="JCO">JUNIOR OFFICER (JCO)</option>
+                                <option value="CO">Commanding Office (CO)</option>
+                                <option value="JCO">Junior Commissioned Officer (JCO)</option>
                                 <option value="Staff" selected>SUPPORT STAFF / SAINIK</option>
                             </select>
                         </div>
@@ -139,65 +139,124 @@
                     </div>
                 </div>
 
-                <!-- Training & Metrics (Only for Soldiers) -->
+                <!-- Personal Profile (New Fields) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
+                    <div class="px-8 py-5 bg-military-primary flex items-center justify-between text-white border-b-2 border-military-bg/20">
+                        <h3 class="text-[10px] font-black uppercase tracking-[0.4em]">Extended Personal Profile [ব্যক্তিগত তথ্যাবলী]</h3>
+                    </div>
+                    <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Enrolment Date [ভর্তির তাং]</label>
+                            <input type="date" name="enrolment_date" value="{{ old('enrolment_date') }}" class="w-full p-4 tactical-input text-sm font-bold">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Rank Date [পদের তাং]</label>
+                            <input type="date" name="rank_date" value="{{ old('rank_date') }}" class="w-full p-4 tactical-input text-sm font-bold">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Civil Education [বেসামরিক শিক্ষা]</label>
+                            <input type="text" name="civil_education" value="{{ old('civil_education') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Weight [ওজন - kg]</label>
+                            <input type="text" name="weight" value="{{ old('weight') }}" placeholder="e.g. 72 kg" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Unit [ইউনিট]</label>
+                            <input type="text" name="unit" value="{{ old('unit') }}" placeholder="e.g. 15 EB" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Sub Unit [সাব ইউনিট]</label>
+                            <input type="text" name="sub_unit" value="{{ old('sub_unit') }}" placeholder="e.g. Alpha Coy" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                        </div>
+                        <div class="space-y-2 md:col-span-2">
+                            <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">Permanent Address [স্থায়ী ঠিকানা]</label>
+                            <textarea name="permanent_address" class="w-full p-4 tactical-input text-sm font-bold uppercase" rows="3">{{ old('permanent_address') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course History (Dynamic) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
+                    <div class="px-8 py-5 bg-slate-700 flex items-center justify-between text-white border-b border-slate-800">
+                        <h3 class="text-[10px] font-black uppercase tracking-[0.4em]">Course History [প্রশিক্ষণ ও কোর্স]</h3>
+                        <button type="button" @click="courses.push({name: '', chance: '', year: '', result: ''})" class="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/20 text-[10px] font-bold uppercase tracking-widest transition-all">Add Course</button>
+                    </div>
+                    <div class="p-8">
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
+                                        <th class="pb-4 text-left pl-2">Course Name</th>
+                                        <th class="pb-4 text-left">Chance</th>
+                                        <th class="pb-4 text-left">Year</th>
+                                        <th class="pb-4 text-left">Result</th>
+                                        <th class="pb-4"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+                                    <template x-for="(course, index) in courses" :key="index">
+                                        <tr>
+                                            <td class="py-4 pl-2"><input type="text" :name="`courses[${index}][name]`" x-model="course.name" class="w-full p-2 bg-transparent border-b border-slate-200 dark:border-slate-700 text-xs font-bold uppercase focus:border-military-primary outline-none"></td>
+                                            <td class="py-4"><input type="text" :name="`courses[${index}][chance]`" x-model="course.chance" class="w-full p-2 bg-transparent border-b border-slate-200 dark:border-slate-700 text-xs font-bold uppercase focus:border-military-primary outline-none"></td>
+                                            <td class="py-4"><input type="text" :name="`courses[${index}][year]`" x-model="course.year" class="w-full p-2 bg-transparent border-b border-slate-200 dark:border-slate-700 text-xs font-bold uppercase focus:border-military-primary outline-none"></td>
+                                            <td class="py-4"><input type="text" :name="`courses[${index}][result]`" x-model="course.result" class="w-full p-2 bg-transparent border-b border-slate-200 dark:border-slate-700 text-xs font-bold uppercase focus:border-military-primary outline-none"></td>
+                                            <td class="py-4 text-right">
+                                                <button type="button" @click="courses.splice(index, 1)" class="text-red-400 hover:text-red-600 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operational Metrics (Biannual & TRG) -->
                 <div x-show="unitType === 'soldier'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" class="space-y-8">
                     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg">
                         <div class="px-8 py-5 bg-military-accent flex items-center justify-between">
                             <h3 class="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3">
                                 <svg class="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                Training Metrics (SEC-02)
+                                Operational Metrics / TRG Card
                             </h3>
                         </div>
-                        <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">IPFT-1</label>
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">IPFT Biannual-1</label>
                                 <select name="ipft_biannual_1" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                    <option value="">N/A</option>
-                                    @foreach(['Excellent', 'Good', 'Average', 'Failed'] as $r)
+                                    <option value="">SELECT STATUS</option>
+                                    @foreach(['Pass', 'Fail', 'Not appeared', 'Yet to appear'] as $r)
                                         <option value="{{ $r }}">{{ strtoupper($r) }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">IPFT-2</label>
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">IPFT Biannual-2</label>
                                 <select name="ipft_biannual_2" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                    <option value="">N/A</option>
-                                    @foreach(['Excellent', 'Good', 'Average', 'Failed'] as $r)
+                                    <option value="">SELECT STATUS</option>
+                                    @foreach(['Pass', 'Fail', 'Not appeared', 'Yet to appear'] as $r)
                                         <option value="{{ $r }}">{{ strtoupper($r) }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Speed March</label>
-                                <select name="speed_march" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                    <option value="Pass">PASS</option>
-                                    <option value="Fail">FAIL</option>
-                                </select>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Grenade</label>
-                                <select name="grenade_fire" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                    <option value="Pass">PASS</option>
-                                    <option value="Fail">FAIL</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="p-8 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 md:grid-cols-4 gap-6">
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot Hit</label>
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot To Hit [Ni firing]</label>
                                 <input type="text" name="shoot_ret" class="w-full p-3 tactical-input text-xs font-bold font-mono" placeholder="00">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot AP</label>
-                                <input type="text" name="shoot_ap" class="w-full p-3 tactical-input text-xs font-bold font-mono" placeholder="00">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot Total</label>
+                                <input type="text" name="shoot_total" class="w-full p-3 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-sm font-black text-center text-military-primary" placeholder="000">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shoot ETS</label>
-                                <input type="text" name="shoot_ets" class="w-full p-3 tactical-input text-xs font-bold font-mono" placeholder="00">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Speed March</label>
+                                <input type="text" name="speed_march" class="w-full p-3 tactical-input text-xs font-bold" placeholder="EX: 2/4">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total</label>
-                                <input type="text" name="shoot_total" class="w-full p-3 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-sm font-black text-center" placeholder="000">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Grenade Firing</label>
+                                <input type="text" name="grenade_fire" class="w-full p-3 tactical-input text-xs font-bold" placeholder="EX: 1/2">
                             </div>
                         </div>
                     </div>
@@ -275,16 +334,17 @@
         return {
             unitType: 'soldier',
             allUnits: @json($units),
+            courses: [],
+            trainingPlans: [],
+            unitTrainings: [],
             
             get filteredParents() {
                 if (this.unitType === 'officer') return [];
-                
                 let targetType = '';
                 if (this.unitType === 'company') targetType = 'officer';
                 if (this.unitType === 'platoon') targetType = 'company';
                 if (this.unitType === 'section') targetType = 'platoon';
                 if (this.unitType === 'soldier') targetType = 'section';
-                
                 return this.allUnits.filter(u => u.unit_type === targetType);
             },
 

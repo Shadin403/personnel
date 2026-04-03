@@ -36,6 +36,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/soldiers/{soldier}', [SoldierController::class, 'update'])->name('soldiers.update');
     Route::delete('/soldiers/{soldier}', [SoldierController::class, 'destroy'])->name('soldiers.destroy');
     Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
+    Route::get('/soldiers/{soldier}/download-record-book', [SoldierController::class, 'downloadRecordBook'])->name('soldiers.download-record-book');
 
     // Chain of Command
     Route::get('/chain-of-command', [ChainOfCommandController::class, 'index'])->name('chain-of-command');

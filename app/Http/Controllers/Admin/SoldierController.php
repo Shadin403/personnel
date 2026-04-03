@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Soldier;
+use App\Models\Course;
+use App\Models\TrainingPlan;
+use App\Models\UnitTraining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SoldierController extends Controller
 {
@@ -76,6 +80,13 @@ class SoldierController extends Controller
             'blood_group' => 'nullable|string',
             'home_district' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
+            'enrolment_date' => 'nullable|date',
+            'rank_date' => 'nullable|date',
+            'civil_education' => 'nullable|string',
+            'weight' => 'nullable|string',
+            'permanent_address' => 'nullable|string',
+            'unit' => 'nullable|string',
+            'sub_unit' => 'nullable|string',
             'ipft_biannual_1' => 'nullable|string',
             'ipft_biannual_2' => 'nullable|string',
             'shoot_ret' => 'nullable|string',
@@ -100,7 +111,32 @@ class SoldierController extends Controller
             $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
         }
 
-        Soldier::create($validated);
+        $soldier = Soldier::create($validated);
+
+        // Save Relationships
+        if ($request->has('courses')) {
+            foreach ($request->courses as $course) {
+                if (!empty($course['name'])) {
+                    $soldier->courses()->create($course);
+                }
+            }
+        }
+
+        if ($request->has('training_plans')) {
+            foreach ($request->training_plans as $plan) {
+                if (!empty($plan['year'])) {
+                    $soldier->trainingPlans()->create($plan);
+                }
+            }
+        }
+
+        if ($request->has('unit_trainings')) {
+            foreach ($request->unit_trainings as $ut) {
+                if (!empty($ut['year'])) {
+                    $soldier->unitTrainings()->create($ut);
+                }
+            }
+        }
 
         return redirect()->route('admin.soldiers.index')
             ->with('success', 'Strategic node enrolled successfully!');
@@ -130,6 +166,13 @@ class SoldierController extends Controller
             'blood_group' => 'nullable|string',
             'home_district' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
+            'enrolment_date' => 'nullable|date',
+            'rank_date' => 'nullable|date',
+            'civil_education' => 'nullable|string',
+            'weight' => 'nullable|string',
+            'permanent_address' => 'nullable|string',
+            'unit' => 'nullable|string',
+            'sub_unit' => 'nullable|string',
             'ipft_biannual_1' => 'nullable|string',
             'ipft_biannual_2' => 'nullable|string',
             'shoot_ret' => 'nullable|string',
@@ -155,6 +198,34 @@ class SoldierController extends Controller
         $validated['is_active'] = $request->has('is_active') ? true : false;
         $soldier->update($validated);
 
+        // Sync Relationships
+        if ($request->has('courses')) {
+            $soldier->courses()->delete();
+            foreach ($request->courses as $course) {
+                if (!empty($course['name'])) {
+                    $soldier->courses()->create($course);
+                }
+            }
+        }
+
+        if ($request->has('training_plans')) {
+            $soldier->trainingPlans()->delete();
+            foreach ($request->training_plans as $plan) {
+                if (!empty($plan['year'])) {
+                    $soldier->trainingPlans()->create($plan);
+                }
+            }
+        }
+
+        if ($request->has('unit_trainings')) {
+            $soldier->unitTrainings()->delete();
+            foreach ($request->unit_trainings as $ut) {
+                if (!empty($ut['year'])) {
+                    $soldier->unitTrainings()->create($ut);
+                }
+            }
+        }
+
         return redirect()->route('admin.soldiers.index')
             ->with('success', 'Profile updated successfully!');
     }
@@ -179,6 +250,21 @@ class SoldierController extends Controller
         return response($content)
             ->header('Content-Type', 'text/plain')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function downloadRecordBook(Soldier $soldier)
+    {
+        $pdf = Pdf::loadView('admin.soldiers.record-book-pdf', compact('soldier'))
+            ->setPaper('a4', 'portrait')
+            ->setWarnings(false)
+            ->setOptions([
+                'isRemoteEnabled' => true,
+                'isHtml5ParserEnabled' => true,
+                'isFontSubsettingEnabled' => true, // Important for Unicode
+            ]);
+        
+        $filename = 'Record_Book_' . str_replace(' ', '_', $soldier->number) . '.pdf';
+        return $pdf->download($filename);
     }
 
     private function generateTrgContent(Soldier $soldier): string
@@ -210,13 +296,13 @@ TRAINING RESULTS [প্রশিক্ষণ ফলাফল]
 --------------------------------------------------------------------------------
 IPFT (Biannual 1): {$soldier->ipft_biannual_1}
 IPFT (Biannual 2): {$soldier->ipft_biannual_2}
-spd March       : {$soldier->speed_march}
-Gren Fire       : {$soldier->grenade_fire}
+Speed march     : {$soldier->speed_march}
+Grenade firing  : {$soldier->grenade_fire}
 
 --------------------------------------------------------------------------------
 FIRING RESULT SECTION (Ret) [ফায়ারিং ফলাফল]
 --------------------------------------------------------------------------------
-Shoot to hit    : {$soldier->shoot_ret} [টার্গেটে hit score]
+Ni firing (STH) : {$soldier->shoot_ret} [টার্গেটে hit score]
 AP              : {$soldier->shoot_ap} [ফায়ারিং সাব-স্কোর]
 ETS             : {$soldier->shoot_ets} [ইটিএস স্কোর]
 Total [মোট]     : {$soldier->shoot_total} [মোট score]
@@ -233,7 +319,7 @@ OTHER INFORMATION [অন্যান্য তথ্য]
 --------------------------------------------------------------------------------
 P.lve Plan      : {$soldier->leave_plan}
 Sports/Games    : {$soldier->sports_participation} [খেলাধুলায় অংশগ্রহণ]
-Nil Fire        : {$soldier->nil_fire}
+Ni firing       : {$soldier->nil_fire}
 --------------------------------------------------------------------------------
 
 ================================================================================

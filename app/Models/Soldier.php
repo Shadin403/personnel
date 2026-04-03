@@ -20,6 +20,13 @@ class Soldier extends Model
         'blood_group',
         'home_district',
         'photo',
+        'enrolment_date',
+        'rank_date',
+        'civil_education',
+        'weight',
+        'permanent_address',
+        'unit',
+        'sub_unit',
         'ipft_biannual_1',
         'ipft_biannual_2',
         'shoot_ret',
@@ -87,5 +94,20 @@ class Soldier extends Model
     public function children()
     {
         return $this->hasMany(Soldier::class, 'parent_id');
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function trainingPlans()
+    {
+        return $this->hasMany(TrainingPlan::class);
+    }
+
+    public function unitTrainings()
+    {
+        return $this->hasMany(UnitTraining::class);
     }
 }
