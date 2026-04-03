@@ -65,6 +65,8 @@ class Soldier extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'enrolment_date' => 'date',
+        'rank_date' => 'date',
     ];
 
     public function getPhotoUrlAttribute(): string
