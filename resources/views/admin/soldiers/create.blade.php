@@ -458,11 +458,17 @@
                 <!-- SEC-04: Training & Courses [প্রশিক্ষণ ও কোর্স/ক্যাডার] -->
                 <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
                     courses: [
-                        { name: 'SGT COURSE', chance: '1st', year: '', authority: '' },
-                        { name: 'PE', chance: '1st', year: '', authority: '' }
+                        { name: 'ওটি/নবীন সৈনিক', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                        { name: 'বিটিটি', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                        { name: 'কমান্ডো', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                        { name: 'বিএমআর', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                        { name: 'পিই', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                        { name: 'এটিটি', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
+                        { name: 'এনসিও\'স কোর্স', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
+                        { name: 'পিই', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' }
                     ],
                     addCourse() {
-                        this.courses.push({ name: '', chance: '', year: '', authority: '' });
+                        this.courses.push({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' });
                     },
                     removeCourse(index) {
                         this.courses.splice(index, 1);
@@ -470,17 +476,17 @@
                 }">
                     <div class="px-8 py-5 bg-military-primary flex items-center justify-between text-white shadow-lg">
                         <h3 class="card-title-tactical text-white">SEC-04: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স/ক্যাডার]</h3>
-                        <button type="button" @click="addCourse" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Course</button>
+                        <button type="button" @click="addCourse" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Other Course</button>
                     </div>
                     <div class="p-0 overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50 border-b border-slate-200">
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16">ক্র: (Sl)</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">প্রশিক্ষণ ও কোর্স/ক্যাডার (Course)</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-32">সুযোগ (Chance)</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-32">সাল (Year)</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ফলাফল ও প্রাধিকার (Details)</th>
+                                    <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-16">ক্র: (Sl)</th>
+                                    <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">প্রশিক্ষণ ও কোর্স (Course)</th>
+                                    <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-32 text-center">সুযোগ (Chance)</th>
+                                    <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-32 text-center">সাল (Year)</th>
+                                    <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">ফলাফল ও প্রাধিকার (Details)</th>
                                     <th class="px-6 py-4 text-center w-16"></th>
                                 </tr>
                             </thead>
@@ -489,11 +495,16 @@
                                     <tr class="hover:bg-slate-50/50 transition-colors">
                                         <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1"></td>
                                         <td class="px-4 py-2">
-                                            <input type="text" :name="`courses[${index}][name]`" x-model="course.name" 
-                                                   class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase placeholder:text-slate-300" placeholder="COURSE NAME">
+                                            <div class="flex flex-col gap-1">
+                                                <template x-if="course.group">
+                                                    <span class="text-[9px] font-black text-military-primary/40 uppercase" x-text="course.group"></span>
+                                                </template>
+                                                <input type="text" :name="`courses[${index}][name]`" x-model="course.name" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase placeholder:text-slate-300" placeholder="COURSE NAME">
+                                            </div>
                                         </td>
                                         <td class="px-4 py-2">
-                                            <select :name="`courses[${index}][chance]`" x-model="course.chance" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
+                                            <select :name="`courses[${index}][chance]`" x-model="course.chance" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center">
                                                 <option value="">- Select -</option>
                                                 <option value="1st">1st Chance</option>
                                                 <option value="2nd">2nd Chance</option>
@@ -507,8 +518,8 @@
                                             <input type="text" :name="`courses[${index}][authority]`" x-model="course.authority" 
                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="EX: PASS / AUTH-123">
                                         </td>
-                                        <td class="px-4 py-2 text-center">
-                                            <button type="button" @click="removeCourse(index)" class="text-slate-300 hover:text-red-500 transition-colors">
+                                        <td class="px-4 py-2 text-center text-red-500">
+                                            <button type="button" @click="removeCourse(index)" x-show="course.group === 'সাধারণ'" class="text-slate-300 hover:text-red-500 transition-colors">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                             </button>
                                         </td>

@@ -232,7 +232,12 @@
                 @foreach($soldier->courses as $index => $course)
                     <tr>
                         <td style="text-align: center;">{{ $index + 1 }}</td>
-                        <td style="font-weight: bold; text-align: left;">{{ $course['name'] ?? 'N/A' }}</td>
+                        <td style="font-weight: bold; text-align: left;">
+                            @if(isset($course['group']) && $course['group'] != 'সাধারণ')
+                                <div style="font-size: 8px; color: #666; text-transform: uppercase;">{{ $course['group'] }}</div>
+                            @endif
+                            {{ $course['name'] ?? 'N/A' }}
+                        </td>
                         <td style="text-align: center;">{{ $course['chance'] ?? 'N/A' }}</td>
                         <td style="text-align: center;">{{ $course['year'] ?? 'N/A' }}</td>
                         <td>{{ $course['authority'] ?? 'N/A' }}</td>
