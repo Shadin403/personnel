@@ -63,7 +63,7 @@ class SoldierController extends Controller
 
     public function create()
     {
-        $units = Soldier::orderBy('name')->get(['id', 'name', 'number', 'rank', 'unit_type']);
+        $units = \App\Models\Unit::all();
         return view('admin.soldiers.create', compact('units'));
     }
 
@@ -149,7 +149,7 @@ class SoldierController extends Controller
 
     public function edit(Soldier $soldier)
     {
-        $units = Soldier::where('id', '!=', $soldier->id)->orderBy('name')->get(['id', 'name', 'number', 'rank', 'unit_type']);
+        $units = \App\Models\Unit::all();
         return view('admin.soldiers.edit', compact('soldier', 'units'));
     }
 

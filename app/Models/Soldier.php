@@ -10,6 +10,7 @@ class Soldier extends Model
     use HasFactory;
 
     protected $fillable = [
+        'unit_id',
         'name',
         'name_bn',
         'number',
@@ -51,11 +52,14 @@ class Soldier extends Model
         'commander_status',
         'leave_plan',
         'sports_participation',
-        'unit_type',
-        'parent_id',
         'is_active',
         'sort_order',
     ];
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');
+    }
 
     protected $casts = [
         'is_active' => 'boolean',
