@@ -5,13 +5,21 @@
     <style>
         @font-face {
             font-family: 'HindSiliguri';
-            src: url('{{ storage_path("fonts/HindSiliguri-Regular.ttf") }}') format('truetype');
+            @php
+                $fontPath = storage_path('fonts/HindSiliguri-Regular.ttf');
+                $fontData = base64_encode(file_get_contents($fontPath));
+            @endphp
+            src: url('data:font/truetype;charset=utf-8;base64,{{ $fontData }}') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
         @font-face {
             font-family: 'HindSiliguri';
-            src: url('{{ storage_path("fonts/HindSiliguri-Bold.ttf") }}') format('truetype');
+            @php
+                $fontBoldPath = storage_path('fonts/HindSiliguri-Bold.ttf');
+                $fontBoldData = base64_encode(file_get_contents($fontBoldPath));
+            @endphp
+            src: url('data:font/truetype;charset=utf-8;base64,{{ $fontBoldData }}') format('truetype');
             font-weight: bold;
             font-style: normal;
         }
@@ -46,18 +54,24 @@
         }
         .photo-box {
             float: right;
-            width: 100px;
-            height: 120px;
+            width: 110px;
+            height: 135px;
             border: 1px solid #333;
             text-align: center;
-            line-height: 120px;
             font-size: 10px;
             color: #999;
+            overflow: hidden;
+        }
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .info-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            clear: both;
         }
         .info-table th {
             text-align: left;
@@ -96,7 +110,15 @@
     </div>
 
     <div class="photo-box">
-        সৈনিকের ছবি
+        @if($soldier->photo && file_exists(public_path('storage/' . $soldier->photo)))
+            @php
+                $imageData = base64_encode(file_get_contents(public_path('storage/' . $soldier->photo)));
+                $mimeType = mime_content_type(public_path('storage/' . $soldier->photo));
+            @endphp
+            <img src="data:{{ $mimeType }};base64,{{ $imageData }}">
+        @else
+            <div style="line-height: 135px;">সৈনিকের ছবি</div>
+        @endif
     </div>
 
     <div class="title">ব্যক্তিগত তথ্যাবলী (PERSONAL INFORMATION)</div>
