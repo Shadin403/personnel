@@ -331,21 +331,50 @@
 
             <!-- Scrollable Page Content -->
             <div class="flex-1 overflow-y-auto p-6 lg:p-10 custom-scrollbar">
-                <!-- Flash Messages -->
-                @if (session('success'))
-                    <div class="mb-8 p-4 bg-emerald-50 border-l-4 border-emerald-600 text-emerald-800 flex items-center gap-4 animate-fade-in shadow-sm"
-                        x-data="{ show: true }" x-show="show">
-                        <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        <span
-                            class="flex-1 text-[11px] font-bold uppercase tracking-widest">{{ session('success') }}</span>
-                        <button @click="show = false"
-                            class="text-emerald-400 hover:text-emerald-700 font-bold text-lg">&times;</button>
+                <!-- Tactical Toast System -->
+                <div x-data="{ 
+                        show: false, 
+                        message: '', 
+                        type: 'success',
+                        init() {
+                            @if(session('success'))
+                                this.trigger('{{ session('success') }}', 'success');
+                            @endif
+                            @if(session('error'))
+                                this.trigger('{{ session('error') }}', 'error');
+                            @endif
+                        },
+                        trigger(msg, type = 'success') {
+                            this.message = msg;
+                            this.type = type;
+                            this.show = true;
+                            setTimeout(() => { this.show = false }, 5000);
+                        }
+                    }" 
+                    x-show="show" 
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translate-x-8"
+                    x-transition:enter-end="opacity-100 transform translate-x-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 transform translate-x-0"
+                    x-transition:leave-end="opacity-0 transform translate-x-8"
+                    class="fixed top-6 right-6 z-[9999] min-w-[320px] max-w-md pointer-events-none"
+                    style="display: none;">
+                    <div class="bg-military-secondary border-l-4 border-military-accent shadow-2xl p-4 pointer-events-auto flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-military-accent/10 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-military-accent uppercase tracking-widest">Tactical Alert</p>
+                                <p class="text-xs font-bold text-white mt-0.5" x-text="message"></p>
+                            </div>
+                        </div>
+                        <button @click="show = false" class="text-slate-500 hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
                     </div>
-                @endif
+                </div>
 
                 @yield('content')
             </div>
