@@ -8,57 +8,76 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $currentCompany = $request->query('company');
-        $currentPlatoon = $request->query('platoon');
-        $currentSection = $request->query('section');
+        $treeNodes = [];
 
-        $stats = [
-            'total' => Soldier::count(),
-            'active' => Soldier::where('is_active', true)->count(),
+        // 🎖️ Standard Organization Data
+        $coys = [
+            ['id' => 1, 'short' => 'A Coy', 'full' => 'Alpha Coy'],
+            ['id' => 2, 'short' => 'B Coy', 'full' => 'Bravo Coy'],
+            ['id' => 3, 'short' => 'C Coy', 'full' => 'Charlie Coy'],
+            ['id' => 4, 'short' => 'D Coy', 'full' => 'Delta Coy'],
+            ['id' => 5, 'short' => 'HQ Coy', 'full' => 'HQ Coy'],
         ];
 
-        // 🏗️ 5-Level Hierarchy Definitions
-        $companies = ['Alpha (A) Coy', 'Bravo (B) Coy', 'Charlie (C) Coy', 'Delta (D) Coy', 'HQ Coy'];
-        $platoons = ['1 PL', '2 PL', '3 PL', 'SP PL', 'Coy HQ'];
-        $sections = ['1 Sec', '2 Sec', '3 Sec', 'PL HQ'];
+        $plats = ['1 PL', '2 PL', '3 PL', 'SP PL', 'Coy HQ'];
+        $secs = ['1 Sec', '2 Sec', '3 Sec', 'PL HQ'];
 
-        $viewData = [
-            'level' => 1,
-            'title' => '9 E Bengal (Battalion)',
-            'items' => $companies,
-            'type' => 'company',
-            'breadcrumbs' => [],
-        ];
+        // 1. Build Companies (Level 2)
+        foreach ($coys as $c) {
+            $treeNodes[] = [
+                'id' => $c['id'],
+                'name' => $c['short'],
+                'appointment' => 'OC ' . explode(' ', $c['short'])[0],
+                'unit_type' => 'company',
+                'pid' => null
+            ];
 
-        if ($currentCompany) {
-            $viewData['level'] = 2;
-            $viewData['title'] = $currentCompany;
-            $viewData['items'] = $platoons;
-            $viewData['type'] = 'platoon';
-            $viewData['breadcrumbs'][] = ['name' => '9E Bengal', 'url' => route('admin.dashboard')];
+            // 2. Build Platoons (Level 3 - for each company)
+            foreach ($plats as $pIdx => $pName) {
+                $pId = ($c['id'] * 10) + ($pIdx + 1);
+                $treeNodes[] = [
+                    'id' => $pId,
+                    'name' => $pName,
+                    'appointment' => 'PL CDR',
+                    'unit_type' => 'platoon',
+                    'pid' => $c['id']
+                ];
+
+                // 3. Build Sections (Level 4 - for each platoon)
+                foreach ($secs as $sIdx => $sName) {
+                    $sId = ($pId * 10) + ($sIdx + 1);
+                    $treeNodes[] = [
+                        'id' => $sId,
+                        'name' => $sName,
+                        'appointment' => 'SEC CDR',
+                        'unit_type' => 'section',
+                        'pid' => $pId
+                    ];
+                }
+            }
         }
 
-        if ($currentPlatoon) {
-            $viewData['level'] = 3;
-            $viewData['title'] = $currentPlatoon;
-            $viewData['items'] = $sections;
-            $viewData['type'] = 'section';
-            $viewData['breadcrumbs'][] = ['name' => $currentCompany, 'url' => route('admin.dashboard', ['company' => $currentCompany])];
+        // 4. Build Soldiers (Level 5 - ONLY Alpha Coy -> 1 Platoon -> 1 Section)
+        // Alpha Coy (ID 1) -> 1 PL (ID 11) -> 1 Sec (ID 111)
+        $targetSectionId = 111; 
+        
+        $soldiers = Soldier::all();
+        foreach ($soldiers as $soldier) {
+            $treeNodes[] = [
+                'id' => 'sol_' . $soldier->id,
+                'pid' => $targetSectionId, 
+                'name' => $soldier->name,
+                'rank' => $soldier->rank,
+                'number' => $soldier->number,
+                'appointment' => $soldier->appointment ?? 'Rifleman',
+                'img' => $soldier->photo_url,
+                'profile_url' => route('admin.soldiers.show', $soldier->id),
+                'unit_type' => 'soldier'
+            ];
         }
 
-        if ($currentSection) {
-            $viewData['level'] = 4;
-            $viewData['title'] = $currentSection;
-            $viewData['items'] = Soldier::where('company', $currentCompany)
-                ->where('platoon', $currentPlatoon)
-                ->where('section', $currentSection)
-                ->get();
-            $viewData['type'] = 'personnel';
-            $viewData['breadcrumbs'][] = ['name' => $currentPlatoon, 'url' => route('admin.dashboard', ['company' => $currentCompany, 'platoon' => $currentPlatoon])];
-        }
-
-        return view('admin.dashboard', compact('stats', 'viewData', 'currentCompany', 'currentPlatoon', 'currentSection'));
+        return view('admin.dashboard', compact('treeNodes'));
     }
 }
