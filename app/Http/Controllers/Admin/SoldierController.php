@@ -74,7 +74,16 @@ class SoldierController extends Controller
     {
         $units = \App\Models\Unit::all();
         $nextOrder = Soldier::max('sort_order') + 1;
-        return view('admin.soldiers.create', compact('units', 'nextOrder'));
+        
+        // Group units by type for clearer selection
+        $groupedUnits = [
+            'battalion' => $units->where('type', 'battalion'),
+            'company' => $units->where('type', 'company'),
+            'platoon' => $units->where('type', 'platoon'),
+            'section' => $units->where('type', 'section'),
+        ];
+
+        return view('admin.soldiers.create', compact('units', 'groupedUnits', 'nextOrder'));
     }
 
     public function store(Request $request)
@@ -106,11 +115,6 @@ class SoldierController extends Controller
             'speed_march' => 'nullable|string',
             'grenade_fire' => 'nullable|string',
             'course_status' => 'nullable|string',
-            'commander_status' => 'nullable|string',
-            'cdr_plan_this_yr' => 'nullable|string',
-            'leave_plan' => 'nullable|string',
-            'sports_participation' => 'nullable|string',
-            'nil_fire' => 'nullable|string',
             'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
@@ -120,7 +124,16 @@ class SoldierController extends Controller
             $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
         }
 
-        Soldier::create($validated);
+        $soldier = Soldier::create($validated);
+
+        // Save Relationships
+        if ($request->has('courses')) {
+            foreach ($request->courses as $course) {
+                if (!empty($course['name'])) {
+                    $soldier->courses()->create($course);
+                }
+            }
+        }
 
         return redirect()->route('admin.soldiers.index')
             ->with('success', 'Strategic node enrolled successfully!');
@@ -134,7 +147,13 @@ class SoldierController extends Controller
     public function edit(Soldier $soldier)
     {
         $units = \App\Models\Unit::all();
-        return view('admin.soldiers.edit', compact('soldier', 'units'));
+        $groupedUnits = [
+            'battalion' => $units->where('type', 'battalion'),
+            'company' => $units->where('type', 'company'),
+            'platoon' => $units->where('type', 'platoon'),
+            'section' => $units->where('type', 'section'),
+        ];
+        return view('admin.soldiers.edit', compact('soldier', 'units', 'groupedUnits'));
     }
 
     public function update(Request $request, Soldier $soldier)
@@ -180,6 +199,16 @@ class SoldierController extends Controller
 
         $validated['is_active'] = $request->has('is_active') ? true : false;
         $soldier->update($validated);
+
+        // Sync Relationships
+        if ($request->has('courses')) {
+            $soldier->courses()->delete();
+            foreach ($request->courses as $course) {
+                if (!empty($course['name'])) {
+                    $soldier->courses()->create($course);
+                }
+            }
+        }
 
         return redirect()->route('admin.soldiers.index')
             ->with('success', 'Profile updated successfully!');
