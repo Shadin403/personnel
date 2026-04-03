@@ -100,7 +100,7 @@
                     </select>
                 </div>
             </div>
-            <input type="hidden" name="unit_id" x-model="finalUnitId">
+            <input type="hidden" name="unit_id" :value="finalUnitId">
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">

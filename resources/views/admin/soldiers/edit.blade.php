@@ -107,7 +107,7 @@
                     </select>
                 </div>
             </div>
-            <input type="hidden" name="unit_id" x-model="finalUnitId">
+            <input type="hidden" name="unit_id" :value="finalUnitId">
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -376,7 +376,7 @@
             const path = [];
             let currentId = id;
             while(currentId) {
-                const u = allUnits.find(x => x.id == currentId);
+                const u = allUnits.find(x => parseInt(x.id) === parseInt(currentId));
                 if(!u) break;
                 path.unshift(u);
                 currentId = u.parent_id;
