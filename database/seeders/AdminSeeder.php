@@ -11,6 +11,9 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
+        // Clear existing soldiers to avoid duplicates
+        Soldier::truncate();
+
         // Create admin user
         User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
@@ -25,7 +28,7 @@ class AdminSeeder extends Seeder
         // 1. Root Office (HQ)
         $root = Soldier::create([
             'name' => 'BATTALION HQ',
-            'number' => 'HQ-001',
+            'number' => '9EB-HQ',
             'rank' => 'Lt Col',
             'unit_type' => 'officer',
             'appointment' => 'CO: Lt Col Mahfuzur Rahman',
@@ -33,83 +36,72 @@ class AdminSeeder extends Seeder
             'sort_order' => 1,
         ]);
 
-        // 2. Alpha Company
-        $coy = Soldier::create([
-            'name' => 'ALPHA COMPANY',
-            'number' => 'COY-ALPHA',
-            'rank' => 'Major',
-            'parent_id' => $root->id,
-            'unit_type' => 'company',
-            'appointment' => 'OC: Maj Tanvir Ahmed',
-            'is_active' => true,
-            'sort_order' => 1,
-        ]);
+        // Define the structure
+        $companies = [
+            ['name' => 'A Coy', 'id' => 'COY-A', 'commander' => 'Major Tanvir'],
+            ['name' => 'B Coy', 'id' => 'COY-B', 'commander' => 'Major Sadat'],
+            ['name' => 'C Coy', 'id' => 'COY-C', 'commander' => 'Major Rakib'],
+            ['name' => 'D Coy', 'id' => 'COY-D', 'commander' => 'Major Nafis'],
+            ['name' => 'HQ Coy', 'id' => 'COY-HQ', 'commander' => 'Major Arif'],
+        ];
 
-        // 3. Company Level Units
-        // 3.1 Company Headquarter (CHQ)
-        $chq = Soldier::create([
-            'name' => 'COMPANY HQ (CHQ)',
-            'number' => 'CHQ-001',
-            'rank' => 'MWO',
-            'parent_id' => $coy->id,
-            'unit_type' => 'platoon',
-            'appointment' => 'CHM: MWO Karim Uddin',
-            'is_active' => true,
-            'sort_order' => 1,
-        ]);
+        $platoonNames = ['1 PL', '2 PL', '3 PL', 'SP PL', 'Coy HQ'];
+        $sectionNames = ['1 Sec', '2 Sec', '3 Sec', 'PL HQ'];
 
-        // 3.2 Support Platoon
-        $supportPl = Soldier::create([
-            'name' => 'SUPPORT PLATOON',
-            'number' => 'SUP-PL',
-            'rank' => 'Captain',
-            'parent_id' => $coy->id,
-            'unit_type' => 'platoon',
-            'appointment' => 'PL CDR: Captain Sifat Hasan',
-            'is_active' => true,
-            'sort_order' => 2,
-        ]);
-
-        // 3.3 Numbered Platoons
-        for ($p = 1; $p <= 3; $p++) {
-            $pl = Soldier::create([
-                'name' => "$p PLATOON",
-                'number' => "PL-00$p",
-                'rank' => 'Lieutenant',
-                'parent_id' => $coy->id,
-                'unit_type' => 'platoon',
-                'appointment' => "PL CDR: Lieutenant Faisal ($p PL)",
+        foreach ($companies as $cIndex => $cData) {
+            // Level 2: Company
+            $coy = Soldier::create([
+                'name' => $cData['name'],
+                'number' => $cData['id'],
+                'rank' => 'Major',
+                'parent_id' => $root->id,
+                'unit_type' => 'company',
+                'appointment' => "OC: {$cData['commander']}",
                 'is_active' => true,
-                'sort_order' => $p + 2,
+                'sort_order' => $cIndex + 1,
             ]);
 
-            // 4. Sections for Platoon 1
-            if ($p === 1) {
-                for ($s = 1; $s <= 3; $s++) {
+            foreach ($platoonNames as $pIndex => $pName) {
+                // Level 3: Platoon
+                $pl = Soldier::create([
+                    'name' => $pName,
+                    'number' => "{$cData['id']}-{$pName}",
+                    'rank' => 'Lieutenant',
+                    'parent_id' => $coy->id,
+                    'unit_type' => 'platoon',
+                    'appointment' => "PL CDR: Lt. Faisal ({$pName})",
+                    'is_active' => true,
+                    'sort_order' => $pIndex + 1,
+                ]);
+
+                foreach ($sectionNames as $sIndex => $sName) {
+                    // Level 4: Section
                     $sec = Soldier::create([
-                        'name' => "SECTION $s",
-                        'number' => "SEC-00$s",
+                        'name' => $sName,
+                        'number' => "{$cData['id']}-{$pName}-{$sName}",
                         'rank' => 'Sergeant',
                         'parent_id' => $pl->id,
                         'unit_type' => 'section',
                         'appointment' => "SEC CDR: Sgt Nazmul",
                         'is_active' => true,
-                        'sort_order' => $s,
+                        'sort_order' => $sIndex + 1,
                     ]);
 
-                    // 5. Soldiers for ALL Sections
-                    for ($sol = 1; $sol <= 3; $sol++) {
+                    // Level 5: Personnel (9 members per section)
+                    for ($sol = 1; $sol <= 9; $sol++) {
                         Soldier::create([
-                            'name' => "Soldier No. $sol (SEC $s)",
-                            'number' => "10254" . $s . $sol,
+                            'name' => "Soldier $sol ({$sName})",
+                            'number' => "SN-" . ($cIndex + 1) . ($pIndex + 1) . ($sIndex + 1) . $sol,
                             'rank' => 'Sainik',
                             'parent_id' => $sec->id,
                             'unit_type' => 'soldier',
                             'appointment' => 'Rifleman',
                             'is_active' => true,
                             'sort_order' => $sol,
-                            'ipft_biannual_1' => 'Excellent',
-                            'shoot_total' => '245',
+                            'ipft_biannual_1' => 'Pass',
+                            'ipft_biannual_2' => 'Pass',
+                            'speed_march' => 'Pass',
+                            'grenade_fire' => 'Pass',
                         ]);
                     }
                 }

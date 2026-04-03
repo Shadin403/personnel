@@ -1,456 +1,270 @@
 @extends('layouts.admin')
 
-@section('title', 'Operations Dashboard')
+@section('title', 'Digital Training Card')
 
 @section('styles')
 <style>
-    #tree {
-        width: 100%;
-        height: 600px;
-        background-color: #F8F9FA;
-        border: 1px solid #d1d5db;
-    }
-    
-    .node rect {
-        fill: #ffffff !important;
-        stroke: #2F4F3E !important;
-        stroke-width: 2px !important;
+    /* Custom Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 12px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e3a2f; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+
+    [x-cloak] { display: none !important; }
+
+    .tactical-glass {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(30, 58, 47, 0.1);
     }
 
-    /* Balkan OrgChart Templates CSS overrides */
-    .orgchart-container { background: transparent !important; }
+    .dark .tactical-glass {
+        background: rgba(15, 23, 42, 0.8);
+        border-color: rgba(132, 204, 22, 0.1);
+    }
+
+    .card-zoom {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+    }
+    .card-zoom:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(30, 58, 47, 0.2);
+    }
+
+    .hero-title {
+        text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        user-select: none;
+    }
+
+    .dark .hero-title {
+        text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .level-indicator {
+        font-family: monospace;
+        letter-spacing: 0.3em;
+    }
+
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
 </style>
 @endsection
 
 @section('content')
-<div class="space-y-10 animate-fade-in pb-20">
-    <!-- Welcome Section -->
-    <div class="flex items-center justify-between pb-6 border-b border-slate-300">
-        <div class="space-y-1">
-            <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Operations Overview [কৌশলগত ড্যাশবোর্ড]</h2>
-            <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Real-time Personnel Readiness & Training Matrix</p>
+<div class="min-h-[80vh] flex flex-col justify-center relative" x-data="hierarchicalExplorer()">
+    
+    <!-- Navigation Control -->
+    <div class="fixed top-20 left-10 lg:left-72 z-40" x-show="level > 1" x-cloak x-transition>
+        <button @click="back()" class="flex items-center gap-2 px-6 py-2.5 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-xl active:scale-95 border border-white/10">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            BACK
+        </button>
+    </div>
+
+    <!-- Level 1: Main Interface -->
+    <div x-show="level === 1" x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="text-center flex flex-col items-center justify-center space-y-10">
+        <div class="space-y-6">
+            <img src="{{ asset('assets/logos/SAJHSF.png') }}" alt="Logo" class="h-40 w-auto animate-float mx-auto filter drop-shadow-[0_0_15px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+            <div class="space-y-2">
+                <p class="text-military-primary dark:text-military-accent text-lg font-black uppercase tracking-[0.6em] opacity-80">Digital Training Card</p>
+                <h1 @click="nextLevel(2)" class="hero-title text-8xl md:text-[10rem] font-black text-military-secondary dark:text-white cursor-pointer hover:text-military-primary dark:hover:text-military-accent transition-all duration-500 transform hover:scale-105 tracking-tighter leading-none">
+                    9E Bengal
+                </h1>
+            </div>
         </div>
-        <div class="flex gap-4">
-            <a href="{{ route('admin.soldiers.create') }}" class="btn-military flex items-center gap-2 active:scale-95 shadow-md">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                Enroll Personnel
-            </a>
+        <div class="animate-bounce mt-12">
+            <p class="text-slate-400 text-[11px] font-black uppercase tracking-[0.6em]">Tap "9E Bengal" to Proceed</p>
+            <svg class="w-6 h-6 mx-auto text-slate-300 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </div>
     </div>
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Total Soldiers -->
-        <div class="classic-card p-6 border-l-4 border-l-military-secondary flex flex-col justify-between hover:border-l-military-primary transition-all">
-            <div class="flex items-center justify-between mb-2">
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest opacity-70">Total Strength [মোট সদস্য]</p>
-                <div class="w-8 h-8 rounded-none border border-slate-200 bg-slate-50 flex items-center justify-center text-military-secondary">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                </div>
-            </div>
-            <h3 class="text-3xl font-bold text-military-secondary tabular-nums tracking-tighter">{{ $stats['total'] }}</h3>
-            <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-1.5">
-                <span class="text-[11px] font-bold text-slate-500 tracking-tight">Active Service Assets Across All Ranks</span>
-            </div>
+    <!-- Level 2: Companies -->
+    <div x-show="level === 2" x-cloak x-transition:enter="transition ease-out duration-500" class="max-w-7xl mx-auto w-full px-6">
+        <div class="text-center mb-20 space-y-4">
+            <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50">Level 02 &bull; Companies</p>
+            <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Battalion Structure</h2>
         </div>
-
-        <!-- Active Duty -->
-        <div class="classic-card p-6 border-l-4 border-l-military-success flex flex-col justify-between hover:shadow-lg transition-all">
-            <div class="flex items-center justify-between mb-2">
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest opacity-70">Operationally Ready [প্রস্তুত]</p>
-                <div class="w-8 h-8 rounded-none bg-emerald-50 border border-emerald-100 flex items-center justify-center text-military-success">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <template x-for="coy in companies" :key="coy.id">
+                <div @click="selectCoy(coy)" class="tactical-glass p-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-primary group rounded-none">
+                    <div class="w-20 h-20 bg-military-primary/5 rounded-none flex items-center justify-center text-military-primary group-hover:bg-military-primary group-hover:text-white transition-all duration-500 shadow-inner">
+                        <span class="text-2xl font-black" x-text="coy.name.split(' ')[0][0]"></span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight" x-text="coy.name"></h3>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2" x-text="coy.appointment"></p>
+                    </div>
                 </div>
-            </div>
-            <h3 class="text-3xl font-bold text-military-success tabular-nums tracking-tighter">{{ $stats['active'] }}</h3>
-            <div class="mt-4 pt-4 border-t border-slate-100">
-                <div class="w-full h-1.5 bg-slate-100 rounded-none overflow-hidden border border-slate-200">
-                    <div class="h-full bg-military-success transition-all duration-1000" style="width: {{ $stats['total'] > 0 ? ($stats['active']/$stats['total'])*100 : 0 }}%"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CO Staff -->
-        <div class="classic-card p-6 border-l-4 border-l-military-primary flex flex-col justify-between hover:shadow-lg transition-all">
-            <div class="flex items-center justify-between mb-2">
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest opacity-70">Commissioned Officers [CO]</p>
-                <div class="w-8 h-8 rounded-none bg-military-bg border border-military-primary/20 flex items-center justify-center text-military-primary">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                </div>
-            </div>
-            <h3 class="text-3xl font-bold text-military-primary tabular-nums tracking-tighter">{{ $stats['co'] }}</h3>
-            <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-military-primary tracking-tight">High-Level Leadership Nodes Synchronized</div>
-        </div>
-
-        <!-- Support Staff -->
-        <div class="classic-card p-6 border-l-4 border-l-military-warning flex flex-col justify-between hover:shadow-lg transition-all">
-            <div class="flex items-center justify-between mb-2">
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest opacity-70">Other Ranks [OR/Staff]</p>
-                <div class="w-8 h-8 rounded-none bg-amber-50 border border-military-warning/20 flex items-center justify-center text-military-warning">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                </div>
-            </div>
-            <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-military-warning tracking-tight">Support Personnel Logistics Validated</div>
+            </template>
         </div>
     </div>
 
-    <!-- Command & Control Hierarchy (Force Navigator) -->
-    <div class="classic-card overflow-hidden animate-fade-in shadow-xl" x-data="forceNavigator()">
-        <div class="px-8 py-5 classic-card-header flex items-center justify-between bg-military-primary">
-            <div class="flex items-center gap-4">
-                <svg class="w-6 h-6 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                <div>
-                    <h3 class="text-[12px] font-black text-white uppercase tracking-[0.3em]">Force Navigator [কৌশলগত ইউনিট সিলেকশন]</h3>
-                    <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-0.5">Cascading Unit Directory &bull; Tactical Command View</p>
-                </div>
-            </div>
+    <!-- Level 3: Platoons -->
+    <div x-show="level === 3" x-cloak x-transition:enter="transition ease-out duration-500" class="max-w-7xl mx-auto w-full px-6">
+        <div class="text-center mb-20 space-y-4">
+            <p class="text-military-accent text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50" x-text="'Level 03 &bull; ' + selectedCoy?.name"></p>
+            <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Select Platoon</h2>
         </div>
-
-        <div class="bg-white p-1">
-            <!-- Cascading Selectors -->
-            <div class="grid grid-cols-1 md:grid-cols-3 border-b border-slate-200">
-                <!-- Column 1: Unit (Company) -->
-                <div class="border-r border-slate-200">
-                    <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
-                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Unit [কোম্পানী]</h4>
-                        <span class="px-2 py-0.5 bg-military-primary text-white text-[9px] font-bold rounded">LEVEL 01</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <template x-for="pl in platoons" :key="pl.id">
+                <div @click="selectPl(pl)" class="tactical-glass p-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-accent group rounded-none">
+                    <div class="w-20 h-20 bg-military-accent/5 rounded-none flex items-center justify-center text-military-accent group-hover:bg-military-accent group-hover:text-white transition-all duration-500 shadow-inner">
+                        <span class="text-2xl font-black" x-text="pl.name.split(' ')[0]"></span>
                     </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
-                        <template x-for="coy in coys" :key="coy.id">
-                            <button @click="selectCoy(coy.id)" 
-                                    :class="selectedCoy == coy.id ? 'bg-military-primary text-white' : 'hover:bg-military-bg text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
-                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none border-b border-slate-100 dark:border-slate-800 last:border-0">
-                                <div>
-                                    <p class="text-[11px] font-black uppercase tracking-wider" x-text="coy.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70 dark:opacity-50" x-text="coy.appointment"></p>
-                                </div>
-                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" :class="selectedCoy == coy.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                            </button>
-                        </template>
+                    <div>
+                        <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight" x-text="pl.name"></h3>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2" x-text="pl.appointment"></p>
                     </div>
                 </div>
-
-                <!-- Column 2: Platoon -->
-                <div class="border-r border-slate-200 bg-slate-50/20">
-                    <div class="bg-slate-100/50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
-                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Platoon [প্লাটুন]</h4>
-                        <span class="px-2 py-0.5 bg-military-accent text-white text-[9px] font-bold rounded">LEVEL 02</span>
-                    </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
-                        <template x-if="!selectedCoy">
-                            <div class="p-12 text-center flex flex-col items-center justify-center space-y-3 opacity-30">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v4M7 7h10"></path></svg>
-                                <p class="text-[10px] font-bold uppercase tracking-widest">Select Unit Above</p>
-                            </div>
-                        </template>
-                        <template x-for="pl in pls" :key="pl.id">
-                            <button @click="selectPl(pl.id)" 
-                                    :class="selectedPl == pl.id ? 'bg-military-accent text-white' : 'hover:bg-military-bg text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
-                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none border-b border-slate-100 dark:border-slate-800 last:border-0">
-                                <div>
-                                    <p class="text-[11px] font-black uppercase tracking-wider" x-text="pl.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70 dark:opacity-50" x-text="pl.appointment"></p>
-                                </div>
-                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedPl == pl.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Column 3: Section -->
-                <div class="bg-slate-50/50">
-                    <div class="bg-slate-100/30 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
-                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Section [সেকশন]</h4>
-                        <span class="px-2 py-0.5 bg-amber-600 text-white text-[9px] font-bold rounded">LEVEL 03</span>
-                    </div>
-                    <div class="divide-y divide-slate-100 overflow-y-auto max-h-[300px]">
-                        <template x-if="!selectedPl">
-                            <div class="p-12 text-center flex flex-col items-center justify-center space-y-3 opacity-30">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v4M7 7h10"></path></svg>
-                                <p class="text-[10px] font-bold uppercase tracking-widest">Select Platoon Above</p>
-                            </div>
-                        </template>
-                        <template x-for="sec in secs" :key="sec.id">
-                            <button @click="selectSec(sec.id)" 
-                                    :class="selectedSec == sec.id ? 'bg-amber-600 text-white' : 'hover:bg-military-bg text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
-                                    class="w-full text-left px-6 py-4 transition-all flex items-center justify-between group focus:outline-none border-b border-slate-100 dark:border-slate-800 last:border-0">
-                                <div>
-                                    <p class="text-[11px] font-black uppercase tracking-wider" x-text="sec.name"></p>
-                                    <p class="text-[9px] font-semibold opacity-70 dark:opacity-50" x-text="sec.appointment"></p>
-                                </div>
-                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100" :class="selectedSec == sec.id ? 'opacity-100' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Full-Width Results Table -->
-            <div class="p-6 bg-slate-50 min-h-[300px]">
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-2 h-6 bg-military-primary"></div>
-                            <h4 class="text-[11px] font-black text-military-secondary uppercase tracking-widest">Personnel Directory [সদস্য তালিকা]</h4>
-                        </div>
-                        <template x-if="selectedSec">
-                            <span class="text-[10px] font-bold text-military-primary bg-military-bg px-3 py-1 rounded-full uppercase tracking-widest" x-text="soldiers.length + ' SOLDIERS FOUND'"></span>
-                        </template>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-military-bg/50">
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">photo</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">Service No</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">Rank & Name</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200">Appointment</th>
-                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-200 text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template x-if="!selectedSec">
-                                    <tr>
-                                        <td colspan="5" class="px-6 py-20 text-center">
-                                            <div class="flex flex-col items-center justify-center space-y-4 opacity-20">
-                                                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                                <p class="text-[12px] font-black uppercase tracking-[0.3em]">Complete navigation to view personnel</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-for="sol in soldiers" :key="sol.id">
-                                    <tr class="hover:bg-slate-50 transition-colors group">
-                                        <td class="px-6 py-4 border-b border-slate-100">
-                                            <div class="w-10 h-10 border border-slate-200 p-0.5 rounded overflow-hidden">
-                                                <img :src="sol.img" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 border-b border-slate-100">
-                                            <span class="text-[11px] font-black text-military-secondary tracking-tight" x-text="sol.number"></span>
-                                        </td>
-                                        <td class="px-6 py-4 border-b border-slate-100">
-                                            <div>
-                                                <p class="text-[12px] font-black text-military-primary mb-0.5 uppercase" x-text="sol.name"></p>
-                                                <p class="text-[10px] font-bold text-slate-400 uppercase" x-text="sol.rank"></p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-                                            <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded uppercase" x-text="sol.appointment"></span>
-                                        </td>
-                                        <td class="px-6 py-4 border-b border-slate-100 text-right">
-                                            <a :href="sol.profile_url" class="inline-flex items-center gap-2 px-4 py-2 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-military-secondary transition-all shadow-md">
-                                                <span>View Dossier</span>
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            </template>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Training Progress -->
-        <div class="lg:col-span-2 classic-card overflow-hidden flex flex-col">
-            <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <svg class="w-5 h-5 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
-                    <h3 class="text-[14px] font-bold text-white tracking-widest uppercase">Operational Readiness Metrics (FY-26)</h3>
-                </div>
-            </div>
-            <div class="p-8 space-y-10 flex-1 bg-white">
-                <!-- IPFT -->
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-1">
-                            <span class="text-[15px] font-bold text-military-secondary tracking-tight">IPFT (Individual Physical Fitness Test)</span>
-                            <p class="text-[12px] font-semibold text-slate-400 tracking-wide">Personnel physical fitness standards tracking</p>
-                        </div>
-                        <span class="text-xl font-bold text-military-primary tabular-nums">{{ $stats['total'] > 0 ? round(($trainingStats['ipft_pass']/$stats['total'])*100) : 0 }}%</span>
-                    </div>
-                    <div class="h-3 w-full bg-slate-100 rounded-none overflow-hidden border border-slate-200 shadow-inner">
-                        <div class="h-full bg-military-primary transition-all duration-1000 shadow-inner" style="width: {{ $stats['total'] > 0 ? ($trainingStats['ipft_pass']/$stats['total'])*100 : 0 }}%"></div>
-                    </div>
-                </div>
-
-                <!-- Speed March -->
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-1">
-                            <span class="text-[15px] font-bold text-military-secondary tracking-tight">Speed March (Tactical Endurance)</span>
-                            <p class="text-[12px] font-semibold text-slate-400 tracking-wide">Deployment speed and physical stamina logs</p>
-                        </div>
-                        <span class="text-xl font-bold text-military-primary tabular-nums">{{ $stats['total'] > 0 ? round(($trainingStats['speed_march_pass']/$stats['total'])*100) : 0 }}%</span>
-                    </div>
-                    <div class="h-3 w-full bg-slate-100 rounded-none overflow-hidden border border-slate-200 shadow-inner">
-                        <div class="h-full bg-military-accent transition-all duration-1000 shadow-inner" style="width: {{ $stats['total'] > 0 ? ($trainingStats['speed_march_pass']/$stats['total'])*100 : 0 }}%"></div>
-                    </div>
-                </div>
-
-                <!-- Grenade -->
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-1">
-                            <span class="text-[15px] font-bold text-military-secondary tracking-tight">Grenade Fire Precision</span>
-                            <p class="text-[12px] font-semibold text-slate-400 tracking-wide">Ballistical precision & tactical handling mastery</p>
-                        </div>
-                        <span class="text-xl font-bold text-military-primary tabular-nums">{{ $stats['total'] > 0 ? round(($trainingStats['grenade_pass']/$stats['total'])*100) : 0 }}%</span>
-                    </div>
-                    <div class="h-3 w-full bg-slate-100 rounded-none overflow-hidden border border-slate-200 shadow-inner">
-                        <div class="h-full bg-military-secondary transition-all duration-1000 shadow-inner" style="width: {{ $stats['total'] > 0 ? ($trainingStats['grenade_pass']/$stats['total'])*100 : 0 }}%"></div>
-                    </div>
-                </div>
-            </div>
+    <!-- Level 4: Sections -->
+    <div x-show="level === 4" x-cloak x-transition:enter="transition ease-out duration-500" class="max-w-7xl mx-auto w-full px-6">
+        <div class="text-center mb-20 space-y-4">
+            <p class="text-amber-500 text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50" x-text="'Level 04 &bull; ' + selectedPl?.name"></p>
+            <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Select Section</h2>
         </div>
-
-        <div class="space-y-8">
-            <!-- Blood Logistics -->
-            <div class="classic-card bg-military-secondary text-white flex flex-col h-full border-none shadow-2xl">
-                <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-black/20">
-                    <h3 class="text-[10px] font-bold text-white/50 uppercase tracking-[0.25em]">Med-Log Registry</h3>
-                    <div class="w-1.5 h-1.5 rounded-full bg-military-danger animate-pulse shadow-[0_0_8px_#B91C1C]"></div>
-                </div>
-                <div class="p-6 space-y-7 flex-1 shadow-inner">
-                    @foreach($bloodGroups as $bg)
-                    <div class="space-y-2">
-                        <div class="flex justify-between text-[10px] font-bold uppercase tracking-[0.15em]">
-                            <span class="text-white/60">{{ $bg->blood_group }} GROUP</span>
-                            <span class="text-military-accent">{{ $bg->count }} UNITs</span>
-                        </div>
-                        <div class="h-1.5 w-full bg-white/5 overflow-hidden border border-white/10">
-                            <div class="h-full bg-military-danger shadow-[0_0_12px_#B91C1C]" style="width: {{ ($bg->count / max(1, $stats['total'])) * 100 }}%"></div>
-                        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <template x-for="sec in sections" :key="sec.id">
+                <div @click="selectSec(sec)" class="tactical-glass p-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-amber-500 group rounded-none">
+                    <div class="w-20 h-20 bg-amber-500/5 rounded-none flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all duration-500 shadow-inner">
+                        <span class="text-2xl font-black" x-text="sec.name.split(' ')[1] || sec.name.split(' ')[0]"></span>
                     </div>
-                    @endforeach
+                    <div>
+                        <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight" x-text="sec.name"></h3>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2" x-text="sec.appointment"></p>
+                    </div>
                 </div>
-                <div class="px-6 py-4 border-t border-white/5 bg-black/20">
-                    <p class="text-[9px] font-semibold text-white/30 uppercase tracking-[0.2em] text-center">Ready-Response Medical Data</p>
-                </div>
-            </div>
+            </template>
         </div>
     </div>
 
-    <!-- Recent Enrollments Table -->
-    <div class="classic-card overflow-hidden">
-        <div class="px-8 py-4 classic-card-header flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-none bg-white/10 border border-white/20 flex items-center justify-center text-white">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                </div>
-                <div>
-                    <h3 class="text-[11px] font-bold text-white uppercase tracking-[0.3em]">Personnel Directory [নাম ও নং]</h3>
-                    <p class="text-[9px] font-semibold text-white/40 uppercase tracking-widest mt-0.5">Global Registry Assets &bull; Live DB Link</p>
-                </div>
+    <!-- Level 5: Data Table -->
+    <div x-show="level === 5" x-cloak x-transition:enter="transition ease-out duration-500" class="max-w-7xl mx-auto w-full px-6 pb-20">
+        <div class="text-center mb-12 space-y-4">
+            <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50" x-text="'Level 05 &bull; ' + selectedSec?.name"></p>
+            <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Personnel Directory</h2>
+            <div class="flex items-center justify-center gap-3">
+                <span class="px-3 py-1 bg-military-primary/10 text-military-primary text-[10px] font-bold uppercase tracking-widest" x-text="selectedCoy?.name"></span>
+                <span class="px-3 py-1 bg-military-accent/10 text-military-accent text-[10px] font-bold uppercase tracking-widest" x-text="selectedPl?.name"></span>
+                <span class="px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest" x-text="selectedSec?.name"></span>
             </div>
-            <a href="{{ route('admin.soldiers.index') }}" class="px-5 py-2 bg-white/10 border border-white/20 text-white text-[9px] font-bold uppercase tracking-widest hover:bg-white/20 transition-all flex items-center gap-2">
-                Open Full Repository
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </a>
         </div>
-        <div class="overflow-x-auto bg-white">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="bg-military-bg">
-                        <th class="px-8 py-5 text-[10px] font-bold text-military-secondary uppercase tracking-[0.25em] border-b border-slate-200">Name & No. [নাম ও নং]</th>
-                        <th class="px-8 py-5 text-[10px] font-bold text-military-secondary uppercase tracking-[0.25em] border-b border-slate-200">Coy. & Appt [কোম্পানী ও অ্যাপয়েন্টমেন্ট]</th>
-                        <th class="px-8 py-5 text-[10px] font-bold text-military-secondary uppercase tracking-[0.25em] border-b border-slate-200">Readiness Grade</th>
-                        <th class="px-8 py-5 text-[10px] font-bold text-military-secondary uppercase tracking-[0.25em] border-b border-slate-200 text-right">Data Sync</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200">
-                    @foreach($recentSoldiers as $soldier)
-                    <tr class="hover:bg-military-bg/50 transition-colors group">
-                        <td class="px-8 py-5">
-                            <div class="flex items-center gap-5">
-                                <div class="w-11 h-11 rounded-none border border-slate-300 p-0.5 bg-white shadow-sm transition-all group-hover:border-military-primary">
-                                    <img src="{{ $soldier->photo_url }}" alt="" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                                </div>
-                                <div class="space-y-0.5">
-                                    <p class="text-[13px] font-bold text-military-secondary tracking-tight">{{ $soldier->name }} [নাম]</p>
-                                    <p class="text-[11px] font-bold text-slate-400 font-mono">No.: {{ $soldier->number }}</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-8 py-5">
-                            <p class="text-[13px] font-bold text-military-primary tracking-tight">{{ $soldier->rank }}</p>
-                            <p class="text-[11px] font-medium text-slate-500">{{ $soldier->company }} Coy. &bull; Appt: {{ $soldier->appointment }}</p>
-                        </td>
-                        <td class="px-8 py-5">
-                            @php 
-                                $statusStyle = match($soldier->overall_status) {
-                                    'Excellent' => 'text-white bg-military-success border-military-success shadow-[0_0_8px_rgba(21,128,61,0.3)]',
-                                    'Good' => 'text-white bg-military-primary border-military-primary shadow-[0_0_8px_rgba(47,79,62,0.3)]',
-                                    'Average' => 'text-white bg-military-warning border-military-warning shadow-[0_0_8px_rgba(217,119,6,0.3)]',
-                                    default => 'text-white bg-military-danger border-military-danger shadow-[0_0_8px_rgba(185,28,28,0.3)]'
-                                };
-                            @endphp
-                            <span class="inline-flex items-center px-3 py-1 text-[11px] font-bold border tracking-wide {{ $statusStyle }}">
-                                {{ $soldier->overall_status }}
-                            </span>
-                        </td>
-                        <td class="px-8 py-5 text-right">
-                            <div class="flex items-center justify-end gap-2 translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
-                                <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="p-2 border border-slate-200 text-slate-400 hover:text-military-primary hover:border-military-primary transition-all shadow-sm bg-white" title="Modify Record">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                </a>
-                                <a href="{{ route('admin.soldiers.download-trg', $soldier) }}" class="px-4 py-2 bg-military-secondary text-white hover:bg-military-primary transition-all font-bold text-[9px] uppercase tracking-widest shadow-md">
-                                    GEN REPORT
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        
+        <div class="tactical-glass overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 rounded-none">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-military-secondary text-white">
+                            <th class="px-8 py-6 text-[11px] font-black uppercase tracking-[0.3em]">Photo</th>
+                            <th class="px-8 py-6 text-[11px] font-black uppercase tracking-[0.3em]">Service No</th>
+                            <th class="px-8 py-6 text-[11px] font-black uppercase tracking-[0.3em]">Rank & Name</th>
+                            <th class="px-8 py-6 text-[11px] font-black uppercase tracking-[0.3em]">Appointment</th>
+                            <th class="px-8 py-6 text-[11px] font-black uppercase tracking-[0.3em] text-right">Dossier Access</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800 bg-white/50 dark:bg-slate-900/30">
+                        <template x-for="sol in personnel" :key="sol.id">
+                            <tr class="hover:bg-military-bg/30 dark:hover:bg-slate-800/50 transition-colors group">
+                                <td class="px-8 py-6">
+                                    <div class="w-16 h-16 rounded-none border-2 border-slate-200 dark:border-slate-700 p-0.5 bg-white dark:bg-slate-800 overflow-hidden group-hover:border-military-primary transition-all shadow-md">
+                                        <img :src="sol.img" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-110 group-hover:scale-100">
+                                    </div>
+                                </td>
+                                <td class="px-8 py-6 font-mono text-[14px] font-bold text-military-secondary dark:text-slate-300 tracking-tight" x-text="sol.number"></td>
+                                <td class="px-8 py-6">
+                                    <div class="space-y-1">
+                                        <p class="text-[15px] font-black text-military-primary dark:text-military-accent uppercase tracking-tight" x-text="sol.name"></p>
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest" x-text="sol.rank"></p>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-6">
+                                    <span class="inline-flex px-4 py-1.5 text-[10px] font-black bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-widest border border-slate-300 dark:border-slate-700" x-text="sol.appointment"></span>
+                                </td>
+                                <td class="px-8 py-6 text-right">
+                                    <a :href="sol.profile_url" class="inline-flex items-center gap-2 px-6 py-3.5 bg-military-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-lg active:scale-95 group-hover:-translate-x-2">
+                                        <span>Examine Record</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <template x-if="personnel.length === 0">
+                <div class="p-32 text-center space-y-6 opacity-30">
+                    <svg class="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <p class="text-[16px] font-black uppercase tracking-[0.4em]">Strategic Assessment Pending &bull; No Records</p>
+                </div>
+            </template>
         </div>
     </div>
+
 </div>
 @endsection
 
 @section('scripts')
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script>
-    function forceNavigator() {
+    function hierarchicalExplorer() {
         return {
             nodes: @json($treeNodes),
+            level: 1,
             selectedCoy: null,
             selectedPl: null,
             selectedSec: null,
 
-            get coys() {
-                // Return root officers (like CO) and Companies
-                return this.nodes.filter(n => n.unit_type === 'company' || (!n.pid && n.unit_type === 'officer'));
+            get companies() {
+                return this.nodes.filter(n => n.unit_type === 'company');
             },
-            get pls() {
+            get platoons() {
                 if (!this.selectedCoy) return [];
-                return this.nodes.filter(n => n.pid == this.selectedCoy);
+                return this.nodes.filter(n => n.pid == this.selectedCoy.id && n.unit_type === 'platoon');
             },
-            get secs() {
+            get sections() {
                 if (!this.selectedPl) return [];
-                return this.nodes.filter(n => n.pid == this.selectedPl);
+                return this.nodes.filter(n => n.pid == this.selectedPl.id && n.unit_type === 'section');
             },
-            get soldiers() {
+            get personnel() {
                 if (!this.selectedSec) return [];
-                return this.nodes.filter(n => n.pid == this.selectedSec);
+                return this.nodes.filter(n => n.pid == this.selectedSec.id);
             },
 
-            selectCoy(id) {
-                this.selectedCoy = id;
-                this.selectedPl = null;
-                this.selectedSec = null;
+            nextLevel(lv) {
+                this.level = lv;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             },
-            selectPl(id) {
-                this.selectedPl = id;
-                this.selectedSec = null;
+
+            selectCoy(coy) {
+                this.selectedCoy = coy;
+                this.nextLevel(3);
             },
-            selectSec(id) {
-                this.selectedSec = id;
+
+            selectPl(pl) {
+                this.selectedPl = pl;
+                this.nextLevel(4);
+            },
+
+            selectSec(sec) {
+                this.selectedSec = sec;
+                this.nextLevel(5);
+            },
+
+            back() {
+                if (this.level > 1) {
+                    this.level--;
+                    if (this.level < 5) this.selectedSec = null;
+                    if (this.level < 4) this.selectedPl = null;
+                    if (this.level < 3) this.selectedCoy = null;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }
         }
     }
