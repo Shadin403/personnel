@@ -56,6 +56,13 @@ class Soldier extends Model
         'nil_fire',
         'is_active',
         'sort_order',
+        'father_name',
+        'mother_name',
+        'spouse_name',
+        'religion',
+        'marital_status',
+        'dob',
+        'nid',
     ];
 
     public function unit()
@@ -67,6 +74,7 @@ class Soldier extends Model
         'is_active' => 'boolean',
         'enrolment_date' => 'date',
         'rank_date' => 'date',
+        'dob' => 'date',
     ];
 
     public function getPhotoUrlAttribute(): string

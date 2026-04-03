@@ -184,21 +184,72 @@
         </tr>
     </table>
 
-    <div class="section-title">পারিবারিক তথ্য (FAMILY INFORMATION)</div>
+    <div class="section-title">ব্যক্তিগত তথ্য (PERSONAL DETAILS ১২-১৯)</div>
     <table class="info-table">
         <tr>
-            <th>পিতার নাম:</th>
+            <th>পিতার নাম (Father's Name):</th>
             <td>{{ $soldier->father_name }}</td>
         </tr>
         <tr>
-            <th>মাতার নাম:</th>
+            <th>মাতার নাম (Mother's Name):</th>
             <td>{{ $soldier->mother_name }}</td>
         </tr>
         <tr>
-            <th>স্ত্রীর নাম:</th>
+            <th>স্ত্রীর নাম (Spouse Name):</th>
             <td>{{ $soldier->spouse_name ?: 'N/A' }}</td>
         </tr>
+        <tr>
+            <th>ধর্ম (Religion):</th>
+            <td>{{ $soldier->religion ?: 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>বৈবাহিক অবস্থা (Marital Status):</th>
+            <td>{{ $soldier->marital_status ?: 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>জন্ম তারিখ (Date of Birth):</th>
+            <td>{{ $soldier->dob ? \Carbon\Carbon::parse($soldier->dob)->format('d M Y') : 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>জাতীয় পরিচয়পত্র (NID):</th>
+            <td style="font-family: monospace; font-weight: bold;">{{ $soldier->nid ?: 'N/A' }}</td>
+        </tr>
     </table>
+
+    <div class="section-title">পদোন্নতিবিষয়ক প্রশিক্ষণ ও কোর্স/ক্যাডার (PROMOTION TRAINING)</div>
+    <table class="trg-table">
+        <thead>
+            <tr style="background: #333; color: white;">
+                <th>ক্র: (Sl)</th>
+                <th>প্রশিক্ষণ ও কোর্স/ক্যাডার (Course)</th>
+                <th>সুযোগ (Chance)</th>
+                <th>সাল (Year)</th>
+                <th>ফলাফল ও প্রাধিকার (Details)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if($soldier->courses && count($soldier->courses) > 0)
+                @foreach($soldier->courses as $index => $course)
+                    <tr>
+                        <td style="text-align: center;">{{ $index + 1 }}</td>
+                        <td style="font-weight: bold; text-align: left;">{{ $course['name'] ?? 'N/A' }}</td>
+                        <td style="text-align: center;">{{ $course['chance'] ?? 'N/A' }}</td>
+                        <td style="text-align: center;">{{ $course['year'] ?? 'N/A' }}</td>
+                        <td>{{ $course['authority'] ?? 'N/A' }}</td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #999; padding: 20px;">No promotion training records found.</td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
+
+    <div style="margin-top: 50px; text-align: right;">
+        <p style="font-weight: bold; text-decoration: overline;">Administrative Approval Signature</p>
+        <p style="font-size: 10px; color: #666;">Generated on: {{ now()->format('d M Y H:i:s') }}</p>
+    </div>
 
     <div class="section-title">প্রশিক্ষণ তথ্য (TRAINING RECORDS)</div>
     <table class="trg-table">

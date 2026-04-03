@@ -306,10 +306,86 @@
                     </div>
                 </div>
 
-                <!-- Strategic Readiness Section (Previously SEC-02/03) -->
+                <!-- SEC-02: Personal Information (12-19) -->
                 <div class="bg-white border border-slate-200 shadow-xl">
                     <div class="px-8 py-5 bg-slate-800 flex items-center justify-between text-white">
-                        <h3 class="card-title-tactical">SEC-02: Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
+                        <h3 class="card-title-tactical">SEC-02: Personal Details [ব্যক্তিগত তথ্য ১২-১৯]</h3>
+                    </div>
+                    <div class="p-8 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১২</span>
+                                    পিতার নাম (Father's Name)
+                                </label>
+                                <input type="text" name="father_name" value="{{ old('father_name') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="FATHER'S NAME">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৩</span>
+                                    মাতার নাম (Mother's Name)
+                                </label>
+                                <input type="text" name="mother_name" value="{{ old('mother_name') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="MOTHER'S NAME">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৪</span>
+                                    ধর্ম (Religion)
+                                </label>
+                                <select name="religion" class="w-full p-4 tactical-input text-sm font-bold">
+                                    <option value="">- Select -</option>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Hinduism">Hinduism</option>
+                                    <option value="Christianity">Christianity</option>
+                                    <option value="Buddhism">Buddhism</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৫</span>
+                                    বৈবাহিক অবস্থা
+                                </label>
+                                <select name="marital_status" class="w-full p-4 tactical-input text-sm font-bold">
+                                    <option value="">- Select -</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Unmarried">Unmarried</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৬</span>
+                                    জন্ম তারিখ (DOB)
+                                </label>
+                                <input type="date" name="dob" value="{{ old('dob') }}" class="w-full p-4 tactical-input text-sm font-bold">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-slate-100">
+                             <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৮</span>
+                                    জাতীয় পরিচয়পত্র নং (NID)
+                                </label>
+                                <input type="text" name="nid" value="{{ old('nid') }}" class="w-full p-4 tactical-input text-sm font-bold font-mono" placeholder="1990XXXXXXXXXX">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৫</span>
+                                    স্ত্রীর নাম (Spouse)
+                                </label>
+                                <input type="text" name="spouse_name" value="{{ old('spouse_name') }}" class="w-full p-4 tactical-input text-sm font-bold uppercase" placeholder="SPOUSE NAME">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEC-03: Combat Readiness -->
+                <div class="bg-white border border-slate-200 shadow-xl">
+                    <div class="px-8 py-5 bg-slate-800 flex items-center justify-between text-white">
+                        <h3 class="card-title-tactical">SEC-03: Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
                     </div>
                     <div class="p-8 space-y-10">
                         <!-- Firing Scores -->
@@ -376,6 +452,70 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- SEC-04: Training & Courses [প্রশিক্ষণ ও কোর্স/ক্যাডার] -->
+                <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
+                    courses: [
+                        { name: 'SGT COURSE', chance: '1st', year: '', authority: '' },
+                        { name: 'PE', chance: '1st', year: '', authority: '' }
+                    ],
+                    addCourse() {
+                        this.courses.push({ name: '', chance: '', year: '', authority: '' });
+                    },
+                    removeCourse(index) {
+                        this.courses.splice(index, 1);
+                    }
+                }">
+                    <div class="px-8 py-5 bg-military-primary flex items-center justify-between text-white shadow-lg">
+                        <h3 class="card-title-tactical text-white">SEC-04: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স/ক্যাডার]</h3>
+                        <button type="button" @click="addCourse" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Course</button>
+                    </div>
+                    <div class="p-0 overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16">ক্র: (Sl)</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">প্রশিক্ষণ ও কোর্স/ক্যাডার (Course)</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-32">সুযোগ (Chance)</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-32">সাল (Year)</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ফলাফল ও প্রাধিকার (Details)</th>
+                                    <th class="px-6 py-4 text-center w-16"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <template x-for="(course, index) in courses" :key="index">
+                                    <tr class="hover:bg-slate-50/50 transition-colors">
+                                        <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1"></td>
+                                        <td class="px-4 py-2">
+                                            <input type="text" :name="`courses[${index}][name]`" x-model="course.name" 
+                                                   class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase placeholder:text-slate-300" placeholder="COURSE NAME">
+                                        </td>
+                                        <td class="px-4 py-2">
+                                            <select :name="`courses[${index}][chance]`" x-model="course.chance" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
+                                                <option value="">- Select -</option>
+                                                <option value="1st">1st Chance</option>
+                                                <option value="2nd">2nd Chance</option>
+                                            </select>
+                                        </td>
+                                        <td class="px-4 py-2">
+                                            <input type="text" :name="`courses[${index}][year]`" x-model="course.year" 
+                                                   class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024">
+                                        </td>
+                                        <td class="px-4 py-2">
+                                            <input type="text" :name="`courses[${index}][authority]`" x-model="course.authority" 
+                                                   class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="EX: PASS / AUTH-123">
+                                        </td>
+                                        <td class="px-4 py-2 text-center">
+                                            <button type="button" @click="removeCourse(index)" class="text-slate-300 hover:text-red-500 transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

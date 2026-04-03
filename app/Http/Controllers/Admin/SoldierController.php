@@ -122,6 +122,13 @@ class SoldierController extends Controller
             'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
+            'father_name' => 'nullable|string|max:255',
+            'mother_name' => 'nullable|string|max:255',
+            'spouse_name' => 'nullable|string|max:255',
+            'religion' => 'nullable|string',
+            'marital_status' => 'nullable|string',
+            'dob' => 'nullable|date',
+            'nid' => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -205,6 +212,13 @@ class SoldierController extends Controller
             'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
+            'father_name' => 'nullable|string|max:255',
+            'mother_name' => 'nullable|string|max:255',
+            'spouse_name' => 'nullable|string|max:255',
+            'religion' => 'nullable|string',
+            'marital_status' => 'nullable|string',
+            'dob' => 'nullable|date',
+            'nid' => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('photo')) {
