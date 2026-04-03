@@ -217,8 +217,7 @@
             <div class="text-center mb-12 space-y-4">
                 <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50"
                     x-text="'Level 05 &bull; ' + selectedSec?.name"></p>
-                <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Personnel
-                    Directory</h2>
+                <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">View Personnel / View Soldier</h2>
                 <div class="flex items-center justify-center gap-3">
                     <span
                         class="px-3 py-1 bg-military-primary/10 text-military-primary text-[10px] font-bold uppercase tracking-widest"
@@ -271,15 +270,22 @@
                                             x-text="sol.appointment"></span>
                                     </td>
                                     <td class="px-8 py-6 text-right">
-                                        <a :href="sol.profile_url"
-                                            class="inline-flex items-center gap-2 px-6 py-3.5 bg-military-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-lg active:scale-95 group-hover:-translate-x-2">
-                                            <span>Examine Record</span>
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                            </svg>
-                                        </a>
+                                        <div class="flex items-center justify-end gap-3">
+                                            <a :href="sol.profile_url"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-military-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-military-secondary transition-all shadow-lg active:scale-95 group-hover:-translate-x-1">
+                                                <span>View Profile</span>
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                                </svg>
+                                            </a>
+                                            <a :href="sol.edit_url"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-amber-600 transition-all shadow-lg active:scale-95 group-hover:-translate-x-1">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                                <span>EDIT</span>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             </template>

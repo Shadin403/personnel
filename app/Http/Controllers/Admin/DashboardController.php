@@ -40,7 +40,8 @@ class DashboardController extends Controller
                 'appointment' => $s->appointment ?? 'Rifleman',
                 'unit_type' => 'soldier',
                 'img' => $s->photo_url,
-                'profile_url' => route('admin.soldiers.show', $s->id)
+                'profile_url' => route('admin.soldiers.show', $s->id),
+                'edit_url' => route('admin.soldiers.edit', $s->id)
             ];
         }
 
