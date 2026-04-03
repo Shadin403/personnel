@@ -61,15 +61,6 @@ class SoldierController extends Controller
         return view('admin.soldiers.index', compact('soldiers', 'stats'));
     }
 
-    public function updateOrder(Request $request)
-    {
-        $order = $request->order; // Array of IDs in the new order
-        foreach ($order as $index => $id) {
-            Soldier::where('id', $id)->update(['sort_order' => $index + 1]);
-        }
-        return response()->json(['success' => true]);
-    }
-
     public function create()
     {
         $units = \App\Models\Unit::all();
@@ -90,11 +81,15 @@ class SoldierController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'number' => 'required|string|unique:soldiers,number',
+            'personal_no' => 'nullable|string|max:255',
             'user_type' => 'required|string',
             'rank' => 'nullable|string',
+            'rank_bn' => 'nullable|string',
             'company' => 'nullable|string',
             'appointment' => 'nullable|string',
+            'appointment_bn' => 'nullable|string',
             'batch' => 'nullable|string',
             'blood_group' => 'nullable|string',
             'home_district' => 'nullable|string',
@@ -108,13 +103,22 @@ class SoldierController extends Controller
             'sub_unit' => 'nullable|string',
             'ipft_biannual_1' => 'nullable|string',
             'ipft_biannual_2' => 'nullable|string',
+            'ipft_1_status' => 'nullable|string',
+            'ipft_2_status' => 'nullable|string',
             'shoot_ret' => 'nullable|string',
+            'ret_status' => 'nullable|string',
             'shoot_ap' => 'nullable|string',
             'shoot_ets' => 'nullable|string',
             'shoot_total' => 'nullable|string',
             'speed_march' => 'nullable|string',
+            'speed_march_status' => 'nullable|string',
             'grenade_fire' => 'nullable|string',
+            'grenade_firing_status' => 'nullable|string',
+            'ni_firing_status' => 'nullable|string',
             'course_status' => 'nullable|string',
+            'commander_status' => 'nullable|string',
+            'leave_plan' => 'nullable|string',
+            'sports_participation' => 'nullable|string',
             'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
@@ -160,11 +164,15 @@ class SoldierController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'number' => 'required|string|unique:soldiers,number,' . $soldier->id,
+            'personal_no' => 'nullable|string|max:255',
             'user_type' => 'required|string',
             'rank' => 'nullable|string',
+            'rank_bn' => 'nullable|string',
             'company' => 'nullable|string',
             'appointment' => 'nullable|string',
+            'appointment_bn' => 'nullable|string',
             'batch' => 'nullable|string',
             'blood_group' => 'nullable|string',
             'home_district' => 'nullable|string',
@@ -178,13 +186,22 @@ class SoldierController extends Controller
             'sub_unit' => 'nullable|string',
             'ipft_biannual_1' => 'nullable|string',
             'ipft_biannual_2' => 'nullable|string',
+            'ipft_1_status' => 'nullable|string',
+            'ipft_2_status' => 'nullable|string',
             'shoot_ret' => 'nullable|string',
+            'ret_status' => 'nullable|string',
             'shoot_ap' => 'nullable|string',
             'shoot_ets' => 'nullable|string',
             'shoot_total' => 'nullable|string',
             'speed_march' => 'nullable|string',
+            'speed_march_status' => 'nullable|string',
             'grenade_fire' => 'nullable|string',
+            'grenade_firing_status' => 'nullable|string',
+            'ni_firing_status' => 'nullable|string',
             'course_status' => 'nullable|string',
+            'commander_status' => 'nullable|string',
+            'leave_plan' => 'nullable|string',
+            'sports_participation' => 'nullable|string',
             'unit_id' => 'nullable|exists:units,id',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',

@@ -32,7 +32,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('units', UnitController::class);
 
     // Soldiers CRUD
-    Route::post('/soldiers/update-order', [SoldierController::class, 'updateOrder'])->name('soldiers.update-order');
     Route::get('/soldiers/weak', [SoldierController::class, 'weak'])->name('soldiers.weak');
     Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
     Route::get('/soldiers/create', [SoldierController::class, 'create'])->name('soldiers.create');
@@ -44,6 +43,4 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
     Route::get('/soldiers/{soldier}/download-record-book', [SoldierController::class, 'downloadRecordBook'])->name('soldiers.download-record-book');
 
-    // Chain of Command
-    Route::get('/chain-of-command', [ChainOfCommandController::class, 'index'])->name('chain-of-command');
 });

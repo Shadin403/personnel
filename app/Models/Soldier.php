@@ -50,8 +50,10 @@ class Soldier extends Model
         'ni_firing_status',
         'course_status',
         'commander_status',
+        'cdr_plan_this_yr',
         'leave_plan',
         'sports_participation',
+        'nil_fire',
         'is_active',
         'sort_order',
     ];
