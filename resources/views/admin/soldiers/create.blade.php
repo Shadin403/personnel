@@ -432,8 +432,12 @@
                         <!-- Deployment Meta -->
                         <div class="space-y-6 pt-6 border-t border-slate-100">
                             <div class="space-y-2 text-left">
+                                <label class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Date of Enrolment</label>
+                                <input type="date" name="enrolment_date" value="{{ old('enrolment_date') }}" class="w-full p-4 tactical-input text-sm font-bold">
+                            </div>
+                            <div class="space-y-2 text-left">
                                 <label class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Rank Implementation Date</label>
-                                <input type="date" name="rank_date" class="w-full p-4 tactical-input text-sm font-bold">
+                                <input type="date" name="rank_date" value="{{ old('rank_date') }}" class="w-full p-4 tactical-input text-sm font-bold">
                             </div>
                             <div class="space-y-2 text-left">
                                 <label class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Position Sequence (#)</label>
