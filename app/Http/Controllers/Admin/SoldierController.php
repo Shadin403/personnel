@@ -129,6 +129,7 @@ class SoldierController extends Controller
             'marital_status' => 'nullable|string',
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
+            'special_courses' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -219,6 +220,7 @@ class SoldierController extends Controller
             'marital_status' => 'nullable|string',
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
+            'special_courses' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {

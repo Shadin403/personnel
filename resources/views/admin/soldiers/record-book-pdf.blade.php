@@ -251,6 +251,36 @@
         </tbody>
     </table>
 
+    <div class="section-title">সেনাবাহিনী পর্যায়ে কোর্স/ফরমেশন/ইউনিট পর্যায়ের ক্যাডার/বিশেষ প্রশিক্ষণ (SPECIAL TRAINING)</div>
+    <table class="trg-table">
+        <thead>
+            <tr style="background: #333; color: white;">
+                <th>ক্র: (Sl)</th>
+                <th>সাল (Year)</th>
+                <th>কোর্স/ক্যাডার (Course)</th>
+                <th>প্রতিষ্ঠান/ইউনিট (Unit)</th>
+                <th>ফলাফল ও প্রাধিকার (Details)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if($soldier->special_courses && count($soldier->special_courses) > 0)
+                @foreach($soldier->special_courses as $index => $scourse)
+                    <tr>
+                        <td style="text-align: center;">{{ $index + 1 }}</td>
+                        <td style="text-align: center;">{{ $scourse['year'] ?? 'N/A' }}</td>
+                        <td style="font-weight: bold; text-align: left;">{{ $scourse['name'] ?? 'N/A' }}</td>
+                        <td>{{ $scourse['unit'] ?? 'N/A' }}</td>
+                        <td>{{ $scourse['details'] ?? 'N/A' }}</td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #999; padding: 20px;">No special training records found.</td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
+
     <div style="margin-top: 50px; text-align: right;">
         <p style="font-weight: bold; text-decoration: overline;">Administrative Approval Signature</p>
         <p style="font-size: 10px; color: #666;">Generated on: {{ now()->format('d M Y H:i:s') }}</p>

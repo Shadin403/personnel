@@ -695,6 +695,71 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- SEC-05: Special Training & Courses [সেনাবাহিনী পর্যায়ে কোর্স/ক্যাডার/বিশেষ প্রশিক্ষণ] -->
+                    <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
+                        special_courses: [],
+                        addSpecialCourse() {
+                            this.special_courses.push({ year: '', name: '', unit: '', details: '' });
+                        },
+                        removeSpecialCourse(index) {
+                            this.special_courses.splice(index, 1);
+                        }
+                    }">
+                        <div class="px-8 py-5 bg-military-primary/90 flex items-center justify-between text-white shadow-lg">
+                            <h3 class="card-title-tactical text-white">SEC-05: Army/Formation/Unit Level Cadres & Special Training [বিশেষ প্রশিক্ষণ]</h3>
+                            <button type="button" @click="addSpecialCourse" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Training Record</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-16">ক্র: (Sl)</th>
+                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">সাল (Year)</th>
+                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">কোর্স/ক্যাডার (Course/Cadre)</th>
+                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">প্রতিষ্ঠান/ইউনিট (Inst/Unit)</th>
+                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">ফলাফল ও প্রাধিকার (Details)</th>
+                                        <th class="px-6 py-4 text-center w-16"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <template x-for="(scourse, index) in special_courses" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1"></td>
+                                            <td class="px-4 py-2">
+                                                <input type="text" :name="`special_courses[${index}][year]`" x-model="scourse.year" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024">
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <input type="text" :name="`special_courses[${index}][name]`" x-model="scourse.name" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase" placeholder="SPECIAL COURSE">
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <input type="text" :name="`special_courses[${index}][unit]`" x-model="scourse.unit" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="INSTITUTION / UNIT">
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <input type="text" :name="`special_courses[${index}][details]`" x-model="scourse.details" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="RESULT / AUTH">
+                                            </td>
+                                            <td class="px-4 py-2 text-center text-red-500">
+                                                <button type="button" @click="removeSpecialCourse(index)" class="text-slate-300 hover:text-red-500 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template x-if="special_courses.length === 0">
+                                        <tr>
+                                            <td colspan="6" class="px-6 py-10 text-center text-slate-300 italic text-xs">
+                                                No special training records added. Click 'Add Training Record' to start.
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sidebar (Photo & Status) -->
