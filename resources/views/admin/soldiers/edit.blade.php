@@ -429,7 +429,12 @@
                             { name: 'পিই', chance: '', year: '', authority: '', group: 'সৈনিক' },
                             { name: 'এটিটি', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
                             { name: 'এনসিও\'স কোর্স', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
-                            { name: 'পিই', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' }
+                            { name: 'পিই', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
+                            { name: 'সার্জেন্ট\'স কোর্স', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
+                            { name: 'পিই', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
+                            { name: 'ওয়ারেন্ট অফিসার্স কোর্স', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
+                            { name: 'পিই', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
+                            { name: 'পিই', chance: '', year: '', authority: '', group: 'ওয়ারেন্ট অফিসার' }
                         ],
                     addCourse() {
                         this.courses.push({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' });
