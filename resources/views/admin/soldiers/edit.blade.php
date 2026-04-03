@@ -18,13 +18,28 @@
         background: linear-gradient(90deg, #1e3a2f, #0f172a);
     }
     .card-title-tactical {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', 'Hind Siliguri', sans-serif;
         letter-spacing: 0.2em;
         font-weight: 900;
         text-transform: uppercase;
         font-size: 10px;
     }
     [x-cloak] { display: none !important; }
+    .tactical-dropdown-menu {
+        background: #1e3a2f;
+        border: 1px solid rgba(132, 204, 22, 0.2);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    .tactical-dropdown-item {
+        transition: all 0.2s;
+        border-left: 3px solid transparent;
+        color: white;
+    }
+    .tactical-dropdown-item:hover {
+        background: rgba(132, 204, 22, 0.1);
+        border-left-color: #84cc16;
+        padding-left: 1.25rem;
+    }
 </style>
 @endsection
 
@@ -63,48 +78,87 @@
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <!-- 1. Battalion -->
-                <div class="space-y-4">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Battalion [ব্যাটালিয়ন]</label>
-                    <select x-model="selectedBattalionId" @change="resetBelow('battalion')"
-                            class="w-full p-4 tactical-input text-[13px] font-bold uppercase tracking-wider appearance-none cursor-pointer">
-                        <option value="">- Select -</option>
-                        @foreach($groupedUnits['battalion'] as $unit)
-                            <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="space-y-2" x-data="{ open: false }">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Battalion Level</label>
+                    <div class="relative">
+                        <button type="button" @click="open = !open" @click.away="open = false" 
+                                class="w-full bg-slate-50 border border-slate-200 p-4 text-sm font-bold flex items-center justify-between hover:bg-white transition-all text-left">
+                            <span x-text="allUnits.find(u => u.id == selectedBattalionId)?.name || '- Select Battalion -'"></span>
+                            <svg class="w-4 h-4 text-military-primary transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity class="absolute z-50 w-full mt-2 py-2 tactical-dropdown-menu max-h-60 overflow-y-auto custom-scrollbar shadow-2xl">
+                            <template x-for="unit in allUnits.filter(u => u.type === 'battalion')" :key="unit.id">
+                                <button type="button" @click="selectedBattalionId = unit.id; resetBelow('battalion'); open = false" 
+                                        class="w-full px-4 py-3 text-left text-xs font-bold uppercase tactical-dropdown-item flex items-center justify-between">
+                                    <span x-text="unit.name"></span>
+                                    <span x-show="selectedBattalionId == unit.id" class="w-2 h-2 bg-military-accent rounded-full"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- 2. Company -->
-                <div class="space-y-4">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Company [কোম্পানি]</label>
-                    <select x-model="selectedCompanyId" @change="resetBelow('company')" :disabled="!selectedBattalionId"
-                            class="w-full p-4 tactical-input text-[13px] font-bold uppercase tracking-wider appearance-none cursor-pointer disabled:opacity-30">
-                        <option value="">- Select -</option>
-                        <template x-for="unit in companies" :key="unit.id">
-                            <option :value="unit.id" x-text="unit.name"></option>
-                        </template>
-                    </select>
+                <div class="space-y-2" x-data="{ open: false }">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Force Element (Coy)</label>
+                    <div class="relative">
+                        <button type="button" @click="open = !open" @click.away="open = false" :disabled="!selectedBattalionId"
+                                class="w-full bg-slate-50 border border-slate-200 p-4 text-sm font-bold flex items-center justify-between hover:bg-white transition-all text-left disabled:opacity-30">
+                            <span x-text="allUnits.find(u => u.id == selectedCompanyId)?.name || '- Select Company -'"></span>
+                            <svg class="w-4 h-4 text-military-primary transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity class="absolute z-50 w-full mt-2 py-2 tactical-dropdown-menu max-h-60 overflow-y-auto custom-scrollbar shadow-2xl">
+                            <template x-for="unit in companies" :key="unit.id">
+                                <button type="button" @click="selectedCompanyId = unit.id; resetBelow('company'); open = false" 
+                                        class="w-full px-4 py-3 text-left text-xs font-bold uppercase tactical-dropdown-item flex items-center justify-between">
+                                    <span x-text="unit.name"></span>
+                                    <span x-show="selectedCompanyId == unit.id" class="w-2 h-2 bg-military-accent rounded-full"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- 3. Platoon -->
-                <div class="space-y-4">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Platoon [প্লাটুন]</label>
-                    <select x-model="selectedPlatoonId" @change="resetBelow('platoon')" :disabled="!selectedCompanyId"
-                            class="w-full p-4 tactical-input text-[13px] font-bold uppercase tracking-wider appearance-none cursor-pointer disabled:opacity-30">
-                        <option value="">- Select -</option>
-                        <template x-for="unit in platoons" :key="unit.id">
-                            <option :value="unit.id" x-text="unit.name"></option>
-                        </template>
-                    </select>
+                <div class="space-y-2" x-data="{ open: false }">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Tactical Unit (Platoon)</label>
+                    <div class="relative">
+                        <button type="button" @click="open = !open" @click.away="open = false" :disabled="!selectedCompanyId"
+                                class="w-full bg-slate-50 border border-slate-200 p-4 text-sm font-bold flex items-center justify-between hover:bg-white transition-all text-left disabled:opacity-30">
+                            <span x-text="allUnits.find(u => u.id == selectedPlatoonId)?.name || '- Select Platoon -'"></span>
+                            <svg class="w-4 h-4 text-military-primary transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity class="absolute z-50 w-full mt-2 py-2 tactical-dropdown-menu max-h-60 overflow-y-auto custom-scrollbar shadow-2xl">
+                            <template x-for="unit in platoons" :key="unit.id">
+                                <button type="button" @click="selectedPlatoonId = unit.id; resetBelow('platoon'); open = false" 
+                                        class="w-full px-4 py-3 text-left text-xs font-bold uppercase tactical-dropdown-item flex items-center justify-between">
+                                    <span x-text="unit.name"></span>
+                                    <span x-show="selectedPlatoonId == unit.id" class="w-2 h-2 bg-military-accent rounded-full"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- 4. Section -->
-                <div class="space-y-4">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Section [সেকশন]</label>
-                    <select x-model="selectedSectionId" :disabled="!selectedPlatoonId"
-                            class="w-full p-4 tactical-input text-[13px] font-bold uppercase tracking-wider appearance-none cursor-pointer disabled:opacity-30">
-                        <option value="">- Select -</option>
-                        <template x-for="unit in sections" :key="unit.id">
-                            <option :value="unit.id" x-text="unit.name"></option>
-                        </template>
-                    </select>
+                <div class="space-y-2" x-data="{ open: false }">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Squad/Section</label>
+                    <div class="relative">
+                        <button type="button" @click="open = !open" @click.away="open = false" :disabled="!selectedPlatoonId"
+                                class="w-full bg-slate-50 border border-slate-200 p-4 text-sm font-bold flex items-center justify-between hover:bg-white transition-all text-left disabled:opacity-30">
+                            <span x-text="allUnits.find(u => u.id == selectedSectionId)?.name || '- Select Section -'"></span>
+                            <svg class="w-4 h-4 text-military-primary transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity class="absolute z-50 w-full mt-2 py-2 tactical-dropdown-menu max-h-60 overflow-y-auto custom-scrollbar shadow-2xl">
+                            <template x-for="unit in sections" :key="unit.id">
+                                <button type="button" @click="selectedSectionId = unit.id; open = false" 
+                                        class="w-full px-4 py-3 text-left text-xs font-bold uppercase tactical-dropdown-item flex items-center justify-between">
+                                    <span x-text="unit.name"></span>
+                                    <span x-show="selectedSectionId == unit.id" class="w-2 h-2 bg-military-accent rounded-full"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
                 </div>
             </div>
             <input type="hidden" name="unit_id" :value="finalUnitId">
@@ -127,6 +181,14 @@
                                 <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Service Number [নং]</label>
                                 <input type="text" name="number" value="{{ old('number', $soldier->number) }}" required class="w-full p-4 tactical-input text-sm font-bold uppercase">
                             </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Rank [পদবী]</label>
+                                <input type="text" name="rank" value="{{ old('rank', $soldier->rank) }}" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Appointment [নিয়োগ]</label>
+                                <input type="text" name="appointment" value="{{ old('appointment', $soldier->appointment) }}" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                            </div>
                         </div>
                         <div class="space-y-6">
                             <div class="space-y-2">
@@ -136,6 +198,14 @@
                             <div class="space-y-2">
                                 <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Personal No [পি নং]</label>
                                 <input type="text" name="personal_no" value="{{ old('personal_no', $soldier->personal_no) }}" class="w-full p-4 tactical-input text-sm font-bold uppercase">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest font-bengali">পদবী [বাংলায়]</label>
+                                <input type="text" name="rank_bn" value="{{ old('rank_bn', $soldier->rank_bn) }}" class="w-full p-4 tactical-input text-sm font-bold">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest font-bengali">নিয়োগ [বাংলায়]</label>
+                                <input type="text" name="appointment_bn" value="{{ old('appointment_bn', $soldier->appointment_bn) }}" class="w-full p-4 tactical-input text-sm font-bold">
                             </div>
                         </div>
                     </div>
@@ -148,7 +218,9 @@
                     </div>
                     <div class="p-8 space-y-10">
                         <!-- Firing Scores -->
-                                        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                        <div>
+                            <p class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-6 border-b border-military-primary/10 pb-2">Firing Efficiency (Shoot Results)</p>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-bold text-slate-500 uppercase">Grouping</label>
                                     <input type="text" name="shoot_ret" value="{{ old('shoot_ret', $soldier->shoot_ret) }}" class="w-full p-4 tactical-input text-sm font-bold text-center">
@@ -170,17 +242,18 @@
                                     <input type="text" name="shoot_total" value="{{ old('shoot_total', $soldier->shoot_total) }}" class="w-full p-4 tactical-input text-sm font-black text-military-primary text-center bg-military-primary/5">
                                 </div>
                             </div>
- $soldier->shoot_total) }}" class="w-full p-4 tactical-input text-sm font-black text-military-primary text-center bg-military-primary/5">
-                                </div>
-                            </div>
                         </div>
+
                         <!-- Physical & Tactical -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <!-- IPFT -->
                             <div class="space-y-6">
-                                           <div class="space-y-2">
+                                <p class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-4">Physical Attributes (IPFT)</p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-slate-400 uppercase">Biannual 01</label>
                                         <select name="ipft_biannual_1" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                            <option value="">- Select -</option>
                                             <option value="Pass" {{ $soldier->ipft_biannual_1 == 'Pass' ? 'selected' : '' }}>Pass</option>
                                             <option value="Failed" {{ $soldier->ipft_biannual_1 == 'Failed' ? 'selected' : '' }}>Failed</option>
                                             <option value="Attend" {{ $soldier->ipft_biannual_1 == 'Attend' ? 'selected' : '' }}>Attend</option>
@@ -190,6 +263,7 @@
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-slate-400 uppercase">Biannual 02</label>
                                         <select name="ipft_biannual_2" class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                            <option value="">- Select -</option>
                                             <option value="Pass" {{ $soldier->ipft_biannual_2 == 'Pass' ? 'selected' : '' }}>Pass</option>
                                             <option value="Failed" {{ $soldier->ipft_biannual_2 == 'Failed' ? 'selected' : '' }}>Failed</option>
                                             <option value="Attend" {{ $soldier->ipft_biannual_2 == 'Attend' ? 'selected' : '' }}>Attend</option>
@@ -209,11 +283,6 @@
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-slate-400 uppercase">Grenade Fire</label>
                                         <input type="text" name="grenade_fire" value="{{ old('grenade_fire', $soldier->grenade_fire) }}" placeholder="Pass / 2 of 4" class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                    </div>
-                                </div>
-                            </div>
-== 'Fail' ? 'selected' : '' }}>Fail</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>

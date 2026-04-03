@@ -8,9 +8,10 @@
     <title>{{ config('app.name', 'Soldier Management') }} - @yield('title', 'Admin')</title>
 
     <!-- Fonts -->
+    <!-- Fonts: Inter for Tactical UI, Roboto for General UI, Hind Siliguri for Bengali Support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <!-- Theme Initialization Script -->
     <script>
@@ -45,7 +46,8 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['Roboto', 'Inter', 'sans-serif'],
+                        sans: ['Inter', 'Roboto', 'Hind Siliguri', 'sans-serif'],
+                        bengali: ['Hind Siliguri', 'sans-serif'],
                     },
                 }
             }
