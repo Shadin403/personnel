@@ -6,8 +6,11 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SoldierController;
 use App\Http\Controllers\Admin\ChainOfCommandController;
 
-// Redirect root to login
+// Redirect root to dashboard or login
 Route::get('/', function () {
+    if (Illuminate\Support\Facades\Auth::check()) {
+        return redirect()->route('admin.dashboard');
+    }
     return redirect()->route('login');
 });
 
