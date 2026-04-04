@@ -697,7 +697,7 @@
                     </div>
 
                     <!-- SEC-05: Special Training & Courses [সেনাবাহিনী পর্যায়ে কোর্স/ক্যাডার/বিশেষ প্রশিক্ষণ] -->
-                    <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{ 
                         special_courses: [],
                         addSpecialCourse() {
                             this.special_courses.push({ year: '', name: '', unit: '', details: '' });
@@ -706,8 +706,11 @@
                             this.special_courses.splice(index, 1);
                         }
                     }">
-                        <div class="px-8 py-5 bg-military-primary/90 flex items-center justify-between text-white shadow-lg">
-                            <h3 class="card-title-tactical text-white">SEC-05: Army/Formation/Unit Level Cadres & Special Training [বিশেষ প্রশিক্ষণ]</h3>
+                        <div class="px-8 py-5 bg-gradient-to-r from-military-primary to-military-primary/90 flex items-center justify-between text-white shadow-lg border-l-8 border-amber-500">
+                            <div class="flex items-center gap-4">
+                                <span class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-05</span>
+                                <h3 class="card-title-tactical text-white">Army/Formation/Unit Level Cadres & Special Training [বিশেষ প্রশিক্ষণ]</h3>
+                            </div>
                             <button type="button" @click="addSpecialCourse" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Training Record</button>
                         </div>
                         <div class="p-0 overflow-x-auto">
