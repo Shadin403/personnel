@@ -368,7 +368,7 @@
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
                                             class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">৬</span>
-                                        ভর্তির তারিক (Date of Enrolment)
+                                        ভর্তির তারিখ (Date of Join)
                                     </label>
                                     <input type="date" name="enrolment_date"
                                         value="{{ old('enrolment_date', $soldier->enrolment_date ? $soldier->enrolment_date->format('Y-m-d') : '') }}"

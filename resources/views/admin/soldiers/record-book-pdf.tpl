@@ -126,7 +126,7 @@
 </head>
 <body>
     <div class="header-restricted">
-        <span class="restricted-box">ব্যক্তিগত (RESTRICTED)</span>
+        <span class="restricted-box">গোপনীয়</span>
     </div>
 
     <div class="photo-container">
@@ -165,7 +165,7 @@
     <div class="section-header">SEC-02: Tactical Chain of Command [কমান্ড চেইন]</div>
     <table class="data-table">
         <tr>
-            <th>ইউনিট (Unit/Regiment):</th>
+            <th>ইউনিট (Unit):</th>
             <td colspan="3">{{ $soldier->battalion_name }}</td>
         </tr>
         <tr>
@@ -186,7 +186,7 @@
     <div class="section-header">SEC-03: Military Career Particulars [চাকরির তথ্য]</div>
     <table class="data-table">
         <tr>
-            <th>ভর্তির তারিখ (Enrolment Date):</th>
+            <th>ভর্তির তারিখ (Date of Join):</th>
             <td>{{ $soldier->enrolment_date ? $soldier->enrolment_date->format('d M Y') : 'N/A' }}</td>
             <th>পদবী প্রাপ্তি (Date of Rank):</th>
             <td>{{ $soldier->rank_date ? $soldier->rank_date->format('d M Y') : 'N/A' }}</td>
@@ -325,8 +325,8 @@
         <p>Generated Date: {{ now()->format('d M Y H:i:s') }}</p>
     </div>
 
-    <div style="position: fixed; bottom: -20px; width: 100%; text-align: center; font-size: 9px; color: #666;">
-        ব্যক্তিগত (RESTRICTED)
+    <div style="position: fixed; bottom: -20px; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #000;">
+        গোপনীয়
     </div>
 </body>
 </html>

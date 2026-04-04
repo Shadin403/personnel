@@ -157,7 +157,7 @@
                     <div class="p-6 space-y-4">
                         @php
                             $hierarchy = [
-                                ['label' => 'Unit/Regt', 'value' => $soldier->battalion_name],
+                                ['label' => 'Unit', 'value' => $soldier->battalion_name],
                                 ['label' => 'Coy Group', 'value' => $soldier->company ?? 'N/A'],
                                 ['label' => 'Platoon', 'value' => $soldier->platoon ?? 'N/A'],
                                 ['label' => 'Section', 'value' => $soldier->section ?? 'N/A'],
@@ -220,7 +220,7 @@
                         </div>
                         <div class="p-8 grid grid-cols-2 gap-8">
                             <div class="space-y-1">
-                                <span class="data-label">Enrolment Date</span>
+                                <span class="data-label">Date of Join</span>
                                 <span class="data-value">{{ $soldier->enrolment_date ? $soldier->enrolment_date->format('d M Y') : 'N/A' }}</span>
                             </div>
                             <div class="space-y-1">
