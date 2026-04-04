@@ -155,7 +155,7 @@
     </table>
 
     <!-- SEC-01: Identity -->
-    <div class="section-header">SEC-01: Personnel Identity [মৌলিক তথ্য]</div>
+    <div class="section-header">SEC-01: Personnel Identity [মৌলিক তথ্য ১-৫]</div>
     <table class="data-table">
         <tr>
             <th>সৈনিকের নাম (Full Name):</th>
@@ -179,7 +179,7 @@
             <td colspan="3">{{ $soldier->battalion_name }}</td>
         </tr>
         <tr>
-            <th>কোয়েচ গ্রুপ (Company):</th>
+            <th>কোম্পানী (Company):</th>
             <td>{{ $soldier->company ?? 'N/A' }}</td>
             <th>প্লাটুন (Platoon):</th>
             <td>{{ $soldier->platoon ?? 'N/A' }}</td>
@@ -193,24 +193,30 @@
     </table>
 
     <!-- SEC-03: Military Particulars -->
-    <div class="section-header">SEC-03: Military Career Particulars [চাকরির তথ্য]</div>
+    <div class="section-header">SEC-03: Military Career Particulars [চাকরির তথ্য ৬-১১]</div>
     <table class="data-table">
         <tr>
             <th>ভর্তির তারিখ (Date of Join):</th>
             <td>{{ $soldier->enrolment_date ? $soldier->enrolment_date->format('d M Y') : 'N/A' }}</td>
-            <th>পদবী প্রাপ্তি (Date of Rank):</th>
+            <th>পদের তারিখ (Date of Rank):</th>
             <td>{{ $soldier->rank_date ? $soldier->rank_date->format('d M Y') : 'N/A' }}</td>
         </tr>
         <tr>
-            <th>ব্যাচ (Batch):</th>
-            <td>{{ $soldier->batch ?? 'N/A' }}</td>
+            <th>বেসামরিক শিক্ষা (Civil Education):</th>
+            <td>{{ $soldier->civil_education ?? 'N/A' }}</td>
             <th>রক্তের গ্রুপ (Blood Group):</th>
             <td>{{ $soldier->blood_group }}</td>
+        </tr>
+        <tr>
+            <th>ওজন (Weight):</th>
+            <td>{{ $soldier->weight ?? 'N/A' }} KG</td>
+            <th>ব্যাচ (Batch):</th>
+            <td>{{ $soldier->batch ?? 'N/A' }}</td>
         </tr>
     </table>
 
     <!-- SEC-04: Personal Detail -->
-    <div class="section-header">SEC-04: Personal Profile & Bio-data [ব্যক্তিগত তথ্য]</div>
+    <div class="section-header">SEC-04: Personal Profile & Bio-data [ব্যক্তিগত তথ্য ১২-১৯]</div>
     <table class="data-table">
         <tr>
             <th>পিতার নাম (Father's Name):</th>
@@ -227,96 +233,149 @@
         <tr>
             <th>এনআইডি (NID No):</th>
             <td>{{ $soldier->nid ?? 'N/A' }}</td>
-            <th>উচ্চতা ও ওজন (Height/Weight):</th>
-            <td>{{ $soldier->height }} / {{ $soldier->weight }}</td>
-        </tr>
-        <tr>
             <th>ধর্ম (Religion):</th>
             <td>{{ $soldier->religion ?? 'N/A' }}</td>
+        </tr>
+        <tr>
             <th>বৈবাহিক অবস্থা (Status):</th>
             <td>{{ $soldier->marital_status ?? 'N/A' }}</td>
+            <th>স্থায়ী ঠিকানা (Permanent Address):</th>
+            <td>{{ $soldier->home_district }}, {{ $soldier->permanent_address ?? 'N/A' }}</td>
         </tr>
     </table>
 
-    <!-- SEC-05: Location -->
-    <div class="section-header">SEC-05: Geographic Trace [স্থায়ী ঠিকানা]</div>
-    <table class="data-table">
-        <tr>
-            <th>হোম ডিস্ট্রিক্ট (District):</th>
-            <td>{{ $soldier->home_district ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <th>স্থায়ী ঠিকানা (Address):</th>
-            <td>{{ $soldier->permanent_address ?? 'N/A' }}</td>
-        </tr>
-    </table>
-
-    <!-- SEC-06: Career Plan -->
-    <div class="section-header">SEC-06: Strategic Career Trajectory [বাৎসরিক পেশা পরিকল্পনা]</div>
+    <!-- SEC-05: Promotion Training -->
+    <div class="section-header">SEC-05: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
     <table class="grid-table">
         <thead>
             <tr>
-                <th>Phase</th>
-                <th>Year</th>
-                <th>Trade / Specialty</th>
-                <th>Re-engagement</th>
-                <th>Strategic Remarks</th>
+                <th style="width: 40px;">ক্র:<br>(Sl)</th>
+                <th>প্রশিক্ষণ ও কোর্স<br>(Course Name)</th>
+                <th style="width: 80px;">সুযোগ<br>(Chance)</th>
+                <th style="width: 60px;">সাল<br>(Year)</th>
+                <th>ফলাফল ও প্রাধিকার<br>(Result & Details)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($soldier->courses as $index => $course)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td style="text-align: left;">{{ $course->name }}</td>
+                    <td>{{ $course->chance }}</td>
+                    <td>{{ $course->year }}</td>
+                    <td style="text-align: left;">{{ $course->authority }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="color: #999;">No promotion training records found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <!-- SEC-06: Special Training -->
+    <div class="section-header">SEC-06: Army/Formation/Unit Level Cadres [বিশেষ প্রশিক্ষণ]</div>
+    <table class="grid-table">
+        <thead>
+            <tr>
+                <th style="width: 60px;">সাল<br>(Year)</th>
+                <th>কোর্স/ক্যাডার<br>(Course / Cadre Name)</th>
+                <th>প্রতিষ্ঠান/ইউনিট<br>(Institution / Unit)</th>
+                <th>ফলাফল ও প্রাধিকার<br>(Result & Details)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php $special = $soldier->special_courses ?? []; @endphp
+            @forelse($special as $scourse)
+                <tr>
+                    <td>{{ $scourse['year'] ?? '' }}</td>
+                    <td style="text-align: left;">{{ $scourse['name'] ?? '' }}</td>
+                    <td>{{ $scourse['unit'] ?? '' }}</td>
+                    <td style="text-align: left;">{{ $scourse['details'] ?? '' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" style="color: #999;">No special training records found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <!-- SEC-07: Annual Career Plan -->
+    <div class="section-header">SEC-07: Strategic Career Trajectory [বাৎসরিক পেশা পরিকল্পনা]</div>
+    <table class="grid-table" style="font-size: 9px;">
+        <thead>
+            <tr>
+                <th style="width: 30px;">বছর<br>(Year)</th>
+                <th>ছুটি<br>(Leave)</th>
+                <th>ইউনিট প্রশিক্ষণ<br>(Unit Trg)</th>
+                <th>ব্যক্তিগত প্রশিক্ষণ<br>(Pers Trg)</th>
+                <th>প্রশাসন<br>(Admin)</th>
+                <th>MOOTW</th>
+                <th>স্বাক্ষর<br>(Sign)</th>
             </tr>
         </thead>
         <tbody>
             @php $plans = $soldier->annual_career_plans ?? []; @endphp
-            @for($i = 0; $i < 5; $i++)
-                @php $plan = $plans[$i] ?? null; @endphp
+            @forelse($plans as $plan)
                 <tr>
-                    <td>{{ $i + 1 }}</td>
                     <td>{{ $plan['year'] ?? '' }}</td>
-                    <td>{{ $plan['trade'] ?? '' }}</td>
-                    <td>{{ $plan['re_engagement'] ?? '' }}</td>
-                    <td style="text-align: left;">{{ $plan['remarks'] ?? '' }}</td>
+                    <td>{{ $plan['leave'] ?? '' }}</td>
+                    <td>{{ $plan['unit_trg'] ?? '' }}</td>
+                    <td>{{ $plan['personal_trg'] ?? '' }}</td>
+                    <td>{{ $plan['admin'] ?? '' }}</td>
+                    <td>{{ $plan['mootw'] ?? '' }}</td>
+                    <td>{{ $plan['signature'] ?? '' }}</td>
                 </tr>
-            @endfor
+            @empty
+                <tr>
+                    <td colspan="7" style="color: #999;">No career plans founded.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 
-    <!-- SEC-07: Combat Readiness -->
-    <div class="section-header">SEC-07: Combat Readiness & Performance [প্রশিক্ষণ ও ফায়ারিং]</div>
+    <!-- SEC-08: Combat Readiness -->
+    <div class="section-header">SEC-08: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
     <table class="data-table" style="margin-bottom: 5px;">
         <tr>
-            <th colspan="2" style="background: #eee; text-align: center;">IPFT RESULTS</th>
             <th colspan="2" style="background: #eee; text-align: center;">FIRING ANALYTICS (STH)</th>
+            <th colspan="2" style="background: #eee; text-align: center;">PHYSICAL PROFICIENCY</th>
         </tr>
         <tr>
-            <th>Cycle 01:</th>
-            <td>{{ $soldier->ipft_biannual_1 ?? 'N/A' }}</td>
-            <th>Marksman Tier:</th>
-            <td><span class="marksman-badge">{{ $soldier->shooting_grade }}</span></td>
-        </tr>
-        <tr>
-            <th>Cycle 02:</th>
-            <td>{{ $soldier->ipft_biannual_2 ?? 'N/A' }}</td>
-            <th>Total Score:</th>
-            <td style="font-size: 14px;">{{ $soldier->shoot_total ?? '0' }}</td>
-        </tr>
-    </table>
-    <table class="grid-table">
-        <tr>
-            <th>Hit</th>
-            <th>AP</th>
-            <th>ETS</th>
-            <th>Speed March</th>
-            <th>Grenade</th>
-        </tr>
-        <tr>
+            <th>Grouping (Ret):</th>
             <td>{{ $soldier->shoot_ret ?? '0' }}</td>
+            <th>IPFT Cycle 01:</th>
+            <td>{{ $soldier->ipft_biannual_1 ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Hit (AP):</th>
             <td>{{ $soldier->shoot_ap ?? '0' }}</td>
+            <th>IPFT Cycle 02:</th>
+            <td>{{ $soldier->ipft_biannual_2 ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>ETS Score:</th>
             <td>{{ $soldier->shoot_ets ?? '0' }}</td>
-            <td>{{ $soldier->speed_march ?? '0/4' }}</td>
-            <td>{{ $soldier->grenade_fire ?? '0/4' }}</td>
+            <th>Speed March:</th>
+            <td>{{ $soldier->speed_march ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Night Fire (Nil):</th>
+            <td>{{ $soldier->nil_fire ?? 'N/A' }}</td>
+            <th>Grenade Fire:</th>
+            <td>{{ $soldier->grenade_fire ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Total Score / Grade:</th>
+            <td><span style="font-size: 14px;">{{ $soldier->shoot_total ?? '0' }}</span> <span class="marksman-badge">{{ $soldier->shooting_grade }}</span></td>
+            <th>Overall Status:</th>
+            <td>{{ $soldier->overall_status }}</td>
         </tr>
     </table>
 
-    <!-- SEC-08: Financial -->
-    <div class="section-header">SEC-08: Financial Details [আর্থিক তথ্য]</div>
+    <!-- SEC-09: Financial -->
+    <div class="section-header">SEC-09: Financial Details [আর্থিক তথ্য]</div>
     <table class="data-table">
         <tr>
             <th>ব্যাংকের নাম (Bank Name):</th>
@@ -330,12 +389,13 @@
         </tr>
     </table>
 
-    <div class="footer-note">
-        <p>This is a strategically generated personnel record book. All data is restricted for official use only.</p>
+    <div class="footer-note" style="text-align: center; font-weight: bold; margin-top: 30px;">
+        <div style="border: 1px solid #000; display: inline-block; padding: 5px 20px; text-transform: uppercase;">গোপনীয়</div>
+        <p style="margin-top: 10px;">This is a strategically generated personnel record book. All data is restricted for official use only.</p>
         <p>Generated Date: {{ now()->format('d M Y H:i:s') }}</p>
     </div>
 
-    <div style="position: fixed; bottom: -20px; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #000;">
+    <div style="position: fixed; bottom: -10px; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #000; border-top: 1px solid #eee; padding-top: 5px;">
         গোপনীয়
     </div>
 </body>
