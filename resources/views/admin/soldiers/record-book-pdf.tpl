@@ -140,7 +140,7 @@
     </table>
 
     <!-- SEC-01: Identity -->
-    <div class="section-header">SEC-01: Personnel Identity [গোপনীয় তথ্য ]</div>
+    <div class="section-header">SEC-01: Personal Identity [গোপনীয় তথ্য ]</div>
     <table class="data-table">
         <tr>
             <th>ব্যক্তিগত নং (Personal No):</th>
