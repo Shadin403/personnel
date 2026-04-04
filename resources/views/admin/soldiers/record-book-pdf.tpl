@@ -221,7 +221,7 @@
     </div>
 
     <div class="section-block">
-        <div style="margin-top: 10px; font-weight: bold;">3.2 RET Firing [আরইটি ফায়ারিং প্রোফাইল]</div>
+        <div style="margin-top: 10px; font-weight: bold;">3.2 RET Firing [আরইটি ফায়ারিং]</div>
         <table class="grid-table" style="font-size: 10px;">
             <thead>
                 <tr>
