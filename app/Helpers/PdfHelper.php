@@ -16,6 +16,9 @@ class PdfHelper
     public static function generateRecordBook(Soldier $soldier)
     {
         // Strategic mPDF Configuration for Bangla support
+        // Secure watermark path and configuration
+        $logoPath = public_path('assets/logos/SAJHSF.png');
+
         $options = [
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -25,6 +28,12 @@ class PdfHelper
             'margin_top' => 10,
             'margin_bottom' => 10,
             'display_mode' => 'fullpage',
+            'instanceConfigurator' => function($mpdf) use ($logoPath) {
+                if (file_exists($logoPath)) {
+                    $mpdf->SetWatermarkImage($logoPath, 0.05, 'F');
+                    $mpdf->showWatermarkImage = true;
+                }
+            }
         ];
 
         return Pdf::loadView('admin.soldiers.record-book-pdf', compact('soldier'), [], $options);

@@ -297,21 +297,11 @@ class SoldierController extends Controller
 
     public function printRecordBook(Soldier $soldier)
     {
-        // Generate PDF with mPDF auto-print instruction
+        // Generate PDF with tactical helper
         $pdf = PdfHelper::generateRecordBook($soldier);
         
-        // Use the underlying mPDF instance for advanced branding and JS
-        $mpdf = $pdf->mpdf;
-        
         // Inject Auto-Print Command
-        $mpdf->SetJS('this.print();');
-        
-        // Add Organization Watermark (Subtle)
-        $logoPath = public_path('assets/logos/SAJHSF.png');
-        if (file_exists($logoPath)) {
-            $mpdf->SetWatermarkImage($logoPath, 0.05, 'F');
-            $mpdf->showWatermarkImage = true;
-        }
+        $pdf->mpdf->SetJS('this.print();');
         
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }
