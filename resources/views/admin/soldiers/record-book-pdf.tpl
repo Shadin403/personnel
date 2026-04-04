@@ -58,88 +58,73 @@
             object-fit: cover;
         }
         .section-header {
-            background: #f0f4f2;
-            padding: 6px 12px;
+            background: #f1f3f5;
+            padding: 8px 12px;
             font-weight: bold;
-            margin: 20px 0 10px 0;
-            border-left: 6px solid #2F4F3E;
+            margin: 25px 0 10px 0;
+            border-left: 5px solid #000;
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 13px;
             clear: both;
+            color: #000;
         }
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .data-table th {
             text-align: left;
-            width: 30%;
-            padding: 6px 8px;
-            background: #fafafa;
-            border: 1px solid #e0e0e0;
-            color: #555;
-            font-size: 10px;
+            width: 25%;
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #495057;
+            font-size: 11px;
+            font-weight: normal;
         }
         .data-table td {
-            padding: 6px 8px;
-            border: 1px solid #e0e0e0;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
             font-weight: bold;
-            color: #000;
+            color: #212529;
+            font-size: 12px;
         }
         .grid-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
         .grid-table th {
-            background: #333;
-            color: #fff;
-            padding: 8px;
-            font-size: 10px;
-            border: 1px solid #000;
+            background: #343a40;
+            color: #ffffff;
+            padding: 10px;
+            font-size: 11px;
+            border: 1px solid #343a40;
             text-align: center;
         }
         .grid-table td {
-            padding: 8px;
-            border: 1px solid #333;
+            padding: 10px;
+            border: 1px solid #dee2e6;
             text-align: center;
-        }
-        .footer-note {
-            margin-top: 50px;
-            font-size: 9px;
-            color: #888;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-        .bengali {
-            font-family: 'nikosh', sans-serif;
-            color: #444;
-        }
-        .marksman-badge {
-            background: #c92a2a;
-            color: white;
-            padding: 2px 8px;
-            font-weight: bold;
-            display: inline-block;
+            color: #212529;
         }
     </style>
 </head>
 <body>
-    <div class="header-restricted">
-        <span class="restricted-box">গোপনীয়</span>
-    </div>
+    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">গোপনীয় / RESTRICTED</div>
 
-    <table style="width: 100%; margin-bottom: 15px; border: none;">
+    <table style="width: 100%; margin-bottom: 20px; border: none;">
         <tr>
             <td style="vertical-align: top; border: none;">
-                <div class="main-title" style="text-align: left; margin: 0; padding: 0;">{{ $soldier->name }}</div>
-                <div class="bengali" style="font-size: 15px; font-weight: bold; margin: 5px 0 10px 0;">{{ $soldier->name_bn }}</div>
-                <div style="border-bottom: 2px solid #000; padding-bottom: 8px; font-weight: bold; font-size: 12px; text-transform: uppercase; color: #333;">
-                    Strategic Personnel Record Book [সেনা রেকর্ড বুক]
+                <div style="font-size: 24px; font-weight: bold; color: #000; margin-bottom: 5px;">{{ $soldier->name }}</div>
+                <div style="font-size: 18px; font-weight: bold; color: #495057; margin-bottom: 10px;">{{ $soldier->name_bn }}</div>
+                <div style="font-size: 14px; font-weight: bold; text-transform: uppercase; color: #000; border-bottom: 3px solid #000; display: inline-block; padding-bottom: 5px;">
+                    ডিজিটাল রেকর্ড বুক (Digital Personnel Record)
                 </div>
             </td>
-            <td style="vertical-align: top; width: 125px; text-align: right; border: none;">
-                <div class="photo-container" style="width: 120px; height: 145px; border: 2px solid #000; margin: 0; padding: 0; float: right;">
+            <td style="vertical-align: top; width: 130px; text-align: right; border: none;">
+                <div class="photo-container" style="width: 120px; height: 145px; border: 3px solid #000; margin: 0; padding: 0; float: right; background: #fff;">
                     @if($soldier->photo && file_exists(public_path('storage/' . $soldier->photo)))
                         @php
                             $imageData = base64_encode(file_get_contents(public_path('storage/' . $soldier->photo)));
@@ -147,7 +132,7 @@
                         @endphp
                         <img src="data:{{ $mimeType }};base64,{{ $imageData }}" style="width: 120px; height: 145px; display: block;">
                     @else
-                        <div style="width: 120px; height: 145px; line-height: 145px; text-align: center; color: #ccc; border: 1px dashed #ccc; font-size: 10px;">PHOTO</div>
+                        <div style="width: 120px; height: 145px; line-height: 145px; text-align: center; color: #adb5bd; border: 1px dashed #dee2e6; font-size: 10px;">PHOTO (ছবি)</div>
                     @endif
                 </div>
             </td>
@@ -155,54 +140,32 @@
     </table>
 
     <!-- SEC-01: Identity -->
-    <div class="section-header">SEC-01: Personnel Identity [মৌলিক তথ্য ১-৫]</div>
+    <div class="section-header">SEC-01: Personnel Identity [গোপনীয় তথ্য ১-১১]</div>
     <table class="data-table">
         <tr>
-            <th>সৈনিকের নাম (Full Name):</th>
-            <td>{{ $soldier->name }} <span class="bengali">({{ $soldier->name_bn }})</span></td>
             <th>ব্যক্তিগত নং (Personal No):</th>
             <td>{{ $soldier->personal_no }}</td>
-        </tr>
-        <tr>
             <th>পদবী (Rank):</th>
-            <td>{{ $soldier->rank }} <span class="bengali">({{ $soldier->rank_bn }})</span></td>
-            <th>সেনা নং (Service No):</th>
-            <td>{{ $soldier->number }}</td>
-        </tr>
-    </table>
-
-    <!-- SEC-02: Chain of Command -->
-    <div class="section-header">SEC-02: Tactical Chain of Command [কমান্ড চেইন]</div>
-    <table class="data-table">
-        <tr>
-            <th>ইউনিট (Unit):</th>
-            <td colspan="3">{{ $soldier->battalion_name }}</td>
+            <td>{{ $soldier->rank }} ({{ $soldier->rank_bn }})</td>
         </tr>
         <tr>
-            <th>কোম্পানী (Company):</th>
-            <td>{{ $soldier->company ?? 'N/A' }}</td>
-            <th>প্লাটুন (Platoon):</th>
-            <td>{{ $soldier->platoon ?? 'N/A' }}</td>
+            <th>সৈনিকের নাম (Full Name):</th>
+            <td colspan="3">{{ $soldier->name }} ({{ $soldier->name_bn }})</td>
         </tr>
         <tr>
-            <th>সেকশন (Section):</th>
-            <td>{{ $soldier->section ?? 'N/A' }}</td>
             <th>নিযুক্তি (Appointment):</th>
-            <td>{{ $soldier->appointment }} <span class="bengali">({{ $soldier->appointment_bn }})</span></td>
+            <td>{{ $soldier->appointment }} ({{ $soldier->appointment_bn }})</td>
+            <th>ইউনিট (Unit):</th>
+            <td>{{ $soldier->battalion_name }} / {{ $soldier->company ?? 'N/A' }} / {{ $soldier->platoon ?? 'N/A' }} / {{ $soldier->section ?? 'N/A' }}</td>
         </tr>
-    </table>
-
-    <!-- SEC-03: Military Particulars -->
-    <div class="section-header">SEC-03: Military Career Particulars [চাকরির তথ্য ৬-১১]</div>
-    <table class="data-table">
         <tr>
-            <th>ভর্তির তারিখ (Date of Join):</th>
+            <th>ভর্তির তারিখ (Join Date):</th>
             <td>{{ $soldier->enrolment_date ? $soldier->enrolment_date->format('d M Y') : 'N/A' }}</td>
-            <th>পদের তারিখ (Date of Rank):</th>
+            <th>পদের তারিখ (Rank Date):</th>
             <td>{{ $soldier->rank_date ? $soldier->rank_date->format('d M Y') : 'N/A' }}</td>
         </tr>
         <tr>
-            <th>বেসামরিক শিক্ষা (Civil Education):</th>
+            <th>বেসামরিক শিক্ষা (Civil Edu):</th>
             <td>{{ $soldier->civil_education ?? 'N/A' }}</td>
             <th>রক্তের গ্রুপ (Blood Group):</th>
             <td>{{ $soldier->blood_group }}</td>
@@ -213,7 +176,13 @@
             <th>ব্যাচ (Batch):</th>
             <td>{{ $soldier->batch ?? 'N/A' }}</td>
         </tr>
+        <tr>
+            <th>স্থায়ী ঠিকানা (Address):</th>
+            <td colspan="3">{{ $soldier->home_district }}, {{ $soldier->permanent_address ?? 'N/A' }}</td>
+        </tr>
     </table>
+
+    <!-- Note: SEC-02 was removed due to redundant data (Father's Name/Batch) -->
 
     <!-- SEC-04: Personal Detail -->
     <div class="section-header">SEC-04: Personal Profile & Bio-data [ব্যক্তিগত তথ্য ১২-১৯]</div>
@@ -394,14 +363,8 @@
         </tr>
     </table>
 
-    <div class="footer-note" style="text-align: center; font-weight: bold; margin-top: 30px;">
-        <div style="border: 1px solid #000; display: inline-block; padding: 5px 20px; text-transform: uppercase;">গোপনীয়</div>
-        <p style="margin-top: 10px;">This is a strategically generated personnel record book. All data is restricted for official use only.</p>
-        <p>Generated Date: {{ now()->format('d M Y H:i:s') }}</p>
-    </div>
-
-    <div style="position: fixed; bottom: -10px; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #000; border-top: 1px solid #eee; padding-top: 5px;">
-        গোপনীয়
+    <div style="position: fixed; bottom: 0px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: #dc3545;">
+        গোপনীয় / RESTRICTED
     </div>
 </body>
 </html>
