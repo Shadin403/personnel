@@ -453,7 +453,7 @@
                         <div class="px-8 py-5 bg-military-danger border-b border-white/20 flex items-center justify-between text-white">
                             <div class="flex items-center gap-3">
                                 <span class="section-tag !bg-white !text-military-danger uppercase">SEC-10B</span>
-                                <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Firing Efficiency Portfolio [ফায়ারিং দক্ষতা]</h3>
+                                <h3 class="text-[11px] font-black uppercase tracking-widest text-white">RET FIRING PORTFOLIO [আরইটি ফায়ারিং প্রোফাইল]</h3>
                             </div>
                         </div>
                         <div class="p-0 overflow-x-auto">

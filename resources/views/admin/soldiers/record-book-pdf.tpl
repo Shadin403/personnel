@@ -214,7 +214,7 @@
     </table>
 
     <!-- SEC-03: Combat Readiness & Performance -->
-    <div class="section-header">SEC-03: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
+    <div class="section-header">SEC-03: RET FIRING [আরইটি ফায়ারিং প্রোফাইল]</div>
     <div style="margin-bottom: 5px; font-weight: bold; font-size: 10px; text-decoration: underline;">FIRING ANALYTICS (STH)</div>
     <table class="grid-table" style="margin-bottom: 15px; font-size: 9px;">
         <thead>

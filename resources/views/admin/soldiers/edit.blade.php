@@ -585,7 +585,7 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-03</span>
-                                <h3 class="card-title-tactical text-white">Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">RET FIRING [আরইটি ফায়ারিং প্রোফাইল]</h3>
                             </div>
                             <button type="button" @click="addFiringRecord"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
