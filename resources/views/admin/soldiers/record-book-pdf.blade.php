@@ -257,7 +257,7 @@
         </tbody>
     </table>
 
-    <div class="section-title">বাৎসরিক পেশা পরিকল্পনা (ANNUAL CAREER PLAN)</div>
+    <div class="section-title">SEC-06: বাৎসরিক পেশা পরিকল্পনা (ANNUAL CAREER PLAN)</div>
     <table class="trg-table" style="font-size: 9px;">
         <thead>
             <tr style="background: #333; color: white;">
@@ -298,7 +298,10 @@
             @endif
         </tbody>
     </table>
-    <p style="font-size: 8px; font-style: italic; margin-top: 5px;">নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।</p>
+    <div style="background: #fff9db; border: 1px solid #fab005; padding: 8px 12px; margin-top: 10px; border-radius: 4px;">
+        <span style="font-weight: bold; color: #856404; text-transform: uppercase; font-size: 8px; display: block; margin-bottom: 2px;">অফিসিয়াল নির্দেশনা (OFFICIAL DIRECTIVE):</span>
+        <span style="font-weight: bold; color: #c4960d; font-size: 11px;">নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।</span>
+    </div>
 
     <div style="margin-top: 50px; text-align: right;">
         <p style="font-weight: bold; text-decoration: overline;">Administrative Approval Signature</p>

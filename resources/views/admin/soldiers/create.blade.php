@@ -761,7 +761,7 @@
                         </div>
                     </div>
 
-                    <!-- SEC-08: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
+                    <!-- SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
                     <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
                         plans: [],
                         addPlan() {
@@ -772,7 +772,7 @@
                         }
                     }">
                         <div class="px-8 py-5 bg-military-primary/90 flex items-center justify-between text-white shadow-lg">
-                            <h3 class="card-title-tactical text-white">SEC-08: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
+                            <h3 class="card-title-tactical text-white">SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
                             <button type="button" @click="addPlan" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Yearly Plan</button>
                         </div>
                         <div class="p-0 overflow-x-auto">
@@ -836,8 +836,16 @@
                                     </template>
                                 </tbody>
                             </table>
-                            <div class="px-8 py-3 bg-slate-50 border-t border-slate-100 italic text-[9px] text-slate-500">
-                                নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।
+                            <div class="px-8 py-4 bg-amber-50 border-t border-amber-100 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 ring-4 ring-white shadow-sm">
+                                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-[10px] font-black text-amber-900 uppercase tracking-widest mb-0.5">অফিসিয়াল নির্দেশনা (OFFICIAL DIRECTIVE)</h4>
+                                    <p class="text-[14px] font-black text-amber-700 leading-tight">নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।</p>
+                                </div>
                             </div>
                         </div>
                     </div>
