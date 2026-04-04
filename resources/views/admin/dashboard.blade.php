@@ -131,8 +131,8 @@
             class="max-w-7xl mx-auto w-full px-6">
             <div class="text-center mb-20 space-y-4">
                 <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50">
-                    Level 02 &bull; Companies</p>
-                <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Companies
+                    Level 02 &bull; Company</p>
+                <h2 class="text-5xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Company
                 </h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
