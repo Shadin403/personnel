@@ -161,6 +161,10 @@
                             <div class="text-left bg-slate-50 p-4 border border-slate-200">
                                 <span class="data-label">Rank</span>
                                 <span class="text-[14px] font-black text-slate-800">{{ $soldier->rank }}</span>
+                                <div class="hidden flex-col items-end">
+                                    <span class="text-slate-400 text-[11px] font-bold uppercase tracking-widest">Protocol ID:</span>
+                                    <span class="text-[13px] font-black text-slate-700 tracking-tight">{{ $soldier->number }}</span>
+                                </div>
                                 <p class="font-bengali text-[11px] font-bold text-slate-400 mt-0.5 italic">{{ $soldier->rank_bn }}</p>
                             </div>
                         </div>
@@ -318,7 +322,6 @@
                                     <tr class="bg-slate-100 border-b border-slate-200">
                                         <th class="px-4 py-3 font-black text-slate-400 uppercase w-12 text-center">Sl</th>
                                         <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Date</th>
-                                        <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Grouping</th>
                                         <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Hit</th>
                                         <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Status</th>
                                         <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Mark</th>
@@ -329,13 +332,12 @@
                                         <tr class="border-b border-slate-100 text-center font-bold">
                                             <td class="px-2 py-3 text-slate-400">{{ $index + 1 }}</td>
                                             <td class="px-2 py-3 text-blue-900">{{ $rec['date'] ?? '---' }}</td>
-                                            <td class="px-2 py-3">{{ $rec['grouping'] ?? '---' }}</td>
                                             <td class="px-2 py-3">{{ $rec['hit'] ?? '---' }}</td>
                                             <td class="px-2 py-3 uppercase {{ ($rec['status'] ?? '') == 'Pass' ? 'text-green-600' : 'text-red-600' }}">{{ $rec['status'] ?? '---' }}</td>
                                             <td class="px-2 py-3 text-blue-900">{{ $rec['total'] ?? '---' }}</td>
                                         </tr>
                                     @empty
-                                        <tr><td colspan="6" class="px-4 py-8 text-center text-slate-300 italic uppercase">No records found.</td></tr>
+                                        <tr><td colspan="5" class="px-4 py-8 text-center text-slate-300 italic uppercase">No records found.</td></tr>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -379,9 +381,11 @@
                             <h4 class="text-[10px] font-black uppercase text-slate-500 mb-4">3.7 Group Training [গ্রুপ ট্রেনিং]</h4>
                             <div class="space-y-2">
                                 @forelse($soldier->group_trainings ?? [] as $gt)
-                                    <div class="flex justify-between items-center text-[10px] p-2 bg-slate-50 border border-slate-100 font-bold uppercase transition-colors hover:bg-slate-100">
-                                        <span class="text-slate-500">{{ $gt['circle'] ?? '---' }} Circle ({{ $gt['year'] ?? '---' }})</span>
-                                        <span class="text-military-primary text-right">{{ $gt['unit'] ?? '---' }}</span>
+                                    <div class="flex flex-col gap-1 p-2 bg-slate-50 border border-slate-100 font-bold uppercase transition-colors hover:bg-slate-100">
+                                        <div class="flex justify-between items-center text-[10px]">
+                                            <span class="text-slate-500">{{ $gt['circle'] ?? '---' }} Circle ({{ $gt['year'] ?? '---' }})</span>
+                                            <span class="text-military-primary text-right">{{ $gt['appointment'] ?? '---' }}</span>
+                                        </div>
                                     </div>
                                 @empty
                                     <p class="text-[10px] text-slate-300 uppercase italic">No records.</p>
@@ -393,7 +397,6 @@
                     <!-- 3.8 Cycle Ending -->
                     <div class="p-6 border-t border-slate-100">
                         <h4 class="text-[10px] font-black uppercase text-slate-500 mb-4">3.8 Cycle Ending Exercise [সাইকেল এন্ডিং এক্সারসাইজ]</h4>
-                        <div class="grid grid-cols-2 gap-4">
                             @forelse($soldier->cycle_ending_exercises ?? [] as $ce)
                                 <div class="bg-slate-50 border border-slate-200 p-4 font-bold flex justify-between uppercase hover:bg-slate-100 transition-colors">
                                     <span class="text-[9px] text-slate-400">{{ $ce['circle'] ?? '---' }} Circle | {{ $ce['year'] ?? '---' }}</span>

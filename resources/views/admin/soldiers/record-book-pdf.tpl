@@ -239,7 +239,6 @@
             <tr>
                 <th style="width: 30px;">Sl</th>
                 <th>Date</th>
-                <th>Grouping</th>
                 <th>Hit</th>
                 <th>Status (P/F)</th>
                 <th>Mark</th>
@@ -250,13 +249,12 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $record['date'] ?? '---' }}</td>
-                    <td>{{ $record['grouping'] ?? '---' }}</td>
                     <td>{{ $record['hit'] ?? '---' }}</td>
                     <td style="text-transform: uppercase;">{{ $record['status'] ?? '---' }}</td>
                     <td style="font-weight: bold;">{{ $record['total'] ?? '---' }}</td>
                 </tr>
             @empty
-                <tr><td colspan="6">No records found.</td></tr>
+                <tr><td colspan="5">No records found.</td></tr>
             @endforelse
         </tbody>
     </table>
@@ -301,22 +299,30 @@
             <td style="width: 50%; vertical-align: top; padding: 0; border: none;">
                 <div style="font-weight: bold; margin-bottom: 5px;">3.7 Group Training</div>
                 <table class="grid-table">
-                    <tr><th>Circle</th><th>Year</th></tr>
+                    <tr><th>Circle</th><th>Year</th><th>Appointment</th></tr>
                     @forelse($soldier->group_trainings ?? [] as $gt)
-                        <tr><td>{{ $gt['circle'] ?? '---' }} Circle</td><td>{{ $gt['year'] ?? '---' }}</td></tr>
+                        <tr>
+                            <td>{{ $gt['circle'] ?? '---' }} Circle</td>
+                            <td>{{ $gt['year'] ?? '---' }}</td>
+                            <td>{{ $gt['appointment'] ?? '---' }}</td>
+                        </tr>
                     @empty
-                        <tr><td colspan="2">N/A</td></tr>
+                        <tr><td colspan="3">N/A</td></tr>
                     @endforelse
                 </table>
             </td>
             <td style="vertical-align: top; padding: 0 0 0 10px; border: none;">
                 <div style="font-weight: bold; margin-bottom: 5px;">3.8 Cycle Ending Exercise</div>
                 <table class="grid-table">
-                    <tr><th>Circle</th><th>Year</th></tr>
+                    <tr><th>Circle</th><th>Year</th><th>Appointment</th></tr>
                     @forelse($soldier->cycle_ending_exercises ?? [] as $ce)
-                        <tr><td>{{ $ce['circle'] ?? '---' }} Circle</td><td>{{ $ce['year'] ?? '---' }}</td></tr>
+                        <tr>
+                            <td>{{ $ce['circle'] ?? '---' }} Circle</td>
+                            <td>{{ $ce['year'] ?? '---' }}</td>
+                            <td>{{ $ce['appointment'] ?? '---' }}</td>
+                        </tr>
                     @empty
-                        <tr><td colspan="2">N/A</td></tr>
+                        <tr><td colspan="3">N/A</td></tr>
                     @endforelse
                 </table>
             </td>

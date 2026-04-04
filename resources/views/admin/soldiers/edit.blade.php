@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <div class="hidden lg:block text-right mr-4 border-r border-slate-200 pr-4">
+                    <div class="hidden lg:hidden text-right mr-4 border-r border-slate-200 pr-4">
                         <p class="text-[9px] font-black text-amber-500 uppercase tracking-widest leading-none">Protocol ID
                         </p>
                         <p class="text-[12px] font-black text-slate-700 tracking-tight leading-none mt-1">
@@ -706,7 +706,6 @@
                                     <tr class="bg-slate-50 border-b border-slate-200">
                                         <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16 text-center">Sl</th>
                                         <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Date</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Grouping</th>
                                         <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Hit</th>
                                         <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Status (P/F)</th>
                                         <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Mark</th>
@@ -718,7 +717,6 @@
                                         <tr class="hover:bg-slate-50/50 transition-colors">
                                             <td class="px-4 py-4 text-xs font-bold text-slate-400 text-center" x-text="index + 1"></td>
                                             <td class="px-2 py-2"><input type="date" :name="`night_firing_records[${index}][date]`" x-model="record.date" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"></td>
-                                            <td class="px-2 py-2"><input type="text" :name="`night_firing_records[${index}][grouping]`" x-model="record.grouping" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="GRP"></td>
                                             <td class="px-2 py-2"><input type="text" :name="`night_firing_records[${index}][hit]`" x-model="record.hit" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="Hit"></td>
                                             <td class="px-2 py-2">
                                                 <select :name="`night_firing_records[${index}][status]`" x-model="record.status" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center">
@@ -816,8 +814,9 @@
                                     <thead>
                                         <tr class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                             <th class="px-4 py-2 text-center w-10">Sl</th>
-                                            <th class="px-4 py-2">Circle (1/2/3)</th>
-                                            <th class="px-4 py-2">Year</th>
+                                            <th class="px-4 py-2">Circle (1-4)</th>
+                                            <th class="px-4 py-2 w-16">Year</th>
+                                            <th class="px-4 py-2">Appointment [নিযুক্তি]</th>
                                             <th class="w-8"></th>
                                         </tr>
                                     </thead>
@@ -830,9 +829,11 @@
                                                         <option value="1st">1st Circle</option>
                                                         <option value="2nd">2nd Circle</option>
                                                         <option value="3rd">3rd Circle</option>
+                                                        <option value="4th">4th Circle</option>
                                                     </select>
                                                 </td>
-                                                <td class="px-2 py-1"><input type="text" :name="`group_trainings[${index}][year]`" x-model="record.year" class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0" placeholder="2024"></td>
+                                                <td class="px-2 py-1"><input type="text" :name="`group_trainings[${index}][year]`" x-model="record.year" class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0 text-center" placeholder="2024"></td>
+                                                <td class="px-2 py-1"><input type="text" :name="`group_trainings[${index}][appointment]`" x-model="record.appointment" class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0 uppercase" placeholder="APPOINTMENT"></td>
                                                 <td class="px-2 py-1 text-center"><button type="button" @click="removeGroupTraining(index)" class="text-red-400">&times;</button></td>
                                             </tr>
                                         </template>
@@ -855,8 +856,9 @@
                                     <thead>
                                         <tr class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                             <th class="px-4 py-2 text-center w-10">Sl</th>
-                                            <th class="px-4 py-2">Circle (1/2/3)</th>
-                                            <th class="px-4 py-2">Year</th>
+                                            <th class="px-4 py-2">Circle (1-4)</th>
+                                            <th class="px-4 py-2 w-16">Year</th>
+                                            <th class="px-4 py-2">Appointment [নিযুক্তি]</th>
                                             <th class="w-8"></th>
                                         </tr>
                                     </thead>
@@ -869,9 +871,11 @@
                                                         <option value="1st">1st Circle</option>
                                                         <option value="2nd">2nd Circle</option>
                                                         <option value="3rd">3rd Circle</option>
+                                                        <option value="4th">4th Circle</option>
                                                     </select>
                                                 </td>
-                                                <td class="px-2 py-1"><input type="text" :name="`cycle_ending_exercises[${index}][year]`" x-model="record.year" class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0" placeholder="2024"></td>
+                                                <td class="px-2 py-1"><input type="text" :name="`cycle_ending_exercises[${index}][year]`" x-model="record.year" class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0 text-center" placeholder="2024"></td>
+                                                <td class="px-2 py-1"><input type="text" :name="`cycle_ending_exercises[${index}][appointment]`" x-model="record.appointment" class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0 uppercase" placeholder="APPOINTMENT"></td>
                                                 <td class="px-2 py-1 text-center"><button type="button" @click="removeCycleEndingExercise(index)" class="text-red-400">&times;</button></td>
                                             </tr>
                                         </template>
@@ -1363,7 +1367,7 @@
                     <div class="bg-white border border-slate-200 shadow-xl p-8 sticky top-10">
                         <div class="text-center space-y-8">
                             <div>
-                                <h4 class="card-title-tactical text-military-primary mb-2">Personnel Asset Photo</h4>
+                                <h4 class="card-title-tactical text-military-primary mb-2">Upload Soldier Photo</h4>
                             </div>
                             <div x-data="{ photoPreview: '{{ $soldier->photo_url }}' }"
                                 class="relative group mx-auto w-Full aspect-[3/4] border-4 border-double border-slate-200 flex items-center justify-center overflow-hidden bg-slate-50">
@@ -1377,8 +1381,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Identify
-                                            Profile Asset</p>
+                                        <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Add or Change Photo</p>
                                     </div>
                                 </template>
                                 <input type="file" name="photo"
@@ -1387,7 +1390,7 @@
                             </div>
 
                             <div class="space-y-6 pt-6 border-t border-slate-100">
-                                <div class="space-y-2 text-left">
+                                <div class="hidden space-y-2 text-left">
                                     <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol
                                         Type</label>
@@ -1406,7 +1409,7 @@
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                <div class="space-y-2 text-left">
+                                <div class="hidden space-y-2 text-left">
                                     <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol
                                         Number (#)</label>
@@ -1519,10 +1522,10 @@
                 courses: @json($soldier->courses ?? []),
                 field_trainings_summer: @json($soldier->field_trainings_summer ?? []).length ? @json($soldier->field_trainings_summer ?? []) : [{ year: '', unit: '', appointment: '', remarks: '' }],
                 field_trainings_winter: @json($soldier->field_trainings_winter ?? []).length ? @json($soldier->field_trainings_winter ?? []) : [{ year: '', unit: '', appointment: '', remarks: '' }],
-                night_firing_records: @json($soldier->night_firing_records ?? []).length ? @json($soldier->night_firing_records ?? []) : [{ date: '', grouping: '', hit: '', total: '', status: '', mark: '' }],
+                night_firing_records: @json($soldier->night_firing_records ?? []).length ? @json($soldier->night_firing_records ?? []) : [{ date: '', hit: '', total: '', status: '', mark: '' }],
                 night_trainings: @json($soldier->night_trainings ?? []).length ? @json($soldier->night_trainings ?? []) : [{ date: '', appointment: '' }],
-                group_trainings: @json($soldier->group_trainings ?? []).length ? @json($soldier->group_trainings ?? []) : [{ year: '', circle: '1st', unit: '' }],
-                cycle_ending_exercises: @json($soldier->cycle_ending_exercises ?? []).length ? @json($soldier->cycle_ending_exercises ?? []) : [{ year: '', circle: '1st', unit: '' }],
+                group_trainings: @json($soldier->group_trainings ?? []).length ? @json($soldier->group_trainings ?? []) : [{ year: '', circle: '1st', appointment: '', unit: '', remarks: '' }],
+                cycle_ending_exercises: @json($soldier->cycle_ending_exercises ?? []).length ? @json($soldier->cycle_ending_exercises ?? []) : [{ year: '', circle: '1st', appointment: '', unit: '', remarks: '' }],
                 firing_records: @json($soldier->firing_records ?? []).length ? @json($soldier->firing_records ?? []) : [{
                     date: '',
                     grouping: '',
@@ -1549,7 +1552,6 @@
                 addNightFiringRecord() {
                     this.night_firing_records.push({
                         date: '',
-                        grouping: '',
                         hit: '',
                         total: '',
                         status: ''
@@ -1574,6 +1576,7 @@
                     this.group_trainings.push({
                         year: '',
                         circle: '1st',
+                        appointment: '',
                         unit: '',
                         remarks: ''
                     });
@@ -1586,6 +1589,7 @@
                     this.cycle_ending_exercises.push({
                         year: '',
                         circle: '1st',
+                        appointment: '',
                         unit: '',
                         remarks: ''
                     });

@@ -759,9 +759,6 @@
                                             Date</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            Grouping</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                             Hit</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
@@ -781,11 +778,6 @@
                                                     :name="`night_firing_records[${index}][date]`" x-model="record.date"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
                                             </td>
-                                            <td class="px-2 py-2"><input type="text"
-                                                    :name="`night_firing_records[${index}][grouping]`"
-                                                    x-model="record.grouping"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="GRP"></td>
                                             <td class="px-2 py-2"><input type="text"
                                                     :name="`night_firing_records[${index}][hit]`" x-model="record.hit"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
@@ -931,8 +923,9 @@
                                         <tr
                                             class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                             <th class="px-4 py-2 text-center w-10">Sl</th>
-                                            <th class="px-4 py-2">Circle (1/2/3)</th>
-                                            <th class="px-4 py-2">Year</th>
+                                            <th class="px-4 py-2">Circle (1-4)</th>
+                                            <th class="px-4 py-2 w-24">Year</th>
+                                            <th class="px-4 py-2">Appointment [নিযুক্তি]</th>
                                             <th class="w-8"></th>
                                         </tr>
                                     </thead>
@@ -948,12 +941,17 @@
                                                         <option value="1st">1st Circle</option>
                                                         <option value="2nd">2nd Circle</option>
                                                         <option value="3rd">3rd Circle</option>
+                                                        <option value="4th">4th Circle</option>
                                                     </select>
                                                 </td>
                                                 <td class="px-2 py-1"><input type="text"
                                                         :name="`group_trainings[${index}][year]`" x-model="record.year"
                                                         class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0"
                                                         placeholder="2024"></td>
+                                                <td class="px-2 py-1"><input type="text"
+                                                        :name="`group_trainings[${index}][appointment]`" x-model="record.appointment"
+                                                        class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0 uppercase"
+                                                        placeholder="APPOINTMENT"></td>
                                                 <td class="px-2 py-1 text-center"><button type="button"
                                                         @click="removeGroupTraining(index)"
                                                         class="text-red-400">&times;</button></td>
@@ -983,8 +981,9 @@
                                         <tr
                                             class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                             <th class="px-4 py-2 text-center w-10">Sl</th>
-                                            <th class="px-4 py-2">Circle (1/2/3)</th>
-                                            <th class="px-4 py-2">Year</th>
+                                            <th class="px-4 py-2">Circle (1-4)</th>
+                                            <th class="px-4 py-2 w-24">Year</th>
+                                            <th class="px-4 py-2">Appointment [নিযুক্তি]</th>
                                             <th class="w-8"></th>
                                         </tr>
                                     </thead>
@@ -1001,6 +1000,7 @@
                                                         <option value="1st">1st Circle</option>
                                                         <option value="2nd">2nd Circle</option>
                                                         <option value="3rd">3rd Circle</option>
+                                                        <option value="4th">4th Circle</option>
                                                     </select>
                                                 </td>
                                                 <td class="px-2 py-1"><input type="text"
@@ -1008,6 +1008,11 @@
                                                         x-model="record.year"
                                                         class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0"
                                                         placeholder="2024"></td>
+                                                <td class="px-2 py-1"><input type="text"
+                                                        :name="`cycle_ending_exercises[${index}][appointment]`"
+                                                        x-model="record.appointment"
+                                                        class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0 uppercase"
+                                                        placeholder="APPOINTMENT"></td>
                                                 <td class="px-2 py-1 text-center"><button type="button"
                                                         @click="removeCycleEndingExercise(index)"
                                                         class="text-red-400">&times;</button></td>
@@ -1503,7 +1508,7 @@
                     <div class="bg-white border border-slate-200 shadow-xl p-8 sticky top-10">
                         <div class="text-center space-y-8">
                             <div>
-                                <h4 class="card-title-tactical text-military-primary mb-2">Personnel Asset Photo</h4>
+                                <h4 class="card-title-tactical text-military-primary mb-2">Upload Soldier Photo</h4>
                             </div>
                             <div x-data="{ photoPreview: null }"
                                 class="relative group mx-auto w-Full aspect-[3/4] border-4 border-double border-slate-200 flex items-center justify-center overflow-hidden bg-slate-50">
@@ -1518,8 +1523,7 @@
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
                                         <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest">
-                                            Identify
-                                            Profile Asset</p>
+                                            Add Soldier Photo</p>
                                     </div>
                                 </template>
                                 <input type="file" name="photo"
@@ -1615,7 +1619,6 @@
                 }],
                 night_firing_records: [{
                     date: '',
-                    grouping: '',
                     hit: '',
                     total: '',
                     status: ''
@@ -1627,13 +1630,15 @@
                 }],
                 group_trainings: [{
                     year: '',
-                    circle: '',
+                    circle: '1st',
+                    appointment: '',
                     unit: '',
                     remarks: ''
                 }],
                 cycle_ending_exercises: [{
                     year: '',
-                    circle: '',
+                    circle: '1st',
+                    appointment: '',
                     unit: '',
                     remarks: ''
                 }],
@@ -1655,7 +1660,6 @@
                 addNightFiringRecord() {
                     this.night_firing_records.push({
                         date: '',
-                        grouping: '',
                         hit: '',
                         total: '',
                         status: ''
@@ -1679,7 +1683,8 @@
                 addGroupTraining() {
                     this.group_trainings.push({
                         year: '',
-                        circle: '',
+                        circle: '1st',
+                        appointment: '',
                         unit: '',
                         remarks: ''
                     });
@@ -1691,7 +1696,8 @@
                 addCycleEndingExercise() {
                     this.cycle_ending_exercises.push({
                         year: '',
-                        circle: '',
+                        circle: '1st',
+                        appointment: '',
                         unit: '',
                         remarks: ''
                     });
