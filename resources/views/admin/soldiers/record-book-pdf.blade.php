@@ -3,31 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
-        @font-face {
-            font-family: 'HindSiliguri';
-            @php
-                $fontPath = storage_path('fonts/HindSiliguri-Regular.ttf');
-                $fontData = base64_encode(file_get_contents($fontPath));
-            @endphp
-            src: url('data:font/truetype;charset=utf-8;base64,{{ $fontData }}') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'HindSiliguri';
-            @php
-                $fontBoldPath = storage_path('fonts/HindSiliguri-Bold.ttf');
-                $fontBoldData = base64_encode(file_get_contents($fontBoldPath));
-            @endphp
-            src: url('data:font/truetype;charset=utf-8;base64,{{ $fontBoldData }}') format('truetype');
-            font-weight: bold;
-            font-style: normal;
-        }
-        @page {
-            margin: 0.5in;
-        }
         body {
-            font-family: 'HindSiliguri', sans-serif;
+            font-family: 'hindsiliguri', sans-serif;
             line-height: 1.6;
             color: #333;
             font-size: 11px;
@@ -38,7 +15,7 @@
             text-transform: uppercase;
             font-size: 10px;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .restricted {
             border: 1px solid #ddd;
@@ -49,7 +26,7 @@
             text-align: center;
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-decoration: underline;
         }
         .photo-box {
@@ -65,7 +42,6 @@
         .photo-box img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
         }
         .info-table {
             width: 100%;
@@ -87,7 +63,7 @@
             background: #f4f4f4;
             padding: 5px 10px;
             font-weight: bold;
-            margin: 20px 0 10px 0;
+            margin: 15px 0 10px 0;
             border-left: 4px solid #333;
         }
         .trg-table {
@@ -280,6 +256,49 @@
             @endif
         </tbody>
     </table>
+
+    <div class="section-title">বাৎসরিক পেশা পরিকল্পনা (ANNUAL CAREER PLAN)</div>
+    <table class="trg-table" style="font-size: 9px;">
+        <thead>
+            <tr style="background: #333; color: white;">
+                <th>বছর (Year)</th>
+                <th>বাৎসরিক ছুটি</th>
+                <th>ইউনিট প্রশিক্ষণ</th>
+                <th>ব্যক্তিগত প্রশিক্ষণ</th>
+                <th>প্রশাসন</th>
+                <th>MOOTW</th>
+                <th>স্বাক্ষর (Sign)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if($soldier->annual_career_plans && count($soldier->annual_career_plans) > 0)
+                @foreach($soldier->annual_career_plans as $plan)
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">{{ $plan['year'] ?? 'N/A' }}</td>
+                        <td>{{ $plan['leave'] ?? 'N/A' }}</td>
+                        <td>{{ $plan['unit_trg'] ?? 'N/A' }}</td>
+                        <td>{{ $plan['personal_trg'] ?? 'N/A' }}</td>
+                        <td>{{ $plan['admin'] ?? 'N/A' }}</td>
+                        <td>{{ $plan['mootw'] ?? 'N/A' }}</td>
+                        <td style="font-size: 8px;">{{ $plan['signature'] ?? 'N/A' }}</td>
+                    </tr>
+                @endforeach
+            @else
+                @for($i = 0; $i < 5; $i++)
+                    <tr>
+                        <td style="height: 20px;"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                @endfor
+            @endif
+        </tbody>
+    </table>
+    <p style="font-size: 8px; font-style: italic; margin-top: 5px;">নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।</p>
 
     <div style="margin-top: 50px; text-align: right;">
         <p style="font-weight: bold; text-decoration: overline;">Administrative Approval Signature</p>

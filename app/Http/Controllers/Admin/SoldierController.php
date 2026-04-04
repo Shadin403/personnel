@@ -9,7 +9,7 @@ use App\Models\TrainingPlan;
 use App\Models\UnitTraining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
+use PDF;
 
 class SoldierController extends Controller
 {
@@ -130,6 +130,7 @@ class SoldierController extends Controller
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
+            'annual_career_plans' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -221,6 +222,7 @@ class SoldierController extends Controller
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
+            'annual_career_plans' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -271,14 +273,7 @@ class SoldierController extends Controller
 
     public function downloadRecordBook(Soldier $soldier)
     {
-        $pdf = Pdf::loadView('admin.soldiers.record-book-pdf', compact('soldier'))
-            ->setPaper('a4', 'portrait')
-            ->setWarnings(false)
-            ->setOptions([
-                'isRemoteEnabled' => true,
-                'isHtml5ParserEnabled' => true,
-                'isFontSubsettingEnabled' => true, // Important for Unicode
-            ]);
+        $pdf = PDF::loadView('admin.soldiers.record-book-pdf', compact('soldier'));
         
         $filename = 'Record_Book_' . str_replace(' ', '_', $soldier->number) . '.pdf';
         return $pdf->download($filename);

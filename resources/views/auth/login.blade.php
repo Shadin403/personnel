@@ -1,5 +1,5 @@
 @php
-    $bgUrl = asset('assets/images/login-bg.png');
+    $bgUrl = asset('assets/images/login-bg-main.png');
 @endphp
 <!DOCTYPE html>
 <html lang="en" class="h-full">

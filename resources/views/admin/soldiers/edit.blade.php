@@ -776,6 +776,87 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- SEC-08: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
+                    <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
+                        plans: {{ json_encode($soldier->annual_career_plans ?? []) }},
+                        addPlan() {
+                            this.plans.push({ year: '', leave: '', unit_trg: '', personal_trg: '', admin: '', mootw: '', signature: '' });
+                        },
+                        removePlan(index) {
+                            this.plans.splice(index, 1);
+                        }
+                    }">
+                        <div class="px-8 py-5 bg-military-primary/90 flex items-center justify-between text-white shadow-lg">
+                            <h3 class="card-title-tactical text-white">SEC-08: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
+                            <button type="button" @click="addPlan" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Yearly Plan</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">বছর (Year)</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ছুটি (Leave)</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ইউনিট প্রশিক্ষণ</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ব্যক্তিগত প্রশিক্ষণ</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">প্রশাসন (Admin)</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">MOOTW</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">স্বাক্ষর (Sign)</th>
+                                        <th class="px-2 py-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <template x-for="(plan, index) in plans" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][year]`" x-model="plan.year" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][leave]`" x-model="plan.leave" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Annual">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][unit_trg]`" x-model="plan.unit_trg" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][personal_trg]`" x-model="plan.personal_trg" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][admin]`" x-model="plan.admin" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][mootw]`" x-model="plan.mootw" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`annual_career_plans[${index}][signature]`" x-model="plan.signature" 
+                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-[10px] font-bold" placeholder="REMARKS / SIGN">
+                                            </td>
+                                            <td class="px-2 py-2 text-center text-red-500">
+                                                <button type="button" @click="removePlan(index)" class="text-slate-300 hover:text-red-500 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template x-if="plans.length === 0">
+                                        <tr>
+                                            <td colspan="8" class="px-6 py-10 text-center text-slate-300 italic text-xs">
+                                                No yearly plans added. Click 'Add Yearly Plan' to start.
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <div class="px-8 py-3 bg-slate-50 border-t border-slate-100 italic text-[9px] text-slate-500">
+                                নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sidebar (Photo & Status) -->

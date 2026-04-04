@@ -64,6 +64,7 @@ class Soldier extends Model
         'dob',
         'nid',
         'special_courses',
+        'annual_career_plans',
     ];
 
     public function unit()
@@ -77,6 +78,7 @@ class Soldier extends Model
         'rank_date' => 'date',
         'dob' => 'date',
         'special_courses' => 'array',
+        'annual_career_plans' => 'array',
     ];
 
     public function getPhotoUrlAttribute(): string
