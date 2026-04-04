@@ -356,6 +356,9 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="unit_id" :value="finalUnitId">
+                                <input type="hidden" name="company" :value="selectedCompanyName">
+                                <input type="hidden" name="platoon" :value="selectedPlatoonName">
+                                <input type="hidden" name="section" :value="selectedSectionName">
                             </div>
 
                             <!-- Row 5: Dates (6 & 7) -->
@@ -1253,6 +1256,21 @@
                     if (!this.finalUnitId) return '';
                     const unit = this.allUnits.find(u => u.id == this.finalUnitId);
                     return unit ? `${unit.type.toUpperCase()}: ${unit.name}` : '';
+                },
+
+                get selectedCompanyName() {
+                    const unit = this.allUnits.find(u => u.id == this.selectedCompanyId);
+                    return unit ? unit.name : '';
+                },
+
+                get selectedPlatoonName() {
+                    const unit = this.allUnits.find(u => u.id == this.selectedPlatoonId);
+                    return unit ? unit.name : '';
+                },
+
+                get selectedSectionName() {
+                    const unit = this.allUnits.find(u => u.id == this.selectedSectionId);
+                    return unit ? unit.name : '';
                 }
             }
         }
