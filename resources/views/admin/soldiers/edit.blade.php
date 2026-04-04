@@ -60,37 +60,55 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto pb-20 px-4" x-data="enrollmentForm()">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
-            <div class="flex items-center gap-6">
-                <a href="{{ route('admin.soldiers.index') }}"
-                    class="group p-3 bg-white border border-slate-200 hover:border-military-primary transition-all shadow-sm">
-                    <svg class="w-6 h-6 text-slate-400 group-hover:text-military-primary transition-transform group-hover:-translate-x-1"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                </a>
-                <div class="space-y-1">
-                    <h1 class="text-4xl font-black text-slate-900 tracking-tight uppercase">Update <span
-                            class="text-military-primary">Record</span></h1>
-                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-[0.4em]">Modify Strategic Personnel
-                        Node [তথ্য সংশোধন করুন]</p>
+        <!-- Sticky Context Header -->
+        <div
+            class="sticky top-0 z-[100] bg-slate-50/95 backdrop-blur-md border-b border-slate-200 -mx-4 px-4 py-4 mb-12 shadow-sm transition-all">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="flex items-center gap-6">
+                    <a href="{{ route('admin.soldiers.index') }}"
+                        class="group p-2 bg-white border border-slate-200 hover:border-military-primary transition-all shadow-sm">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-military-primary transition-transform group-hover:-translate-x-1"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                    </a>
+                    <div class="space-y-0.5">
+                        <h1 class="text-xl font-black text-slate-900 tracking-tight uppercase">Update <span
+                                class="text-military-primary">Node</span></h1>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                            Refining: {{ $soldier->rank }} {{ $soldier->name }}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="flex items-center gap-4 bg-amber-500/5 p-4 border-l-4 border-amber-500">
-                <div class="text-right">
-                    <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest">Protocol ID:
-                        {{ $soldier->number }}</p>
-                    <p class="text-[14px] font-black text-slate-700 tracking-tight"
-                        x-text="finalUnitName || 'Assigned to Force'"></p>
+
+                <div class="flex items-center gap-3">
+                    <div class="hidden lg:block text-right mr-4 border-r border-slate-200 pr-4">
+                        <p class="text-[9px] font-black text-amber-500 uppercase tracking-widest leading-none">Protocol ID
+                        </p>
+                        <p class="text-[12px] font-black text-slate-700 tracking-tight leading-none mt-1">
+                            {{ $soldier->number }}</p>
+                    </div>
+                    <a href="{{ route('admin.soldiers.index') }}"
+                        class="px-6 py-3 bg-white border border-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all shadow-sm">
+                        Dashboard
+                    </a>
+                    <button type="button" @click="document.getElementById('soldierUpdateForm').submit()"
+                        class="px-8 py-3 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-military-primary/20 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                            </path>
+                        </svg>
+                        Update Strategic Node
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- Main Form -->
-        <form action="{{ route('admin.soldiers.update', $soldier) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-8">
+        <form id="soldierUpdateForm" action="{{ route('admin.soldiers.update', $soldier) }}" method="POST"
+            enctype="multipart/form-data" class="space-y-8">
             @csrf
             @method('PUT')
 
@@ -174,7 +192,8 @@
                                 </label>
                                 <div class="grid grid-cols-2 gap-2">
                                     <div class="space-y-1">
-                                        <input type="text" name="name_bn" value="{{ old('name_bn', $soldier->name_bn) }}"
+                                        <input type="text" name="name_bn"
+                                            value="{{ old('name_bn', $soldier->name_bn) }}"
                                             class="w-full p-4 tactical-input text-sm font-bold @error('name_bn') border-red-500 @enderror"
                                             placeholder="নাম (বাংলা)">
                                         @error('name_bn')
@@ -203,7 +222,8 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="text" name="appointment_bn"
                                         value="{{ old('appointment_bn', $soldier->appointment_bn) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="নিযুক্তি (বাংলা)">
+                                        class="w-full p-4 tactical-input text-sm font-bold"
+                                        placeholder="নিযুক্তি (বাংলা)">
                                     <input type="text" name="appointment"
                                         value="{{ old('appointment', $soldier->appointment) }}"
                                         class="w-full p-4 tactical-input text-sm font-bold"
@@ -378,8 +398,7 @@
                                     </label>
                                     <input type="text" name="civil_education"
                                         value="{{ old('civil_education', $soldier->civil_education) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold"
-                                        placeholder="SSC / HSC / BA">
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="SSC / HSC / BA">
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -390,8 +409,7 @@
                                     </label>
                                     <input type="text" name="blood_group"
                                         value="{{ old('blood_group', $soldier->blood_group) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold"
-                                        placeholder="EX: B+ POSITIVE">
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: B+ POSITIVE">
                                 </div>
                             </div>
 
@@ -405,8 +423,7 @@
                                         ওজন (Weight - KG)
                                     </label>
                                     <input type="text" name="weight" value="{{ old('weight', $soldier->weight) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold"
-                                        placeholder="EX: 72 KG">
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 72 KG">
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -552,8 +569,7 @@
                                     </label>
                                     <input type="text" name="spouse_name"
                                         value="{{ old('spouse_name', $soldier->spouse_name) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold"
-                                        placeholder="SPOUSE NAME">
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="SPOUSE NAME">
                                 </div>
                             </div>
                         </div>
@@ -1076,11 +1092,18 @@
                             <div class="space-y-6 pt-6 border-t border-slate-100">
                                 <div class="space-y-2 text-left">
                                     <label
-                                        class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol Type</label>
+                                        class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol
+                                        Type</label>
                                     <select name="user_type" class="w-full p-4 tactical-input text-sm font-bold" required>
-                                        <option value="Soldier" {{ old('user_type', $soldier->user_type) == 'Soldier' ? 'selected' : '' }}>Soldier</option>
-                                        <option value="CO" {{ old('user_type', $soldier->user_type) == 'CO' ? 'selected' : '' }}>CO</option>
-                                        <option value="Staff" {{ old('user_type', $soldier->user_type) == 'Staff' ? 'selected' : '' }}>Staff</option>
+                                        <option value="Soldier"
+                                            {{ old('user_type', $soldier->user_type) == 'Soldier' ? 'selected' : '' }}>
+                                            Soldier</option>
+                                        <option value="CO"
+                                            {{ old('user_type', $soldier->user_type) == 'CO' ? 'selected' : '' }}>CO
+                                        </option>
+                                        <option value="Staff"
+                                            {{ old('user_type', $soldier->user_type) == 'Staff' ? 'selected' : '' }}>Staff
+                                        </option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -1088,7 +1111,8 @@
                                 </div>
                                 <div class="space-y-2 text-left">
                                     <label
-                                        class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol Number (#)</label>
+                                        class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol
+                                        Number (#)</label>
                                     <input type="text" name="number" value="{{ old('number', $soldier->number) }}"
                                         required
                                         class="w-full p-4 tactical-input text-sm font-bold @error('number') border-red-500 @enderror"
@@ -1128,7 +1152,7 @@
             </div>
 
             <!-- Footer Actions -->
-            <div class="flex flex-col md:flex-row items-center justify-between py-10 border-t-2 border-slate-100 gap-8">
+            {{-- <div class="flex flex-col md:flex-row items-center justify-between py-10 border-t-2 border-slate-100 gap-8">
                 <div class="flex items-center gap-6 w-full md:w-auto">
                     <a href="{{ route('admin.soldiers.index') }}"
                         class="flex-1 md:flex-none px-12 py-5 bg-white border border-slate-300 text-slate-500 text-[11px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all text-center">Cancel
@@ -1137,7 +1161,7 @@
                         class="flex-1 md:flex-none px-16 py-5 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-military-secondary transition-all active:scale-95">Save
                         Changes</button>
                 </div>
-            </div>
+            </div> --}}
         </form>
     </div>
 @endsection

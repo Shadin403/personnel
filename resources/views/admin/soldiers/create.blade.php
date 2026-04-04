@@ -98,25 +98,37 @@
 
 @section('content')
     <div class="max-w-[1400px] mx-auto px-4 py-10" x-data="enrollmentForm()" x-cloak>
-        <!-- Header Navigation -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
-            <div>
-                <h1 class="text-4xl font-black text-military-primary tracking-tight uppercase flex items-center gap-3">
-                    <span class="w-2 h-10 bg-military-accent"></span>
-                    Personnel Enrollment
-                </h1>
-                <p class="text-slate-400 font-bold text-xs mt-2 uppercase tracking-[0.2em] ml-5">New Strategic Asset Entry
-                </p>
-            </div>
-            <div class="flex items-center gap-4 bg-white p-2 rounded shadow-sm border border-slate-100">
-                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3">Status:</span>
-                <span
-                    class="px-4 py-2 bg-military-accent/10 text-military-accent text-[10px] font-black uppercase tracking-widest rounded-sm border border-military-accent/20">Awaiting
-                    Data</span>
+        <!-- Sticky Strategic Action Bar -->
+        <div class="sticky top-0 z-[100] bg-slate-50/95 backdrop-blur-md border-b border-slate-200 -mx-4 px-4 py-4 mb-12 shadow-sm transition-all"
+            x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+            <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:block w-1.5 h-8 bg-military-accent"></div>
+                    <div>
+                        <h1 class="text-2xl font-black text-military-primary tracking-tight uppercase">
+                            Personnel Enrollment
+                        </h1>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">New Strategic Asset Entry</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('admin.soldiers.index') }}"
+                        class="px-6 py-3 bg-white border border-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all shadow-sm">
+                        Dashboard
+                    </a>
+                    <button type="button" @click="document.getElementById('soldierEnrollmentForm').submit()"
+                        class="px-8 py-3 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-military-primary/20 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Complete Enrollment
+                    </button>
+                </div>
             </div>
         </div>
 
-        <form action="{{ route('admin.soldiers.store') }}" method="POST" enctype="multipart/form-data" class="space-y-12">
+        <form id="soldierEnrollmentForm" action="{{ route('admin.soldiers.store') }}" method="POST" enctype="multipart/form-data" class="space-y-12">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
