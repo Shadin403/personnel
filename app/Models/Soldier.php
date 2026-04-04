@@ -60,6 +60,7 @@ class Soldier extends Model
         'mother_name',
         'spouse_name',
         'religion',
+        'gender',
         'marital_status',
         'dob',
         'nid',

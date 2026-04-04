@@ -517,7 +517,26 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৫</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৬</span>
+                                        লিঙ্গ (Gender)
+                                    </label>
+                                    <select name="gender"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror">
+                                        <option value="">- Select -</option>
+                                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male [পুরুষ]
+                                        </option>
+                                        <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female [মহিলা]</option>
+                                        <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other [অন্যান্য]</option>
+                                    </select>
+                                    @error('gender')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৭</span>
                                         বৈবাহিক অবস্থা
                                     </label>
                                     <select name="marital_status"
@@ -536,7 +555,7 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৬</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৮</span>
                                         জন্ম তারিখ (DOB)
                                     </label>
                                     <input type="date" name="dob" value="{{ old('dob') }}"
@@ -552,7 +571,7 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৮</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৯</span>
                                         জাতীয় পরিচয়পত্র নং (NID)
                                     </label>
                                     <input type="text" name="nid" value="{{ old('nid') }}"
@@ -566,7 +585,7 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৫</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">২০</span>
                                         স্ত্রীর নাম (Spouse)
                                     </label>
                                     <input type="text" name="spouse_name" value="{{ old('spouse_name') }}"
@@ -1219,15 +1238,15 @@
                     </div>
 
                     <!-- SEC-05: Special Training & Courses [সেনাবাহিনী পর্যায়ে কোর্স/ক্যাডার/বিশেষ প্রশিক্ষণ] -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
-                        special_courses: [{ year: '', name: '', unit: '', details: '' }],
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data='{
+                        special_courses: {{ json_encode(old("special_courses", [])) }}.length ? {{ json_encode(old("special_courses", [])) }} : [{ year: "", name: "", unit: "", details: "" }],
                         addSpecialCourse() {
-                            this.special_courses.push({ year: '', name: '', unit: '', details: '' });
+                            this.special_courses.push({ year: "", name: "", unit: "", details: "" });
                         },
                         removeSpecialCourse(index) {
                             this.special_courses.splice(index, 1);
                         }
-                    }">
+                    }'>
                         <div
                             class="px-8 py-5 bg-gradient-to-r from-military-primary to-military-primary/90 flex items-center justify-between text-white shadow-lg border-l-8 border-amber-500">
                             <div class="flex items-center gap-4">
@@ -1319,15 +1338,15 @@
                     </div>
 
                     <!-- SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
-                        plans: {{ json_encode(old('annual_career_plans', [])) }}.length ? {{ json_encode(old('annual_career_plans', [])) }} : [{ year: '', leave: '', unit_trg: '', personal_trg: '', admin: '', mootw: '', signature: '' }],
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data='{
+                        plans: {{ json_encode(old("annual_career_plans", [])) }}.length ? {{ json_encode(old("annual_career_plans", [])) }} : [{ year: "", leave: "", unit_trg: "", personal_trg: "", admin: "", mootw: "", signature: "" }],
                         addPlan() {
-                            this.plans.push({ year: '', leave: '', unit_trg: '', personal_trg: '', admin: '', mootw: '', signature: '' });
+                            this.plans.push({ year: "", leave: "", unit_trg: "", personal_trg: "", admin: "", mootw: "", signature: "" });
                         },
                         removePlan(index) {
                             this.plans.splice(index, 1);
                         }
-                    }">
+                    }'>
                         <div
                             class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
                             <div class="flex items-center gap-4">

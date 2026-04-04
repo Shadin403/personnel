@@ -176,6 +176,12 @@
         <tr>
             <th>জাতিয় পরিচয়পত্র নং (NID):</th>
             <td>{{ $soldier->nid ?? 'N/A' }}</td>
+            <th>লিঙ্গ (Gender):</th>
+            <td>{{ $soldier->gender ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>ধর্ম (Religion):</th>
+            <td>{{ $soldier->religion ?? 'N/A' }}</td>
             <th>স্ত্রীর নাম (Spouse):</th>
             <td>{{ $soldier->spouse_name ?? 'N/A' }}</td>
         </tr>

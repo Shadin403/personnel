@@ -213,6 +213,10 @@
                                 <span class="text-[13px] font-black text-slate-700">{{ $soldier->religion ?? 'N/A' }}</span>
                             </div>
                             <div class="flex justify-between items-center bg-slate-50 p-3 border border-slate-200">
+                                <span class="data-label !mb-0">Gender [লিঙ্গ]</span>
+                                <span class="text-[13px] font-black text-military-primary">{{ $soldier->gender ?? 'N/A' }}</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-slate-50 p-3 border border-slate-200">
                                 <span class="data-label !mb-0">Marital Status</span>
                                 <span class="text-[13px] font-black text-slate-700">{{ $soldier->marital_status ?? 'N/A' }}</span>
                             </div>
