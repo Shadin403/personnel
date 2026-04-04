@@ -151,8 +151,8 @@
         </tr>
     </table>
 
-    <!-- SEC-01: Identity -->
-    <div class="section-header">SEC-01: Personal Identity [গোপনীয় তথ্য ]</div>
+    <!-- SEC-01 & SEC-02: Identity -->
+    <div class="section-header">SEC-01: Personal Information [ব্যক্তিগত তথ্য]</div>
     <table class="data-table">
         <tr>
             <th>ব্যক্তিগত নং (Personal No):</th>
@@ -164,12 +164,8 @@
             <th>সৈনিকের নাম (Full Name):</th>
             <td colspan="3">{{ $soldier->name }} ({{ $soldier->name_bn }})</td>
         </tr>
-    </table>
 
-    <!-- SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য] -->
-    <div class="section-header">SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য]</div>
-    <table class="data-table">
-        <tr>
+       <tr>
             <th>ভর্তির তারিখ (Join Date):</th>
             <td>{{ $soldier->enrolment_date ? $soldier->enrolment_date->format('d M Y') : 'N/A' }}</td>
             <th>পদের তারিখ (Rank Date):</th>
@@ -201,9 +197,14 @@
         </tr>
     </table>
 
+
+    <!-- SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য] -->
+    <!--<div class="section-header">SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য]</div>-->
+
+
     <!-- SEC-03: Tactical Training Records -->
     <div class="section-header">SEC-03: Tactical Training Records [প্রশিক্ষণ রেকর্ড]</div>
-    
+
     <div class="section-block">
         <!-- 3.1 & 3.2: IPFT & RET Firing -->
         <div style="margin-top: 10px; font-weight: bold;">3.1 IPFT [শারীরিক সক্ষমতা]</div>
