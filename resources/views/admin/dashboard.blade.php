@@ -252,7 +252,7 @@
                                         <div
                                             class="w-16 h-16 rounded-none border-2 border-slate-200 dark:border-slate-700 p-0.5 bg-white dark:bg-slate-800 overflow-hidden group-hover:border-military-primary transition-all shadow-md">
                                             <img :src="sol.img"
-                                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-110 group-hover:scale-100">
+                                                class="w-full h-full object-cover transition-all duration-500 scale-110 group-hover:scale-100">
                                         </div>
                                     </td>
                                     <td class="px-8 py-6 font-mono text-[14px] font-bold text-military-secondary dark:text-slate-300 tracking-tight"

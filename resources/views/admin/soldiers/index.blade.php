@@ -88,7 +88,7 @@
                         </td>
                         <td class="px-4 py-5">
                             <div class="w-12 h-12 rounded-none border border-slate-200 overflow-hidden bg-slate-50 p-0.5 group-hover:border-military-primary transition-all mx-auto shadow-sm">
-                                <img src="{{ $soldier->photo_url }}" alt="" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                                <img src="{{ $soldier->photo_url }}" alt="" class="w-full h-full object-cover transition-all">
                             </div>
                         </td>
                         <td class="px-6 py-5">
