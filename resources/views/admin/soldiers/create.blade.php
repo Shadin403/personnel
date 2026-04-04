@@ -60,11 +60,17 @@
         }
 
         .card-title-tactical {
-            font-family: 'Inter', 'Hind Siliguri', sans-serif;
-            letter-spacing: 0.15em;
-            font-weight: 900;
+            font-family: 'Outfit', 'Inter', 'Hind Siliguri', sans-serif;
+            letter-spacing: 0.05em;
+            font-weight: 800;
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 14px;
+        }
+
+        .section-header-tactical {
+            background: linear-gradient(to right, #1e3a2f, #2d5a47);
+            border-left: 8px solid #84cc16;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .font-bengali {
@@ -117,8 +123,12 @@
                 <div class="lg:col-span-8 space-y-8">
                     <!-- Strategic Identity Section (Image Reference 1-11) -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-visible">
-                        <div class="px-8 py-5 section-header flex items-center justify-between text-white">
-                            <h3 class="card-title-tactical">SEC-01: Personal Information [ব্যক্তিগত তথ্যাবলী]</h3>
+                        <div class="px-8 py-6 section-header-tactical flex items-center justify-between text-white">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-01</span>
+                                <h3 class="card-title-tactical text-white">Personnel Identity [মৌলিক তথ্য]</h3>
+                            </div>
                         </div>
 
                         <div class="p-8 space-y-8">
@@ -132,8 +142,19 @@
                                         ব্যক্তিগত নং (Personal No)
                                     </label>
                                     <input type="text" name="personal_no" value="{{ old('personal_no') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('personal_no') border-red-500 @enderror"
                                         placeholder="EX: BA-1234">
+                                    @error('personal_no')
+                                        <p
+                                            class="text-[10px] font-bold text-red-500 uppercase tracking-widest mt-1 flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                                </path>
+                                            </svg>
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -143,11 +164,23 @@
                                         পদবী (Rank)
                                     </label>
                                     <div class="grid grid-cols-2 gap-2">
-                                        <input type="text" name="rank_bn" value="{{ old('rank_bn') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold" placeholder="পদবী (বাংলা)">
-                                        <input type="text" name="rank" value="{{ old('rank') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold uppercase"
-                                            placeholder="RANK (EN)">
+                                        <div class="space-y-1">
+                                            <input type="text" name="rank_bn" value="{{ old('rank_bn') }}"
+                                                class="w-full p-4 tactical-input text-sm font-bold @error('rank_bn') border-red-500 @enderror"
+                                                placeholder="পদবী (বাংলা)">
+                                            @error('rank_bn')
+                                                <p class="text-[9px] font-bold text-red-500 mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="space-y-1">
+                                            <input type="text" name="rank" value="{{ old('rank') }}"
+                                                class="w-full p-4 tactical-input text-sm font-bold uppercase @error('rank') border-red-500 @enderror"
+                                                placeholder="RANK (EN)">
+                                            @error('rank')
+                                                <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -160,12 +193,23 @@
                                         class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">৩</span>
                                     নাম (Full Name)
                                 </label>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" name="name_bn" value="{{ old('name_bn') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="নাম (বাংলা)">
-                                    <input type="text" name="name" value="{{ old('name') }}" required
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
-                                        placeholder="FULL NAME (ENGLISH)">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="space-y-1">
+                                        <input type="text" name="name_bn" value="{{ old('name_bn') }}"
+                                            class="w-full p-4 tactical-input text-sm font-bold @error('name_bn') border-red-500 @enderror"
+                                            placeholder="নাম (বাংলা)">
+                                        @error('name_bn')
+                                            <p class="text-[9px] font-bold text-red-500 mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="space-y-1">
+                                        <input type="text" name="name" value="{{ old('name') }}"
+                                            class="w-full p-4 tactical-input text-sm font-bold uppercase @error('name') border-red-500 @enderror"
+                                            placeholder="NAME (EN)">
+                                        @error('name')
+                                            <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
@@ -206,8 +250,9 @@
                                                 class="w-full bg-slate-50 border border-slate-200 p-3 text-xs font-bold flex items-center justify-between hover:bg-slate-100 transition-all text-left">
                                                 <span
                                                     x-text="allUnits.find(u => u.id == selectedBattalionId)?.name || 'Select BATTALION'"></span>
-                                                <svg class="w-3 h-3 text-military-primary" :class="open ? 'rotate-180' : ''"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-3 h-3 text-military-primary"
+                                                    :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path d="M19 9l-7 7-7-7"></path>
                                                 </svg>
                                             </button>
@@ -332,7 +377,10 @@
                                         পদের তারিখ (Date of Rank)
                                     </label>
                                     <input type="date" name="rank_date" value="{{ old('rank_date') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold">
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('rank_date') border-red-500 @enderror">
+                                    @error('rank_date')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -404,8 +452,11 @@
                                         পিতার নাম (Father's Name)
                                     </label>
                                     <input type="text" name="father_name" value="{{ old('father_name') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('father_name') border-red-500 @enderror"
                                         placeholder="FATHER'S NAME">
+                                    @error('father_name')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -415,8 +466,11 @@
                                         মাতার নাম (Mother's Name)
                                     </label>
                                     <input type="text" name="mother_name" value="{{ old('mother_name') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('mother_name') border-red-500 @enderror"
                                         placeholder="MOTHER'S NAME">
+                                    @error('mother_name')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -428,13 +482,21 @@
                                             class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৪</span>
                                         ধর্ম (Religion)
                                     </label>
-                                    <select name="religion" class="w-full p-4 tactical-input text-sm font-bold">
+                                    <select name="religion"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('religion') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Islam">Islam</option>
-                                        <option value="Hinduism">Hinduism</option>
-                                        <option value="Christianity">Christianity</option>
-                                        <option value="Buddhism">Buddhism</option>
+                                        <option value="Islam" {{ old('religion') == 'Islam' ? 'selected' : '' }}>Islam
+                                        </option>
+                                        <option value="Hinduism" {{ old('religion') == 'Hinduism' ? 'selected' : '' }}>
+                                            Hinduism</option>
+                                        <option value="Christianity"
+                                            {{ old('religion') == 'Christianity' ? 'selected' : '' }}>Christianity</option>
+                                        <option value="Buddhism" {{ old('religion') == 'Buddhism' ? 'selected' : '' }}>
+                                            Buddhism</option>
                                     </select>
+                                    @error('religion')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -443,11 +505,17 @@
                                             class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৫</span>
                                         বৈবাহিক অবস্থা
                                     </label>
-                                    <select name="marital_status" class="w-full p-4 tactical-input text-sm font-bold">
+                                    <select name="marital_status"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('marital_status') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Married">Married</option>
-                                        <option value="Unmarried">Unmarried</option>
+                                        <option value="Married"
+                                            {{ old('marital_status') == 'Married' ? 'selected' : '' }}>Married</option>
+                                        <option value="Unmarried"
+                                            {{ old('marital_status') == 'Unmarried' ? 'selected' : '' }}>Unmarried</option>
                                     </select>
+                                    @error('marital_status')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -457,7 +525,10 @@
                                         জন্ম তারিখ (DOB)
                                     </label>
                                     <input type="date" name="dob" value="{{ old('dob') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold">
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('dob') border-red-500 @enderror">
+                                    @error('dob')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -470,8 +541,11 @@
                                         জাতীয় পরিচয়পত্র নং (NID)
                                     </label>
                                     <input type="text" name="nid" value="{{ old('nid') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold font-mono"
+                                        class="w-full p-4 tactical-input text-sm font-bold font-mono @error('nid') border-red-500 @enderror"
                                         placeholder="1990XXXXXXXXXX">
+                                    @error('nid')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -481,17 +555,25 @@
                                         স্ত্রীর নাম (Spouse)
                                     </label>
                                     <input type="text" name="spouse_name" value="{{ old('spouse_name') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('spouse_name') border-red-500 @enderror"
                                         placeholder="SPOUSE NAME">
+                                    @error('spouse_name')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- SEC-03: Combat Readiness -->
-                    <div class="bg-white border border-slate-200 shadow-xl">
-                        <div class="px-8 py-5 bg-slate-800 flex items-center justify-between text-white">
-                            <h3 class="card-title-tactical">SEC-03: Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-03</span>
+                                <h3 class="card-title-tactical text-white">Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
+                            </div>
                         </div>
                         <div class="p-8 space-y-10">
                             <!-- Firing Scores -->
@@ -585,23 +667,28 @@
                         </div>
                     </div>
 
-                    <!-- SEC-04: Training & Courses [প্রশিক্ষণ ও কোর্স/ক্যাডার] -->
-                    <div class="bg-white border border-slate-200 shadow-xl" x-data="{
-                        courses: [
-                            { name: 'ওটি/নবীন সৈনিক', chance: '', year: '', authority: '', group: 'সৈনিক' },
-                            { name: 'বিটিটি', chance: '', year: '', authority: '', group: 'সৈনিক' },
-                            { name: 'কমান্ডো', chance: '', year: '', authority: '', group: 'সৈনিক' },
-                            { name: 'বিএমআর', chance: '', year: '', authority: '', group: 'সৈনিক' },
-                            { name: 'পিই', chance: '', year: '', authority: '', group: 'সৈনিক' },
-                            { name: 'এটিটি', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
-                            { name: 'এনসিও\'স কোর্স', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
-                            { name: 'পিই', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
-                            { name: 'সার্জেন্ট\'স কোর্স', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
-                            { name: 'পিই', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
-                            { name: 'ওয়ারেন্ট অফিসার্স কোর্স', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
-                            { name: 'পিই', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
-                            { name: 'পিই', chance: '', year: '', authority: '', group: 'ওয়ারেন্ট অফিসার' }
-                        ],
+                    <!-- SEC-04: Promotion Training & Courses [পদোন্নতিবিষয়ক প্রশিক্ষণ ও কোর্স] -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
+                        courses: Array.from({ length: 12 }, (_, i) => ({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' })),
+                        init() {
+                            const defaults = [
+                                { name: 'ওটি/নবীন সৈনিক', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                                { name: 'বিটিটি', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                                { name: 'কমান্ডো', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                                { name: 'বিএমআর', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                                { name: 'পিই', chance: '', year: '', authority: '', group: 'সৈনিক' },
+                                { name: 'এটিটি', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
+                                { name: 'এনসিও\'স কোর্স', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
+                                { name: 'পিই', chance: '', year: '', authority: '', group: 'ল্যান্স কর্পোরাল' },
+                                { name: 'সার্জেন্ট\'স কোর্স', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
+                                { name: 'পিই', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
+                                { name: 'ওয়ারেন্ট অফিসার্স কোর্স', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
+                                { name: 'পিই', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
+                                { name: 'পিই', chance: '', year: '', authority: '', group: 'ওয়ারেন্ট অফিসার' }
+                            ];
+                            const existing = {{ json_encode(old('courses', [])) }};
+                            this.courses = (existing && existing.length > 0) ? existing : defaults;
+                        },
                         addCourse() {
                             this.courses.push({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' });
                         },
@@ -609,12 +696,18 @@
                             this.courses.splice(index, 1);
                         }
                     }">
-                        <div class="px-8 py-5 bg-military-primary flex items-center justify-between text-white shadow-lg">
-                            <h3 class="card-title-tactical text-white">SEC-04: Promotion Training & Courses [প্রশিক্ষণ ও
-                                কোর্স/ক্যাডার]</h3>
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-04</span>
+                                <h3 class="card-title-tactical text-white">Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]
+                                </h3>
+                            </div>
                             <button type="button" @click="addCourse"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Other Course</button>
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                + Add Other Course
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -697,7 +790,7 @@
                     </div>
 
                     <!-- SEC-05: Special Training & Courses [সেনাবাহিনী পর্যায়ে কোর্স/ক্যাডার/বিশেষ প্রশিক্ষণ] -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{ 
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
                         special_courses: [],
                         addSpecialCourse() {
                             this.special_courses.push({ year: '', name: '', unit: '', details: '' });
@@ -706,55 +799,87 @@
                             this.special_courses.splice(index, 1);
                         }
                     }">
-                        <div class="px-8 py-5 bg-gradient-to-r from-military-primary to-military-primary/90 flex items-center justify-between text-white shadow-lg border-l-8 border-amber-500">
+                        <div
+                            class="px-8 py-5 bg-gradient-to-r from-military-primary to-military-primary/90 flex items-center justify-between text-white shadow-lg border-l-8 border-amber-500">
                             <div class="flex items-center gap-4">
-                                <span class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-05</span>
-                                <h3 class="card-title-tactical text-white">Army/Formation/Unit Level Cadres & Special Training [বিশেষ প্রশিক্ষণ]</h3>
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-05</span>
+                                <h3 class="card-title-tactical text-white">Army/Formation/Unit Level Cadres & Special
+                                    Training [বিশেষ প্রশিক্ষণ]</h3>
                             </div>
-                            <button type="button" @click="addSpecialCourse" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Training Record</button>
+                            <button type="button" @click="addSpecialCourse"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add
+                                Training Record</button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-slate-50 border-b border-slate-200">
-                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-16">ক্র: (Sl)</th>
-                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">সাল (Year)</th>
-                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">কোর্স/ক্যাডার (Course/Cadre)</th>
-                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">প্রতিষ্ঠান/ইউনিট (Inst/Unit)</th>
-                                        <th class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">ফলাফল ও প্রাধিকার (Details)</th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-16">
+                                            ক্র: (Sl)</th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">
+                                            সাল (Year)</th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">
+                                            কোর্স/ক্যাডার (Course/Cadre)</th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">
+                                            প্রতিষ্ঠান/ইউনিট (Inst/Unit)</th>
+                                        <th
+                                            class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest">
+                                            ফলাফল ও প্রাধিকার (Details)</th>
                                         <th class="px-6 py-4 text-center w-16"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100">
                                     <template x-for="(scourse, index) in special_courses" :key="index">
                                         <tr class="hover:bg-slate-50/50 transition-colors">
-                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1"></td>
-                                            <td class="px-4 py-2">
-                                                <input type="text" :name="`special_courses[${index}][year]`" x-model="scourse.year" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024">
+                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1">
                                             </td>
                                             <td class="px-4 py-2">
-                                                <input type="text" :name="`special_courses[${index}][name]`" x-model="scourse.name" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase" placeholder="SPECIAL COURSE">
+                                                <input type="text" :name="`special_courses[${index}][year]`"
+                                                    x-model="scourse.year"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="2024">
                                             </td>
                                             <td class="px-4 py-2">
-                                                <input type="text" :name="`special_courses[${index}][unit]`" x-model="scourse.unit" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="INSTITUTION / UNIT">
+                                                <input type="text" :name="`special_courses[${index}][name]`"
+                                                    x-model="scourse.name"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase"
+                                                    placeholder="SPECIAL COURSE">
                                             </td>
                                             <td class="px-4 py-2">
-                                                <input type="text" :name="`special_courses[${index}][details]`" x-model="scourse.details" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="RESULT / AUTH">
+                                                <input type="text" :name="`special_courses[${index}][unit]`"
+                                                    x-model="scourse.unit"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="INSTITUTION / UNIT">
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <input type="text" :name="`special_courses[${index}][details]`"
+                                                    x-model="scourse.details"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="RESULT / AUTH">
                                             </td>
                                             <td class="px-4 py-2 text-center text-red-500">
-                                                <button type="button" @click="removeSpecialCourse(index)" class="text-slate-300 hover:text-red-500 transition-colors">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                <button type="button" @click="removeSpecialCourse(index)"
+                                                    class=" text-red-500 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg>
                                                 </button>
                                             </td>
                                         </tr>
                                     </template>
                                     <template x-if="special_courses.length === 0">
                                         <tr>
-                                            <td colspan="6" class="px-6 py-10 text-center text-slate-300 italic text-xs">
+                                            <td colspan="6"
+                                                class="px-6 py-10 text-center text-slate-300 italic text-xs">
                                                 No special training records added. Click 'Add Training Record' to start.
                                             </td>
                                         </tr>
@@ -765,8 +890,8 @@
                     </div>
 
                     <!-- SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
-                    <div class="bg-white border border-slate-200 shadow-xl" x-data="{ 
-                        plans: [],
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
+                        plans: {{ json_encode(old('annual_career_plans', [])) }},
                         addPlan() {
                             this.plans.push({ year: '', leave: '', unit_trg: '', personal_trg: '', admin: '', mootw: '', signature: '' });
                         },
@@ -774,65 +899,115 @@
                             this.plans.splice(index, 1);
                         }
                     }">
-                        <div class="px-8 py-5 bg-military-primary/90 flex items-center justify-between text-white shadow-lg">
-                            <h3 class="card-title-tactical text-white">SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
-                            <button type="button" @click="addPlan" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add Yearly Plan</button>
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-06</span>
+                                <h3 class="card-title-tactical text-white">Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
+                            </div>
+                            <button type="button" @click="addPlan"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add
+                                Yearly Plan</button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-slate-50 border-b border-slate-200">
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">বছর (Year)</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ছুটি (Leave)</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ইউনিট প্রশিক্ষণ</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">ব্যক্তিগত প্রশিক্ষণ</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">প্রশাসন (Admin)</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">MOOTW</th>
-                                        <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">স্বাক্ষর (Sign)</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">
+                                            ক্রমিক নং (Serial No)</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">
+                                            বছর (Year)</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            ছুটি (Leave)</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            ইউনিট প্রশিক্ষণ</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            ব্যক্তিগত প্রশিক্ষণ</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            প্রশাসন (Admin)</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            MOOTW</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            স্বাক্ষর (Sign)</th>
                                         <th class="px-2 py-4 text-center w-12"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100">
                                     <template x-for="(plan, index) in plans" :key="index">
                                         <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1">
+                                            </td>
+
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][year]`" x-model="plan.year" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024">
+                                                <input type="text" :name="`annual_career_plans[${index}][year]`"
+                                                    x-model="plan.year"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="2024">
                                             </td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][leave]`" x-model="plan.leave" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Annual">
+                                                <input type="text" :name="`annual_career_plans[${index}][leave]`"
+                                                    x-model="plan.leave"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="Annual">
                                             </td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][unit_trg]`" x-model="plan.unit_trg" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                                <input type="text" :name="`annual_career_plans[${index}][unit_trg]`"
+                                                    x-model="plan.unit_trg"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="Cycle">
                                             </td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][personal_trg]`" x-model="plan.personal_trg" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                                <input type="text"
+                                                    :name="`annual_career_plans[${index}][personal_trg]`"
+                                                    x-model="plan.personal_trg"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="Cycle">
                                             </td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][admin]`" x-model="plan.admin" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                                <input type="text" :name="`annual_career_plans[${index}][admin]`"
+                                                    x-model="plan.admin"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="Cycle">
                                             </td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][mootw]`" x-model="plan.mootw" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="Cycle">
+                                                <input type="text" :name="`annual_career_plans[${index}][mootw]`"
+                                                    x-model="plan.mootw"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
+                                                    placeholder="Cycle">
                                             </td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`annual_career_plans[${index}][signature]`" x-model="plan.signature" 
-                                                       class="w-full p-2 bg-transparent border-0 focus:ring-0 text-[10px] font-bold" placeholder="REMARKS / SIGN">
+                                                <input type="text" :name="`annual_career_plans[${index}][signature]`"
+                                                    x-model="plan.signature"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-[10px] font-bold"
+                                                    placeholder="REMARKS / SIGN">
                                             </td>
                                             <td class="px-2 py-2 text-center text-red-500">
-                                                <button type="button" @click="removePlan(index)" class="text-slate-300 hover:text-red-500 transition-colors">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                <button type="button" @click="removePlan(index)"
+                                                    class="text-red-500 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg>
                                                 </button>
                                             </td>
                                         </tr>
                                     </template>
                                     <template x-if="plans.length === 0">
                                         <tr>
-                                            <td colspan="8" class="px-6 py-10 text-center text-slate-300 italic text-xs">
+                                            <td colspan="8"
+                                                class="px-6 py-10 text-center text-slate-300 italic text-xs">
                                                 No yearly plans added. Click 'Add Yearly Plan' to start.
                                             </td>
                                         </tr>
@@ -840,14 +1015,20 @@
                                 </tbody>
                             </table>
                             <div class="px-8 py-4 bg-amber-50 border-t border-amber-100 flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 ring-4 ring-white shadow-sm">
-                                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                <div
+                                    class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 ring-4 ring-white shadow-sm">
+                                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                        </path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-[10px] font-black text-amber-900 uppercase tracking-widest mb-0.5">অফিসিয়াল নির্দেশনা (OFFICIAL DIRECTIVE)</h4>
-                                    <p class="text-[14px] font-black text-amber-700 leading-tight">নোটঃ প্রতি বছরে পেশা পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।</p>
+                                    <h4 class="text-[10px] font-black text-amber-900 uppercase tracking-widest mb-0.5">
+                                        অফিসিয়াল নির্দেশনা (OFFICIAL DIRECTIVE)</h4>
+                                    <p class="text-[14px] font-black text-amber-700 leading-tight">নোটঃ প্রতি বছরে পেশা
+                                        পরিকল্পনার প্রতিটি কলামে চক্র উল্লেখ করতে হবে।</p>
                                 </div>
                             </div>
                         </div>
@@ -888,15 +1069,22 @@
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Service
                                         No (#)</label>
                                     <input type="text" name="number" value="{{ old('number') }}" required
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('number') border-red-500 @enderror"
                                         placeholder="123456">
+                                    @error('number')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2 text-left">
                                     <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Position
                                         Sequence (#)</label>
                                     <input type="number" name="sort_order" value="{{ old('sort_order', 100) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold bg-military-primary/5 text-center">
+                                        class="w-full p-4 tactical-input text-sm font-bold bg-military-primary/5 text-center @error('sort_order') border-red-500 @enderror">
+                                    @error('sort_order')
+                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase text-center">
+                                            {{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="space-y-2 text-left">
                                     <label
