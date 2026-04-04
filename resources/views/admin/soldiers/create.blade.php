@@ -580,14 +580,56 @@
                         </div>
                     </div>
 
-                    <!-- SEC-03: Combat Readiness -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-8">
+                    <!-- SEC-03.1: IPFT -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-6">
                         <div
-                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                            class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
                             <div class="flex items-center gap-4">
                                 <span
-                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-03</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">RET FIRING [আরইটি ফায়ারিং প্রোফাইল]</h3>
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.1</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Individual Physical
+                                    Fitness Training (IPFT) [শারীরিক সক্ষমতা]</h3>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Biannual
+                                        01</label>
+                                    <select name="ipft_biannual_1"
+                                        class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                        <option value="">- Select -</option>
+                                        <option value="Pass">Pass</option>
+                                        <option value="Failed">Fail</option>
+                                        <option value="not_appeared">Not appeared</option>
+                                        <option value="yet_to_appear">Yet to appear</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Biannual
+                                        02</label>
+                                    <select name="ipft_biannual_2"
+                                        class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                        <option value="">- Select -</option>
+                                        <option value="Pass">Pass</option>
+                                        <option value="Failed">Fail</option>
+                                        <option value="not_appeared">Not appeared</option>
+                                        <option value="yet_to_appear">Yet to appear</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEC-03.2: RET Firing -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-6">
+                        <div
+                            class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.2</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">RET FIRING [আরইটি
+                                    ফায়ারিং প্রোফাইল]</h3>
                             </div>
                             <button type="button" @click="addFiringRecord"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
@@ -602,7 +644,7 @@
                                             Sl</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            Firing Date</th>
+                                            Date</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                             Grouping</th>
@@ -614,10 +656,10 @@
                                             ETS</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            Night Fire</th>
+                                            Status (P/F)</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            Total</th>
+                                            Mark</th>
                                         <th class="px-2 py-4 text-center w-12"></th>
                                     </tr>
                                 </thead>
@@ -626,60 +668,45 @@
                                         <tr class="hover:bg-slate-50/50 transition-colors">
                                             <td class="px-4 py-4 text-xs font-bold text-slate-400 text-center"
                                                 x-text="index + 1"></td>
-                                            <td class="px-2 py-2">
-                                                <input type="date" :name="`firing_records[${index}][date]`"
-                                                    x-model="record.date"
+                                            <td class="px-2 py-2"><input type="date"
+                                                    :name="`firing_records[${index}][date]`" x-model="record.date"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
                                             </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`firing_records[${index}][grouping]`"
-                                                    x-model="record.grouping"
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`firing_records[${index}][grouping]`" x-model="record.grouping"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="GRP">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`firing_records[${index}][hit]`"
-                                                    x-model="record.hit"
+                                                    placeholder="GRP"></td>
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`firing_records[${index}][hit]`" x-model="record.hit"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="Hit">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`firing_records[${index}][ets]`"
-                                                    x-model="record.ets"
+                                                    placeholder="Hit"></td>
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`firing_records[${index}][ets]`" x-model="record.ets"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="92">
-                                            </td>
+                                                    placeholder="92"></td>
                                             <td class="px-2 py-2">
-                                                <input type="text" :name="`firing_records[${index}][night_fire]`"
-                                                    x-model="record.night_fire"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="Pass">
+                                                <select :name="`firing_records[${index}][status]`"
+                                                    x-model="record.status"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center">
+                                                    <option value="Pass">Pass</option>
+                                                    <option value="Fail">Fail</option>
+                                                </select>
                                             </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`firing_records[${index}][total]`"
-                                                    x-model="record.total"
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`firing_records[${index}][total]`" x-model="record.total"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-[11px] font-black text-military-primary text-center"
-                                                    placeholder="88">
-                                            </td>
+                                                    placeholder="88"></td>
                                             <td class="px-2 py-2 text-center">
                                                 <button type="button" @click="removeFiringRecord(index)"
-                                                    class="text-red-500 hover:text-red-700 transition-colors">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    class="text-red-500 hover:text-red-700 transition-colors"><svg
+                                                        class="w-4 h-4" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
+                                                            stroke_width="2"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                                         </path>
-                                                    </svg>
-                                                </button>
+                                                    </svg></button>
                                             </td>
-                                        </tr>
-                                    </template>
-                                    <template x-if="firing_records.length === 0">
-                                        <tr>
-                                            <td colspan="8"
-                                                class="px-6 py-10 text-center text-slate-300 italic text-xs">No firing
-                                                records added. Click '+ Add Record' to start.</td>
                                         </tr>
                                     </template>
                                 </tbody>
@@ -687,73 +714,385 @@
                         </div>
                     </div>
 
-                    <!-- SEC-03.1:  Individual Physical Fitness Training (IPFT) -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                    <!-- SEC-03.3: Night Firing -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-6">
                         <div
-                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
                             <div class="flex items-center gap-4">
                                 <span
-                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-03.1</span>
-                                <h3 class="card-title-tactical text-white">Individual Physical Fitness Training (IPFT)
-                                    [শারীরিক সক্ষমতা ]</h3>
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.3</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Firing [নাইট
+                                    ফায়ারিং]</h3>
+                            </div>
+                            <button type="button" @click="addNightFiringRecord"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
+                                Add Record</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16 text-center">
+                                            Sl</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Date</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Grouping</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Hit</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Status (P/F)</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Mark</th>
+                                        <th class="px-2 py-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <template x-for="(record, index) in night_firing_records" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-4 py-4 text-xs font-bold text-slate-400 text-center"
+                                                x-text="index + 1"></td>
+                                            <td class="px-2 py-2"><input type="date"
+                                                    :name="`night_firing_records[${index}][date]`" x-model="record.date"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
+                                            </td>
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`night_firing_records[${index}][grouping]`"
+                                                    x-model="record.grouping"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="GRP"></td>
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`night_firing_records[${index}][hit]`" x-model="record.hit"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="Hit"></td>
+                                            <td class="px-2 py-2">
+                                                <select :name="`night_firing_records[${index}][status]`"
+                                                    x-model="record.status"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
+                                                    <option value="Pass">Pass</option>
+                                                    <option value="Fail">Fail</option>
+                                                </select>
+                                            </td>
+                                            <td class="px-2 py-2"><input type="text"
+                                                    :name="`night_firing_records[${index}][total]`" x-model="record.total"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-[11px] font-black text-military-primary text-center"
+                                                    placeholder="88"></td>
+                                            <td class="px-2 py-2 text-center">
+                                                <button type="button" @click="removeNightFiringRecord(index)"
+                                                    class="text-red-500 hover:text-red-700 transition-colors"><svg
+                                                        class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg></button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SEC-03.4 & SEC-03.5: Speed March & Grenade Fire -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-6 p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span
+                                        class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.4</span>
+                                    <p class="text-[10px] font-black text-military-primary uppercase tracking-widest">Speed
+                                        March [স্পিড মার্চ]</p>
+                                </div>
+                                <input type="text" name="speed_march" value="{{ old('speed_march') }}"
+                                    placeholder="Pass / Duration"
+                                    class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span
+                                        class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.5</span>
+                                    <p class="text-[10px] font-black text-military-primary uppercase tracking-widest">
+                                        Grenade Fire [গ্রেনেড ফায়ার]</p>
+                                </div>
+                                <input type="text" name="grenade_fire" value="{{ old('grenade_fire') }}"
+                                    placeholder="Pass / Score"
+                                    class="w-full p-3 tactical-input text-xs font-bold uppercase">
                             </div>
                         </div>
-                        <div class="p-8 space-y-10">
+                    </div>
 
-
-                            <!-- Physical & Tactical -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div class="space-y-4">
-                                    <p class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-2">
-                                        Individual Physical Fitness Training (IPFT)</p>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="space-y-2">
-                                            <label class="text-[10px] font-bold text-slate-400 uppercase">Biannual
-                                                01</label>
-                                            <select name="ipft_biannual_1"
-                                                class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                                <option value="">- Select -</option>
-                                                <option value="Pass">Pass</option>
-                                                <option value="Failed">Fail</option>
-                                                <option value="not_appeared">Not appeared</option>
-                                                <option value="yet_to_appear">Yet to appear</option>
-                                            </select>
-                                        </div>
-                                        <div class="space-y-2">
-                                            <label class="text-[10px] font-bold text-slate-400 uppercase">Biannual
-                                                02</label>
-                                            <select name="ipft_biannual_2"
-                                                class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                                <option value="">- Select -</option>
-                                                <option value="Pass">Pass</option>
-                                                <option value="Failed">Fail</option>
-                                                <option value="not_appeared">Not appeared</option>
-                                                <option value="yet_to_appear">Yet to appear</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-4">
-                                    <p class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-2">
-                                        Tactical Skills</p>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="space-y-2">
-                                            <label class="text-[10px] font-bold text-slate-400 uppercase">Speed
-                                                March</label>
-                                            <input type="text" name="speed_march" value="{{ old('speed_march') }}"
-                                                placeholder="Pass / 4"
-                                                class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                        </div>
-                                        <div class="space-y-2">
-                                            <label class="text-[10px] font-bold text-slate-400 uppercase">Grenade
-                                                Fire</label>
-                                            <input type="text" name="grenade_fire" value="{{ old('grenade_fire') }}"
-                                                placeholder="Pass / 4"
-                                                class="w-full p-3 tactical-input text-xs font-bold uppercase">
-                                        </div>
-                                    </div>
-                                </div>
+                    <!-- SEC-03.6: Night Training -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-6">
+                        <div
+                            class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.6</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training (NI
+                                    Trg) [নাইট ট্রেনিং]</h3>
                             </div>
+                            <button type="button" @click="addNightTraining"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
+                                Add Record</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th
+                                            class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16 text-center">
+                                            Sl</th>
+                                        <th
+                                            class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Date</th>
+                                        <th
+                                            class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Appointment during Trg</th>
+                                        <th class="px-2 py-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="(record, index) in night_trainings" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-6 py-4 text-xs font-bold text-slate-400 text-center"
+                                                x-text="index + 1"></td>
+                                            <td class="px-4 py-2"><input type="date"
+                                                    :name="`night_trainings[${index}][date]`" x-model="record.date"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
+                                            </td>
+                                            <td class="px-4 py-2"><input type="text"
+                                                    :name="`night_trainings[${index}][appointment]`"
+                                                    x-model="record.appointment"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold uppercase"
+                                                    placeholder="LMG MAN / CDR"></td>
+                                            <td class="px-2 py-2 text-center">
+                                                <button type="button" @click="removeNightTraining(index)"
+                                                    class="text-red-500 hover:text-red-700 transition-colors"><svg
+                                                        class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg></button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SEC-03.7 & SEC-03.8: Group Training & Cycle Ending -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Group Training -->
+                        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                            <div
+                                class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.7</span>
+                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Group Training
+                                        (GP Trg)</h3>
+                                </div>
+                                <button type="button" @click="addGroupTraining"
+                                    class="text-white hover:text-amber-500 font-bold">+</button>
+                            </div>
+                            <div class="p-0">
+                                <table class="w-full border-collapse">
+                                    <thead>
+                                        <tr
+                                            class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
+                                            <th class="px-4 py-2 text-center w-10">Sl</th>
+                                            <th class="px-4 py-2">Circle (1/2/3)</th>
+                                            <th class="px-4 py-2">Year</th>
+                                            <th class="w-8"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(record, index) in group_trainings" :key="index">
+                                            <tr class="border-b border-slate-100">
+                                                <td class="px-4 py-2 text-[10px] font-bold text-slate-400 text-center"
+                                                    x-text="index+1"></td>
+                                                <td class="px-2 py-1">
+                                                    <select :name="`group_trainings[${index}][circle]`"
+                                                        x-model="record.circle"
+                                                        class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0">
+                                                        <option value="1st">1st Circle</option>
+                                                        <option value="2nd">2nd Circle</option>
+                                                        <option value="3rd">3rd Circle</option>
+                                                    </select>
+                                                </td>
+                                                <td class="px-2 py-1"><input type="text"
+                                                        :name="`group_trainings[${index}][year]`" x-model="record.year"
+                                                        class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0"
+                                                        placeholder="2024"></td>
+                                                <td class="px-2 py-1 text-center"><button type="button"
+                                                        @click="removeGroupTraining(index)"
+                                                        class="text-red-400">&times;</button></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Cycle Ending Exercise -->
+                        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                            <div
+                                class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.8</span>
+                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending
+                                        Exercise</h3>
+                                </div>
+                                <button type="button" @click="addCycleEndingExercise"
+                                    class="text-white hover:text-amber-500 font-bold">+</button>
+                            </div>
+                            <div class="p-0">
+                                <table class="w-full border-collapse">
+                                    <thead>
+                                        <tr
+                                            class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
+                                            <th class="px-4 py-2 text-center w-10">Sl</th>
+                                            <th class="px-4 py-2">Circle (1/2/3)</th>
+                                            <th class="px-4 py-2">Year</th>
+                                            <th class="w-8"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(record, index) in cycle_ending_exercises"
+                                            :key="index">
+                                            <tr class="border-b border-slate-100">
+                                                <td class="px-4 py-2 text-[10px] font-bold text-slate-400 text-center"
+                                                    x-text="index+1"></td>
+                                                <td class="px-2 py-1">
+                                                    <select :name="`cycle_ending_exercises[${index}][circle]`"
+                                                        x-model="record.circle"
+                                                        class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0">
+                                                        <option value="1st">1st Circle</option>
+                                                        <option value="2nd">2nd Circle</option>
+                                                        <option value="3rd">3rd Circle</option>
+                                                    </select>
+                                                </td>
+                                                <td class="px-2 py-1"><input type="text"
+                                                        :name="`cycle_ending_exercises[${index}][year]`"
+                                                        x-model="record.year"
+                                                        class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0"
+                                                        placeholder="2024"></td>
+                                                <td class="px-2 py-1 text-center"><button type="button"
+                                                        @click="removeCycleEndingExercise(index)"
+                                                        class="text-red-400">&times;</button></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEC-03.9: Summer Training -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-6">
+                        <div
+                            class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.9</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Summer Training Record
+                                    [গ্রীষ্মকালীন প্রশিক্ষণ]</h3>
+                            </div>
+                            <button type="button" @click="addSummerTrg"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
+                                Add Year</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th class="px-3 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest w-12 text-center">Sl (ক্রঃ)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest w-24">Year (বছর)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Unit (ইউনিট)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Appointment (নিযুক্তি)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Standard/Remarks (অর্জিত মান/মন্তব্য)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest w-32">Signature (স্বাক্ষর)</th>
+                                        <th class="px-2 py-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="(record, index) in field_trainings_summer" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-3 py-4 text-xs font-bold text-slate-400 text-center" x-text="index + 1"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_summer[${index}][year]`" x-model="record.year" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_summer[${index}][unit]`" x-model="record.unit" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold uppercase" placeholder="UNIT"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_summer[${index}][appointment]`" x-model="record.appointment" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold uppercase" placeholder="APPOINTMENT"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_summer[${index}][remarks]`" x-model="record.remarks" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="REMARKS"></td>
+                                            <td class="px-2 py-2"><div class="h-8 border-b-2 border-slate-100 border-dashed"></div></td>
+                                            <td class="px-2 py-2 text-center">
+                                                <button type="button" @click="removeSummerTrg(index)" class="text-red-500 hover:text-red-700 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SEC-03.10: Winter Training -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-8">
+                        <div
+                            class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.10</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Winter Training Record
+                                    [শীতকালীন প্রশিক্ষণ]</h3>
+                            </div>
+                            <button type="button" @click="addWinterTrg"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
+                                Add Year</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th class="px-3 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest w-12 text-center">Sl (ক্রঃ)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest w-24">Year (বছর)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Unit (ইউনিট)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Appointment (নিযুক্তি)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Standard/Remarks (অর্জিত মান/মন্তব্য)</th>
+                                        <th class="px-4 py-4 text-[9px] font-black text-slate-500 uppercase tracking-widest w-32">Signature (স্বাক্ষর)</th>
+                                        <th class="px-2 py-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="(record, index) in field_trainings_winter" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-3 py-4 text-xs font-bold text-slate-400 text-center" x-text="index + 1"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_winter[${index}][year]`" x-model="record.year" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center" placeholder="2024"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_winter[${index}][unit]`" x-model="record.unit" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold uppercase" placeholder="UNIT"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_winter[${index}][appointment]`" x-model="record.appointment" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold uppercase" placeholder="APPOINTMENT"></td>
+                                            <td class="px-2 py-2"><input type="text" :name="`field_trainings_winter[${index}][remarks]`" x-model="record.remarks" class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold" placeholder="REMARKS"></td>
+                                            <td class="px-2 py-2"><div class="h-8 border-b-2 border-slate-100 border-dashed"></div></td>
+                                            <td class="px-2 py-2 text-center">
+                                                <button type="button" @click="removeWinterTrg(index)" class="text-red-500 hover:text-red-700 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke_width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
@@ -881,7 +1220,7 @@
 
                     <!-- SEC-05: Special Training & Courses [সেনাবাহিনী পর্যায়ে কোর্স/ক্যাডার/বিশেষ প্রশিক্ষণ] -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
-                        special_courses: [],
+                        special_courses: [{ year: '', name: '', unit: '', details: '' }],
                         addSpecialCourse() {
                             this.special_courses.push({ year: '', name: '', unit: '', details: '' });
                         },
@@ -981,7 +1320,7 @@
 
                     <!-- SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
-                        plans: {{ json_encode(old('annual_career_plans', [])) }},
+                        plans: {{ json_encode(old('annual_career_plans', [])) }}.length ? {{ json_encode(old('annual_career_plans', [])) }} : [{ year: '', leave: '', unit_trg: '', personal_trg: '', admin: '', mootw: '', signature: '' }],
                         addPlan() {
                             this.plans.push({ year: '', leave: '', unit_trg: '', personal_trg: '', admin: '', mootw: '', signature: '' });
                         },
@@ -1124,185 +1463,18 @@
                         </div>
                     </div>
 
-                    <!-- SEC-07: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ] -->
+                    <!-- SEC-07: Sports Participation [খেলাধুলা ও অন্যান্য] -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
-                        <div
-                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                        <div class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
                             <div class="flex items-center gap-4">
-                                <span
-                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
-                                <h3 class="card-title-tactical text-white">Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ]</h3>
+                                <span class="px-3 py-1 bg-green-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Sports & Extra-Curricular [খেলাধুলা ও অন্যান্য]</h3>
                             </div>
-                            <button type="button" @click="addSummerTrg"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Record</button>
                         </div>
-                        <div class="p-0 overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
-                                <thead>
-                                    <tr class="bg-slate-50 border-b border-slate-200">
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16 text-center">
-                                            Sl</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">
-                                            বছর (Year)</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            ইউনিট (Unit)</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            নিযুক্তি (Appointment)</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            অর্জিত মান/মন্তব্য (Remarks)</th>
-                                        <th class="px-2 py-4 text-center w-12"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100">
-                                    <template x-for="(trg, index) in field_trainings_summer" :key="index">
-                                        <tr class="hover:bg-slate-50/50 transition-colors">
-                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`field_trainings_summer[${index}][year]`"
-                                                    x-model="trg.year"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="2024">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`field_trainings_summer[${index}][unit]`"
-                                                    x-model="trg.unit"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
-                                                    placeholder="UNIT">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text"
-                                                    :name="`field_trainings_summer[${index}][appointment]`"
-                                                    x-model="trg.appointment"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
-                                                    placeholder="APPOINTMENT">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`field_trainings_summer[${index}][remarks]`"
-                                                    x-model="trg.remarks"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
-                                                    placeholder="REMARKS">
-                                            </td>
-                                            <td class="px-2 py-2 text-center">
-                                                <button type="button" @click="removeSummerTrg(index)"
-                                                    class="text-red-500 hover:text-red-700 transition-colors">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                    <template x-if="field_trainings_summer.length === 0">
-                                        <tr>
-                                            <td colspan="6"
-                                                class="px-6 py-10 text-center text-slate-300 italic text-xs">No records
-                                                added. Click '+ Add Record' to start.</td>
-                                        </tr>
-                                    </template>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- SEC-08: Winter Training [শীতকালীন প্রশিক্ষণ] -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
-                        <div
-                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
-                            <div class="flex items-center gap-4">
-                                <span
-                                    class="px-3 py-1 bg-blue-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-08</span>
-                                <h3 class="card-title-tactical text-white">Winter Training [শীতকালীন প্রশিক্ষণ]</h3>
-                            </div>
-                            <button type="button" @click="addWinterTrg"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Record</button>
-                        </div>
-                        <div class="p-0 overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
-                                <thead>
-                                    <tr class="bg-slate-50 border-b border-slate-200">
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16 text-center">
-                                            Sl</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">
-                                            বছর (Year)</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            ইউনিট (Unit)</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            নিযুক্তি (Appointment)</th>
-                                        <th
-                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            অর্জিত মান/মন্তব্য (Remarks)</th>
-                                        <th class="px-2 py-4 text-center w-12"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100">
-                                    <template x-for="(trg, index) in field_trainings_winter" :key="index">
-                                        <tr class="hover:bg-slate-50/50 transition-colors">
-                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`field_trainings_winter[${index}][year]`"
-                                                    x-model="trg.year"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
-                                                    placeholder="2024">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`field_trainings_winter[${index}][unit]`"
-                                                    x-model="trg.unit"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
-                                                    placeholder="UNIT">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text"
-                                                    :name="`field_trainings_winter[${index}][appointment]`"
-                                                    x-model="trg.appointment"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
-                                                    placeholder="APPOINTMENT">
-                                            </td>
-                                            <td class="px-2 py-2">
-                                                <input type="text" :name="`field_trainings_winter[${index}][remarks]`"
-                                                    x-model="trg.remarks"
-                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold"
-                                                    placeholder="REMARKS">
-                                            </td>
-                                            <td class="px-2 py-2 text-center">
-                                                <button type="button" @click="removeWinterTrg(index)"
-                                                    class="text-red-500 hover:text-red-700 transition-colors">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                    <template x-if="field_trainings_winter.length === 0">
-                                        <tr>
-                                            <td colspan="6"
-                                                class="px-6 py-10 text-center text-slate-300 italic text-xs">No records
-                                                added. Click '+ Add Record' to start.</td>
-                                        </tr>
-                                    </template>
-                                </tbody>
-                            </table>
+                        <div class="p-8">
+                            <textarea name="sports_participation" rows="4" 
+                                class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                placeholder="Describe participation in sports, extra-curricular events, or other strategic interests...">{{ old('sports_participation') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -1326,7 +1498,8 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Identify
+                                        <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                                            Identify
                                             Profile Asset</p>
                                     </div>
                                 </template>
@@ -1365,7 +1538,8 @@
                                     <label class="flex items-center gap-3 cursor-pointer">
                                         <input type="checkbox" name="is_active" value="1" checked
                                             class="w-5 h-5 text-military-primary rounded">
-                                        <span class="text-sm font-bold text-slate-600 uppercase tracking-widest">Deployment
+                                        <span
+                                            class="text-sm font-bold text-slate-600 uppercase tracking-widest">Deployment
                                             Ready</span>
                                     </label>
                                 </div>
@@ -1400,8 +1574,18 @@
                 selectedCompanyId: '',
                 selectedSectionId: '',
                 courses: [],
-                field_trainings_summer: [],
-                field_trainings_winter: [],
+                field_trainings_summer: [{
+                    year: '',
+                    unit: '',
+                    appointment: '',
+                    remarks: ''
+                }],
+                field_trainings_winter: [{
+                    year: '',
+                    unit: '',
+                    appointment: '',
+                    remarks: ''
+                }],
                 firing_records: [{
                     date: '',
                     grouping: '',
@@ -1409,6 +1593,30 @@
                     ets: '',
                     night_fire: '',
                     total: ''
+                }],
+                night_firing_records: [{
+                    date: '',
+                    grouping: '',
+                    hit: '',
+                    total: '',
+                    status: ''
+                }],
+                night_trainings: [{
+                    date: '',
+                    appointment: '',
+                    remarks: ''
+                }],
+                group_trainings: [{
+                    year: '',
+                    circle: '',
+                    unit: '',
+                    remarks: ''
+                }],
+                cycle_ending_exercises: [{
+                    year: '',
+                    circle: '',
+                    unit: '',
+                    remarks: ''
                 }],
 
                 addFiringRecord() {
@@ -1423,6 +1631,54 @@
                 },
                 removeFiringRecord(index) {
                     this.firing_records.splice(index, 1);
+                },
+
+                addNightFiringRecord() {
+                    this.night_firing_records.push({
+                        date: '',
+                        grouping: '',
+                        hit: '',
+                        total: '',
+                        status: ''
+                    });
+                },
+                removeNightFiringRecord(index) {
+                    this.night_firing_records.splice(index, 1);
+                },
+
+                addNightTraining() {
+                    this.night_trainings.push({
+                        date: '',
+                        appointment: '',
+                        remarks: ''
+                    });
+                },
+                removeNightTraining(index) {
+                    this.night_trainings.splice(index, 1);
+                },
+
+                addGroupTraining() {
+                    this.group_trainings.push({
+                        year: '',
+                        circle: '',
+                        unit: '',
+                        remarks: ''
+                    });
+                },
+                removeGroupTraining(index) {
+                    this.group_trainings.splice(index, 1);
+                },
+
+                addCycleEndingExercise() {
+                    this.cycle_ending_exercises.push({
+                        year: '',
+                        circle: '',
+                        unit: '',
+                        remarks: ''
+                    });
+                },
+                removeCycleEndingExercise(index) {
+                    this.cycle_ending_exercises.splice(index, 1);
                 },
 
                 addSummerTrg() {

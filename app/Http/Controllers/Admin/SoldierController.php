@@ -142,6 +142,10 @@ class SoldierController extends Controller
             'field_trainings_summer' => 'nullable|array',
             'field_trainings_winter' => 'nullable|array',
             'firing_records' => 'nullable|array',
+            'night_firing_records' => 'nullable|array',
+            'night_trainings' => 'nullable|array',
+            'group_trainings' => 'nullable|array',
+            'cycle_ending_exercises' => 'nullable|array',
             'firing_date' => 'nullable|date',
         ]);
 
@@ -243,6 +247,10 @@ class SoldierController extends Controller
             'field_trainings_summer' => 'nullable|array',
             'field_trainings_winter' => 'nullable|array',
             'firing_records' => 'nullable|array',
+            'night_firing_records' => 'nullable|array',
+            'night_trainings' => 'nullable|array',
+            'group_trainings' => 'nullable|array',
+            'cycle_ending_exercises' => 'nullable|array',
             'firing_date' => 'nullable|date',
         ]);
 
@@ -303,11 +311,8 @@ class SoldierController extends Controller
 
     public function printRecordBook(Soldier $soldier)
     {
-        // Generate PDF with tactical helper
-        $pdf = PdfHelper::generateRecordBook($soldier);
-        
-        // Inject Auto-Print Command - Access mPDF instance via public property
-        $pdf->mpdf->SetJS('this.print();');
+        // Generate PDF with tactical helper and auto-print enabled
+        $pdf = PdfHelper::generateRecordBook($soldier, true);
         
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }

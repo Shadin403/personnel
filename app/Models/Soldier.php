@@ -69,6 +69,10 @@ class Soldier extends Model
         'field_trainings_winter',
         'firing_records',
         'firing_date',
+        'night_firing_records',
+        'night_trainings',
+        'group_trainings',
+        'cycle_ending_exercises',
     ];
 
     public function unit()
@@ -87,6 +91,10 @@ class Soldier extends Model
         'field_trainings_winter' => 'array',
         'firing_records' => 'array',
         'firing_date' => 'date',
+        'night_firing_records' => 'array',
+        'night_trainings' => 'array',
+        'group_trainings' => 'array',
+        'cycle_ending_exercises' => 'array',
     ];
 
     public function getPhotoUrlAttribute(): string

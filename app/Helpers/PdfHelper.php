@@ -11,12 +11,12 @@ class PdfHelper
      * Generate a Record Book PDF for a soldier.
      *
      * @param Soldier $soldier
-     * @return \Barryvdh\DomPDF\PDF|\niklasravnsborg\LaravelPdf\Pdf
+     * @param bool $printable
+     * @return \niklasravnsborg\LaravelPdf\Pdf
      */
-    public static function generateRecordBook(Soldier $soldier)
+    public static function generateRecordBook(Soldier $soldier, $printable = false)
     {
         // Strategic mPDF Configuration for Bangla support
-        // Secure watermark path and configuration
         $logoPath = public_path('assets/logos/SAJHSF.png');
 
         $options = [
@@ -28,10 +28,14 @@ class PdfHelper
             'margin_top' => 10,
             'margin_bottom' => 10,
             'display_mode' => 'fullpage',
-            'instanceConfigurator' => function($mpdf) use ($logoPath) {
+            'instanceConfigurator' => function($mpdf) use ($logoPath, $printable) {
                 if (file_exists($logoPath)) {
                     $mpdf->SetWatermarkImage($logoPath, 0.05, 'F');
                     $mpdf->showWatermarkImage = true;
+                }
+                
+                if ($printable) {
+                    $mpdf->SetJS('this.print();');
                 }
             }
         ];
