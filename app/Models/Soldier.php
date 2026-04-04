@@ -101,6 +101,30 @@ class Soldier extends Model
         return 'Trainee';
     }
 
+    /**
+     * Strategic Battalion Resolver.
+     * Recursively traverses up the unit hierarchy to find the top-level Battalion.
+     */
+    public function getBattalionNameAttribute(): string
+    {
+        $unit = $this->unit()->first(); // Avoid collision with 'unit' column
+        if (!$unit) return 'Unmapped';
+
+        // Traverse up to find the Battalion level or the root unit
+        $current = $unit;
+        while ($current) {
+            if ($current->type === 'battalion') {
+                return $current->name;
+            }
+            if (!$current->parent_id) {
+                return $current->name;
+            }
+            $current = $current->parent;
+        }
+
+        return $unit->name;
+    }
+
     public function getOverallStatusAttribute(): string
     {
         $checks = [

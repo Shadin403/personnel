@@ -166,7 +166,7 @@
     <table class="data-table">
         <tr>
             <th>ইউনিট (Unit/Regiment):</th>
-            <td colspan="3">{{ $soldier->unit?->name ?? 'Unmapped' }}</td>
+            <td colspan="3">{{ $soldier->battalion_name }}</td>
         </tr>
         <tr>
             <th>কোয়েচ গ্রুপ (Company):</th>

@@ -157,7 +157,7 @@
                     <div class="p-6 space-y-4">
                         @php
                             $hierarchy = [
-                                ['label' => 'Unit/Regt', 'value' => $soldier->unit?->name ?? 'Unmapped'],
+                                ['label' => 'Unit/Regt', 'value' => $soldier->battalion_name],
                                 ['label' => 'Coy Group', 'value' => $soldier->company ?? 'N/A'],
                                 ['label' => 'Platoon', 'value' => $soldier->platoon ?? 'N/A'],
                                 ['label' => 'Section', 'value' => $soldier->section ?? 'N/A'],
