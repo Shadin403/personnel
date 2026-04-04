@@ -117,8 +117,8 @@
     <table style="width: 100%; margin-bottom: 20px; border: none;">
         <tr>
             <td style="vertical-align: top; border: none;">
-                <div style="font-size: 24px; font-weight: bold; color: #000; margin-bottom: 5px;">{{ $soldier->name }}</div>
-                <div style="font-size: 18px; font-weight: bold; color: #495057; margin-bottom: 10px;">{{ $soldier->name_bn }}</div>
+                <!--<div style="font-size: 24px; font-weight: bold; color: #000; margin-bottom: 5px;">{{ $soldier->name }}</div>
+                <div style="font-size: 18px; font-weight: bold; color: #495057; margin-bottom: 10px;">{{ $soldier->name_bn }}</div>-->
                 <div style="font-size: 14px; font-weight: bold; text-transform: uppercase; color: #000; border-bottom: 3px solid #000; display: inline-block; padding-bottom: 5px;">
                     ডিজিটাল রেকর্ড বুক (Digital Personnel Record)
                 </div>
@@ -140,7 +140,7 @@
     </table>
 
     <!-- SEC-01: Identity -->
-    <div class="section-header">SEC-01: Personnel Identity [গোপনীয় তথ্য ১-১১]</div>
+    <div class="section-header">SEC-01: Personnel Identity [গোপনীয় তথ্য ]</div>
     <table class="data-table">
         <tr>
             <th>ব্যক্তিগত নং (Personal No):</th>
@@ -185,7 +185,7 @@
     <!-- Note: SEC-02 was removed due to redundant data (Father's Name/Batch) -->
 
     <!-- SEC-04: Personal Detail -->
-    <div class="section-header">SEC-04: Personal Profile & Bio-data [ব্যক্তিগত তথ্য ১২-১৯]</div>
+    <div class="section-header">SEC-02: Personal Profile & Bio-data [ব্যক্তিগত তথ্য ১২-১৯]</div>
     <table class="data-table">
         <tr>
             <th>পিতার নাম (Father's Name):</th>
@@ -214,7 +214,7 @@
     </table>
 
     <!-- SEC-05: Promotion Training -->
-    <div class="section-header">SEC-05: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
+    <div class="section-header">SEC-03: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
     <table class="grid-table">
         <thead>
             <tr>
@@ -276,7 +276,7 @@
     </table>
 
     <!-- SEC-07: Annual Career Plan -->
-    <div class="section-header">SEC-07: Strategic Career Trajectory [বাৎসরিক পেশা পরিকল্পনা]</div>
+    <div class="section-header">SEC-04: Strategic Career Trajectory [বাৎসরিক পেশা পরিকল্পনা]</div>
     <table class="grid-table" style="font-size: 9px;">
         <thead>
             <tr>
@@ -310,7 +310,7 @@
     </table>
 
     <!-- SEC-08: Combat Readiness -->
-    <div class="section-header">SEC-08: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
+    <div class="section-header">SEC-05: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
     <table class="data-table" style="margin-bottom: 5px;">
         <tr>
             <th colspan="2" style="background: #eee; text-align: center;">FIRING ANALYTICS (STH)</th>
@@ -349,7 +349,7 @@
     </table>
 
     <!-- SEC-09: Financial -->
-    <div class="section-header">SEC-09: Financial Details [আর্থিক তথ্য]</div>
+    <div class="section-header">SEC-06: Financial Details [আর্থিক তথ্য]</div>
     <table class="data-table">
         <tr>
             <th>ব্যাংকের নাম (Bank Name):</th>
