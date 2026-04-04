@@ -142,7 +142,7 @@
                                         ব্যক্তিগত নং (Personal No)
                                     </label>
                                     <input type="text" name="personal_no" value="{{ old('personal_no') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('personal_no') border-red-500 @enderror"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('personal_no') border-red-500 @enderror"
                                         placeholder="EX: BA-1234">
                                     @error('personal_no')
                                         <p
@@ -174,7 +174,7 @@
                                         </div>
                                         <div class="space-y-1">
                                             <input type="text" name="rank" value="{{ old('rank') }}"
-                                                class="w-full p-4 tactical-input text-sm font-bold uppercase @error('rank') border-red-500 @enderror"
+                                                class="w-full p-4 tactical-input text-sm font-bold @error('rank') border-red-500 @enderror"
                                                 placeholder="RANK (EN)">
                                             @error('rank')
                                                 <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}
@@ -204,7 +204,7 @@
                                     </div>
                                     <div class="space-y-1">
                                         <input type="text" name="name" value="{{ old('name') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold uppercase @error('name') border-red-500 @enderror"
+                                            class="w-full p-4 tactical-input text-sm font-bold @error('name') border-red-500 @enderror"
                                             placeholder="NAME (EN)">
                                         @error('name')
                                             <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -225,7 +225,7 @@
                                     <input type="text" name="appointment_bn" value="{{ old('appointment_bn') }}"
                                         class="w-full p-4 tactical-input text-sm font-bold" placeholder="নিযুক্তি (বাংলা)">
                                     <input type="text" name="appointment" value="{{ old('appointment') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold"
                                         placeholder="APPOINTMENT (EN)">
                                 </div>
                             </div>
@@ -394,7 +394,7 @@
                                         বেসামরিক শিক্ষা (Civil Education)
                                     </label>
                                     <input type="text" name="civil_education" value="{{ old('civil_education') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold"
                                         placeholder="SSC / HSC / BA">
                                 </div>
                                 <div class="space-y-2">
@@ -405,7 +405,7 @@
                                         রক্তের গ্রুপ (Blood Group)
                                     </label>
                                     <input type="text" name="blood_group" value="{{ old('blood_group') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold"
                                         placeholder="EX: B+ POSITIVE">
                                 </div>
                             </div>
@@ -420,7 +420,7 @@
                                         ওজন (Weight - KG)
                                     </label>
                                     <input type="text" name="weight" value="{{ old('weight') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                        class="w-full p-4 tactical-input text-sm font-bold"
                                         placeholder="EX: 72 KG">
                                 </div>
                                 <div class="space-y-2">
@@ -430,7 +430,7 @@
                                             class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১১</span>
                                         স্থায়ী ঠিকানা (Permanent Address)
                                     </label>
-                                    <textarea name="permanent_address" rows="1" class="w-full p-4 tactical-input text-sm font-bold uppercase"
+                                    <textarea name="permanent_address" rows="1" class="w-full p-4 tactical-input text-sm font-bold"
                                         placeholder="VILL: ..., P.O: ..., DIST: ...">{{ old('permanent_address') }}</textarea>
                                 </div>
                             </div>
@@ -452,7 +452,7 @@
                                         পিতার নাম (Father's Name)
                                     </label>
                                     <input type="text" name="father_name" value="{{ old('father_name') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('father_name') border-red-500 @enderror"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('father_name') border-red-500 @enderror"
                                         placeholder="FATHER'S NAME">
                                     @error('father_name')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -466,7 +466,7 @@
                                         মাতার নাম (Mother's Name)
                                     </label>
                                     <input type="text" name="mother_name" value="{{ old('mother_name') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('mother_name') border-red-500 @enderror"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('mother_name') border-red-500 @enderror"
                                         placeholder="MOTHER'S NAME">
                                     @error('mother_name')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -555,7 +555,7 @@
                                         স্ত্রীর নাম (Spouse)
                                     </label>
                                     <input type="text" name="spouse_name" value="{{ old('spouse_name') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('spouse_name') border-red-500 @enderror"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('spouse_name') border-red-500 @enderror"
                                         placeholder="SPOUSE NAME">
                                     @error('spouse_name')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
