@@ -821,8 +821,7 @@
                                         March [স্পিড মার্চ]</p>
                                 </div>
                                 <input type="text" name="speed_march" value="{{ old('speed_march') }}"
-                                    placeholder="Pass / Duration"
-                                    class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    placeholder=" " class="w-full p-3 tactical-input text-xs font-bold uppercase">
                             </div>
                             <div class="space-y-4">
                                 <div class="flex items-center gap-4 mb-4">
@@ -832,8 +831,7 @@
                                         Grenade Fire [গ্রেনেড ফায়ার]</p>
                                 </div>
                                 <input type="text" name="grenade_fire" value="{{ old('grenade_fire') }}"
-                                    placeholder="Pass / Score"
-                                    class="w-full p-3 tactical-input text-xs font-bold uppercase">
+                                    placeholder="" class="w-full p-3 tactical-input text-xs font-bold uppercase">
                             </div>
                         </div>
                     </div>
@@ -881,7 +879,7 @@
                                                     :name="`night_trainings[${index}][appointment]`"
                                                     x-model="record.appointment"
                                                     class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold uppercase"
-                                                    placeholder="LMG MAN / CDR"></td>
+                                                    placeholder=" "></td>
                                             <td class="px-2 py-2 text-center">
                                                 <button type="button" @click="removeNightTraining(index)"
                                                     class="text-red-500 hover:text-red-700 transition-colors"><svg
