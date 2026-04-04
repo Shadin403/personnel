@@ -581,54 +581,125 @@
                     </div>
 
                     <!-- SEC-03: Combat Readiness -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-8">
                         <div
-                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-03</span>
                                 <h3 class="card-title-tactical text-white">Combat Readiness [যুদ্ধ প্রস্তুতি ও ফলাফল]</h3>
                             </div>
+                            <button type="button" @click="addFiringRecord"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
+                                Add Record</button>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16 text-center">
+                                            Sl</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Firing Date</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Grouping</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Hit</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            ETS</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Night Fire</th>
+                                        <th
+                                            class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                            Total</th>
+                                        <th class="px-2 py-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <template x-for="(record, index) in firing_records" :key="index">
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-4 py-4 text-xs font-bold text-slate-400 text-center"
+                                                x-text="index + 1"></td>
+                                            <td class="px-2 py-2">
+                                                <input type="date" :name="`firing_records[${index}][date]`"
+                                                    x-model="record.date"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`firing_records[${index}][grouping]`"
+                                                    x-model="record.grouping"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="GRP">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`firing_records[${index}][hit]`"
+                                                    x-model="record.hit"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="Hit">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`firing_records[${index}][ets]`"
+                                                    x-model="record.ets"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="92">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`firing_records[${index}][night_fire]`"
+                                                    x-model="record.night_fire"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-xs font-bold text-center"
+                                                    placeholder="Pass">
+                                            </td>
+                                            <td class="px-2 py-2">
+                                                <input type="text" :name="`firing_records[${index}][total]`"
+                                                    x-model="record.total"
+                                                    class="w-full p-2 bg-transparent border-0 focus:ring-0 text-[11px] font-black text-military-primary text-center"
+                                                    placeholder="88">
+                                            </td>
+                                            <td class="px-2 py-2 text-center">
+                                                <button type="button" @click="removeFiringRecord(index)"
+                                                    class="text-red-500 hover:text-red-700 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template x-if="firing_records.length === 0">
+                                        <tr>
+                                            <td colspan="8"
+                                                class="px-6 py-10 text-center text-slate-300 italic text-xs">No firing
+                                                records added. Click '+ Add Record' to start.</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SEC-03.1:  Individual Physical Fitness Training (IPFT) -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-03.1</span>
+                                <h3 class="card-title-tactical text-white">Individual Physical Fitness Training (IPFT)
+                                    [শারীরিক সক্ষমতা ]</h3>
+                            </div>
                         </div>
                         <div class="p-8 space-y-10">
-                            <!-- Firing Scores -->
-                            <div>
-                                <p
-                                    class="text-[10px] font-black text-military-primary uppercase tracking-widest mb-6 border-b border-military-primary/10 pb-2">
-                                    Firing Efficiency (Shoot Results)</p>
-                                <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-slate-500 uppercase">Grouping</label>
-                                        <input type="text" name="shoot_ret" value="{{ old('shoot_ret') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold text-center"
-                                            placeholder="GRP">
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-slate-500 uppercase">Hit</label>
-                                        <input type="text" name="shoot_ap" value="{{ old('shoot_ap') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold text-center"
-                                            placeholder="Hit">
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-slate-500 uppercase">ETS Score</label>
-                                        <input type="text" name="shoot_ets" value="{{ old('shoot_ets') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold text-center"
-                                            placeholder="92">
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-slate-500 uppercase">Night Fire</label>
-                                        <input type="text" name="nil_fire" value="{{ old('nil_fire') }}"
-                                            class="w-full p-4 tactical-input text-sm font-bold text-center border-amber-500/30"
-                                            placeholder="Pass">
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-slate-500 uppercase">Total Score</label>
-                                        <input type="text" name="shoot_total" value="{{ old('shoot_total') }}"
-                                            class="w-full p-4 tactical-input text-sm font-black text-military-primary text-center bg-military-primary/5"
-                                            placeholder="Total">
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <!-- Physical & Tactical -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -1331,6 +1402,21 @@
                 courses: [],
                 field_trainings_summer: [],
                 field_trainings_winter: [],
+                firing_records: [],
+
+                addFiringRecord() {
+                    this.firing_records.push({
+                        date: '',
+                        grouping: '',
+                        hit: '',
+                        ets: '',
+                        night_fire: '',
+                        total: ''
+                    });
+                },
+                removeFiringRecord(index) {
+                    this.firing_records.splice(index, 1);
+                },
 
                 addSummerTrg() {
                     this.field_trainings_summer.push({

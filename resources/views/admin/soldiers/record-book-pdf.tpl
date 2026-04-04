@@ -213,38 +213,56 @@
         </tr>
     </table>
 
-     <!-- SEC-03: Annual Career Plan -->
-    <div class="section-header">SEC-03: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</div>
-    <table class="grid-table" style="font-size: 9px;">
+    <!-- SEC-03: Combat Readiness & Performance -->
+    <div class="section-header">SEC-03: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
+    <div style="margin-bottom: 5px; font-weight: bold; font-size: 10px; text-decoration: underline;">FIRING ANALYTICS (STH)</div>
+    <table class="grid-table" style="margin-bottom: 15px; font-size: 9px;">
         <thead>
             <tr>
-                <th style="width: 30px;">বছর<br>(Year)</th>
-                <th>ছুটি<br>(Leave)</th>
-                <th>ইউনিট প্রশিক্ষণ<br>(Unit Trg)</th>
-                <th>ব্যক্তিগত প্রশিক্ষণ<br>(Pers Trg)</th>
-                <th>প্রশাসন<br>(Admin)</th>
-                <th>MOOTW</th>
-                <th>স্বাক্ষর<br>(Sign)</th>
+                <th style="width: 30px;">Sl</th>
+                <th>Date</th>
+                <th>Grouping</th>
+                <th>Hit</th>
+                <th>ETS Core</th>
+                <th>Night Fire</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
-            @php $plans = $soldier->annual_career_plans ?? []; @endphp
-            @forelse($plans as $plan)
+            @php $fRecords = $soldier->firing_records ?? []; @endphp
+            @forelse($fRecords as $index => $record)
                 <tr>
-                    <td>{{ $plan['year'] ?? '' }}</td>
-                    <td>{{ $plan['leave'] ?? '' }}</td>
-                    <td>{{ $plan['unit_trg'] ?? '' }}</td>
-                    <td>{{ $plan['personal_trg'] ?? '' }}</td>
-                    <td>{{ $plan['admin'] ?? '' }}</td>
-                    <td>{{ $plan['mootw'] ?? '' }}</td>
-                    <td>{{ $plan['signature'] ?? '' }}</td>
+                    <td style="text-align: center;">{{ $index + 1 }}</td>
+                    <td>{{ $record['date'] ?? 'N/A' }}</td>
+                    <td>{{ $record['grouping'] ?? 'N/A' }}</td>
+                    <td style="text-align: center;">{{ $record['hit'] ?? 'N/A' }}</td>
+                    <td style="text-align: center;">{{ $record['ets'] ?? 'N/A' }}</td>
+                    <td style="text-align: center;">{{ $record['night_fire'] ?? 'N/A' }}</td>
+                    <td style="text-align: center; font-weight: bold;">{{ $record['total'] ?? 'N/A' }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" style="color: #999;">No career plans found.</td>
+                    <td colspan="7" style="color: #999; text-align: center;">No firing records found.</td>
                 </tr>
             @endforelse
         </tbody>
+    </table>
+
+    <!-- SEC-03.1: Physical Proficiency -->
+    <div class="section-header">SEC-03.1: Physical Proficiency & Tactical [শারীরিক সক্ষমতা]</div>
+    <table class="data-table" style="margin-bottom: 20px;">
+        <tr>
+            <th>IPFT Cycle 01:</th>
+            <td>{{ $soldier->ipft_biannual_1 ?? 'N/A' }}</td>
+            <th>IPFT Cycle 02:</th>
+            <td>{{ $soldier->ipft_biannual_2 ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Speed March:</th>
+            <td>{{ $soldier->speed_march ?? 'N/A' }}</td>
+            <th>Grenade Fire:</th>
+            <td>{{ $soldier->grenade_fire ?? 'N/A' }}</td>
+        </tr>
     </table>
 
     <!-- SEC-04: Promotion Training -->
@@ -373,43 +391,32 @@
 
 
 
-    <!-- SEC-08: Combat Readiness -->
-    <div class="section-header">SEC-08: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
-    <table class="data-table" style="margin-bottom: 5px;">
-        <tr>
-            <th colspan="2" style="background: #eee; text-align: center;">FIRING ANALYTICS (STH)</th>
-            <th colspan="2" style="background: #eee; text-align: center;">PHYSICAL PROFICIENCY</th>
-        </tr>
-        <tr>
-            <th>Grouping (Ret):</th>
-            <td>{{ $soldier->shoot_ret ?? '0' }}</td>
-            <th>IPFT Cycle 01:</th>
-            <td>{{ $soldier->ipft_biannual_1 ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <th>Hit (AP):</th>
-            <td>{{ $soldier->shoot_ap ?? '0' }}</td>
-            <th>IPFT Cycle 02:</th>
-            <td>{{ $soldier->ipft_biannual_2 ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <th>ETS Score:</th>
-            <td>{{ $soldier->shoot_ets ?? '0' }}</td>
-            <th>Speed March:</th>
-            <td>{{ $soldier->speed_march ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <th>Night Fire (Nil):</th>
-            <td>{{ $soldier->nil_fire ?? 'N/A' }}</td>
-            <th>Grenade Fire:</th>
-            <td>{{ $soldier->grenade_fire ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <th>Total Score / Grade:</th>
-            <td><span style="font-size: 14px;">{{ $soldier->shoot_total ?? '0' }}</span></td>
-            <th>Overall Status:</th>
-            <td>{{ $soldier->overall_status }}</td>
-        </tr>
+    <!-- SEC-08: Annual Career Plan -->
+    <div class="section-header">SEC-08: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</div>
+    <table class="grid-table" style="font-size: 9px;">
+        <thead>
+            <tr>
+                <th style="width: 30px;">বছর<br>(Year)</th>
+                <th>Trade</th>
+                <th>Re-engagement</th>
+                <th>Strategic Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php $plans = $soldier->annual_career_plans ?? []; @endphp
+            @forelse($plans as $plan)
+                <tr>
+                    <td>{{ $plan['year'] ?? '' }}</td>
+                    <td>{{ $plan['trade'] ?? '' }}</td>
+                    <td>{{ $plan['re_engagement'] ?? '' }}</td>
+                    <td style="text-align: left;">{{ $plan['remarks'] ?? '' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" style="color: #999; text-align: center;">No career trajectory found.</td>
+                </tr>
+            @endforelse
+        </tbody>
     </table>
 
     <div style="position: fixed; bottom: 0px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: #dc3545;">

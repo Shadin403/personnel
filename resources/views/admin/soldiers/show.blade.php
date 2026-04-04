@@ -449,37 +449,69 @@
                     </div>
 
                     <!-- Firing Mastery -->
-                    <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                        <div class="px-8 py-5 bg-military-danger border-b border-white/20 flex items-center gap-3">
-                            <span class="section-tag !bg-white !text-military-danger">SEC-10B</span>
-                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Firing Analytics (STH)</h3>
+                    <div class="bg-white border border-slate-200 shadow-lg overflow-hidden md:col-span-2">
+                        <div class="px-8 py-5 bg-military-danger border-b border-white/20 flex items-center justify-between text-white">
+                            <div class="flex items-center gap-3">
+                                <span class="section-tag !bg-white !text-military-danger uppercase">SEC-10B</span>
+                                <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Firing Efficiency Portfolio [ফায়ারিং দক্ষতা]</h3>
+                            </div>
                         </div>
-                        <div class="p-8">
-                             <div class="flex items-center justify-between mb-6">
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-100">
+                                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest w-16">Sl</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Grouping</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Hit</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">ETS</th>
+                                        <th class="px-4 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Night Fire</th>
+                                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50 text-[12px]">
+                                    @php $fRecords = $soldier->firing_records ?? []; @endphp
+                                    @forelse($fRecords as $index => $record)
+                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                            <td class="px-6 py-4 font-black text-slate-300">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</td>
+                                            <td class="px-4 py-4 font-black text-slate-700">{{ $record['date'] ?? '---' }}</td>
+                                            <td class="px-4 py-4 font-bold text-slate-600 text-center uppercase">{{ $record['grouping'] ?? '---' }}</td>
+                                            <td class="px-4 py-4 font-bold text-slate-600 text-center uppercase">{{ $record['hit'] ?? '---' }}</td>
+                                            <td class="px-4 py-4 font-bold text-slate-600 text-center uppercase">{{ $record['ets'] ?? '---' }}</td>
+                                            <td class="px-4 py-4 font-bold text-slate-600 text-center uppercase">{{ $record['night_fire'] ?? '---' }}</td>
+                                            <td class="px-6 py-4 font-black text-military-danger text-right">{{ $record['total'] ?? '---' }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="7" class="px-8 py-10 text-center text-slate-300 font-bold uppercase tracking-widest italic">Strategic firing data pending upload.</td></tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        @if(count($fRecords) > 0)
+                        <div class="px-8 py-6 bg-slate-50 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div class="flex items-center gap-6">
                                 <div>
                                     <span class="data-label">Marksman Tier</span>
-                                    <span class="text-2xl font-black text-military-danger uppercase tracking-tighter">{{ $soldier->shooting_grade }}</span>
+                                    <span class="text-xl font-black text-military-danger uppercase tracking-tighter">{{ $soldier->shooting_grade ?? 'Standard' }}</span>
                                 </div>
-                                <div class="text-right">
-                                    <span class="data-label">Total Score</span>
-                                    <span class="text-3xl font-black text-slate-900 font-mono tracking-tighter">{{ $soldier->shoot_total ?? '000' }}</span>
+                                <div class="w-px h-10 bg-slate-200"></div>
+                                <div>
+                                    <span class="data-label">Last Fired</span>
+                                    <span class="text-xl font-black text-slate-700 tracking-tighter">{{ collect($fRecords)->last()['date'] ?? 'N/A' }}</span>
                                 </div>
-                             </div>
-                             <div class="grid grid-cols-3 gap-4 border-t border-slate-100 pt-6">
-                                <div class="text-center">
-                                    <span class="text-[9px] font-black text-slate-400 uppercase">Hit</span>
-                                    <p class="text-[16px] font-black text-slate-700">{{ $soldier->shoot_ret ?? '00' }}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="data-label">Overall Firing Performance</span>
+                                <div class="flex items-center gap-2">
+                                    <div class="h-2 w-32 bg-slate-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-military-danger" style="width: {{ min(100, (($soldier->shoot_total ?? 0) / 100) * 100) }}%"></div>
+                                    </div>
+                                    <span class="text-2xl font-black text-slate-900 font-mono tracking-tighter">{{ $soldier->shoot_total ?? '00' }}</span>
                                 </div>
-                                <div class="text-center border-x border-slate-100">
-                                    <span class="text-[9px] font-black text-slate-400 uppercase">AP</span>
-                                    <p class="text-[16px] font-black text-slate-700">{{ $soldier->shoot_ap ?? '00' }}</p>
-                                </div>
-                                <div class="text-center">
-                                    <span class="text-[9px] font-black text-slate-400 uppercase">ETS</span>
-                                    <p class="text-[16px] font-black text-slate-700">{{ $soldier->shoot_ets ?? '00' }}</p>
-                                </div>
-                             </div>
+                            </div>
                         </div>
+                        @endif
                     </div>
                 </div>
 

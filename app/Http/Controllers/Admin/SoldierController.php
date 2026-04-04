@@ -139,6 +139,8 @@ class SoldierController extends Controller
             'annual_career_plans' => 'nullable|array',
             'field_trainings_summer' => 'nullable|array',
             'field_trainings_winter' => 'nullable|array',
+            'firing_records' => 'nullable|array',
+            'firing_date' => 'nullable|date',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -238,6 +240,8 @@ class SoldierController extends Controller
             'annual_career_plans' => 'nullable|array',
             'field_trainings_summer' => 'nullable|array',
             'field_trainings_winter' => 'nullable|array',
+            'firing_records' => 'nullable|array',
+            'firing_date' => 'nullable|date',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -300,8 +304,8 @@ class SoldierController extends Controller
         // Generate PDF with tactical helper
         $pdf = PdfHelper::generateRecordBook($soldier);
         
-        // Inject Auto-Print Command
-        $pdf->mpdf->SetJS('this.print();');
+        // Inject Auto-Print Command - Access mPDF instance correctly
+        $pdf->getMpdf()->SetJS('this.print();');
         
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }
