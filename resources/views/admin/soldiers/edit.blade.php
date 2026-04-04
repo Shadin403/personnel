@@ -1215,7 +1215,7 @@
 
                     <!-- SEC-04: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স] -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden" x-data="{
-                        courses: Array.from({ length: 12 }, (_, i) => ({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' })),
+                        courses: [],
                         init() {
                             const defaults = [
                                 { name: 'ওটি/নবীন সৈনিক', chance: '', year: '', authority: '', group: 'সৈনিক' },
@@ -1233,7 +1233,16 @@
                                 { name: 'পিই', chance: '', year: '', authority: '', group: 'ওয়ারেন্ট অফিসার' }
                             ];
                             const existing = {{ json_encode(old('courses', $soldier->courses ?? [])) }};
-                            this.courses = (existing && existing.length > 0) ? existing : defaults;
+                            if (existing && existing.length > 0) {
+                                this.courses = existing.map((c, i) => {
+                                    if (i < defaults.length && !c.group) {
+                                        c.group = defaults[i].group;
+                                    }
+                                    return c;
+                                });
+                            } else {
+                                this.courses = defaults;
+                            }
                         },
                         addCourse() {
                             this.courses.push({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' });

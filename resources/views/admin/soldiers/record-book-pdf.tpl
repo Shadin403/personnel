@@ -109,6 +109,20 @@
             text-align: center;
             color: #212529;
         }
+        .section-block {
+            page-break-inside: avoid;
+            margin-bottom: 20px;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        thead {
+            display: table-header-group;
+        }
     </style>
 </head>
 <body>
@@ -190,26 +204,29 @@
     <!-- SEC-03: Tactical Training Records -->
     <div class="section-header">SEC-03: Tactical Training Records [প্রশিক্ষণ রেকর্ড]</div>
     
-    <!-- 3.1 & 3.2: IPFT & RET Firing -->
-    <div style="margin-top: 10px; font-weight: bold;">3.1 IPFT [শারীরিক সক্ষমতা]</div>
-    <table class="data-table">
-        <tr>
-            <th style="width: 50%;">Biannual 01 (জানুয়ারি - জুন):</th>
-            <td>{{ $soldier->ipft_biannual_1 ?? '---' }}</td>
-        </tr>
-        <tr>
-            <th>Biannual 02 (জুলাই - ডিসেম্বর):</th>
-            <td>{{ $soldier->ipft_biannual_2 ?? '---' }}</td>
-        </tr>
-    </table>
-
-    <div style="margin-top: 10px; font-weight: bold;">3.2 RET Firing [আরইটি ফায়ারিং প্রোফাইল]</div>
-    <table class="grid-table" style="font-size: 10px;">
-        <thead>
+    <div class="section-block">
+        <!-- 3.1 & 3.2: IPFT & RET Firing -->
+        <div style="margin-top: 10px; font-weight: bold;">3.1 IPFT [শারীরিক সক্ষমতা]</div>
+        <table class="data-table">
             <tr>
-                <th style="width: 30px;">Sl</th>
-                <th>Firing Date</th>
-                <th>Grouping</th>
+                <th style="width: 50%;">Biannual 01 (জানুয়ারি - জুন):</th>
+                <td>{{ $soldier->ipft_biannual_1 ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Biannual 02 (জুলাই - ডিসেম্বর):</th>
+                <td>{{ $soldier->ipft_biannual_2 ?? '---' }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section-block">
+        <div style="margin-top: 10px; font-weight: bold;">3.2 RET Firing [আরইটি ফায়ারিং প্রোফাইল]</div>
+        <table class="grid-table" style="font-size: 10px;">
+            <thead>
+                <tr>
+                    <th style="width: 30px;">Sl</th>
+                    <th>Firing Date</th>
+                    <th>Grouping</th>
                 <th>Hit</th>
                 <th>ETS</th>
                 <th>Status</th>
@@ -232,7 +249,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <div style="margin-top: 10px; font-weight: bold;">3.3 Night Firing [নাইট ফায়ারিং]</div>
     <table class="grid-table" style="font-size: 10px;">
         <thead>
@@ -258,7 +277,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <div style="margin-top: 10px; font-weight: bold;">3.4 & 3.5 Spd March / Grenade</div>
     <table class="data-table">
         <tr>
@@ -270,7 +291,9 @@
             <td>{{ $soldier->grenade_fire ?? '---' }}</td>
         </tr>
     </table>
+    </div>
 
+    <div class="section-block">
     <div style="margin-top: 10px; font-weight: bold;">3.6 Night Training (NI Trg) [নাইট ট্রেনিং]</div>
     <table class="grid-table" style="font-size: 10px;">
         <thead>
@@ -292,7 +315,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <div style="margin-top: 10px; font-weight: bold;">3.7 & 3.8 GP Trg / Cycle Ending</div>
     <table class="grid-table" style="font-size: 10px;">
         <tr>
@@ -328,10 +353,9 @@
             </td>
         </tr>
     </table>
+    </div>
 
-    <div style="page-break-before: always;"></div>
-    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">RESTRICTED</div>
-
+    <div class="section-block">
     <div style="margin-top: 10px; font-weight: bold;">3.9 Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ]</div>
     <table class="grid-table" style="font-size: 10px;">
         <thead>
@@ -359,7 +383,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <div style="margin-top: 10px; font-weight: bold;">3.10 Winter Training [শীতকালীন প্রশিক্ষণ]</div>
     <table class="grid-table" style="font-size: 10px;">
         <thead>
@@ -387,7 +413,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <!-- SEC-04: Courses -->
     <div class="section-header">SEC-04: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
     <table class="grid-table" style="font-size: 10px;">
@@ -411,7 +439,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <!-- SEC-05: Special Training -->
     <div class="section-header">SEC-05: Army Level Cadres & Special Training [বিশেষ প্রশিক্ষণ]</div>
     <table class="grid-table" style="font-size: 10px;">
@@ -430,7 +460,9 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <!-- SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা] -->
     <div class="section-header">SEC-06: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</div>
     <table class="grid-table" style="font-size: 9px;">
@@ -463,11 +495,14 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
+    <div class="section-block">
     <!-- SEC-07: Sports Participation -->
     <div class="section-header">SEC-07: Sports Participation [খেলাধুলা ও অন্যান্য]</div>
     <div style="border: 1px solid #dee2e6; padding: 15px; font-weight: bold; text-align: left; font-size: 12px; min-height: 100px;">
         {!! nl2br(e($soldier->sports_participation)) !!}
+    </div>
     </div>
 
     <div style="position: fixed; bottom: 0px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: #dc3545;">
