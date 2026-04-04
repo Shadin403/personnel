@@ -396,7 +396,16 @@
                         <div class="grid grid-cols-2 gap-4">
                             @forelse($soldier->cycle_ending_exercises ?? [] as $ce)
                                 <div class="bg-slate-50 border border-slate-200 p-4 font-bold flex justify-between uppercase hover:bg-slate-100 transition-colors">
-                                    <span class="text-[9px] text-slate-400">{{ $ce['circle'] ?? '---' }} Circle | {{ $                    <!-- 3.9 Summer Training -->
+                                    <span class="text-[9px] text-slate-400">{{ $ce['circle'] ?? '---' }} Circle | {{ $ce['year'] ?? '---' }}</span>
+                                    <span class="text-[11px] font-black text-military-primary">{{ $ce['unit'] ?? '---' }}</span>
+                                </div>
+                            @empty
+                                <div class="col-span-2 py-8 bg-slate-50 border border-dashed border-slate-200 text-center text-[10px] font-black text-slate-300 uppercase tracking-widest italic">No records found.</div>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- 3.9 Summer Training -->
                     <div class="p-6 border-t border-slate-100">
                         <h4 class="text-[10px] font-black uppercase text-amber-600 mb-4">3.9 Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ]</h4>
                         <div class="overflow-x-auto">
@@ -459,16 +468,6 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
- <span>{{ $trg['unit'] ?? '---' }}</span>
-                                        </div>
-                                        <p class="text-slate-500 italic text-[9px]">{{ $trg['remarks'] ?? '---' }}</p>
-                                    </div>
-                                @empty
-                                    <p class="text-[10px] text-slate-300 uppercase italic">No records.</p>
-                                @endforelse
-                            </div>
                         </div>
                     </div>
                 </div>
