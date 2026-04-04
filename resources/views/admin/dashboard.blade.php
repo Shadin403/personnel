@@ -78,7 +78,8 @@
             padding: 0 !important;
         }
 
-        .appointment-content ul, .appointment-content ol {
+        .appointment-content ul,
+        .appointment-content ol {
             display: inline-block;
             text-align: left;
         }
@@ -227,8 +228,8 @@
             <div class="text-center mb-12 space-y-4">
                 <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50"
                     x-text="'Level 05 &bull; ' + selectedSec?.name"></p>
-                <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">View
-                    Personnel / View Soldier</h2>
+                <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Section
+                    Nominaroll</h2>
                 <div class="flex items-center justify-center gap-3">
                     <span
                         class="px-3 py-1 bg-military-primary/10 text-military-primary text-[10px] font-bold uppercase tracking-widest"
