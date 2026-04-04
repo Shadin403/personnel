@@ -260,7 +260,12 @@
             @forelse($soldier->courses as $index => $course)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td style="text-align: left;">{{ $course->name }}</td>
+                    <td style="text-align: left;">
+                        {{ $course->name }}
+                        @if($course->group)
+                            <span style="font-size: 8px; color: #777; font-weight: normal; margin-left: 5px;">[{{ $course->group }}]</span>
+                        @endif
+                    </td>
                     <td>{{ $course->chance }}</td>
                     <td>{{ $course->year }}</td>
                     <td style="text-align: left;">{{ $course->authority }}</td>
