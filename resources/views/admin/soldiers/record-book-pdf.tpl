@@ -185,7 +185,7 @@
     <!-- Note: SEC-02 was removed due to redundant data (Father's Name/Batch) -->
 
     <!-- SEC-04: Personal Detail -->
-    <div class="section-header">SEC-02: Personal Profile & Bio-data [ব্যক্তিগত তথ্য ১২-১৯]</div>
+    <div class="section-header">SEC-02: Personal Profile & Bio-data [ব্যক্তিগত তথ্য]</div>
     <table class="data-table">
         <tr>
             <th>পিতার নাম (Father's Name):</th>
