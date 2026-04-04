@@ -138,7 +138,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 <template x-for="coy in companies" :key="coy.id">
                     <div @click="selectCoy(coy)"
-                        class="tactical-glass p-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-primary group rounded-none">
+                        class="tactical-glass px-2 py-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-primary group rounded-none">
                         <div
                             class="w-20 h-20 bg-military-primary/5 rounded-none flex items-center justify-center text-military-primary group-hover:bg-military-primary group-hover:text-white transition-all duration-500 shadow-inner">
                             <span class="text-2xl font-black" x-text="coy.name.split(' ')[0][0]"></span>
@@ -146,7 +146,7 @@
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
                                 x-text="coy.name"></h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2"
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2"
                                 x-text="coy.appointment"></p>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 <template x-for="pl in platoons" :key="pl.id">
                     <div @click="selectPl(pl)"
-                        class="tactical-glass p-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-accent group rounded-none">
+                        class="tactical-glass px-2 py-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-accent group rounded-none">
                         <div
                             class="w-20 h-20 bg-military-accent/5 rounded-none flex items-center justify-center text-military-accent group-hover:bg-military-accent group-hover:text-white transition-all duration-500 shadow-inner">
                             <span class="text-2xl font-black" x-text="pl.name.split(' ')[0]"></span>
@@ -174,7 +174,7 @@
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
                                 x-text="pl.name"></h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2"
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2"
                                 x-text="pl.appointment"></p>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <template x-for="sec in sections" :key="sec.id">
                     <div @click="selectSec(sec)"
-                        class="tactical-glass p-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-amber-500 group rounded-none">
+                        class="tactical-glass px-2 py-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-amber-500 group rounded-none">
                         <div
                             class="w-20 h-20 bg-amber-500/5 rounded-none flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all duration-500 shadow-inner">
                             <span class="text-2xl font-black"
@@ -203,7 +203,7 @@
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
                                 x-text="sec.name"></h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2"
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2"
                                 x-text="sec.appointment"></p>
                         </div>
                     </div>
