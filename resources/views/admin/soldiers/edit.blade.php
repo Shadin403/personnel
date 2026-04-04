@@ -650,7 +650,7 @@
                                                     Pass</option>
                                                 <option value="Failed"
                                                     {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Failed' ? 'selected' : '' }}>
-                                                    Failed</option>
+                                                    Fail</option>
                                                 <option value="not_appeared"
                                                     {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'not_appeared' ? 'selected' : '' }}>
                                                     Not appeared</option>

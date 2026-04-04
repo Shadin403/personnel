@@ -643,7 +643,7 @@
                                                 class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                                 <option value="">- Select -</option>
                                                 <option value="Pass">Pass</option>
-                                                <option value="Failed">Failed</option>
+                                                <option value="Failed">Fail</option>
                                                 <option value="not_appeared">Not appeared</option>
                                                 <option value="yet_to_appear">Yet to appear</option>
                                             </select>
@@ -655,7 +655,7 @@
                                                 class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                                 <option value="">- Select -</option>
                                                 <option value="Pass">Pass</option>
-                                                <option value="Failed">Failed</option>
+                                                <option value="Failed">Fail</option>
                                                 <option value="not_appeared">Not appeared</option>
                                                 <option value="yet_to_appear">Yet to appear</option>
                                             </select>
