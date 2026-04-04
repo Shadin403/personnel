@@ -112,7 +112,7 @@
     </style>
 </head>
 <body>
-    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">গোপনীয় / RESTRICTED</div>
+    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">RESTRICTED</div>
 
     <table style="width: 100%; margin-bottom: 20px; border: none;">
         <tr>
@@ -120,7 +120,7 @@
                 <!--<div style="font-size: 24px; font-weight: bold; color: #000; margin-bottom: 5px;">{{ $soldier->name }}</div>
                 <div style="font-size: 18px; font-weight: bold; color: #495057; margin-bottom: 10px;">{{ $soldier->name_bn }}</div>-->
                 <div style="font-size: 14px; font-weight: bold; text-transform: uppercase; color: #000; border-bottom: 3px solid #000; display: inline-block; padding-bottom: 5px;">
-                    ডিজিটাল রেকর্ড বুক (Digital Personnel Record)
+                    ডিজিটাল প্রশিক্ষণ কার্ড (Digital Training Card)
                 </div>
             </td>
             <td style="vertical-align: top; width: 130px; text-align: right; border: none;">
@@ -413,7 +413,7 @@
     </table>
 
     <div style="position: fixed; bottom: 0px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: #dc3545;">
-        গোপনীয় / RESTRICTED
+        RESTRICTED
     </div>
 </body>
 </html>
