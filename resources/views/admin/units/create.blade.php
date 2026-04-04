@@ -63,10 +63,9 @@
                     </div>
 
                     <!-- Appointment -->
-                    <div class="space-y-2">
+                    <div class="space-y-2 md:col-span-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-slate-500">Commanding Appointment</label>
-                        <input type="text" name="appointment" value="{{ old('appointment') }}" placeholder="e.g. OC, PL CDR"
-                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 text-[13px] font-bold focus:ring-2 focus:ring-military-primary outline-none transition-all placeholder:text-slate-400 placeholder:font-medium">
+                        <textarea id="appointment_editor" name="appointment" class="w-full">{{ old('appointment') }}</textarea>
                         @error('appointment') <p class="text-xs text-red-500 mt-1 font-bold">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -87,4 +86,30 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#appointment_editor'), {
+            toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo'],
+            placeholder: 'e.g. COY COMD MAJ WASIQUEL ISLAM, PSC'
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+<style>
+    .ck-editor__editable {
+        min-height: 150px;
+        background-color: #f8fafc !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+    }
+    .ck-toolbar {
+        border-color: #e2e8f0 !important;
+        background: #f1f5f9 !important;
+    }
+</style>
 @endsection

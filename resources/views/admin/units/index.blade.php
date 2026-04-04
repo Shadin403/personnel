@@ -62,7 +62,7 @@
                             {{ $unit->parent->name ?? '--' }}
                         </td>
                         <td class="px-6 py-4 text-[12px] font-medium text-slate-500">
-                            {{ $unit->appointment ?? 'N/A' }}
+                            {!! $unit->appointment ?? 'N/A' !!}
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex justify-end gap-2">

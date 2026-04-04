@@ -72,6 +72,16 @@
                 transform: translateY(-10px);
             }
         }
+
+        .appointment-content p {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .appointment-content ul, .appointment-content ol {
+            display: inline-block;
+            text-align: left;
+        }
     </style>
 @endsection
 
@@ -146,8 +156,8 @@
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
                                 x-text="coy.name"></h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2"
-                                x-text="coy.appointment"></p>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2 appointment-content"
+                                x-html="coy.appointment"></div>
                         </div>
                     </div>
                 </template>
@@ -174,8 +184,8 @@
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
                                 x-text="pl.name"></h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2"
-                                x-text="pl.appointment"></p>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2 appointment-content"
+                                x-html="pl.appointment"></div>
                         </div>
                     </div>
                 </template>
@@ -203,8 +213,8 @@
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
                                 x-text="sec.name"></h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2"
-                                x-text="sec.appointment"></p>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-2 appointment-content"
+                                x-html="sec.appointment"></div>
                         </div>
                     </div>
                 </template>

@@ -26,7 +26,7 @@ class UnitController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|in:battalion,company,platoon,section',
             'parent_id' => 'nullable|exists:units,id',
-            'appointment' => 'nullable|string|max:255',
+            'appointment' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
@@ -51,7 +51,7 @@ class UnitController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|in:battalion,company,platoon,section',
             'parent_id' => 'nullable|exists:units,id',
-            'appointment' => 'nullable|string|max:255',
+            'appointment' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
