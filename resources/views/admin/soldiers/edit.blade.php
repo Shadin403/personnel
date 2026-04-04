@@ -940,9 +940,9 @@
                             <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-slate-50 border-b border-slate-200">
-                                        <th
+                                        {{-- <th
                                             class="px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest w-16">
-                                            ক্র: (Sl)</th>
+                                            ক্র: (Sl)</th> --}}
 
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24 text-center">
@@ -971,8 +971,8 @@
                                 <tbody class="divide-y divide-slate-100">
                                     <template x-for="(plan, index) in plans" :key="index">
                                         <tr class="hover:bg-slate-50/50 transition-colors">
-                                            <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1">
-                                            </td>
+                                            {{-- <td class="px-6 py-4 text-xs font-bold text-slate-400" x-text="index + 1">
+                                            </td> --}}
                                             <td class="px-2 py-2">
                                                 <input type="text" :name="`annual_career_plans[${index}][year]`"
                                                     x-model="plan.year"

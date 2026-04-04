@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register .tpl extension for Blade templates
+        \Illuminate\Support\Facades\View::addExtension('tpl', 'blade');
     }
 }

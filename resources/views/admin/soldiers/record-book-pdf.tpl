@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         body {
-            font-family: 'hindsiliguri', sans-serif;
+            font-family: 'nikosh', 'hindsiliguri', sans-serif;
             line-height: 1.6;
             color: #333;
             font-size: 11px;

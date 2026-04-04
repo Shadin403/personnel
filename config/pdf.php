@@ -19,6 +19,12 @@ return [
             'B'  => 'HindSiliguri-Bold.ttf',
             'useOTL' => 0xFF,
             'useKashida' => 75,
+        ],
+        'nikosh' => [
+            'R'  => 'HindSiliguri-Regular.ttf',
+            'B'  => 'HindSiliguri-Bold.ttf',
+            'useOTL' => 0xFF,
+            'useKashida' => 75,
         ]
     ]
 ];

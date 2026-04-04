@@ -9,7 +9,8 @@ use App\Models\TrainingPlan;
 use App\Models\UnitTraining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use PDF;
+use App\Helpers\PdfHelper;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class SoldierController extends Controller
 {
@@ -273,7 +274,8 @@ class SoldierController extends Controller
 
     public function downloadRecordBook(Soldier $soldier)
     {
-        $pdf = PDF::loadView('admin.soldiers.record-book-pdf', compact('soldier'));
+        // Delegate PDF generation to the strategic helper
+        $pdf = PdfHelper::generateRecordBook($soldier);
         
         $filename = 'Record_Book_' . str_replace(' ', '_', $soldier->number) . '.pdf';
         return $pdf->download($filename);
