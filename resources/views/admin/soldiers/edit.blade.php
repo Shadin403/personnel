@@ -1481,7 +1481,14 @@
                 courses: @json($soldier->courses),
                 field_trainings_summer: @json($soldier->field_trainings_summer ?? []),
                 field_trainings_winter: @json($soldier->field_trainings_winter ?? []),
-                firing_records: @json($soldier->firing_records ?? []),
+                firing_records: @json($soldier->firing_records ?? []).length ? @json($soldier->firing_records ?? []) : [{
+                    date: '',
+                    grouping: '',
+                    hit: '',
+                    ets: '',
+                    night_fire: '',
+                    total: ''
+                }],
 
                 addFiringRecord() {
                     this.firing_records.push({

@@ -1402,7 +1402,14 @@
                 courses: [],
                 field_trainings_summer: [],
                 field_trainings_winter: [],
-                firing_records: [],
+                firing_records: [{
+                    date: '',
+                    grouping: '',
+                    hit: '',
+                    ets: '',
+                    night_fire: '',
+                    total: ''
+                }],
 
                 addFiringRecord() {
                     this.firing_records.push({
