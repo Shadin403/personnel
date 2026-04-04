@@ -377,7 +377,81 @@
                     </div>
                 </div>
 
-                <!-- Section 07: Combat Readiness & Performance -->
+                <!-- SEC-07: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ] -->
+                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
+                    <div class="px-8 py-5 bg-amber-500 flex items-center justify-between text-military-primary shadow-lg border-b border-amber-600/20">
+                        <div class="flex items-center gap-3">
+                            <span class="section-tag !bg-military-primary !text-white !ring-2 !ring-white/20">SEC-07</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-military-primary">Field Training Exercise [Summer]</h3>
+                        </div>
+                    </div>
+                    <div class="p-0 overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16">Sl</th>
+                                    <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24">Year</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Unit</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Appointment</th>
+                                    <th class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-[12px]">
+                                @php $summer = $soldier->field_trainings_summer ?? []; @endphp
+                                @forelse($summer as $index => $trg)
+                                    <tr class="hover:bg-slate-50 transition-colors font-bold">
+                                        <td class="px-8 py-4 text-slate-300 font-black">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</td>
+                                        <td class="px-4 py-4 text-military-primary font-black">{{ $trg['year'] ?? '---' }}</td>
+                                        <td class="px-6 py-4 text-slate-700 uppercase">{{ $trg['unit'] ?? '---' }}</td>
+                                        <td class="px-6 py-4 text-slate-700 uppercase">{{ $trg['appointment'] ?? '---' }}</td>
+                                        <td class="px-8 py-4 text-slate-500 italic">{{ $trg['remarks'] ?? '---' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="5" class="px-8 py-10 text-center text-slate-300 font-bold uppercase tracking-widest italic">No record found.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SEC-08: Winter Training [শীতকালীন প্রশিক্ষণ] -->
+                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
+                    <div class="px-8 py-5 bg-blue-600 flex items-center justify-between text-white shadow-lg border-b border-blue-700/20">
+                        <div class="flex items-center gap-3">
+                            <span class="section-tag !bg-white !text-blue-600 !ring-2 !ring-white/20">SEC-08</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Field Training Exercise [Winter]</h3>
+                        </div>
+                    </div>
+                    <div class="p-0 overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-16">Sl</th>
+                                    <th class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest w-24">Year</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Unit</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Appointment</th>
+                                    <th class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-[12px]">
+                                @php $winter = $soldier->field_trainings_winter ?? []; @endphp
+                                @forelse($winter as $index => $trg)
+                                    <tr class="hover:bg-slate-50 transition-colors font-bold">
+                                        <td class="px-8 py-4 text-slate-300 font-black">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</td>
+                                        <td class="px-4 py-4 text-blue-600 font-black">{{ $trg['year'] ?? '---' }}</td>
+                                        <td class="px-6 py-4 text-slate-700 uppercase">{{ $trg['unit'] ?? '---' }}</td>
+                                        <td class="px-6 py-4 text-slate-700 uppercase">{{ $trg['appointment'] ?? '---' }}</td>
+                                        <td class="px-8 py-4 text-slate-500 italic">{{ $trg['remarks'] ?? '---' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="5" class="px-8 py-10 text-center text-slate-300 font-bold uppercase tracking-widest italic">No record found.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Section 09: Combat Readiness & Performance -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- IPFT Summary -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">

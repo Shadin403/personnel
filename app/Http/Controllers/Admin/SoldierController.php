@@ -140,6 +140,8 @@ class SoldierController extends Controller
             'ac_no' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
             'annual_career_plans' => 'nullable|array',
+            'field_trainings_summer' => 'nullable|array',
+            'field_trainings_winter' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -240,6 +242,8 @@ class SoldierController extends Controller
             'ac_no' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
             'annual_career_plans' => 'nullable|array',
+            'field_trainings_summer' => 'nullable|array',
+            'field_trainings_winter' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {

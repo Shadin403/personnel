@@ -213,7 +213,7 @@
         </tr>
     </table>
 
-    <!-- SEC-05: Promotion Training -->
+    <!-- SEC-03: Promotion Training -->
     <div class="section-header">SEC-03: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
     <table class="grid-table">
         <thead>
@@ -247,8 +247,8 @@
         </tbody>
     </table>
 
-    <!-- SEC-06: Special Training -->
-    <div class="section-header">SEC-06: Army/Formation/Unit Level Cadres [বিশেষ প্রশিক্ষণ]</div>
+    <!-- SEC-04: Special Training -->
+    <div class="section-header">SEC-04: Army/Formation/Unit Level Cadres [বিশেষ প্রশিক্ষণ]</div>
     <table class="grid-table">
         <thead>
             <tr>
@@ -275,8 +275,74 @@
         </tbody>
     </table>
 
+    <div style="page-break-after: always;"></div>
+    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">গোপনীয় / RESTRICTED</div>
+
+    <!-- SEC-05: Summer Training -->
+    <div class="section-header">SEC-05: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ]</div>
+    <table class="grid-table">
+        <thead>
+            <tr>
+                <th style="width: 40px;">ক্র:<br>(Sl)</th>
+                <th style="width: 60px;">বছর<br>(Year)</th>
+                <th>ইউনিট<br>(Unit)</th>
+                <th>নিযুক্তি<br>(Appointment)</th>
+                <th>অর্জিত মান/মন্তব্য<br>(Remarks)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php $summer = $soldier->field_trainings_summer ?? []; @endphp
+            @forelse($summer as $index => $trg)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $trg['year'] ?? '' }}</td>
+                    <td>{{ $trg['unit'] ?? '' }}</td>
+                    <td>{{ $trg['appointment'] ?? '' }}</td>
+                    <td style="text-align: left;">{{ $trg['remarks'] ?? '' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="color: #999;">No summer training records found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <!-- SEC-06: Winter Training -->
+    <div class="section-header">SEC-06: Winter Training [শীতকালীন প্রশিক্ষণ]</div>
+    <table class="grid-table">
+        <thead>
+            <tr>
+                <th style="width: 40px;">ক্র:<br>(Sl)</th>
+                <th style="width: 60px;">বছর<br>(Year)</th>
+                <th>ইউনিট<br>(Unit)</th>
+                <th>নিযুক্তি<br>(Appointment)</th>
+                <th>অর্জিত মান/মন্তব্য<br>(Remarks)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php $winter = $soldier->field_trainings_winter ?? []; @endphp
+            @forelse($winter as $index => $trg)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $trg['year'] ?? '' }}</td>
+                    <td>{{ $trg['unit'] ?? '' }}</td>
+                    <td>{{ $trg['appointment'] ?? '' }}</td>
+                    <td style="text-align: left;">{{ $trg['remarks'] ?? '' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="color: #999;">No winter training records found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <div style="page-break-after: always;"></div>
+    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">গোপনীয় / RESTRICTED</div>
+
     <!-- SEC-07: Annual Career Plan -->
-    <div class="section-header">SEC-04: Strategic Career Trajectory [বাৎসরিক পেশা পরিকল্পনা]</div>
+    <div class="section-header">SEC-07: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</div>
     <table class="grid-table" style="font-size: 9px;">
         <thead>
             <tr>
@@ -303,14 +369,14 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" style="color: #999;">No career plans founded.</td>
+                    <td colspan="7" style="color: #999;">No career plans found.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 
     <!-- SEC-08: Combat Readiness -->
-    <div class="section-header">SEC-05: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
+    <div class="section-header">SEC-08: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
     <table class="data-table" style="margin-bottom: 5px;">
         <tr>
             <th colspan="2" style="background: #eee; text-align: center;">FIRING ANALYTICS (STH)</th>
@@ -342,14 +408,14 @@
         </tr>
         <tr>
             <th>Total Score / Grade:</th>
-            <td><span style="font-size: 14px;">{{ $soldier->shoot_total ?? '0' }}</span> <span class="marksman-badge">{{ $soldier->shooting_grade }}</span></td>
+            <td><span style="font-size: 14px;">{{ $soldier->shoot_total ?? '0' }}</span></td>
             <th>Overall Status:</th>
             <td>{{ $soldier->overall_status }}</td>
         </tr>
     </table>
 
     <!-- SEC-09: Financial -->
-    <div class="section-header">SEC-06: Financial Details [আর্থিক তথ্য]</div>
+    <div class="section-header">SEC-09: Financial Details [আর্থিক তথ্য]</div>
     <table class="data-table">
         <tr>
             <th>ব্যাংকের নাম (Bank Name):</th>
