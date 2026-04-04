@@ -9,6 +9,7 @@ use App\Models\TrainingPlan;
 use App\Models\UnitTraining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Unit;
 use App\Helpers\PdfHelper;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
@@ -50,6 +51,7 @@ class SoldierController extends Controller
             $query->where('company', $request->company);
         }
 
+        $companies = Unit::where('type', 'company')->orderBy('sort_order')->get();
         $soldiers = $query->paginate(50)->withQueryString();
 
         $stats = [
@@ -59,7 +61,7 @@ class SoldierController extends Controller
             'staff' => Soldier::where('user_type', 'Staff')->count(),
         ];
 
-        return view('admin.soldiers.index', compact('soldiers', 'stats'));
+        return view('admin.soldiers.index', compact('soldiers', 'stats', 'companies'));
     }
 
     public function create()

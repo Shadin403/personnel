@@ -46,11 +46,8 @@
                 <label class="text-[11px] font-bold text-military-secondary uppercase tracking-widest mb-2 block opacity-70">Company [কোম্পানী]</label>
                 <select name="company" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[13px] font-medium tracking-tight focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
                     <option value="">All Companies</option>
-                    @php 
-                        $coyList = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'HQ'];
-                    @endphp
-                    @foreach($coyList as $coy)
-                    <option value="{{ $coy }}" {{ request('company') == $coy ? 'selected' : '' }}>{{ $coy }} Coy.</option>
+                    @foreach($companies as $coy)
+                    <option value="{{ $coy->name }}" {{ request('company') == $coy->name ? 'selected' : '' }}>{{ $coy->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -99,7 +96,7 @@
                         </td>
                         <td class="px-6 py-5">
                             <p class="text-[12px] font-bold text-military-secondary tracking-tight">{{ $soldier->rank }}</p>
-                            <p class="text-[11px] font-medium text-slate-500 mt-0.5">{{ $soldier->company }} Coy. &bull; {{ $soldier->appointment }}</p>
+                            <p class="text-[11px] font-medium text-slate-500 mt-0.5">{{ $soldier->company }} &bull; {{ $soldier->appointment }}</p>
                         </td>
                         <td class="px-6 py-5">
                             @php 
