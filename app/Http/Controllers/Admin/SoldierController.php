@@ -297,6 +297,17 @@ class SoldierController extends Controller
         return $pdf->download($filename);
     }
 
+    public function printRecordBook(Soldier $soldier)
+    {
+        // Generate PDF with mPDF auto-print instruction
+        $pdf = PdfHelper::generateRecordBook($soldier);
+        
+        // Use the underlying mPDF instance to inject JS
+        $pdf->mpdf->SetJS('this.print();');
+        
+        return $pdf->stream('Print_Record_Book.pdf');
+    }
+
     private function generateTrgContent(Soldier $soldier): string
     {
         $date = now()->format('d M Y');

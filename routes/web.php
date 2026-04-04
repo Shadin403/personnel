@@ -42,5 +42,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::delete('/soldiers/{soldier}', [SoldierController::class, 'destroy'])->name('soldiers.destroy');
     Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
     Route::get('/soldiers/{soldier}/download-record-book', [SoldierController::class, 'downloadRecordBook'])->name('soldiers.download-record-book');
+    Route::get('/soldiers/{soldier}/print-record-book', [SoldierController::class, 'printRecordBook'])->name('soldiers.print-record-book');
 
 });

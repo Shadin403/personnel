@@ -129,20 +129,30 @@
         <span class="restricted-box">গোপনীয়</span>
     </div>
 
-    <div class="photo-container">
-        @if($soldier->photo && file_exists(public_path('storage/' . $soldier->photo)))
-            @php
-                $imageData = base64_encode(file_get_contents(public_path('storage/' . $soldier->photo)));
-                $mimeType = mime_content_type(public_path('storage/' . $soldier->photo));
-            @endphp
-            <img src="data:{{ $mimeType }};base64,{{ $imageData }}">
-        @else
-            <div style="line-height: 145px; text-align: center; color: #ccc;">PHOTO</div>
-        @endif
-    </div>
-
-    <div class="main-title">{{ $soldier->name }}</div>
-    <div class="sub-title">Strategic Personnel Record Book (সেনা সদস্যের রেকর্ড বুক)</div>
+    <table style="width: 100%; margin-bottom: 15px; border: none;">
+        <tr>
+            <td style="vertical-align: top; border: none;">
+                <div class="main-title" style="text-align: left; margin: 0; padding: 0;">{{ $soldier->name }}</div>
+                <div class="bengali" style="font-size: 15px; font-weight: bold; margin: 5px 0 10px 0;">{{ $soldier->name_bn }}</div>
+                <div style="border-bottom: 2px solid #000; padding-bottom: 8px; font-weight: bold; font-size: 12px; text-transform: uppercase; color: #333;">
+                    Strategic Personnel Record Book [সেনা রেকর্ড বুক]
+                </div>
+            </td>
+            <td style="vertical-align: top; width: 125px; text-align: right; border: none;">
+                <div class="photo-container" style="width: 120px; height: 145px; border: 2px solid #000; margin: 0; padding: 0; float: right;">
+                    @if($soldier->photo && file_exists(public_path('storage/' . $soldier->photo)))
+                        @php
+                            $imageData = base64_encode(file_get_contents(public_path('storage/' . $soldier->photo)));
+                            $mimeType = mime_content_type(public_path('storage/' . $soldier->photo));
+                        @endphp
+                        <img src="data:{{ $mimeType }};base64,{{ $imageData }}" style="width: 120px; height: 145px; display: block;">
+                    @else
+                        <div style="width: 120px; height: 145px; line-height: 145px; text-align: center; color: #ccc; border: 1px dashed #ccc; font-size: 10px;">PHOTO</div>
+                    @endif
+                </div>
+            </td>
+        </tr>
+    </table>
 
     <!-- SEC-01: Identity -->
     <div class="section-header">SEC-01: Personnel Identity [মৌলিক তথ্য]</div>

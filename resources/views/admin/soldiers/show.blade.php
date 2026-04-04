@@ -54,6 +54,19 @@
             background: linear-gradient(90deg, #0f172a, #1e3a2f);
             border-left: 6px solid #84cc16;
         }
+
+        @media print {
+            .no-print, .sidebar, .top-header, .btn-group, .fixed-top {
+                display: none !important;
+            }
+            .content-wrapper {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .tactical-border {
+                border: 1px solid #ddd !important;
+            }
+        }
     </style>
 @endsection
 
@@ -82,7 +95,16 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 no-print">
+                <a href="{{ route('admin.soldiers.print-record-book', $soldier) }}" target="_blank"
+                    class="px-6 py-3 bg-slate-100 text-slate-700 text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all flex items-center gap-3 shadow group border border-slate-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                        </path>
+                    </svg>
+                    Direct Print [CMD-P]
+                </a>
                 <a href="{{ route('admin.soldiers.download-record-book', $soldier) }}"
                     class="px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest hover:bg-military-secondary transition-all flex items-center gap-3 shadow-lg group">
                     <svg class="w-4 h-4 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
