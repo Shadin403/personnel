@@ -182,9 +182,9 @@
         </tr>
     </table>
 
-    <!-- Note: SEC-02 was removed due to redundant data (Father's Name/Batch) -->
 
-    <!-- SEC-04: Personal Detail -->
+
+    <!-- SEC-02: Personal Detail -->
     <div class="section-header">SEC-02: Personal Profile & Bio-data [ব্যক্তিগত তথ্য]</div>
     <table class="data-table">
         <tr>
@@ -213,8 +213,42 @@
         </tr>
     </table>
 
-    <!-- SEC-03: Promotion Training -->
-    <div class="section-header">SEC-03: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
+     <!-- SEC-03: Annual Career Plan -->
+    <div class="section-header">SEC-03: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</div>
+    <table class="grid-table" style="font-size: 9px;">
+        <thead>
+            <tr>
+                <th style="width: 30px;">বছর<br>(Year)</th>
+                <th>ছুটি<br>(Leave)</th>
+                <th>ইউনিট প্রশিক্ষণ<br>(Unit Trg)</th>
+                <th>ব্যক্তিগত প্রশিক্ষণ<br>(Pers Trg)</th>
+                <th>প্রশাসন<br>(Admin)</th>
+                <th>MOOTW</th>
+                <th>স্বাক্ষর<br>(Sign)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php $plans = $soldier->annual_career_plans ?? []; @endphp
+            @forelse($plans as $plan)
+                <tr>
+                    <td>{{ $plan['year'] ?? '' }}</td>
+                    <td>{{ $plan['leave'] ?? '' }}</td>
+                    <td>{{ $plan['unit_trg'] ?? '' }}</td>
+                    <td>{{ $plan['personal_trg'] ?? '' }}</td>
+                    <td>{{ $plan['admin'] ?? '' }}</td>
+                    <td>{{ $plan['mootw'] ?? '' }}</td>
+                    <td>{{ $plan['signature'] ?? '' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" style="color: #999;">No career plans found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <!-- SEC-04: Promotion Training -->
+    <div class="section-header">SEC-04: Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]</div>
     <table class="grid-table">
         <thead>
             <tr>
@@ -247,8 +281,8 @@
         </tbody>
     </table>
 
-    <!-- SEC-04: Special Training -->
-    <div class="section-header">SEC-04: Army/Formation/Unit Level Cadres [বিশেষ প্রশিক্ষণ]</div>
+    <!-- SEC-05: Special Training -->
+    <div class="section-header">SEC-05: Army/Formation/Unit Level Cadres [বিশেষ প্রশিক্ষণ]</div>
     <table class="grid-table">
         <thead>
             <tr>
@@ -275,11 +309,8 @@
         </tbody>
     </table>
 
-    <div style="page-break-after: always;"></div>
-    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">গোপনীয় / RESTRICTED</div>
-
-    <!-- SEC-05: Summer Training -->
-    <div class="section-header">SEC-05: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ]</div>
+    <!-- SEC-06: Summer Training -->
+    <div class="section-header">SEC-06: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ]</div>
     <table class="grid-table">
         <thead>
             <tr>
@@ -338,42 +369,9 @@
         </tbody>
     </table>
 
-    <div style="page-break-after: always;"></div>
-    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">গোপনীয় / RESTRICTED</div>
 
-    <!-- SEC-07: Annual Career Plan -->
-    <div class="section-header">SEC-07: Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</div>
-    <table class="grid-table" style="font-size: 9px;">
-        <thead>
-            <tr>
-                <th style="width: 30px;">বছর<br>(Year)</th>
-                <th>ছুটি<br>(Leave)</th>
-                <th>ইউনিট প্রশিক্ষণ<br>(Unit Trg)</th>
-                <th>ব্যক্তিগত প্রশিক্ষণ<br>(Pers Trg)</th>
-                <th>প্রশাসন<br>(Admin)</th>
-                <th>MOOTW</th>
-                <th>স্বাক্ষর<br>(Sign)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $plans = $soldier->annual_career_plans ?? []; @endphp
-            @forelse($plans as $plan)
-                <tr>
-                    <td>{{ $plan['year'] ?? '' }}</td>
-                    <td>{{ $plan['leave'] ?? '' }}</td>
-                    <td>{{ $plan['unit_trg'] ?? '' }}</td>
-                    <td>{{ $plan['personal_trg'] ?? '' }}</td>
-                    <td>{{ $plan['admin'] ?? '' }}</td>
-                    <td>{{ $plan['mootw'] ?? '' }}</td>
-                    <td>{{ $plan['signature'] ?? '' }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" style="color: #999;">No career plans found.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+
+
 
     <!-- SEC-08: Combat Readiness -->
     <div class="section-header">SEC-08: Combat Readiness & Performance [যুদ্ধ প্রস্তুতি ও ফলাফল]</div>
