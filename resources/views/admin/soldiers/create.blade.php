@@ -1208,7 +1208,7 @@
                                 { name: 'পিই', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
                                 { name: 'পিই', chance: '', year: '', authority: '', group: 'ওয়ারেন্ট অফিসার' }
                             ];
-                            const existing = {{ json_encode(old('courses', $soldier->courses ?? [])) }};
+                            const existing = {{ json_encode(old('courses', [])) }};
                             if (existing && existing.length > 0) {
                                 this.courses = existing.map((c, i) => {
                                     if (i < defaults.length && !c.group) {
@@ -1269,15 +1269,15 @@
                                             </td>
                                             <td class="px-4 py-2">
                                                 <div class="flex flex-col gap-1">
-                                                    <template x-if="course.group">
-                                                        <span
-                                                            class="text-[9px] font-black text-military-primary/40 uppercase"
-                                                            x-text="course.group"></span>
-                                                    </template>
                                                     <input type="text" :name="`courses[${index}][name]`"
                                                         x-model="course.name"
                                                         class="w-full p-2 bg-transparent border-0 focus:ring-0 text-sm font-bold uppercase placeholder:text-slate-300"
                                                         placeholder="COURSE NAME">
+                                                    <template x-if="course.group">
+                                                        <span
+                                                            class="w-fit px-1.5 py-0.5 bg-amber-500/10 text-amber-700 border border-amber-500/20 rounded-[2px] text-[8px] font-black uppercase tracking-tighter"
+                                                            x-text="course.group"></span>
+                                                    </template>
                                                 </div>
                                             </td>
                                             <td class="px-4 py-2">
