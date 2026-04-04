@@ -198,12 +198,12 @@
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
             <div class="flex flex-col h-full">
                 <!-- Sidebar Header -->
-                <div class="flex items-center gap-4 h-16 bg-slate-950 px-6 border-b border-white/5">
-                    <img src="{{ asset('assets/logos/SAJHSF.png') }}" alt="Logo" class="h-8 w-auto">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-4 h-16 bg-slate-950 px-6 border-b border-white/5 hover:bg-white/5 transition-all duration-200 group">
+                    <img src="{{ asset('assets/logos/SAJHSF.png') }}" alt="Logo" class="h-8 w-auto group-hover:scale-105 transition-transform">
                     <span class="text-lg font-bold tracking-tight text-white whitespace-nowrap">
                         Management <span class="text-military-accent font-extrabold">System</span>
                     </span>
-                </div>
+                </a>
 
                 <!-- User Info -->
                 <div class="px-6 py-6 border-b border-white/5 bg-black/20">
