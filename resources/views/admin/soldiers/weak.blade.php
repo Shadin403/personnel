@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Strategic Weakness Registry')
+@section('title', 'Needs Improvement Registry')
 
 @section('styles')
 <style>
@@ -37,8 +37,8 @@
                 <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 Critical Training Alert
             </div>
-            <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Weakness <span class="text-red-600">Registry</span></h1>
-            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-[0.4em]">Personnel below operational readiness thresholds [দুর্বল সৈনিকদের তালিকা]</p>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Improvement <span class="text-red-600">Registry</span></h1>
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-[0.4em]">Personnel below operational readiness thresholds [উন্নতি প্রয়োজন এমন সৈনিকদের তালিকা]</p>
         </div>
         <div class="flex items-center gap-6">
             <div class="text-right">
@@ -108,7 +108,7 @@
                 <svg class="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <div>
-                <h3 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">No Strategic Weaknesses Detected</h3>
+                <h3 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">No Personnel Need Improvement</h3>
                 <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mt-2">All personnel currently meet operational standards.</p>
             </div>
         </div>
