@@ -304,8 +304,8 @@ class SoldierController extends Controller
         // Generate PDF with tactical helper
         $pdf = PdfHelper::generateRecordBook($soldier);
         
-        // Inject Auto-Print Command - Access mPDF instance correctly
-        $pdf->getMpdf()->SetJS('this.print();');
+        // Inject Auto-Print Command - Access mPDF instance via public property
+        $pdf->mpdf->SetJS('this.print();');
         
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }
