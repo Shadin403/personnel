@@ -339,8 +339,8 @@
         </tbody>
     </table>
 
-    <!-- SEC-06: Winter Training -->
-    <div class="section-header">SEC-06: Winter Training [শীতকালীন প্রশিক্ষণ]</div>
+    <!-- SEC-07: Winter Training -->
+    <div class="section-header">SEC-07: Winter Training [শীতকালীন প্রশিক্ষণ]</div>
     <table class="grid-table">
         <thead>
             <tr>
@@ -409,21 +409,6 @@
             <td><span style="font-size: 14px;">{{ $soldier->shoot_total ?? '0' }}</span></td>
             <th>Overall Status:</th>
             <td>{{ $soldier->overall_status }}</td>
-        </tr>
-    </table>
-
-    <!-- SEC-09: Financial -->
-    <div class="section-header">SEC-09: Financial Details [আর্থিক তথ্য]</div>
-    <table class="data-table">
-        <tr>
-            <th>ব্যাংকের নাম (Bank Name):</th>
-            <td colspan="3">{{ $soldier->bank_name ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <th>শাখা (Branch):</th>
-            <td>{{ $soldier->branch_name ?? 'N/A' }}</td>
-            <th>অ্যাকাউন্ট নং (AC No):</th>
-            <td>{{ $soldier->ac_no ?? 'N/A' }}</td>
         </tr>
     </table>
 

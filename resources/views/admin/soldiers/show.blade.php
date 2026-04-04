@@ -204,29 +204,6 @@
                     </div>
                 </div>
 
-                <!-- Section 08: Tactical Finance (Bank) -->
-                <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                    <div class="px-6 py-3 bg-military-bg border-b border-slate-200 flex items-center gap-3">
-                        <span class="section-tag">SEC-08</span>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-600">Financial Nodes</h3>
-                    </div>
-                    <div class="p-6 grid grid-cols-1 gap-6">
-                        <div class="bg-slate-50 p-4 border border-l-4 border-l-military-primary border-slate-200">
-                            <span class="data-label">Bank Name</span>
-                            <span class="data-value uppercase text-military-primary">{{ $soldier->bank_name ?? 'N/A' }}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-slate-50 p-4 border border-slate-200">
-                                <span class="data-label">Branch</span>
-                                <span class="data-value uppercase">{{ $soldier->branch_name ?? 'N/A' }}</span>
-                            </div>
-                            <div class="bg-slate-50 p-4 border border-slate-200">
-                                <span class="data-label">A/C Number</span>
-                                <span class="data-value font-mono text-military-secondary">{{ $soldier->ac_no ?? 'N/A' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Right Column: Professional & Personal (8 cols) -->
@@ -261,10 +238,10 @@
                         </div>
                     </div>
 
-                    <!-- Section 11: Miscellaneous -->
+                    <!-- Section 04: Miscellaneous -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-6 py-4 bg-military-bg flex items-center gap-3">
-                            <span class="section-tag">SEC-11</span>
+                            <span class="section-tag">SEC-04</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-500">Logistics & Bio-Metrics</h3>
                         </div>
                         <div class="p-8 grid grid-cols-2 gap-8">
@@ -288,10 +265,10 @@
                     </div>
                 </div>
 
-                <!-- Section 04: Personal Identity -->
+                <!-- Section 05: Personal Identity -->
                 <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                     <div class="px-8 py-5 border-b border-slate-100 flex items-center gap-3">
-                        <span class="section-tag">SEC-04</span>
+                        <span class="section-tag">SEC-05</span>
                         <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Family & Civil Identity [পারিবারিক ও এনআইডি]</h3>
                     </div>
                     <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -318,10 +295,10 @@
                     </div>
                 </div>
 
-                <!-- Section 05: Residential Trace -->
+                <!-- Section 06: Residential Trace -->
                 <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                     <div class="px-8 py-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
-                        <span class="section-tag">SEC-05</span>
+                        <span class="section-tag">SEC-06</span>
                         <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Geographic Trace [স্থায়ী ঠিকানা]</h3>
                     </div>
                     <div class="p-8 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -336,11 +313,11 @@
                     </div>
                 </div>
 
-                <!-- Section 06: Annual Career Trajectory (The 5-Level Plan) -->
+                <!-- Section 07: Annual Career Trajectory (The 5-Level Plan) -->
                 <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
                     <div class="px-8 py-5 bg-military-primary flex items-center justify-between text-white">
                         <div class="flex items-center gap-3">
-                            <span class="section-tag !bg-white !text-military-primary">SEC-06</span>
+                            <span class="section-tag !bg-white !text-military-primary">SEC-07</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Strategic Career Trajectory Analysis</h3>
                         </div>
                         <span class="text-[9px] font-black opacity-50 uppercase tracking-[0.3em]">5-Phase Professional Plan</span>
@@ -377,11 +354,11 @@
                     </div>
                 </div>
 
-                <!-- SEC-07: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ] -->
+                <!-- SEC-08: Summer Training [গ্রীষ্মকালীন প্রশিক্ষণ] -->
                 <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
                     <div class="px-8 py-5 bg-amber-500 flex items-center justify-between text-military-primary shadow-lg border-b border-amber-600/20">
                         <div class="flex items-center gap-3">
-                            <span class="section-tag !bg-military-primary !text-white !ring-2 !ring-white/20">SEC-07</span>
+                            <span class="section-tag !bg-military-primary !text-white !ring-2 !ring-white/20">SEC-08</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-military-primary">Field Training Exercise [Summer]</h3>
                         </div>
                     </div>
@@ -414,11 +391,11 @@
                     </div>
                 </div>
 
-                <!-- SEC-08: Winter Training [শীতকালীন প্রশিক্ষণ] -->
+                <!-- SEC-09: Winter Training [শীতকালীন প্রশিক্ষণ] -->
                 <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
                     <div class="px-8 py-5 bg-blue-600 flex items-center justify-between text-white shadow-lg border-b border-blue-700/20">
                         <div class="flex items-center gap-3">
-                            <span class="section-tag !bg-white !text-blue-600 !ring-2 !ring-white/20">SEC-08</span>
+                            <span class="section-tag !bg-white !text-blue-600 !ring-2 !ring-white/20">SEC-09</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Field Training Exercise [Winter]</h3>
                         </div>
                     </div>
@@ -451,12 +428,12 @@
                     </div>
                 </div>
 
-                <!-- Section 09: Combat Readiness & Performance -->
+                <!-- Section 10: Combat Readiness & Performance -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- IPFT Summary -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-8 py-5 bg-military-accent border-b border-white/20 flex items-center gap-3">
-                            <span class="section-tag !bg-white !text-military-primary">SEC-07A</span>
+                            <span class="section-tag !bg-white !text-military-primary">SEC-10A</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Physical Fitness (IPFT)</h3>
                         </div>
                         <div class="p-8 space-y-6">
@@ -474,7 +451,7 @@
                     <!-- Firing Mastery -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-8 py-5 bg-military-danger border-b border-white/20 flex items-center gap-3">
-                            <span class="section-tag !bg-white !text-military-danger">SEC-07B</span>
+                            <span class="section-tag !bg-white !text-military-danger">SEC-10B</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Firing Analytics (STH)</h3>
                         </div>
                         <div class="p-8">
@@ -506,12 +483,12 @@
                     </div>
                 </div>
 
-                <!-- Section 09-10: Training Analytics Grids -->
+                <!-- Section 11: Training Analytics Grids -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                     <!-- Section 09: Course & Cadre -->
+                     <!-- Section 11A: Course & Cadre -->
                      <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-6 py-3 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
-                            <span class="section-tag !bg-slate-500">SEC-09</span>
+                            <span class="section-tag !bg-slate-500">SEC-11A</span>
                             <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-600">Training Analytics</h3>
                         </div>
                         <div class="p-0 overflow-x-auto">
@@ -538,10 +515,10 @@
                         </div>
                     </div>
 
-                    <!-- Section 10: Unit Performance -->
+                    <!-- Section 11B: Unit Performance -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-6 py-3 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
-                            <span class="section-tag !bg-slate-500">SEC-10</span>
+                            <span class="section-tag !bg-slate-500">SEC-11B</span>
                             <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-600">Unit Cycle Records</h3>
                         </div>
                         <div class="p-0 overflow-x-auto">
