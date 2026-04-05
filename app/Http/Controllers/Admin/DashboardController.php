@@ -14,7 +14,7 @@ class DashboardController extends Controller
         $treeNodes = [];
 
         // 1. Fetch Units (Level 1-4)
-        $units = Unit::all();
+        $units = Unit::orderBy('sort_order', 'asc')->get();
         foreach ($units as $u) {
             $treeNodes[] = [
                 'id' => (int)$u->id,
@@ -29,7 +29,7 @@ class DashboardController extends Controller
         }
 
         // 2. Fetch Soldiers (Level 5)
-        $soldiers = Soldier::all();
+        $soldiers = Soldier::orderBy('sort_order', 'asc')->get();
         foreach ($soldiers as $s) {
             $treeNodes[] = [
                 'id' => 'sol_' . $s->id,
