@@ -449,6 +449,7 @@ class SoldierController extends Controller
     {
         $ids = $request->input('ids', []);
         $action = $request->input('action', 'download');
+        $category = $request->input('category', 'all');
 
         if (empty($ids)) {
             return back()->with('error', 'No soldiers selected.');
@@ -473,7 +474,7 @@ class SoldierController extends Controller
         $overweight_fails = $soldiers->filter(fn($s) => in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']));
 
         if ($action === 'registry-pdf') {
-            $pdf = \App\Helpers\PdfHelper::generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable);
+            $pdf = \App\Helpers\PdfHelper::generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable, $category);
             $filename = 'improvement-registry-' . now()->format('Y-m-d-His') . '.pdf';
         } else {
             $pdf = \App\Helpers\PdfHelper::generateBulkRecordBooks($soldiers, $printable, $ipft_fails, $ret_fails, $overweight_fails);

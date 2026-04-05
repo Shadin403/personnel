@@ -82,7 +82,7 @@ class PdfHelper
         return Pdf::loadView('admin.soldiers.bulk-record-books-pdf', compact('soldiers', 'ipft_fails', 'ret_fails', 'overweight_fails'), [], $options);
     }
 
-    public static function generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable = false)
+    public static function generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable = false, $category = 'all')
     {
         ini_set('pcre.backtrack_limit', '5000000');
         ini_set('memory_limit', '512M');
@@ -108,6 +108,6 @@ class PdfHelper
             }
         ];
 
-        return Pdf::loadView('admin.soldiers.improvement-registry-pdf', compact('ipft_fails', 'ret_fails', 'overweight_fails'), [], $options);
+        return Pdf::loadView('admin.soldiers.improvement-registry-pdf', compact('ipft_fails', 'ret_fails', 'overweight_fails', 'category'), [], $options);
     }
 }

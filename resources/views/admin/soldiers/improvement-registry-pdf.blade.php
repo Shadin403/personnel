@@ -38,6 +38,7 @@
     </div>
 
     {{-- 1. IPFT FAIL Nominal Roll --}}
+    @if($category === 'all' || $category === 'IP50')
     <div class="section-title">IPFT Fail Nominal Roll [আইপিএফটি ফেল তালিকা]</div>
     @if($ipft_fails->count() > 0)
         <table>
@@ -73,8 +74,10 @@
     @else
         <div class="no-records">No personnel found in this category.</div>
     @endif
+    @endif
 
     {{-- 2. RET FAIL Nominal Roll --}}
+    @if($category === 'all' || $category === 'RT')
     <div class="section-title">RET Fail Nominal Roll [আরইটি ফেল তালিকা]</div>
     @if($ret_fails->count() > 0)
         <table>
@@ -107,8 +110,10 @@
     @else
         <div class="no-records">No personnel found in this category.</div>
     @endif
+    @endif
 
     {{-- 3. Overweight Nominal Roll --}}
+    @if($category === 'all' || $category === 'Overweight')
     <div class="section-title">Overweight Nominal Roll [অতিরিক্ত ওজন তালিকা]</div>
     @if($overweight_fails->count() > 0)
         <table>
@@ -144,6 +149,7 @@
         </table>
     @else
         <div class="no-records">No personnel found in this category.</div>
+    @endif
     @endif
 
     <div style="margin-top: 50px; text-align: right;">

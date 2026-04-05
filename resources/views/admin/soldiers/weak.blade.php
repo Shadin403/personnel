@@ -128,6 +128,12 @@
                     form.appendChild(input);
                 });
     
+                const categoryInput = document.createElement('input');
+                categoryInput.type = 'hidden';
+                categoryInput.name = 'category';
+                categoryInput.value = this.currentCategory;
+                form.appendChild(categoryInput);
+    
                 document.body.appendChild(form);
                 if (action !== 'delete') {
                     this.isProcessing = true;
