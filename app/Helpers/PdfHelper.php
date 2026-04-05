@@ -75,6 +75,11 @@ class PdfHelper
             }
         ];
 
+        // Increase limits for intense bulk PDF generation
+        ini_set('pcre.backtrack_limit', '10000000');
+        ini_set('pcre.recursion_limit', '2000000');
+        ini_set('memory_limit', '512M');
+
         return Pdf::loadView('admin.soldiers.bulk-record-books-pdf', compact('soldiers'), [], $options);
     }
 }

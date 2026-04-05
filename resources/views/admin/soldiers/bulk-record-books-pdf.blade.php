@@ -35,11 +35,7 @@
                     <td style="vertical-align: top; width: 130px; text-align: right; border: none;">
                         <div class="photo-container" style="width: 120px; height: 145px; border: 3px solid #000; margin: 0; padding: 0; float: right; background: #fff;">
                             @if($soldier->photo && file_exists(public_path('storage/' . $soldier->photo)))
-                                @php
-                                    $imageData = base64_encode(file_get_contents(public_path('storage/' . $soldier->photo)));
-                                    $mimeType = mime_content_type(public_path('storage/' . $soldier->photo));
-                                @endphp
-                                <img src="data:{{ $mimeType }};base64,{{ $imageData }}" style="width: 120px; height: 145px; display: block;">
+                                <img src="{{ public_path('storage/' . $soldier->photo) }}" style="width: 120px; height: 145px; display: block;">
                             @else
                                 <div style="width: 120px; height: 145px; line-height: 145px; text-align: center; color: #adb5bd; border: 1px dashed #dee2e6; font-size: 10px;">PHOTO (ছবি)</div>
                             @endif
