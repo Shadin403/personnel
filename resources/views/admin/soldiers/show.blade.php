@@ -276,10 +276,14 @@
 
                     <!-- 3.1 IPFT -->
                     <div class="p-6 border-b border-slate-100">
-                        <div class="flex items-center gap-2 mb-4">
+                        {{-- <div class="flex items-center gap-2 mb-4">
                             <span class="w-1.5 h-6 bg-military-accent"></span>
-                            <h4 class="text-[11px] font-black uppercase tracking-widest text-slate-800">3.1 IPFT [শারীরিক
-                                সক্ষমতা]</h4>
+                            <h4 class="text-[11px] font-black uppercase tracking-widest text-white"></h4>
+                        </div> --}}
+                        <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                            <span class="section-tag !bg-amber-500 !text-slate-900">3.9</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">3.1 IPFT [শারীরিক
+                                সক্ষমতা]</h3>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="flex justify-between items-center bg-slate-50 p-4 border border-slate-200">
@@ -303,10 +307,15 @@
 
                     <!-- 3.2 RET Firing -->
                     <div class="p-6 border-b border-slate-100">
-                        <div class="flex items-center gap-2 mb-4">
+                        {{-- <div class="flex items-center gap-2 mb-4">
                             <span class="w-1.5 h-6 bg-military-danger"></span>
                             <h4 class="text-[11px] font-black uppercase tracking-widest text-slate-800">3.2 RET Firing
                                 [আরইটি ফায়ারিং প্রোফাইল]</h4>
+                        </div> --}}
+                        <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                            <span class="section-tag !bg-amber-500 !text-slate-900">3.2</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">RET Firing
+                                [আরইটি ফায়ারিং প্রোফাইল]</h3>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-[11px] border-collapse bg-slate-50/50">
@@ -332,7 +341,9 @@
                                             <td
                                                 class="px-2 py-3 uppercase {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">
                                                 {{ $rec['status'] ?? '---' }}</td>
-                                            <td class="px-2 py-3 {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-military-danger' }}">{{ $rec['total'] ?? '---' }}</td>
+                                            <td
+                                                class="px-2 py-3 {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-military-danger' }}">
+                                                {{ $rec['total'] ?? '---' }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -348,10 +359,15 @@
 
                     <!-- 3.3 Night Firing -->
                     <div class="p-6 border-b border-slate-100">
-                        <div class="flex items-center gap-2 mb-4">
+                        {{-- <div class="flex items-center gap-2 mb-4">
                             <span class="w-1.5 h-6 bg-blue-900"></span>
                             <h4 class="text-[11px] font-black uppercase tracking-widest text-slate-800">3.3 Night Firing
                                 [নাইট ফায়ারিং]</h4>
+                        </div> --}}
+                        <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                            <span class="section-tag !bg-amber-500 !text-slate-900">3.3</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Night Firing
+                                [নাইট ফায়ারিং]</h3>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-[11px] border-collapse bg-slate-50/50">
@@ -373,7 +389,9 @@
                                             <td
                                                 class="px-2 py-3 uppercase {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">
                                                 {{ $rec['status'] ?? '---' }}</td>
-                                            <td class="px-2 py-3 {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">{{ $rec['total'] ?? '---' }}</td>
+                                            <td
+                                                class="px-2 py-3 {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">
+                                                {{ $rec['total'] ?? '---' }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -436,7 +454,8 @@
                                         class="flex flex-col gap-1 p-2 bg-slate-50 border border-slate-100 font-bold uppercase transition-colors hover:bg-slate-100">
                                         <div class="flex justify-between items-center text-[10px]">
                                             <span class="text-slate-500">{{ $gt['circle'] ?? '---' }} Circle
-                                                ({{ $gt['year'] ?? '---' }})</span>
+                                                ({{ $gt['year'] ?? '---' }})
+                                            </span>
                                             <span
                                                 class="text-military-primary text-right">{{ $gt['appointment'] ?? '---' }}</span>
                                         </div>
@@ -495,7 +514,8 @@
                                         <td class="px-4 py-4 text-amber-600">{{ $trg['year'] ?? '---' }}</td>
                                         <td class="px-4 py-4 text-slate-700">{{ $trg['unit'] ?? '---' }}</td>
                                         <td class="px-4 py-4 text-slate-700">{{ $trg['appointment'] ?? '---' }}</td>
-                                        <td class="px-4 py-4 text-slate-500 italic lowercase">{{ $trg['remarks'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-500 italic lowercase">
+                                            {{ $trg['remarks'] ?? '---' }}</td>
                                         <td class="px-4 py-4">
                                             <div class="h-4 border-b border-slate-200 border-dashed"></div>
                                         </td>
@@ -505,13 +525,15 @@
                                         <td colspan="6"
                                             class="px-6 py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/30">
                                             <div class="flex flex-col items-center justify-center space-y-3 opacity-30">
-                                                <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                <svg class="w-12 h-12 text-slate-300" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5"
                                                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                                                     </path>
                                                 </svg>
-                                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Tactical
+                                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                                                    Tactical
                                                     Log: Awaiting Summer Training Records</p>
                                             </div>
                                         </td>
@@ -526,7 +548,8 @@
                 <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
                     <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
                         <span class="section-tag !bg-blue-500 !text-white">3.10</span>
-                        <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Winter Training Record [শীতকালীন
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Winter Training Record
+                            [শীতকালীন
                             প্রশিক্ষণ]</h3>
                     </div>
                     <div class="p-0 overflow-x-auto">
@@ -549,7 +572,8 @@
                                         <td class="px-4 py-4 text-blue-600">{{ $trg['year'] ?? '---' }}</td>
                                         <td class="px-4 py-4 text-slate-700">{{ $trg['unit'] ?? '---' }}</td>
                                         <td class="px-4 py-4 text-slate-700">{{ $trg['appointment'] ?? '---' }}</td>
-                                        <td class="px-4 py-4 text-slate-500 italic lowercase">{{ $trg['remarks'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-500 italic lowercase">
+                                            {{ $trg['remarks'] ?? '---' }}</td>
                                         <td class="px-4 py-4">
                                             <div class="h-4 border-b border-slate-200 border-dashed"></div>
                                         </td>
@@ -559,13 +583,15 @@
                                         <td colspan="6"
                                             class="px-6 py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/30">
                                             <div class="flex flex-col items-center justify-center space-y-3 opacity-30">
-                                                <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                <svg class="w-12 h-12 text-slate-300" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5"
                                                         d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
                                                     </path>
                                                 </svg>
-                                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Tactical
+                                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                                                    Tactical
                                                     Log: Awaiting Winter Training Records</p>
                                             </div>
                                         </td>
@@ -605,7 +631,9 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="3" class="px-4 py-10 text-center uppercase italic text-slate-300">No courses logged.</td>
+                                            <td colspan="3"
+                                                class="px-4 py-10 text-center uppercase italic text-slate-300">No courses
+                                                logged.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -617,7 +645,8 @@
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
                             <span class="section-tag !bg-slate-500">SEC-05</span>
-                            <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest">Army level course/cadre & special training [বিশেষ প্রশিক্ষণ]</h3>
+                            <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest">Army level
+                                course/cadre & special training [বিশেষ প্রশিক্ষণ]</h3>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left text-[11px] border-collapse">
@@ -633,14 +662,20 @@
                                         <tr class="hover:bg-slate-50 font-bold uppercase">
                                             <td class="px-4 py-3">
                                                 <div class="text-slate-900">{{ $sc['name'] ?? '---' }}</div>
-                                                <div class="text-[8px] text-slate-400 font-black uppercase tracking-widest mt-0.5">{{ $sc['details'] ?? '---' }}</div>
+                                                <div
+                                                    class="text-[8px] text-slate-400 font-black uppercase tracking-widest mt-0.5">
+                                                    {{ $sc['details'] ?? '---' }}</div>
                                             </td>
-                                            <td class="px-4 py-3 text-center text-slate-500">{{ $sc['year'] ?? '---' }}</td>
-                                            <td class="px-4 py-3 text-right text-military-primary">{{ $sc['unit'] ?? '---' }}</td>
+                                            <td class="px-4 py-3 text-center text-slate-500">{{ $sc['year'] ?? '---' }}
+                                            </td>
+                                            <td class="px-4 py-3 text-right text-military-primary">
+                                                {{ $sc['unit'] ?? '---' }}</td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="3" class="px-4 py-10 text-center uppercase italic text-slate-300">No training records logged.</td>
+                                            <td colspan="3"
+                                                class="px-4 py-10 text-center uppercase italic text-slate-300">No training
+                                                records logged.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -726,7 +761,8 @@
                         <span class="data-label">Height [উচ্চতা]</span>
                         <span
                             class="data-value">{{ $soldier->height_inch ? floor($soldier->height_inch / 12) . '\'' . $soldier->height_inch % 12 . '"' : '---' }}</span>
-                        <p class="text-[10px] font-bold text-slate-400">({{ number_format(($soldier->height_inch ?? 0) * 2.54, 1) }} CM)</p>
+                        <p class="text-[10px] font-bold text-slate-400">
+                            ({{ number_format(($soldier->height_inch ?? 0) * 2.54, 1) }} CM)</p>
                     </div>
                     <div class="space-y-1 p-4 bg-slate-50 border-l-4 border-slate-200">
                         <span class="data-label">Weight [ওজন]</span>
@@ -754,7 +790,8 @@
                         <div
                             class="flex justify-between items-center text-[11px] font-black uppercase tracking-widest text-slate-500">
                             <span>Military Allowance: +{{ $soldier->weight_allowance }} KG</span>
-                            <span>Limit: {{ number_format($soldier->standard_weight + $soldier->weight_allowance, 1) }} KG</span>
+                            <span>Limit: {{ number_format($soldier->standard_weight + $soldier->weight_allowance, 1) }}
+                                KG</span>
                         </div>
                         <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                             @php
