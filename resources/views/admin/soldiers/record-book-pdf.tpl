@@ -444,7 +444,7 @@
 
     <div class="section-block">
     <!-- SEC-05: Special Training -->
-    <div class="section-header">SEC-05: Army Level Cadres & Special Training [বিশেষ প্রশিক্ষণ]</div>
+    <div class="section-header">SEC-05: Army level course/cadre & special training [বিশেষ প্রশিক্ষণ]</div>
     <table class="grid-table" style="font-size: 10px;">
         <thead><tr><th style="width: 30px;">Sl</th><th>Year</th><th>Course/Cadre</th><th>Inst/Unit</th><th>Details</th></tr></thead>
         <tbody>

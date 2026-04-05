@@ -1457,7 +1457,7 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-05</span>
-                                <h3 class="card-title-tactical text-white">Army Level Cadres & Special Training [বিশেষ
+                                <h3 class="card-title-tactical text-white">Army level course/cadre & special training [বিশেষ
                                     প্রশিক্ষণ]</h3>
                             </div>
                             <button type="button" @click="addSpecialCourse"

@@ -578,6 +578,7 @@
 
                 <!-- SEC-04 & SEC-05: Courses & Cadres -->
                 <div class="grid grid-cols-1 gap-8">
+                    <!-- SEC-04: Courses -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
                             <span class="section-tag !bg-slate-500">SEC-04</span>
@@ -605,6 +606,41 @@
                                     @empty
                                         <tr>
                                             <td colspan="3" class="px-4 py-10 text-center uppercase italic text-slate-300">No courses logged.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SEC-05: Special Training -->
+                    <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
+                            <span class="section-tag !bg-slate-500">SEC-05</span>
+                            <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest">Army level course/cadre & special training [বিশেষ প্রশিক্ষণ]</h3>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left text-[11px] border-collapse">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr class="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                        <th class="px-4 py-2">Training</th>
+                                        <th class="px-4 py-2 text-center">Year</th>
+                                        <th class="px-4 py-2 text-right">Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    @forelse($soldier->special_courses ?? [] as $sc)
+                                        <tr class="hover:bg-slate-50 font-bold uppercase">
+                                            <td class="px-4 py-3">
+                                                <div class="text-slate-900">{{ $sc['name'] ?? '---' }}</div>
+                                                <div class="text-[8px] text-slate-400 font-black uppercase tracking-widest mt-0.5">{{ $sc['details'] ?? '---' }}</div>
+                                            </td>
+                                            <td class="px-4 py-3 text-center text-slate-500">{{ $sc['year'] ?? '---' }}</td>
+                                            <td class="px-4 py-3 text-right text-military-primary">{{ $sc['unit'] ?? '---' }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="px-4 py-10 text-center uppercase italic text-slate-300">No training records logged.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
