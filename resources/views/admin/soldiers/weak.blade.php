@@ -26,6 +26,53 @@
             padding: 2px 8px;
             text-transform: uppercase;
         }
+
+        .tactical-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark .tactical-checkbox {
+            background-color: #1e293b;
+            border-color: #475569;
+        }
+
+        .tactical-checkbox:checked {
+            background-color: #ef4444;
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+            transform: scale(1.1);
+        }
+
+        .tactical-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg);
+        }
+
+        .tactical-checkbox:hover {
+            border-color: #ef4444;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+        }
+
+        .tactical-checkbox:focus {
+            outline: none;
+        }
     </style>
 @endsection
 
@@ -117,7 +164,7 @@
                 <input type="checkbox" 
                        @click="toggleAll()" 
                        :checked="selectedIds.length === allIds.length && allIds.length > 0"
-                       class="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500 shadow-sm transition-all focus:scale-110">
+                       class="tactical-checkbox">
                 <span class="text-[11px] font-black uppercase tracking-widest text-slate-600 group-hover:text-red-600 transition-colors">Select Page Personnel</span>
             </label>
         </div>
@@ -134,7 +181,7 @@
                         <input type="checkbox" 
                                x-model="selectedIds" 
                                value="{{ $soldier->id }}"
-                               class="w-6 h-6 rounded border-slate-300 text-red-600 focus:ring-red-500 shadow-lg transition-transform active:scale-90 cursor-pointer">
+                               class="tactical-checkbox">
                     </div>
 
                     @if ($soldier->weight_status == 'Obese' || $soldier->weight_status == 'Obese (WHR)')
