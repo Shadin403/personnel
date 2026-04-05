@@ -315,7 +315,7 @@
                         <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
                             <span class="section-tag !bg-amber-500 !text-slate-900">3.2</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-white">RET Firing
-                                [আরইটি ফায়ারিং প্রোফাইল]</h3>
+                                [আরইটি ফায়ারিং]</h3>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-[11px] border-collapse bg-slate-50/50">
