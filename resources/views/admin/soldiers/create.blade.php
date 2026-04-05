@@ -614,14 +614,14 @@
                                     <span
                                         class="px-3 py-1 bg-yellow-500 text-[10px] font-black uppercase tracking-widest">Overweight</span>
                                 </template>
-                                <template x-if="weightStatus === 'Obese' || weightStatus === 'Obese (WHR)'">
+                                <template x-if="weightStatus === 'Obese'">
                                     <span
                                         class="px-3 py-1 bg-red-600 text-[10px] font-black uppercase tracking-widest animate-pulse">Obese</span>
                                 </template>
                             </div>
                         </div>
                         <div class="p-8 space-y-8">
-                            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label
                                         class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Weight
@@ -652,60 +652,12 @@
                                     <p class="text-[10px] text-slate-400 italic" x-show="height_inch"
                                         x-text="'Total: ' + height_inch + ' Inches'"></p>
                                 </div>
-                                <div class="space-y-2">
-                                    <label
-                                        class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Wrist
-                                        (CM)</label>
-                                    <input type="number" step="0.1" name="wrist_cm" x-model="wrist_cm"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 17.5">
-                                    <p class="text-[10px] font-bold text-military-primary uppercase"
-                                        x-text="'Frame: ' + bodyFrame"></p>
-                                </div>
-                                <div class="space-y-2">
-                                    <label
-                                        class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Waist
-                                        (Inch)</label>
-                                    <input type="number" step="0.1" name="waist_inch" x-model="waist_inch"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 34">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Hip
-                                        (Inch)</label>
-                                    <input type="number" step="0.1" name="hip_inch" x-model="hip_inch"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 38">
-                                    <p class="text-[9px] font-bold text-red-600 uppercase" x-show="whr > 1.0"
-                                        x-text="'WHR: ' + whr + ' (OBESE)'"></p>
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase" x-show="whr <= 1.0"
-                                        x-text="'WHR: ' + (whr || '0.00')"></p>
-                                </div>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100">
-                                <label
-                                    class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all">
-                                    <input type="checkbox" name="is_athlete" x-model="is_athlete"
-                                        class="w-5 h-5 text-military-primary rounded">
-                                    <div class="flex flex-col">
-                                        <span
-                                            class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Athlete
-                                            (Boxer/Wrestler)</span>
-                                        <span class="text-[9px] text-slate-500">+9.1 KG Allowance</span>
-                                    </div>
-                                </label>
-                                <label
-                                    class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all">
-                                    <input type="checkbox" name="medical_not_obese" x-model="medical_not_obese"
-                                        class="w-5 h-5 text-military-primary rounded">
-                                    <div class="flex flex-col">
-                                        <span
-                                            class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Medical
-                                            Board Rec.</span>
-                                        <span class="text-[9px] text-slate-500">+6.8 KG Allowance (Passed PET)</span>
-                                    </div>
-                                </label>
+                            <div class="grid grid-cols-1 pt-6 border-t border-slate-100">
                                 <template x-if="gender === 'Female'">
                                     <label
-                                        class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all">
+                                        class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all max-w-md">
                                         <input type="checkbox" name="is_pregnant" x-model="is_pregnant"
                                             class="w-5 h-5 text-military-primary rounded">
                                         <div class="flex flex-col">
@@ -726,28 +678,19 @@
                                         <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
                                     </svg>
                                 </div>
-                                <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
-                                    <div class="space-y-1">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Standard
-                                            Weight</p>
+                                <div class="relative z-10 flex flex-wrap lg:flex-nowrap gap-8">
+                                    <div class="flex-1 min-w-[150px] space-y-1">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Target Weight Standard</p>
                                         <p class="text-xl font-black text-amber-400"
                                             x-text="(standardWeight || '---') + ' KG'"></p>
                                     </div>
-                                    <div class="space-y-1">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Total
-                                            Allowance</p>
-                                        <p class="text-xl font-black text-emerald-400"
-                                            x-text="'+' + weightAllowance + ' KG'"></p>
+                                    <div class="flex-1 min-w-[200px] border-l border-slate-700 pl-8 text-right lg:text-left">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated Status</p>
+                                        <p class="text-xl font-black uppercase tracking-tighter" 
+                                           :class="weightStatus === 'Normal' ? 'text-green-500' : (weightStatus === 'Overweight' ? 'text-yellow-400' : 'text-red-500')"
+                                           x-text="weightStatus"></p>
                                     </div>
-                                    <div class="space-y-1 border-l border-slate-700 pl-8">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Max
-                                            Allowed</p>
-                                        <p class="text-xl font-black text-white"
-                                            x-text="(standardWeight ? (parseFloat(standardWeight) + parseFloat(weightAllowance)).toFixed(1) : '---') + ' KG'">
-                                        </p>
-                                    </div>
-                                    <div class="space-y-1 border-l border-slate-700 pl-8 text-right lg:text-left">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated
+                                </div>
                                             Status</p>
                                         <p class="text-xl font-black uppercase tracking-tighter"
                                             :class="weightStatus === 'Normal' ? 'text-green-500' : (
@@ -1892,12 +1835,7 @@
                 height_ft: '{{ old('height_ft', '') }}',
                 height_in: '{{ old('height_in', '') }}',
                 weight_kg: '{{ old('weight', '') }}',
-                waist_inch: '{{ old('waist_inch', '') }}',
-                hip_inch: '{{ old('hip_inch', '') }}',
-                wrist_cm: '{{ old('wrist_cm', '') }}',
                 is_pregnant: {{ old('is_pregnant') ? 'true' : 'false' }},
-                is_athlete: {{ old('is_athlete') ? 'true' : 'false' }},
-                medical_not_obese: {{ old('medical_not_obese') ? 'true' : 'false' }},
 
                 get height_inch() {
                     if (!this.height_ft) return 0;
@@ -1914,23 +1852,8 @@
                     return age;
                 },
 
-                get bodyFrame() {
-                    if (!this.wrist_cm) return 'Standard';
-                    const threshold = (this.gender === 'Female') ? 15 : 17;
-                    return this.wrist_cm >= threshold ? 'Large' : 'Standard';
-                },
-
-                get whr() {
-                    if (!this.waist_inch || !this.hip_inch || this.hip_inch == 0) return null;
-                    return (this.waist_inch / this.hip_inch).toFixed(2);
-                },
-
                 get weightAllowance() {
-                    let allowance = 0;
-                    if (this.bodyFrame === 'Large') allowance += 4.5;
-                    if (this.is_athlete) allowance += 9.1;
-                    if (this.medical_not_obese) allowance += 6.8;
-                    return allowance;
+                    return 0;
                 },
 
                 get standardWeight() {
@@ -1958,14 +1881,13 @@
                 },
 
                 get weightStatus() {
-                    if (this.whr > 1.0) return 'Obese (WHR)';
                     if (!this.weight_kg || !this.standardWeight) return 'N/A';
 
                     const actualWeight = parseFloat(this.weight_kg);
                     if (isNaN(actualWeight)) return 'N/A';
 
                     const adjustedWeight = actualWeight - 3.2;
-                    const limit = parseFloat(this.standardWeight) + parseFloat(this.weightAllowance);
+                    const limit = parseFloat(this.standardWeight);
 
                     if (adjustedWeight > limit + 6.8) return 'Obese';
                     if (adjustedWeight > limit) return 'Overweight';

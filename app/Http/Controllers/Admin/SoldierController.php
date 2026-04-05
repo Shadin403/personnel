@@ -22,12 +22,8 @@ class SoldierController extends Controller
 
         // Base query for test failures
         if ($category === 'IP50') {
-            $query->where(function($q) {
-                $q->where('ipft_biannual_1', 'Failed')
-                  ->orWhere('ipft_biannual_1', 'Fail')
-                  ->orWhere('ipft_biannual_2', 'Failed')
-                  ->orWhere('ipft_biannual_2', 'Fail');
-            });
+            $query->whereIn('ipft_biannual_1', ['Failed', 'Fail', 'FAIL', 'failed'])
+                  ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail', 'FAIL', 'failed']);
         } elseif ($category === 'RT') {
             $query->where(function($q) {
                 $q->whereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
@@ -40,10 +36,12 @@ class SoldierController extends Controller
         } else {
             // Default "Needs Improvement" (all categories)
             $query->where(function ($q) {
-                $q->whereIn('ipft_biannual_1', ['Failed', 'Fail'])
-                  ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail'])
+                $q->whereIn('ipft_biannual_1', ['Failed', 'Fail', 'FAIL', 'failed'])
+                  ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail', 'FAIL', 'failed'])
                   ->orWhere('speed_march', 'Fail')
+                  ->orWhere('speed_march', 'FAIL')
                   ->orWhere('grenade_fire', 'Fail')
+                  ->orWhere('grenade_fire', 'FAIL')
                   ->orWhereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
                   ->orWhere('firing_records', 'like', '%"status":"Fail"%')
                   ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
@@ -423,6 +421,36 @@ class SoldierController extends Controller
         
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }
+
+    /**
+     * Handle bulk actions for selected soldiers in the Improvement Registry.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     */
+    public function bulkAction(\Illuminate\Http\Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $action = $request->input('action', 'download'); // 'download' or 'print'
+
+        if (empty($ids)) {
+            return back()->with('error', 'No soldiers selected.');
+        }
+
+        $soldiers = Soldier::whereIn('id', $ids)->get();
+        $printable = ($action === 'print');
+
+        $pdf = \App\Helpers\PdfHelper::generateBulkRecordBooks($soldiers, $printable);
+        
+        $filename = 'bulk-records-' . now()->format('Y-m-d-His') . '.pdf';
+
+        if ($printable) {
+            return $pdf->stream($filename);
+        }
+
+        return $pdf->download($filename);
+    }
+
 
     private function generateTrgContent(Soldier $soldier): string
     {

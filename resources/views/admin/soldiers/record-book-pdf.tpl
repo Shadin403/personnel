@@ -508,35 +508,19 @@
 
     <div class="section-block">
     <!-- SEC-08: Physical Measurements -->
-    <div class="section-header">SEC-08: Physical & Obesity Analysis [শারীরিক ও স্থূলতা বিশ্লেষণ]</div>
+    <div class="section-header">SEC-08: Physical & Obesity Analysis [শারীরিক বিশ্লেষণ]</div>
     <table class="data-table">
         <tr>
             <th style="width: 25%; font-weight: bold; background: #f1f3f5;">উচ্চতা (Height):</th>
             <td>{{ $soldier->height_inch ? floor($soldier->height_inch / 12) . '\'' . ($soldier->height_inch % 12) . '"' : '---' }} ({{ number_format(($soldier->height_inch ?? 0) * 2.54, 1) }} CM)</td>
             <th style="width: 25%; font-weight: bold; background: #f1f3f5;">ওজন (Weight):</th>
-            <td>{{ $soldier->weight ?? '---' }} KG ({{ number_format(($soldier->weight ?? 0) * 2.20462, 1) }} LBS)</td>
+            <td>{{ $soldier->weight ?? '---' }} KG</td>
         </tr>
         <tr>
-            <th style="font-weight: bold; background: #f1f3f5;">কব্জি (Wrist):</th>
-            <td>{{ $soldier->wrist_cm ?? '---' }} CM ({{ $soldier->body_frame }})</td>
-            <th style="font-weight: bold; background: #f1f3f5;">কোমর (Waist):</th>
-            <td>{{ $soldier->waist_inch ?? '---' }}"</td>
-        </tr>
-        <tr>
-            <th style="font-weight: bold; background: #f1f3f5;">নিতম্ব (Hip):</th>
-            <td>{{ $soldier->hip_inch ?? '---' }}"</td>
-            <th style="font-weight: bold; background: #f1f3f5;">WHR:</th>
-            <td>{{ $soldier->whr ?? '---' }}</td>
-        </tr>
-        <tr>
-            <th style="font-weight: bold; background: #f1f3f5;">ওজনের ছাড় (Allowance):</th>
-            <td>+{{ $soldier->weight_allowance }} KG</td>
             <th style="font-weight: bold; background: #f1f3f5;">স্ট্যান্ডার্ড ওজন (Standard):</th>
             <td>{{ number_format($soldier->standard_weight, 1) }} KG</td>
-        </tr>
-        <tr>
             <th style="font-weight: bold; background: #f1f3f5;">বর্তমান অবস্থা (Status):</th>
-            <td colspan="3" style="text-transform: uppercase; font-weight: 900; font-size: 14px; {{ in_array($soldier->weight_status, ['Obese', 'Obese (WHR)']) ? 'color: #dc3545;' : ($soldier->weight_status == 'Overweight' ? 'color: #ffc107;' : 'color: #198754;') }}">
+            <td style="text-transform: uppercase; font-weight: 900; font-size: 14px; {{ in_array($soldier->weight_status, ['Obese', 'Obese (WHR)']) ? 'color: #dc3545;' : ($soldier->weight_status == 'Overweight' ? 'color: #ffc107;' : 'color: #198754;') }}">
                 {{ $soldier->weight_status }}
             </td>
         </tr>

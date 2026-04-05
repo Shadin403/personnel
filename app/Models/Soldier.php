@@ -104,24 +104,7 @@ class Soldier extends Model
 
     public function getWeightAllowanceAttribute(): int
     {
-        $allowance = 0;
-        
-        // Body Frame Allowance
-        if ($this->body_frame === 'Large') {
-            $allowance += 4.5; // 10lb approx 4.5kg
-        }
-
-        // Athlete Allowance (Boxer/Wrestler/Weightlifter)
-        if ($this->is_athlete) {
-            $allowance += 9.1; // 20lb approx 9.1kg
-        }
-
-        // Special Medical/PET Allowance
-        if ($this->medical_not_obese) {
-            $allowance += 6.8; // 15lb approx 6.8kg
-        }
-
-        return $allowance;
+        return 0; // Simplified - redundant fields (Wrist/Athlete/Medical) removed
     }
 
     public function getStandardWeightAttribute(): ?int
@@ -158,27 +141,22 @@ class Soldier extends Model
 
     public function getWeightStatusAttribute(): string
     {
-        // 1. WHR Obesity Check (Absolute Override)
-        $whr = $this->whr;
-        if ($whr > 1.0) return 'Obese (WHR)';
-
-        // 2. Weight Check
+        // 1. Weight Check
         if (!$this->weight || !$this->standard_weight) return 'N/A';
 
         // Extract numeric weight
-        preg_match('/(\d+)/', $this->weight, $matches);
-        $actualWeight = isset($matches[1]) ? (int) $matches[1] : 0;
+        preg_match('/(\d+(\.\d+)?)/', $this->weight, $matches);
+        $actualWeight = isset($matches[1]) ? (float) $matches[1] : 0;
         if ($actualWeight === 0) return 'N/A';
 
         // Dress subtraction (3.2 KG approx 7 lbs)
         $adjustedWeight = $actualWeight - 3.2;
         
         $std = $this->standard_weight;
-        $allowance = $this->weight_allowance;
-        $limit = $std + $allowance;
+        $limit = $std; // No allowances as per request
 
-        if ($adjustedWeight < 45) return 'Underweight'; // Generic floor (45kg/100lb)
-        if ($adjustedWeight > $limit + 6.8) return 'Obese'; // +15lb approx 6.8kg
+        if ($adjustedWeight < 45) return 'Underweight'; 
+        if ($adjustedWeight > $limit + 6.8) return 'Obese'; 
         if ($adjustedWeight > $limit) return 'Overweight';
         
         return 'Normal';
@@ -232,8 +210,8 @@ class Soldier extends Model
      */
     public function getBattalionNameAttribute(): string
     {
-        $unit = $this->unit()->first(); // Avoid collision with 'unit' column
-        if (!$unit) return 'Unmapped';
+        $unit = $this->unit()->first();
+        if (!$unit) return $this->unit ?: 'Unassigned';
 
         // Traverse up to find the Battalion level or the root unit
         $current = $unit;
