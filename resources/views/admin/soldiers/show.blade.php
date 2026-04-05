@@ -92,7 +92,7 @@
                     </svg>
                 </a>
                 <div>
-                    <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Personnel <span
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Individual <span
                             class="text-military-primary">Training Records</span></h2>
                     <div class="flex items-center gap-3 mt-1">
                         <span
@@ -436,7 +436,7 @@
                         <div class="p-0 border-r border-slate-100">
                             <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
                                 <span class="section-tag !bg-cyan-500 !text-slate-900">3.6</span>
-                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Night Training [নাইট ট্রেনিং]</h4>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Night Training [রাত্রীকালীন প্রশিক্ষণ]</h4>
                             </div>
                             <div class="space-y-2">
                                 @forelse($soldier->night_trainings ?? [] as $nt)
@@ -454,7 +454,7 @@
                         <div class="p-0">
                             <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
                                 <span class="section-tag !bg-purple-500 !text-white">3.7</span>
-                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Group Training [গ্রুপ ট্রেনিং]</h4>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Group Training [দলগত প্রশিক্ষণ]</h4>
                             </div>
                             <div class="space-y-2">
                                 @forelse($soldier->group_trainings ?? [] as $gt)
@@ -479,7 +479,7 @@
                     <div class="p-0 border-t border-slate-100">
                         <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
                             <span class="section-tag !bg-blue-500 !text-white">3.8</span>
-                            <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Cycle Ending Exercise [সাইকেল এন্ডিং এক্সারসাইজ]</h4>
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Cycle Ending Exercise [চক্র সমাপনী অনুশীলন]</h4>
                         </div>
                         @forelse($soldier->cycle_ending_exercises ?? [] as $ce)
                             <div
@@ -618,8 +618,7 @@
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
                         <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
                             <span class="section-tag !bg-indigo-500 !text-white">SEC-04</span>
-                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Courses
-                                [প্রশিক্ষণ ও কোর্স]</h3>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Promotion Training Course / Cadre</h3>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left text-[11px] border-collapse">
@@ -746,8 +745,7 @@
         <div class="bg-white border border-slate-200 shadow-lg p-8">
             <div class="flex items-center gap-3 mb-4">
                 <span class="section-tag !bg-green-600">SEC-07</span>
-                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Sports & Extra-Curricular
-                    [খেলাধুলা ও অন্যান্য]</h3>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Physical & Extra Curricular Activities</h3>
             </div>
             <div class="p-6 bg-slate-50 border border-slate-200 rounded-sm">
                 <p class="text-xs font-bold text-slate-700 uppercase leading-relaxed text-left">

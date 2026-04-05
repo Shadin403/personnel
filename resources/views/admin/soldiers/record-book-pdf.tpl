@@ -295,7 +295,7 @@
     </div>
 
     <div class="section-block">
-    <div style="margin-top: 10px; font-weight: bold;">3.6 Night Training (NI Trg) [নাইট ট্রেনিং]</div>
+    <div style="margin-top: 10px; font-weight: bold;">3.6 Night Training [রাত্রীকালীন প্রশিক্ষণ]</div>
     <table class="grid-table" style="font-size: 10px;">
         <thead>
             <tr>

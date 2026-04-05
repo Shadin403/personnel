@@ -106,7 +106,7 @@
                     <div class="hidden md:block w-1.5 h-8 bg-military-accent"></div>
                     <div>
                         <h1 class="text-2xl font-black text-military-primary tracking-tight uppercase">
-                            Personnel Enrollment
+                            Individual Training Records
                         </h1>
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">New Strategic Asset Entry
                         </p>
@@ -941,8 +941,7 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.6</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training (NI
-                                    Trg) [নাইট ট্রেনিং]</h3>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training [রাত্রীকালীন প্রশিক্ষণ]</h3>
                             </div>
                             <button type="button" @click="addNightTraining"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
@@ -1005,8 +1004,7 @@
                                 <div class="flex items-center gap-4">
                                     <span
                                         class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.7</span>
-                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Group Training
-                                        (GP Trg)</h3>
+                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Group Training [দলগত প্রশিক্ষণ]</h3>
                                 </div>
                                 <button type="button" @click="addGroupTraining"
                                     class="text-white hover:text-amber-500 font-bold">+</button>
@@ -1064,8 +1062,7 @@
                                 <div class="flex items-center gap-4">
                                     <span
                                         class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.8</span>
-                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending
-                                        Exercise</h3>
+                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending Exercise [চক্র সমাপনী অনুশীলন]</h3>
                                 </div>
                                 <button type="button" @click="addCycleEndingExercise"
                                     class="text-white hover:text-amber-500 font-bold">+</button>
@@ -1330,8 +1327,7 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-04</span>
-                                <h3 class="card-title-tactical text-white">Promotion Training & Courses [প্রশিক্ষণ ও কোর্স]
-                                </h3>
+                                <h3 class="card-title-tactical text-white">Promotion Training Course / Cadre</h3>
                             </div>
                             <button type="button" @click="addCourse"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
@@ -1672,8 +1668,7 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-green-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Sports &
-                                    Extra-Curricular [খেলাধুলা ও অন্যান্য]</h3>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Physical & Extra Curricular Activities</h3>
                             </div>
                         </div>
                         <div class="p-8">
