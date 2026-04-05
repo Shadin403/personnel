@@ -290,16 +290,18 @@
                     <!-- Obesity Details Row (Auto-calculated) -->
                     @if ($soldier->weight_status != 'Normal')
                         <div class="mt-6 p-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-2 shadow-inner">
-                            <div class="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-slate-400">
-                                <span>Standard: {{ number_format($soldier->standard_weight, 1) }} KG</span>
-                                <span>Allowed: {{ number_format($soldier->standard_weight + $soldier->weight_allowance, 1) }} KG</span>
+                            <div class="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
+                                <span class="text-blue-600 dark:text-blue-400">Required: {{ number_format($soldier->standard_weight, 1) }} KG</span>
+                                <span class="text-slate-400">Allowed: {{ number_format($soldier->standard_weight + $soldier->weight_allowance, 1) }} KG</span>
                             </div>
-                            <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-none overflow-hidden">
+                            <div class="relative w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-none overflow-hidden">
                                 @php
                                     $limit = $soldier->standard_weight + $soldier->weight_allowance;
                                     $percent = min(100, ($soldier->weight / max(1, $limit)) * 100);
+                                    $targetPercent = ($soldier->standard_weight / max(1, $limit)) * 100;
                                 @endphp
-                                <div class="h-full bg-red-600" style="width: {{ $percent }}%"></div>
+                                <div class="absolute inset-0 bg-blue-600/20" style="width: {{ $targetPercent }}%"></div>
+                                <div class="h-full bg-red-600 relative z-10" style="width: {{ $percent }}%"></div>
                             </div>
                         </div>
                     @endif

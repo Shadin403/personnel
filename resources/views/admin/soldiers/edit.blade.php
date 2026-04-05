@@ -75,7 +75,7 @@
                     </a>
                     <div class="space-y-0.5">
                         <h1 class="text-xl font-black text-slate-900 tracking-tight uppercase">Update <span
-                                class="text-military-primary">Node</span></h1>
+                                class="text-military-primary">Soldier Record</span></h1>
                         <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                             Refining: {{ $soldier->rank }} {{ $soldier->name }}
                         </p>
@@ -100,7 +100,7 @@
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                             </path>
                         </svg>
-                        Update Strategic Node
+                        Update Record
                     </button>
                 </div>
             </div>
@@ -356,7 +356,8 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="unit_id" :value="finalUnitId">
-                                <input type="hidden" name="unit" :value="allUnits.find(u => u.id == selectedBattalionId)?.name || ''">
+                                <input type="hidden" name="unit"
+                                    :value="allUnits.find(u => u.id == selectedBattalionId)?.name || ''">
                                 <input type="hidden" name="company" :value="selectedCompanyName">
                                 <input type="hidden" name="platoon" :value="selectedPlatoonName">
                                 <input type="hidden" name="section" :value="selectedSectionName">
@@ -511,7 +512,8 @@
                                         লিঙ্গ (Gender)
                                     </label>
                                     <select name="gender" x-model="gender"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror" required>
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror"
+                                        required>
                                         <option value="">- Select -</option>
                                         <option value="Male"
                                             {{ old('gender', $soldier->gender) == 'Male' ? 'selected' : '' }}>Male [পুরুষ]
@@ -556,7 +558,8 @@
                                         জন্ম তারিখ (DOB)
                                     </label>
                                     <input type="date" name="dob" x-model="dob"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('dob') border-red-500 @enderror" required>
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('dob') border-red-500 @enderror"
+                                        required>
                                 </div>
                             </div>
 
@@ -591,54 +594,73 @@
 
                     <!-- SEC-08: Physical Measurements (Calculated) -->
                     <div class="bg-white border border-slate-200 shadow-xl mb-8 overflow-visible">
-                        <div class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
                             <div class="flex items-center gap-4">
-                                <span class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-08</span>
-                                <h3 class="card-title-tactical text-white">Physical Measurements [শারীরিক পরিমাপ ও স্থূলতা]</h3>
+                                <span
+                                    class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-08</span>
+                                <h3 class="card-title-tactical text-white">Physical Measurements [শারীরিক পরিমাপ ও স্থূলতা]
+                                </h3>
                             </div>
                             <div class="flex items-center gap-4">
                                 <template x-if="weightStatus === 'Normal'">
-                                    <span class="px-3 py-1 bg-green-500 text-[10px] font-black uppercase tracking-widest">Normal</span>
+                                    <span
+                                        class="px-3 py-1 bg-green-500 text-[10px] font-black uppercase tracking-widest">Normal</span>
                                 </template>
                                 <template x-if="weightStatus === 'Overweight'">
-                                    <span class="px-3 py-1 bg-yellow-500 text-[10px] font-black uppercase tracking-widest">Overweight</span>
+                                    <span
+                                        class="px-3 py-1 bg-yellow-500 text-[10px] font-black uppercase tracking-widest">Overweight</span>
                                 </template>
                                 <template x-if="weightStatus === 'Obese' || weightStatus === 'Obese (WHR)'">
-                                    <span class="px-3 py-1 bg-red-600 text-[10px] font-black uppercase tracking-widest animate-pulse">Obese</span>
+                                    <span
+                                        class="px-3 py-1 bg-red-600 text-[10px] font-black uppercase tracking-widest animate-pulse">Obese</span>
                                 </template>
                             </div>
                         </div>
                         <div class="p-8 space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div class="space-y-2">
-                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Weight (KG)</label>
+                                    <label
+                                        class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Weight
+                                        (KG)</label>
                                     <input type="number" name="weight" x-model="weight_kg"
                                         class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 72" required>
                                 </div>
                                 <div class="col-span-2 space-y-2">
-                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Height (Feet & Inches)</label>
+                                    <label
+                                        class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Height
+                                        (Feet & Inches)</label>
                                     <div class="grid grid-cols-2 gap-2">
                                         <div class="relative">
                                             <input type="number" name="height_ft" x-model="height_ft"
-                                                class="w-full p-4 tactical-input text-sm font-bold pr-10" placeholder="FT" required>
-                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">FT</span>
+                                                class="w-full p-4 tactical-input text-sm font-bold pr-10" placeholder="FT"
+                                                required>
+                                            <span
+                                                class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">FT</span>
                                         </div>
                                         <div class="relative">
                                             <input type="number" name="height_in" x-model="height_in"
-                                                class="w-full p-4 tactical-input text-sm font-bold pr-10" placeholder="IN">
-                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">IN</span>
+                                                class="w-full p-4 tactical-input text-sm font-bold pr-10"
+                                                placeholder="IN">
+                                            <span
+                                                class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">IN</span>
                                         </div>
                                     </div>
-                                    <p class="text-[10px] text-slate-400 italic" x-show="height_inch" x-text="'Total: ' + height_inch + ' Inches'"></p>
+                                    <p class="text-[10px] text-slate-400 italic" x-show="height_inch"
+                                        x-text="'Total: ' + height_inch + ' Inches'"></p>
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 pt-6 border-t border-slate-100">
                                 <template x-if="gender === 'Female'">
-                                    <label class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all max-w-md">
-                                        <input type="checkbox" name="is_pregnant" x-model="is_pregnant" class="w-5 h-5 text-military-primary rounded" :checked="is_pregnant">
+                                    <label
+                                        class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all max-w-md">
+                                        <input type="checkbox" name="is_pregnant" x-model="is_pregnant"
+                                            class="w-5 h-5 text-military-primary rounded" :checked="is_pregnant">
                                         <div class="flex flex-col">
-                                            <span class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Mother (Pregnant/Lactating)</span>
+                                            <span
+                                                class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Mother
+                                                (Pregnant/Lactating)</span>
                                             <span class="text-[9px] text-slate-500">2 Years Consideration</span>
                                         </div>
                                     </label>
@@ -646,20 +668,28 @@
                             </div>
 
                             <!-- Live Analysis Result -->
-                            <div class="mt-8 p-6 bg-slate-900 text-white rounded shadow-2xl relative overflow-hidden group">
+                            <div
+                                class="mt-8 p-6 bg-slate-900 text-white rounded shadow-2xl relative overflow-hidden group">
                                 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-all">
-                                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
+                                    </svg>
                                 </div>
                                 <div class="relative z-10 flex flex-wrap lg:flex-nowrap gap-8">
                                     <div class="flex-1 min-w-[150px] space-y-1">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Target Weight Standard</p>
-                                        <p class="text-xl font-black text-amber-400" x-text="(standardWeight || '---') + ' KG'"></p>
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Target
+                                            Weight Standard</p>
+                                        <p class="text-xl font-black text-amber-400"
+                                            x-text="(standardWeight || '---') + ' KG'"></p>
                                     </div>
-                                    <div class="flex-1 min-w-[200px] border-l border-slate-700 pl-8 text-right lg:text-left">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated Status</p>
-                                        <p class="text-xl font-black uppercase tracking-tighter" 
-                                           :class="weightStatus === 'Normal' ? 'text-green-500' : (weightStatus === 'Overweight' ? 'text-yellow-400' : 'text-red-500')"
-                                           x-text="weightStatus"></p>
+                                    <div
+                                        class="flex-1 min-w-[200px] border-l border-slate-700 pl-8 text-right lg:text-left">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated
+                                            Status</p>
+                                        <p class="text-xl font-black uppercase tracking-tighter"
+                                            :class="weightStatus === 'Normal' ? 'text-green-500' : (
+                                                weightStatus === 'Overweight' ? 'text-yellow-400' : 'text-red-500')"
+                                            x-text="weightStatus"></p>
                                     </div>
                                 </div>
                             </div>
@@ -686,10 +716,18 @@
                                     <select name="ipft_biannual_1"
                                         class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                         <option value="">- Select -</option>
-                                        <option value="Pass" {{ in_array(strtoupper(old('ipft_biannual_1', $soldier->ipft_biannual_1) ?? ''), ['PASS', 'P']) ? 'selected' : '' }}>Pass</option>
-                                        <option value="Fail" {{ in_array(strtoupper(old('ipft_biannual_1', $soldier->ipft_biannual_1) ?? ''), ['FAIL', 'FAILED', 'F', 'FAIL']) ? 'selected' : '' }}>Fail</option>
-                                        <option value="Not Appeared" {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Not Appeared' ? 'selected' : '' }}>Not appeared</option>
-                                        <option value="Yet to Appear" {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Yet to Appear' ? 'selected' : '' }}>Yet to appear</option>
+                                        <option value="Pass"
+                                            {{ in_array(strtoupper(old('ipft_biannual_1', $soldier->ipft_biannual_1) ?? ''), ['PASS', 'P']) ? 'selected' : '' }}>
+                                            Pass</option>
+                                        <option value="Fail"
+                                            {{ in_array(strtoupper(old('ipft_biannual_1', $soldier->ipft_biannual_1) ?? ''), ['FAIL', 'FAILED', 'F', 'FAIL']) ? 'selected' : '' }}>
+                                            Fail</option>
+                                        <option value="Not Appeared"
+                                            {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Not Appeared' ? 'selected' : '' }}>
+                                            Not appeared</option>
+                                        <option value="Yet to Appear"
+                                            {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Yet to Appear' ? 'selected' : '' }}>
+                                            Yet to appear</option>
                                     </select>
                                 </div>
                                 <div class="space-y-4">
@@ -699,10 +737,18 @@
                                     <select name="ipft_biannual_2"
                                         class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                         <option value="">- Select -</option>
-                                        <option value="Pass" {{ in_array(strtoupper(old('ipft_biannual_2', $soldier->ipft_biannual_2) ?? ''), ['PASS', 'P']) ? 'selected' : '' }}>Pass</option>
-                                        <option value="Fail" {{ in_array(strtoupper(old('ipft_biannual_2', $soldier->ipft_biannual_2) ?? ''), ['FAIL', 'FAILED', 'F', 'FAIL']) ? 'selected' : '' }}>Fail</option>
-                                        <option value="Not Appeared" {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Not Appeared' ? 'selected' : '' }}>Not appeared</option>
-                                        <option value="Yet to Appear" {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Yet to Appear' ? 'selected' : '' }}>Yet to appear</option>
+                                        <option value="Pass"
+                                            {{ in_array(strtoupper(old('ipft_biannual_2', $soldier->ipft_biannual_2) ?? ''), ['PASS', 'P']) ? 'selected' : '' }}>
+                                            Pass</option>
+                                        <option value="Fail"
+                                            {{ in_array(strtoupper(old('ipft_biannual_2', $soldier->ipft_biannual_2) ?? ''), ['FAIL', 'FAILED', 'F', 'FAIL']) ? 'selected' : '' }}>
+                                            Fail</option>
+                                        <option value="Not Appeared"
+                                            {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Not Appeared' ? 'selected' : '' }}>
+                                            Not appeared</option>
+                                        <option value="Yet to Appear"
+                                            {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Yet to Appear' ? 'selected' : '' }}>
+                                            Yet to appear</option>
                                     </select>
                                 </div>
                             </div>
@@ -1693,7 +1739,8 @@
                                     <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol
                                         Type</label>
-                                    <select name="user_type" class="w-full p-4 tactical-input text-sm font-bold" required>
+                                    <select name="user_type" class="w-full p-4 tactical-input text-sm font-bold"
+                                        required>
                                         <option value="Soldier"
                                             {{ old('user_type', $soldier->user_type) == 'Soldier' ? 'selected' : '' }}>
                                             Soldier</option>
@@ -1712,8 +1759,8 @@
                                     <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Protocol
                                         Number (#)</label>
-                                    <input type="text" name="number" value="{{ old('number', $soldier->number) }}"
-                                        required
+                                    <input type="text" name="number"
+                                        value="{{ old('number', $soldier->number) }}" required
                                         class="w-full p-4 tactical-input text-sm font-bold @error('number') border-red-500 @enderror"
                                         placeholder="123456">
                                     @error('number')
@@ -1740,7 +1787,8 @@
                                         <input type="checkbox" name="is_active" value="1"
                                             {{ $soldier->is_active ? 'checked' : '' }}
                                             class="w-5 h-5 text-military-primary rounded">
-                                        <span class="text-sm font-bold text-slate-600 uppercase tracking-widest">Deployment
+                                        <span
+                                            class="text-sm font-bold text-slate-600 uppercase tracking-widest">Deployment
                                             Ready</span>
                                     </label>
                                 </div>
@@ -1869,7 +1917,7 @@
                 gender: '{{ old('gender', $soldier->gender) }}',
                 dob: '{{ old('dob', $soldier->dob ? $soldier->dob->format('Y-m-d') : '') }}',
                 height_ft: '{{ old('height_ft', $soldier->height_inch ? floor($soldier->height_inch / 12) : '') }}',
-                height_in: '{{ old('height_in', $soldier->height_inch ? ($soldier->height_inch % 12) : '') }}',
+                height_in: '{{ old('height_in', $soldier->height_inch ? $soldier->height_inch % 12 : '') }}',
                 weight_kg: '{{ old('weight', $soldier->weight ?: '') }}',
                 is_pregnant: {{ old('is_pregnant', $soldier->is_pregnant) ? 'true' : 'false' }},
 
@@ -1918,10 +1966,10 @@
 
                 get weightStatus() {
                     if (!this.weight_kg || !this.standardWeight) return 'N/A';
-                    
+
                     const actualWeight = parseFloat(this.weight_kg);
                     if (isNaN(actualWeight)) return 'N/A';
-                    
+
                     const adjustedWeight = actualWeight - 3.2; // 7 lbs approx 3.2kg
                     const limit = parseFloat(this.standardWeight);
 
