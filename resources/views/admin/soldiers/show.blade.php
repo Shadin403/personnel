@@ -468,194 +468,154 @@
                     </div>
                 </div>
 
+                <!-- SEC-03.9: Summer Training -->
+                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                    <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                        <span class="section-tag !bg-amber-500 !text-slate-900">3.9</span>
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Summer Training Record
+                            [গ্রীষ্মকালীন প্রশিক্ষণ]</h3>
+                    </div>
+                    <div class="p-0 overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-[11px]">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-4 py-4 font-black text-slate-400 uppercase w-12 text-center">Sl</th>
+                                    <th class="px-4 py-4 font-black text-slate-400 uppercase w-24">Year</th>
+                                    <th class="px-4 py-4 font-black text-slate-400 uppercase">Unit</th>
+                                    <th class="px-4 py-2 font-black text-slate-400 uppercase">Appointment</th>
+                                    <th class="px-4 py-2 font-black text-slate-400 uppercase">Standard/Remarks</th>
+                                    <th class="px-4 py-2 font-black text-slate-400 uppercase w-32 text-center">Sign</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($soldier->field_trainings_summer ?? [] as $index => $trg)
+                                    <tr
+                                        class="hover:bg-amber-50/50 transition-colors border-b border-slate-100 font-bold uppercase">
+                                        <td class="px-4 py-4 text-slate-400 text-center">{{ $index + 1 }}</td>
+                                        <td class="px-4 py-4 text-amber-600">{{ $trg['year'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-700">{{ $trg['unit'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-700">{{ $trg['appointment'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-500 italic lowercase">{{ $trg['remarks'] ?? '---' }}</td>
+                                        <td class="px-4 py-4">
+                                            <div class="h-4 border-b border-slate-200 border-dashed"></div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6"
+                                            class="px-6 py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/30">
+                                            <div class="flex flex-col items-center justify-center space-y-3 opacity-30">
+                                                <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                                    </path>
+                                                </svg>
+                                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Tactical
+                                                    Log: Awaiting Summer Training Records</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SEC-03.10: Winter Training -->
+                <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                    <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                        <span class="section-tag !bg-blue-500 !text-white">3.10</span>
+                        <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Winter Training Record [শীতকালীন
+                            প্রশিক্ষণ]</h3>
+                    </div>
+                    <div class="p-0 overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-[11px]">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-4 py-4 font-black text-slate-400 uppercase w-12 text-center">Sl</th>
+                                    <th class="px-4 py-4 font-black text-slate-400 uppercase w-24">Year</th>
+                                    <th class="px-4 py-4 font-black text-slate-400 uppercase">Unit</th>
+                                    <th class="px-4 py-2 font-black text-slate-400 uppercase">Appointment</th>
+                                    <th class="px-4 py-2 font-black text-slate-400 uppercase">Standard/Remarks</th>
+                                    <th class="px-4 py-2 font-black text-slate-400 uppercase w-32 text-center">Sign</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($soldier->field_trainings_winter ?? [] as $index => $trg)
+                                    <tr
+                                        class="hover:bg-blue-50/50 transition-colors border-b border-slate-100 font-bold uppercase">
+                                        <td class="px-4 py-4 text-slate-400 text-center">{{ $index + 1 }}</td>
+                                        <td class="px-4 py-4 text-blue-600">{{ $trg['year'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-700">{{ $trg['unit'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-700">{{ $trg['appointment'] ?? '---' }}</td>
+                                        <td class="px-4 py-4 text-slate-500 italic lowercase">{{ $trg['remarks'] ?? '---' }}</td>
+                                        <td class="px-4 py-4">
+                                            <div class="h-4 border-b border-slate-200 border-dashed"></div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6"
+                                            class="px-6 py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/30">
+                                            <div class="flex flex-col items-center justify-center space-y-3 opacity-30">
+                                                <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                                    </path>
+                                                </svg>
+                                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Tactical
+                                                    Log: Awaiting Winter Training Records</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SEC-04 & SEC-05: Courses & Cadres -->
+                <div class="grid grid-cols-1 gap-8">
+                    <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
+                            <span class="section-tag !bg-slate-500">SEC-04</span>
+                            <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest text-white">Courses
+                                [প্রশিক্ষণ ও কোর্স]</h3>
+                        </div>
+                        <div class="p-0 overflow-x-auto">
+                            <table class="w-full text-left text-[11px] border-collapse">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr class="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                        <th class="px-4 py-2">Course</th>
+                                        <th class="px-4 py-2 text-center">Year</th>
+                                        <th class="px-4 py-2 text-right">Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    @forelse($soldier->courses ?? [] as $course)
+                                        <tr class="hover:bg-slate-50 font-bold">
+                                            <td class="px-4 py-3">{{ $course->name ?? '---' }}</td>
+                                            <td class="px-4 py-3 text-center">{{ $course->year ?? '---' }}</td>
+                                            <td class="px-4 py-3 text-right">
+                                                <span class="text-military-primary">{{ $course->result ?? 'PASS' }}</span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="px-4 py-10 text-center uppercase italic text-slate-300">No courses logged.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- SEC-03.9: Summer Training -->
-        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
-            <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
-                <span class="section-tag !bg-amber-500 !text-slate-900">3.9</span>
-                <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Summer Training Record
-                    [গ্রীষ্মকালীন প্রশিক্ষণ]</h3>
-            </div>
-            <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left border-collapse text-[11px]">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200">
-                            <th class="px-4 py-4 font-black text-slate-400 uppercase w-12 text-center">Sl</th>
-                            <th class="px-4 py-4 font-black text-slate-400 uppercase w-24">Year</th>
-                            <th class="px-4 py-4 font-black text-slate-400 uppercase">Unit</th>
-                            <th class="px-4 py-2 font-black text-slate-400 uppercase">Appointment</th>
-                            <th class="px-4 py-2 font-black text-slate-400 uppercase">Standard/Remarks</th>
-                            <th class="px-4 py-2 font-black text-slate-400 uppercase w-32 text-center">Sign</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($soldier->field_trainings_summer ?? [] as $index => $trg)
-                            <tr
-                                class="hover:bg-amber-50/50 transition-colors border-b border-slate-100 font-bold uppercase">
-                                <td class="px-4 py-4 text-slate-400 text-center">{{ $index + 1 }}</td>
-                                <td class="px-4 py-4 text-amber-600">{{ $trg['year'] ?? '---' }}</td>
-                                <td class="px-4 py-4 text-slate-700">{{ $trg['unit'] ?? '---' }}</td>
-                                <td class="px-4 py-4 text-slate-700">{{ $trg['appointment'] ?? '---' }}</td>
-                                <td class="px-4 py-4 text-slate-500 italic lowercase">{{ $trg['remarks'] ?? '---' }}</td>
-                                <td class="px-4 py-4">
-                                    <div class="h-4 border-b border-slate-200 border-dashed"></div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6"
-                                    class="px-6 py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/30">
-                                    <div class="flex flex-col items-center justify-center space-y-3 opacity-30">
-                                        <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
-                                            </path>
-                                        </svg>
-                                        <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Tactical
-                                            Log: Awaiting Summer Training Records</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <!-- SEC-03.10: Winter Training -->
-        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
-            <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
-                <span class="section-tag !bg-blue-500 !text-white">3.10</span>
-                <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Winter Training Record [শীতকালীন
-                    প্রশিক্ষণ]</h3>
-            </div>
-            <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left border-collapse text-[11px]">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200">
-                            <th class="px-4 py-4 font-black text-slate-400 uppercase w-12 text-center">Sl</th>
-                            <th class="px-4 py-4 font-black text-slate-400 uppercase w-24">Year</th>
-                            <th class="px-4 py-4 font-black text-slate-400 uppercase">Unit</th>
-                            <th class="px-4 py-2 font-black text-slate-400 uppercase">Appointment</th>
-                            <th class="px-4 py-2 font-black text-slate-400 uppercase">Standard/Remarks</th>
-                            <th class="px-4 py-2 font-black text-slate-400 uppercase w-32 text-center">Sign</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($soldier->field_trainings_winter ?? [] as $index => $trg)
-                            <tr
-                                class="hover:bg-blue-50/50 transition-colors border-b border-slate-100 font-bold uppercase">
-                                <td class="px-4 py-4 text-slate-400 text-center">{{ $index + 1 }}</td>
-                                <td class="px-4 py-4 text-blue-600">{{ $trg['year'] ?? '---' }}</td>
-                                <td class="px-4 py-4 text-slate-700">{{ $trg['unit'] ?? '---' }}</td>
-                                <td class="px-4 py-4 text-slate-700">{{ $trg['appointment'] ?? '---' }}</td>
-                                <td class="px-4 py-4 text-slate-500 italic lowercase">{{ $trg['remarks'] ?? '---' }}</td>
-                                <td class="px-4 py-4">
-                                    <div class="h-4 border-b border-slate-200 border-dashed"></div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6"
-                                    class="px-6 py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/30">
-                                    <div class="flex flex-col items-center justify-center space-y-3 opacity-30">
-                                        <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
-                                            </path>
-                                        </svg>
-                                        <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Tactical
-                                            Log: Awaiting Winter Training Records</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- SEC-04 & SEC-05: Courses & Cadres -->
-        <div class="grid grid-cols-2 gap-8">
-            <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
-                    <span class="section-tag !bg-slate-500">SEC-04</span>
-                    <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest text-white">Courses
-                        [প্রশিক্ষণ ও কোর্স]</h3>
-                </div>
-                <div class="p-0 overflow-x-auto">
-                    <table class="w-full text-left text-[11px] border-collapse">
-                        <thead class="bg-slate-50 border-b border-slate-100">
-                            <tr class="text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                                <th class="px-4 py-2">Course</th>
-                                <th class="px-4 py-2 text-center">Year</th>
-                                <th class="px-4 py-2 text-right">Result</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            @forelse($soldier->courses ?? [] as $course)
-                                <tr class="font-bold uppercase hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-4 py-3">
-                                        <div class="text-slate-900">{{ $course->name ?? '---' }}</div>
-                                        <div class="text-[8px] text-slate-400">{{ $course->authority ?? '---' }}
-                                            ({{ $course->chance ?? '1st' }} Chance)</div>
-                                    </td>
-                                    <td class="px-4 py-3 text-center text-slate-500">{{ $course->year ?? '---' }}</td>
-                                    <td class="px-4 py-3 text-right text-military-primary">{{ $course->result ?? '---' }}
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3"
-                                        class="px-6 py-10 text-center text-slate-300 font-bold uppercase italic">No
-                                        records.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
-                    <span class="section-tag !bg-slate-500">SEC-05</span>
-                    <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest">Special Training [বিশেষ
-                        প্রশিক্ষণ]</h3>
-                </div>
-                <div class="p-0 overflow-x-auto">
-                    <table class="w-full text-left text-[11px] border-collapse">
-                        <thead class="bg-slate-50 border-b border-slate-100">
-                            <tr class="text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                                <th class="px-4 py-2">Training</th>
-                                <th class="px-4 py-2 text-center">Year</th>
-                                <th class="px-4 py-2 text-right">Unit</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            @forelse($soldier->special_courses ?? [] as $sc)
-                                <tr class="font-bold uppercase hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-4 py-3">
-                                        <div class="text-slate-900">{{ $sc['name'] ?? '---' }}</div>
-                                        <div class="text-[8px] text-slate-400">{{ $sc['details'] ?? '---' }}</div>
-                                    </td>
-                                    <td class="px-4 py-3 text-center text-slate-500">{{ $sc['year'] ?? '---' }}</td>
-                                    <td class="px-4 py-3 text-right text-military-primary">{{ $sc['unit'] ?? '---' }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3"
-                                        class="px-6 py-10 text-center text-slate-300 font-bold uppercase italic">No
-                                        records.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
         <!-- SEC-06: Annual Career Plan -->
         <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
