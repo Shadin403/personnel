@@ -57,6 +57,9 @@
     <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         [x-cloak] {
             display: none !important;
@@ -331,50 +334,51 @@
 
             <!-- Scrollable Page Content -->
             <div class="flex-1 overflow-y-auto p-6 lg:p-10 custom-scrollbar">
-                <!-- Tactical Toast System -->
-                <div x-data="{ 
-                        show: false, 
-                        message: '', 
-                        type: 'success',
-                        init() {
-                            @if(session('success'))
-                                this.trigger('{{ session('success') }}', 'success');
-                            @endif
-                            @if(session('error'))
-                                this.trigger('{{ session('error') }}', 'error');
-                            @endif
-                        },
-                        trigger(msg, type = 'success') {
-                            this.message = msg;
-                            this.type = type;
-                            this.show = true;
-                            setTimeout(() => { this.show = false }, 5000);
-                        }
-                    }" 
-                    x-show="show" 
-                    x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 transform translate-x-8"
-                    x-transition:enter-end="opacity-100 transform translate-x-0"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 transform translate-x-0"
-                    x-transition:leave-end="opacity-0 transform translate-x-8"
-                    class="fixed top-6 right-6 z-[9999] min-w-[320px] max-w-md pointer-events-none"
-                    style="display: none;">
-                    <div class="bg-military-secondary border-l-4 border-military-accent shadow-2xl p-4 pointer-events-auto flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-military-accent/10 flex items-center justify-center">
-                                <svg class="w-4 h-4 text-military-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black text-military-accent uppercase tracking-widest">Tactical Alert</p>
-                                <p class="text-xs font-bold text-white mt-0.5" x-text="message"></p>
-                            </div>
-                        </div>
-                        <button @click="show = false" class="text-slate-500 hover:text-white transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                    </div>
-                </div>
+                <!-- Tactical Toast System (SweetAlert2) -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 5000,
+                            timerProgressBar: true,
+                            background: '#0f172a', /* Military Secondary */
+                            color: '#ffffff',
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+
+                        @if(session('success'))
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<span class="text-[10px] font-black uppercase tracking-widest text-[#84cc16]">Tactical Alert</span>',
+                                html: '<span class="text-xs font-bold text-white">{{ session('success') }}</span>',
+                                iconColor: '#84cc16'
+                            });
+                        @endif
+
+                        @if(session('error'))
+                            Toast.fire({
+                                icon: 'error',
+                                title: '<span class="text-[10px] font-black uppercase tracking-widest text-red-500">System Failure</span>',
+                                html: '<span class="text-xs font-bold text-white">{{ session('error') }}</span>',
+                                iconColor: '#ef4444'
+                            });
+                        @endif
+                        
+                        @if(session('warning'))
+                            Toast.fire({
+                                icon: 'warning',
+                                title: '<span class="text-[10px] font-black uppercase tracking-widest text-yellow-500">Combat Warning</span>',
+                                html: '<span class="text-xs font-bold text-white">{{ session('warning') }}</span>',
+                                iconColor: '#f59e0b'
+                            });
+                        @endif
+                    });
+                </script>
 
                 @yield('content')
             </div>

@@ -99,35 +99,58 @@
         },
         submitBulk(action) {
             if (this.selectedIds.length === 0) return;
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '{{ route('admin.soldiers.bulk-action') }}';
-            
-            const csrfToken = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-            const csrfInput = document.createElement('input');
-            csrfInput.type = 'hidden';
-            csrfInput.name = '_token';
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
 
-            const actionInput = document.createElement('input');
-            actionInput.type = 'hidden';
-            actionInput.name = 'action';
-            actionInput.value = action;
-            form.appendChild(actionInput);
+            const executeSubmission = () => {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '{{ route('admin.soldiers.bulk-action') }}';
+                
+                const csrfToken = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
 
-            this.selectedIds.forEach(id => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'ids[]';
-                input.value = id;
-                form.appendChild(input);
-            });
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = action;
+                form.appendChild(actionInput);
 
-            document.body.appendChild(form);
-            this.isProcessing = true;
-            form.submit();
-            setTimeout(() => this.isProcessing = false, 5000);
+                this.selectedIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'ids[]';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+
+                document.body.appendChild(form);
+                if (action !== 'delete') this.isProcessing = true;
+                form.submit();
+                if (action !== 'delete') setTimeout(() => this.isProcessing = false, 5000);
+            };
+
+            if (action === 'delete') {
+                Swal.fire({
+                    title: '<span class=\'text-lg font-black uppercase tracking-widest text-[#0f172a]\'>Strategic Warning</span>',
+                    html: '<span class=\'text-xs font-bold text-slate-500 uppercase tracking-widest\'>Are you sure you want to PERMANENTLY remove ' + this.selectedIds.length + ' soldiers?</span>',
+                    icon: 'warning',
+                    iconColor: '#ef4444',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#334155',
+                    confirmButtonText: 'CONFIRM DELETION',
+                    cancelButtonText: 'ABORT'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        executeSubmission();
+                    }
+                });
+            } else {
+                executeSubmission();
+            }
         }
      }">
     
