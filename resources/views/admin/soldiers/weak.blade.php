@@ -81,6 +81,8 @@
     <div class="space-y-8 animate-fade-in pb-20" x-data="{
         selectedIds: [],
         isProcessing: false,
+        hasDownloaded: localStorage.getItem('registry_downloaded_today') === 'true',
+        downloadTime: localStorage.getItem('registry_download_time') || null,
         allIds: {{ json_encode($soldiers->pluck('id')) }},
         toggleAll() {
             if (this.selectedIds.length === this.allIds.length) {
@@ -126,7 +128,13 @@
                 });
     
                 document.body.appendChild(form);
-                if (action !== 'delete') this.isProcessing = true;
+                if (action !== 'delete') {
+                    this.isProcessing = true;
+                    this.hasDownloaded = true;
+                    this.downloadTime = new Date().toLocaleTimeString();
+                    localStorage.setItem('registry_downloaded_today', 'true');
+                    localStorage.setItem('registry_download_time', this.downloadTime);
+                }
                 form.submit();
                 if (action !== 'delete') setTimeout(() => this.isProcessing = false, 5000);
             };
@@ -186,8 +194,11 @@
                     readiness thresholds [সদ্য তালিকা]</p>
             </div>
             <div class="text-right">
-                <p class="text-[32px] font-black text-red-600 leading-none">{{ $soldiers->total() }}</p>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Pending Remediation</p>
+                <p class="text-[32px] font-black leading-none transition-all duration-700"
+                   :class="hasDownloaded ? 'text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'text-red-600'">{{ $soldiers->total() }}</p>
+                <p class="text-[10px] font-bold uppercase tracking-widest mt-1 transition-colors"
+                   :class="hasDownloaded ? 'text-emerald-600' : 'text-slate-400'"
+                   x-text="hasDownloaded ? 'Nominal Roll Archived • ' + downloadTime : 'Pending Remediation'">Pending Remediation</p>
             </div>
         </div>
 
@@ -223,7 +234,7 @@
                     </label>
 
                     <button @click="submitBulk('registry-pdf')"
-                        class="ml-auto inline-flex items-center gap-2 px-6 py-2 bg-slate-900 hover:bg-red-600 text-white rounded font-black text-[10px] uppercase tracking-widest transition-all hover:shadow-lg hover:shadow-red-600/20 active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
+                        class="ml-auto inline-flex items-center gap-2 px-6 py-2 bg-slate-900 hover:bg-emerald-600 text-white rounded font-black text-[10px] uppercase tracking-widest transition-all hover:shadow-lg hover:shadow-emerald-600/20 active:scale-95 disabled:opacity-50 disabled:pointer-events-none group relative"
                         :disabled="selectedIds.length === 0">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -231,7 +242,20 @@
                             </path>
                         </svg>
                         Secure PDF Nominal Roll
+                        
+                        <!-- Tooltip -->
+                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-900 text-white text-[9px] font-bold uppercase tracking-tighter rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl border border-white/10">
+                            Download all selected records as encrypted PDF
+                            <div class="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-slate-900"></div>
+                        </div>
                     </button>
+
+                    <div x-show="hasDownloaded" x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                        class="ml-auto flex items-center gap-2 px-4 py-2 bg-emerald-100 border border-emerald-500/30 text-emerald-700 text-[10px] font-black uppercase tracking-widest shadow-sm">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div>
+                        Exported Successfully
+                    </div>
                 </div>
             @endif
         </div>
