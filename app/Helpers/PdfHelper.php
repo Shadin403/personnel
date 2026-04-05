@@ -52,6 +52,10 @@ class PdfHelper
      */
     public static function generateBulkRecordBooks($soldiers, $printable = false, $ipft_fails = null, $ret_fails = null, $overweight_fails = null)
     {
+        ini_set('pcre.backtrack_limit', '5000000');
+        ini_set('memory_limit', '512M');
+        set_time_limit(300);
+
         $logoPath = public_path('assets/logos/SAJHSF.png');
 
         $options = [
@@ -80,6 +84,10 @@ class PdfHelper
 
     public static function generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable = false)
     {
+        ini_set('pcre.backtrack_limit', '5000000');
+        ini_set('memory_limit', '512M');
+        set_time_limit(300);
+
         $logoPath = public_path('assets/logos/SAJHSF.png');
 
         $options = [
