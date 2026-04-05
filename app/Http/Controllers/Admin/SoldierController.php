@@ -9,6 +9,8 @@ use App\Models\TrainingPlan;
 use App\Models\UnitTraining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Unit;
 use App\Helpers\PdfHelper;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
@@ -23,12 +25,12 @@ class SoldierController extends Controller
         // Base query for test failures
         if ($category === 'IP50') {
             $query->whereIn('ipft_biannual_1', ['Failed', 'Fail', 'FAIL', 'failed'])
-                  ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail', 'FAIL', 'failed']);
+                ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail', 'FAIL', 'failed']);
         } elseif ($category === 'RT') {
-            $query->where(function($q) {
+            $query->where(function ($q) {
                 $q->whereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
-                  ->orWhere('firing_records', 'like', '%"status":"Fail"%')
-                  ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
+                    ->orWhere('firing_records', 'like', '%"status":"Fail"%')
+                    ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
             });
         } elseif ($category === 'Overweight') {
             // Handled after fetching because it's a dynamic attribute
@@ -37,34 +39,34 @@ class SoldierController extends Controller
             // Default "Needs Improvement" (all categories)
             $query->where(function ($q) {
                 $q->whereIn('ipft_biannual_1', ['Failed', 'Fail', 'FAIL', 'failed'])
-                  ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail', 'FAIL', 'failed'])
-                  ->orWhere('speed_march', 'Fail')
-                  ->orWhere('speed_march', 'FAIL')
-                  ->orWhere('grenade_fire', 'Fail')
-                  ->orWhere('grenade_fire', 'FAIL')
-                  ->orWhereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
-                  ->orWhere('firing_records', 'like', '%"status":"Fail"%')
-                  ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
+                    ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail', 'FAIL', 'failed'])
+                    ->orWhere('speed_march', 'Fail')
+                    ->orWhere('speed_march', 'FAIL')
+                    ->orWhere('grenade_fire', 'Fail')
+                    ->orWhere('grenade_fire', 'FAIL')
+                    ->orWhereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
+                    ->orWhere('firing_records', 'like', '%"status":"Fail"%')
+                    ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
             });
         }
 
         $soldiers = $query->latest()->get();
 
         // Filter collection for Weight Status if Overweight is requested, or merge if 'all'
-        $soldiers = $soldiers->filter(function($s) use ($category) {
+        $soldiers = $soldiers->filter(function ($s) use ($category) {
             $status = $s->weight_status;
             $isOverweight = in_array($status, ['Overweight', 'Obese', 'Obese (WHR)']);
-            
+
             if ($category === 'Overweight') return $isOverweight;
             if ($category === 'all' && $isOverweight) return true;
             if ($category === 'all') return true; // Already filtered by query
-            
+
             return true; // Already filtered by query for IP50/RT
         });
 
         // If 'all', we must explicitly ensure those who are ONLY overweight are included
         if ($category === 'all') {
-            $overweights = Soldier::all()->filter(function($s) {
+            $overweights = Soldier::all()->filter(function ($s) {
                 return in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']);
             });
             $soldiers = $soldiers->merge($overweights)->unique('id');
@@ -84,27 +86,27 @@ class SoldierController extends Controller
         $soldiers = $paginatedSoldiers;
 
         // Categorize for grouped display (for ALL view or Registry PDF)
-        $ipft_fails = $soldiers->filter(function($s) {
-            return in_array(strtoupper($s->ipft_biannual_1), ['FAIL', 'FAILED', 'F']) || 
-                   in_array(strtoupper($s->ipft_biannual_2), ['FAIL', 'FAILED', 'F']);
+        $ipft_fails = $soldiers->filter(function ($s) {
+            return in_array(strtoupper($s->ipft_biannual_1), ['FAIL', 'FAILED', 'F']) ||
+                in_array(strtoupper($s->ipft_biannual_2), ['FAIL', 'FAILED', 'F']);
         });
 
-        $ret_fails = $soldiers->filter(function($s) {
+        $ret_fails = $soldiers->filter(function ($s) {
             $hasFailRecord = false;
             if (is_array($s->firing_records)) {
-                foreach($s->firing_records as $rec) {
+                foreach ($s->firing_records as $rec) {
                     if (isset($rec['status']) && strtoupper($rec['status']) === 'FAIL') $hasFailRecord = true;
                 }
             }
             if (is_array($s->night_firing_records)) {
-                foreach($s->night_firing_records as $rec) {
+                foreach ($s->night_firing_records as $rec) {
                     if (isset($rec['status']) && strtoupper($rec['status']) === 'FAIL') $hasFailRecord = true;
                 }
             }
             return ((int)$s->shoot_total < 180 && (int)$s->shoot_total > 0) || $hasFailRecord;
         });
 
-        $overweight_fails = $soldiers->filter(function($s) {
+        $overweight_fails = $soldiers->filter(function ($s) {
             return in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']);
         });
 
@@ -118,8 +120,8 @@ class SoldierController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('number', 'like', '%' . $request->search . '%')
-                  ->orWhere('rank', 'like', '%' . $request->search . '%');
+                    ->orWhere('number', 'like', '%' . $request->search . '%')
+                    ->orWhere('rank', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -148,7 +150,7 @@ class SoldierController extends Controller
     {
         $units = \App\Models\Unit::all();
         $nextOrder = Soldier::max('sort_order') + 1;
-        
+
         // Group units by type for clearer selection
         $groupedUnits = [
             'battalion' => $units->where('type', 'battalion'),
@@ -162,11 +164,12 @@ class SoldierController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'name_bn' => 'nullable|string|max:255',
-            'number' => 'required|string|unique:soldiers,number',
-            'personal_no' => 'nullable|string|max:255',
+            'number' => 'nullable|string|unique:soldiers,number',
+            'personal_no' => 'nullable|string|max:255|unique:soldiers,personal_no',
             'user_type' => 'required|string',
             'rank' => 'nullable|string',
             'rank_bn' => 'nullable|string',
@@ -234,39 +237,45 @@ class SoldierController extends Controller
             'is_pregnant' => 'nullable|boolean',
         ]);
 
-        if ($request->has('height_ft')) {
-            $validated['height_inch'] = ((int)$request->height_ft * 12) + ((int)$request->height_in ?? 0);
-        }
+        return DB::transaction(function () use ($request, $validated) {
+            if (empty($validated['number']) && !empty($validated['personal_no'])) {
+                $validated['number'] = $validated['personal_no'];
+            }
 
-        // Standardize IPFT status to "Pass"/"Fail"
-        if ($request->filled('ipft_biannual_1')) {
-            $val = strtoupper($request->ipft_biannual_1);
-            if (str_starts_with($val, 'P')) $validated['ipft_biannual_1'] = 'Pass';
-            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_1'] = 'Fail';
-        }
-        if ($request->filled('ipft_biannual_2')) {
-            $val = strtoupper($request->ipft_biannual_2);
-            if (str_starts_with($val, 'P')) $validated['ipft_biannual_2'] = 'Pass';
-            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_2'] = 'Fail';
-        }
+            if ($request->has('height_ft')) {
+                $validated['height_inch'] = ((int)$request->height_ft * 12) + ((int)$request->height_in ?? 0);
+            }
 
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
-        }
+            // Standardize IPFT status to "Pass"/"Fail"
+            if ($request->filled('ipft_biannual_1')) {
+                $val = strtoupper($request->ipft_biannual_1);
+                if (str_starts_with($val, 'P')) $validated['ipft_biannual_1'] = 'Pass';
+                elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_1'] = 'Fail';
+            }
+            if ($request->filled('ipft_biannual_2')) {
+                $val = strtoupper($request->ipft_biannual_2);
+                if (str_starts_with($val, 'P')) $validated['ipft_biannual_2'] = 'Pass';
+                elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_2'] = 'Fail';
+            }
 
-        $soldier = Soldier::create($validated);
+            if ($request->hasFile('photo')) {
+                $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
+            }
 
-        // Save Relationships
-        if ($request->has('courses')) {
-            foreach ($request->courses as $course) {
-                if (!empty($course['name'])) {
-                    $soldier->courses()->create($course);
+            $soldier = Soldier::create($validated);
+
+            // Save Relationships
+            if ($request->has('courses')) {
+                foreach ($request->courses as $course) {
+                    if (!empty($course['name'])) {
+                        $soldier->courses()->create($course);
+                    }
                 }
             }
-        }
 
-        return redirect()->route('admin.soldiers.index')
-            ->with('success', 'Strategic node enrolled successfully!');
+            return redirect()->route('admin.soldiers.index')
+                ->with('success', 'Strategic node enrolled successfully!');
+        });
     }
 
     public function show(Soldier $soldier)
@@ -291,8 +300,8 @@ class SoldierController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'name_bn' => 'nullable|string|max:255',
-            'number' => 'required|string|unique:soldiers,number,' . $soldier->id,
-            'personal_no' => 'nullable|string|max:255',
+            'number' => 'nullable|string|unique:soldiers,number,' . $soldier->id,
+            'personal_no' => 'nullable|string|max:255|unique:soldiers,personal_no,' . $soldier->id,
             'user_type' => 'required|string',
             'rank' => 'nullable|string',
             'rank_bn' => 'nullable|string',
@@ -360,44 +369,47 @@ class SoldierController extends Controller
             'is_pregnant' => 'nullable|boolean',
         ]);
 
-        if ($request->has('height_ft')) {
-            $validated['height_inch'] = ((int)$request->height_ft * 12) + ((int)$request->height_in ?? 0);
-        }
-
-        // Standardize IPFT status to "Pass"/"Fail"
-        if ($request->filled('ipft_biannual_1')) {
-            $val = strtoupper($request->ipft_biannual_1);
-            if (str_starts_with($val, 'P')) $validated['ipft_biannual_1'] = 'Pass';
-            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_1'] = 'Fail';
-        }
-        if ($request->filled('ipft_biannual_2')) {
-            $val = strtoupper($request->ipft_biannual_2);
-            if (str_starts_with($val, 'P')) $validated['ipft_biannual_2'] = 'Pass';
-            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_2'] = 'Fail';
-        }
-
-        if ($request->hasFile('photo')) {
-            if ($soldier->photo) {
-                Storage::disk('public')->delete($soldier->photo);
+        return DB::transaction(function () use ($request, $soldier, $validated) {
+            if (empty($validated['number']) && !empty($validated['personal_no'])) {
+                $validated['number'] = $validated['personal_no'];
             }
-            $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
-        }
 
-        $validated['is_active'] = $request->has('is_active') ? true : false;
-        $soldier->update($validated);
+            if ($request->has('height_ft')) {
+                $validated['height_inch'] = ((int)$request->height_ft * 12) + ((int)$request->height_in ?? 0);
+            }
 
-        // Sync Relationships
-        if ($request->has('courses')) {
-            $soldier->courses()->delete();
-            foreach ($request->courses as $course) {
-                if (!empty($course['name'])) {
-                    $soldier->courses()->create($course);
+            // Standardize IPFT status to "Pass"/"Fail"
+            foreach (['ipft_biannual_1', 'ipft_biannual_2'] as $field) {
+                if ($request->filled($field)) {
+                    $val = strtoupper($request->$field);
+                    if (str_starts_with($val, 'P')) $validated[$field] = 'Pass';
+                    elseif (str_starts_with($val, 'F')) $validated[$field] = 'Fail';
                 }
             }
-        }
 
-        return redirect()->route('admin.soldiers.index')
-            ->with('success', 'Profile updated successfully!');
+            if ($request->hasFile('photo')) {
+                if ($soldier->photo) {
+                    Storage::disk('public')->delete($soldier->photo);
+                }
+                $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
+            }
+
+            $validated['is_active'] = $request->has('is_active') ? true : false;
+            $soldier->update($validated);
+
+            // Sync Relationships
+            if ($request->has('courses')) {
+                $soldier->courses()->delete();
+                foreach ($request->courses as $course) {
+                    if (!empty($course['name'])) {
+                        $soldier->courses()->create($course);
+                    }
+                }
+            }
+
+            return redirect()->route('admin.soldiers.index')
+                ->with('success', 'Profile updated successfully!');
+        });
     }
 
     public function destroy(Soldier $soldier)
@@ -426,7 +438,7 @@ class SoldierController extends Controller
     {
         // Delegate PDF generation to the strategic helper
         $pdf = PdfHelper::generateRecordBook($soldier);
-        
+
         $filename = 'Record_Book_' . str_replace(' ', '_', $soldier->number) . '.pdf';
         return $pdf->download($filename);
     }
@@ -435,7 +447,7 @@ class SoldierController extends Controller
     {
         // Generate PDF with tactical helper and auto-print enabled
         $pdf = PdfHelper::generateRecordBook($soldier, true);
-        
+
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }
 
@@ -465,10 +477,10 @@ class SoldierController extends Controller
 
         // Always categorize for failure-based bulk reports
         $ipft_fails = $soldiers->filter(fn($s) => in_array(strtoupper($s->ipft_biannual_1), ['FAIL', 'FAILED', 'F']) || in_array(strtoupper($s->ipft_biannual_2), ['FAIL', 'FAILED', 'F']));
-        $ret_fails = $soldiers->filter(function($s) {
+        $ret_fails = $soldiers->filter(function ($s) {
             $hasF = false;
-            if (is_array($s->firing_records)) foreach($s->firing_records as $r) if(isset($r['status']) && strtoupper($r['status']) === 'FAIL') $hasF = true;
-            if (is_array($s->night_firing_records)) foreach($s->night_firing_records as $r) if(isset($r['status']) && strtoupper($r['status']) === 'FAIL') $hasF = true;
+            if (is_array($s->firing_records)) foreach ($s->firing_records as $r) if (isset($r['status']) && strtoupper($r['status']) === 'FAIL') $hasF = true;
+            if (is_array($s->night_firing_records)) foreach ($s->night_firing_records as $r) if (isset($r['status']) && strtoupper($r['status']) === 'FAIL') $hasF = true;
             return ((int)$s->shoot_total < 180 && (int)$s->shoot_total > 0) || $hasF;
         });
         $overweight_fails = $soldiers->filter(fn($s) => in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']));
@@ -496,7 +508,7 @@ class SoldierController extends Controller
         if ($soldier->unit) {
             $path = [];
             $curr = $soldier->unit;
-            while($curr) {
+            while ($curr) {
                 $path[] = $uName = $curr->name;
                 $curr = $curr->parent;
             }

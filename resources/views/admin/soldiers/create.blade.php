@@ -118,20 +118,30 @@
                         class="px-6 py-3 bg-white border border-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all shadow-sm">
                         Dashboard
                     </a>
-                    <button type="button" @click="document.getElementById('soldierEnrollmentForm').submit()"
-                        class="px-8 py-3 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-military-primary/20 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button type="button" @click="loading = true; $refs.form.submit()" :disabled="loading"
+                        class="px-8 py-3 bg-military-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-military-primary/20 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <template x-if="loading">
+                            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </template>
+                        <svg x-show="!loading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7">
                             </path>
                         </svg>
-                        Complete Enrollment
+                        <span x-text="loading ? 'Processing...' : 'Complete Enrollment'"></span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <form id="soldierEnrollmentForm" action="{{ route('admin.soldiers.store') }}" method="POST"
-            enctype="multipart/form-data" class="space-y-12">
+        <form id="soldierEnrollmentForm" x-ref="form" action="{{ route('admin.soldiers.store') }}" method="POST"
+            @submit="loading = true" enctype="multipart/form-data" class="space-y-12">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -147,6 +157,30 @@
                         </div>
 
                         <div class="p-8 space-y-8">
+                            <!-- Row 0: User Type -->
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span
+                                        class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">০</span>
+                                    ইউজার টাইপ (User Type)
+                                </label>
+                                <select name="user_type"
+                                    class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror"
+                                    required>
+                                    <option value="">Select User Type</option>
+                                    <option value="CO" {{ old('user_type') == 'CO' ? 'selected' : '' }}>CO</option>
+                                    <option value="2IC" {{ old('user_type') == '2IC' ? 'selected' : '' }}>2IC</option>
+                                    <option value="Adjt" {{ old('user_type') == 'Adjt' ? 'selected' : '' }}>Adjt</option>
+                                    <option value="Coy clk" {{ old('user_type') == 'Coy clk' ? 'selected' : '' }}>Coy clk
+                                    </option>
+                                    <option value="Snk" {{ old('user_type') == 'Snk' ? 'selected' : '' }}>Snk</option>
+                                </select>
+                                @error('user_type')
+                                    <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                             <!-- Row 1: Personal No & Rank (1 & 2) -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="space-y-2">
@@ -222,7 +256,8 @@
                                             class="w-full p-4 tactical-input text-sm font-bold @error('name') border-red-500 @enderror"
                                             placeholder="NAME (EN)">
                                         @error('name')
-                                            <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                            <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}
+                                            </p>
                                         @enderror
                                     </div>
                                 </div>
@@ -238,7 +273,8 @@
                                 </label>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="text" name="appointment_bn" value="{{ old('appointment_bn') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="নিযুক্তি (বাংলা)">
+                                        class="w-full p-4 tactical-input text-sm font-bold"
+                                        placeholder="নিযুক্তি (বাংলা)">
                                     <input type="text" name="appointment" value="{{ old('appointment') }}"
                                         class="w-full p-4 tactical-input text-sm font-bold"
                                         placeholder="APPOINTMENT (EN)">
@@ -351,8 +387,8 @@
                                                 <span
                                                     x-text="allUnits.find(u => u.id == selectedSectionId)?.name || 'Select SEC'"></span>
                                                 <svg class="w-3 h-3 text-military-primary"
-                                                    :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
+                                                    :class="open ? 'rotate-180' : ''" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
                                                     <path d="M19 9l-7 7-7-7"></path>
                                                 </svg>
                                             </button>
@@ -370,7 +406,8 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="unit_id" :value="finalUnitId">
-                                <input type="hidden" name="unit" :value="allUnits.find(u => u.id == selectedBattalionId)?.name || ''">
+                                <input type="hidden" name="unit"
+                                    :value="allUnits.find(u => u.id == selectedBattalionId)?.name || ''">
                                 <input type="hidden" name="company" :value="selectedCompanyName">
                                 <input type="hidden" name="platoon" :value="selectedPlatoonName">
                                 <input type="hidden" name="section" :value="selectedSectionName">
@@ -522,8 +559,7 @@
                                         লিঙ্গ (Gender)
                                     </label>
                                     <select name="gender" x-model="gender"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror"
-                                        required>
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror">
                                         <option value="">- Select -</option>
                                         <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male
                                             [পুরুষ]
@@ -564,8 +600,7 @@
                                         জন্ম তারিখ (DOB)
                                     </label>
                                     <input type="date" name="dob" x-model="dob"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('dob') border-red-500 @enderror"
-                                        required>
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('dob') border-red-500 @enderror">
                                     @error('dob')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
@@ -628,7 +663,7 @@
                                         class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Weight
                                         (KG)</label>
                                     <input type="number" step="0.1" name="weight" x-model="weight_kg"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 72" required>
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 72">
                                 </div>
                                 <div class="col-span-2 space-y-2">
                                     <label
@@ -637,8 +672,8 @@
                                     <div class="grid grid-cols-2 gap-2">
                                         <div class="relative">
                                             <input type="number" name="height_ft" x-model="height_ft"
-                                                class="w-full p-4 tactical-input text-sm font-bold pr-10" placeholder="FT"
-                                                required>
+                                                class="w-full p-4 tactical-input text-sm font-bold pr-10"
+                                                placeholder="FT">
                                             <span
                                                 class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">FT</span>
                                         </div>
@@ -681,15 +716,19 @@
                                 </div>
                                 <div class="relative z-10 flex flex-wrap lg:flex-nowrap gap-8">
                                     <div class="flex-1 min-w-[150px] space-y-1">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Target Weight Standard</p>
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Target
+                                            Weight Standard</p>
                                         <p class="text-xl font-black text-amber-400"
                                             x-text="(standardWeight || '---') + ' KG'"></p>
                                     </div>
-                                    <div class="flex-1 min-w-[200px] border-l border-slate-700 pl-8 text-right lg:text-left">
-                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated Status</p>
-                                        <p class="text-xl font-black uppercase tracking-tighter" 
-                                           :class="weightStatus === 'Normal' ? 'text-green-500' : (weightStatus === 'Overweight' ? 'text-yellow-400' : 'text-red-500')"
-                                           x-text="weightStatus"></p>
+                                    <div
+                                        class="flex-1 min-w-[200px] border-l border-slate-700 pl-8 text-right lg:text-left">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated
+                                            Status</p>
+                                        <p class="text-xl font-black uppercase tracking-tighter"
+                                            :class="weightStatus === 'Normal' ? 'text-green-500' : (
+                                                weightStatus === 'Overweight' ? 'text-yellow-400' : 'text-red-500')"
+                                            x-text="weightStatus"></p>
                                     </div>
                                 </div>
                             </div>
@@ -941,7 +980,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm">SEC-03.6</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training [রাত্রীকালীন প্রশিক্ষণ]</h3>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training
+                                    [রাত্রীকালীন প্রশিক্ষণ]</h3>
                             </div>
                             <button type="button" @click="addNightTraining"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
@@ -1004,7 +1044,8 @@
                                 <div class="flex items-center gap-4">
                                     <span
                                         class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.7</span>
-                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Group Training [দলগত প্রশিক্ষণ]</h3>
+                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Group Training
+                                        [দলগত প্রশিক্ষণ]</h3>
                                 </div>
                                 <button type="button" @click="addGroupTraining"
                                     class="text-white hover:text-amber-500 font-bold">+</button>
@@ -1062,7 +1103,8 @@
                                 <div class="flex items-center gap-4">
                                     <span
                                         class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.8</span>
-                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending Exercise [চক্র সমাপনী অনুশীলন]</h3>
+                                    <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending
+                                        Exercise [চক্র সমাপনী অনুশীলন]</h3>
                                 </div>
                                 <button type="button" @click="addCycleEndingExercise"
                                     class="text-white hover:text-amber-500 font-bold">+</button>
@@ -1430,7 +1472,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-05</span>
-                                <h3 class="card-title-tactical text-white">Army level course/cadre & special training [বিশেষ
+                                <h3 class="card-title-tactical text-white">Army level course/cadre & special training
+                                    [বিশেষ
                                     প্রশিক্ষণ]</h3>
                             </div>
                             <button type="button" @click="addSpecialCourse"
@@ -1668,7 +1711,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-green-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Physical & Extra Curricular Activities</h3>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Physical & Extra
+                                    Curricular Activities</h3>
                             </div>
                         </div>
                         <div class="p-8">
@@ -1709,17 +1753,6 @@
                             <div class="space-y-6 pt-6 border-t border-slate-100">
                                 <div class="space-y-2 text-left">
                                     <label
-                                        class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Service
-                                        No (#)</label>
-                                    <input type="text" name="number" value="{{ old('number') }}" required
-                                        class="w-full p-4 tactical-input text-sm font-bold uppercase @error('number') border-red-500 @enderror"
-                                        placeholder="123456">
-                                    @error('number')
-                                        <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="space-y-2 text-left">
-                                    <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Position
                                         Sequence (#)</label>
                                     <input type="number" name="sort_order" value="{{ old('sort_order', 100) }}"
@@ -1729,7 +1762,7 @@
                                             {{ $message }}</p>
                                     @enderror
                                 </div>
-                                <div class="space-y-2 text-left">
+                                {{-- <div class="space-y-2 text-left">
                                     <label
                                         class="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Active
                                         Readiness</label>
@@ -1740,7 +1773,7 @@
                                             class="text-sm font-bold text-slate-600 uppercase tracking-widest">Deployment
                                             Ready</span>
                                     </label>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -1752,9 +1785,10 @@
                 <div class="flex items-center gap-6 w-full md:w-auto">
                     <a href="{{ route('admin.soldiers.index') }}"
                         class="flex-1 md:flex-none px-12 py-5 bg-white border border-slate-300 text-slate-500 text-[11px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all text-center">Dashboard</a>
-                    <button type="submit"
-                        class="flex-1 md:flex-none px-16 py-5 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-military-secondary transition-all active:scale-95">Complete
-                        Enrollment</button>
+                    <button type="submit" :disabled="loading"
+                        class="flex-1 md:flex-none px-16 py-5 bg-military-primary text-white text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-military-secondary transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span x-text="loading ? 'Processing Entry...' : 'Complete Enrollment'"></span>
+                    </button>
                 </div>
             </div>
         </form>
@@ -1767,6 +1801,7 @@
             const allUnits = @json($units);
 
             return {
+                loading: false,
                 allUnits: allUnits,
                 selectedBattalionId: '',
                 selectedCompanyId: '',
