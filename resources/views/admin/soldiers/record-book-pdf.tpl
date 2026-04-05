@@ -207,7 +207,7 @@
 
     <div class="section-block">
         <!-- 3.1 & 3.2: IPFT & RET Firing -->
-        <div style="margin-top: 10px; font-weight: bold;">3.1 IPFT [শারীরিক সক্ষমতা]</div>
+        <div style="margin-top: 10px; font-weight: bold;">3.1 Individual Physical Fitness Training (IPFT) [শারীরিক সক্ষমতা]</div>
         <table class="data-table">
             <tr>
                 <th style="width: 50%;">Biannual 01 (জানুয়ারি - জুন):</th>

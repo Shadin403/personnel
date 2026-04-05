@@ -282,8 +282,7 @@
                         </div> --}}
                         <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
                             <span class="section-tag !bg-amber-500 !text-slate-900">3.1</span>
-                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">IPFT [শারীরিক
-                                সক্ষমতা]</h3>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Individual Physical Fitness Training (IPFT) [শারীরিক সক্ষমতা]</h3>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="flex justify-between items-center bg-slate-50 p-4 border border-slate-200">
