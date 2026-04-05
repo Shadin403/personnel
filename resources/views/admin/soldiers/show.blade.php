@@ -270,7 +270,7 @@
                         <div class="flex items-center gap-3">
                             <span class="section-tag !bg-white !text-military-primary">SEC-03</span>
                             <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Individual Training
-                                Records [প্রশিক্ষণ রেকর্ড]</h3>
+                                Records [ ব্যক্তিগত প্রশিক্ষণ রেকর্ড]</h3>
                         </div>
                     </div>
 
