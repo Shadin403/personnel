@@ -81,8 +81,9 @@
     <div class="space-y-8 animate-fade-in pb-20" x-data="{
         selectedIds: [],
         isProcessing: false,
-        hasDownloaded: localStorage.getItem('registry_downloaded_today') === 'true',
-        downloadTime: localStorage.getItem('registry_download_time') || null,
+        currentCategory: '{{ request('category', 'all') }}',
+        hasDownloaded: localStorage.getItem('registry_downloaded_' + '{{ request('category', 'all') }}') === 'true',
+        downloadTime: localStorage.getItem('registry_time_' + '{{ request('category', 'all') }}') || null,
         allIds: {{ json_encode($soldiers->pluck('id')) }},
         toggleAll() {
             if (this.selectedIds.length === this.allIds.length) {
@@ -132,8 +133,8 @@
                     this.isProcessing = true;
                     this.hasDownloaded = true;
                     this.downloadTime = new Date().toLocaleTimeString();
-                    localStorage.setItem('registry_downloaded_today', 'true');
-                    localStorage.setItem('registry_download_time', this.downloadTime);
+                    localStorage.setItem('registry_downloaded_' + this.currentCategory, 'true');
+                    localStorage.setItem('registry_time_' + this.currentCategory, this.downloadTime);
                 }
                 form.submit();
                 if (action !== 'delete') setTimeout(() => this.isProcessing = false, 5000);
