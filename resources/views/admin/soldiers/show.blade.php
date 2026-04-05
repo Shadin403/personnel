@@ -281,8 +281,8 @@
                             <h4 class="text-[11px] font-black uppercase tracking-widest text-white"></h4>
                         </div> --}}
                         <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
-                            <span class="section-tag !bg-amber-500 !text-slate-900">3.9</span>
-                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">3.1 IPFT [শারীরিক
+                            <span class="section-tag !bg-amber-500 !text-slate-900">3.1</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">IPFT [শারীরিক
                                 সক্ষমতা]</h3>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
@@ -407,18 +407,22 @@
 
                     <!-- 3.4 & 3.5 Speed March & Grenade -->
                     <div class="grid grid-cols-2">
-                        <div class="p-6 border-r border-slate-100">
-                            <h4 class="text-[10px] font-black uppercase text-slate-500 mb-2">3.4 Speed March [স্পিড মার্চ]
-                            </h4>
+                        <div class="p-0 border-r border-slate-100">
+                            <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
+                                <span class="section-tag !bg-rose-500 !text-white">3.4</span>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Speed March [স্পিড মার্চ]</h4>
+                            </div>
                             <div class="bg-slate-50 p-4 border border-slate-200 flex justify-between items-center">
                                 <span class="data-label !mb-0">Result</span>
                                 <span
                                     class="text-xs font-black text-military-primary uppercase tracking-widest">{{ $soldier->speed_march ?? '---' }}</span>
                             </div>
                         </div>
-                        <div class="p-6">
-                            <h4 class="text-[10px] font-black uppercase text-slate-500 mb-2">3.5 Grenade Firing [গ্রেনেড
-                                ফায়ার]</h4>
+                        <div class="p-0">
+                            <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
+                                <span class="section-tag !bg-emerald-500 !text-white">3.5</span>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Grenade Firing [গ্রেনেড ফায়ার]</h4>
+                            </div>
                             <div class="bg-slate-50 p-4 border border-slate-200 flex justify-between items-center">
                                 <span class="data-label !mb-0">Result</span>
                                 <span
@@ -429,9 +433,11 @@
 
                     <!-- 3.6 & 3.7 NI Trg & GP Trg -->
                     <div class="grid grid-cols-2 border-t border-slate-100">
-                        <div class="p-6 border-r border-slate-100">
-                            <h4 class="text-[10px] font-black uppercase text-slate-500 mb-4">3.6 Night Training [নাইট
-                                ট্রেনিং]</h4>
+                        <div class="p-0 border-r border-slate-100">
+                            <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
+                                <span class="section-tag !bg-cyan-500 !text-slate-900">3.6</span>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Night Training [নাইট ট্রেনিং]</h4>
+                            </div>
                             <div class="space-y-2">
                                 @forelse($soldier->night_trainings ?? [] as $nt)
                                     <div
@@ -445,9 +451,11 @@
                                 @endforelse
                             </div>
                         </div>
-                        <div class="p-6">
-                            <h4 class="text-[10px] font-black uppercase text-slate-500 mb-4">3.7 Group Training [গ্রুপ
-                                ট্রেনিং]</h4>
+                        <div class="p-0">
+                            <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
+                                <span class="section-tag !bg-purple-500 !text-white">3.7</span>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Group Training [গ্রুপ ট্রেনিং]</h4>
+                            </div>
                             <div class="space-y-2">
                                 @forelse($soldier->group_trainings ?? [] as $gt)
                                     <div
@@ -468,9 +476,11 @@
                     </div>
 
                     <!-- 3.8 Cycle Ending -->
-                    <div class="p-6 border-t border-slate-100">
-                        <h4 class="text-[10px] font-black uppercase text-slate-500 mb-4">3.8 Cycle Ending Exercise [সাইকেল
-                            এন্ডিং এক্সারসাইজ]</h4>
+                    <div class="p-0 border-t border-slate-100">
+                        <div class="px-6 py-3 bg-slate-900 flex items-center gap-3 text-white mb-4">
+                            <span class="section-tag !bg-blue-500 !text-white">3.8</span>
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-white">Cycle Ending Exercise [সাইকেল এন্ডিং এক্সারসাইজ]</h4>
+                        </div>
                         @forelse($soldier->cycle_ending_exercises ?? [] as $ce)
                             <div
                                 class="bg-slate-50 border border-slate-200 p-4 font-bold flex justify-between uppercase hover:bg-slate-100 transition-colors">
@@ -606,9 +616,9 @@
                 <div class="grid grid-cols-1 gap-8">
                     <!-- SEC-04: Courses -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                        <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
-                            <span class="section-tag !bg-slate-500">SEC-04</span>
-                            <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest text-white">Courses
+                        <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                            <span class="section-tag !bg-indigo-500 !text-white">SEC-04</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Courses
                                 [প্রশিক্ষণ ও কোর্স]</h3>
                         </div>
                         <div class="p-0 overflow-x-auto">
@@ -643,9 +653,9 @@
 
                     <!-- SEC-05: Special Training -->
                     <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                        <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center gap-3">
-                            <span class="section-tag !bg-slate-500">SEC-05</span>
-                            <h3 class="text-[10px] font-black uppercase text-slate-600 tracking-widest">Army level
+                        <div class="px-8 py-5 bg-slate-900 flex items-center gap-3 text-white">
+                            <span class="section-tag !bg-teal-500 !text-white">SEC-05</span>
+                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Army level
                                 course/cadre & special training [বিশেষ প্রশিক্ষণ]</h3>
                         </div>
                         <div class="p-0 overflow-x-auto">
