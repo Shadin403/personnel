@@ -50,6 +50,10 @@
 
     <!-- Category Navigation -->
     <div class="flex flex-wrap gap-4 border-b border-slate-100 dark:border-slate-800 pb-2">
+        <a href="{{ route('admin.soldiers.weak', ['category' => 'all']) }}" 
+           class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'all' || !request('category') ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
+            ALL
+        </a>
         <a href="{{ route('admin.soldiers.weak', ['category' => 'IP50']) }}" 
            class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'IP50' ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
             IP50 Fail
@@ -59,7 +63,7 @@
             RT Fail
         </a>
         <a href="{{ route('admin.soldiers.weak', ['category' => 'Overweight']) }}" 
-           class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'Overweight' || !request('category') ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
+           class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'Overweight' ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
             Overweight/Obese
         </a>
     </div>
