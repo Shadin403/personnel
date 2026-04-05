@@ -31,14 +31,15 @@
             appearance: none;
             -webkit-appearance: none;
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             background-color: white;
-            border: 2px solid #cbd5e1;
+            border: 2px solid #94a3b8;
             border-radius: 4px;
             cursor: pointer;
             position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            vertical-align: middle;
         }
 
         .dark .tactical-checkbox {
@@ -46,28 +47,28 @@
             border-color: #475569;
         }
 
+        .tactical-checkbox:hover {
+            transform: scale(1.1);
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+
         .tactical-checkbox:checked {
             background-color: #ef4444;
             border-color: #ef4444;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
 
         .tactical-checkbox:checked::after {
             content: '';
             position: absolute;
-            left: 5px;
-            top: 1px;
+            left: 6px;
+            top: 2px;
             width: 6px;
-            height: 10px;
+            height: 12px;
             border: solid white;
-            border-width: 0 2.5px 2.5px 0;
+            border-width: 0 3px 3px 0;
             transform: rotate(45deg);
-        }
-
-        .tactical-checkbox:hover {
-            border-color: #ef4444;
-            box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
         }
 
         .tactical-checkbox:focus {
@@ -80,12 +81,20 @@
 <div class="space-y-8 animate-fade-in pb-20" 
      x-data="{ 
         selectedIds: [], 
+        isProcessing: false,
         allIds: {{ json_encode($soldiers->pluck('id')) }},
         toggleAll() {
             if (this.selectedIds.length === this.allIds.length) {
                 this.selectedIds = [];
             } else {
                 this.selectedIds = [...this.allIds];
+            }
+        },
+        toggleSelection(id) {
+            if (this.selectedIds.includes(id)) {
+                this.selectedIds = this.selectedIds.filter(i => i !== id);
+            } else {
+                this.selectedIds.push(id);
             }
         },
         submitBulk(action) {
@@ -116,9 +125,27 @@
             });
 
             document.body.appendChild(form);
+            this.isProcessing = true;
             form.submit();
+            setTimeout(() => this.isProcessing = false, 5000);
         }
      }">
+    
+    <!-- Global Loader Overlay -->
+    <template x-if="isProcessing">
+        <div class="fixed inset-0 z-[999] flex items-center justify-center bg-military-primary/80 backdrop-blur-md">
+            <div class="text-center space-y-6">
+                <div class="relative w-24 h-24 mx-auto">
+                    <div class="absolute inset-0 border-4 border-white/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-military-accent rounded-full animate-spin border-t-transparent"></div>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-black text-white uppercase tracking-[0.3em]">Processing Records</h3>
+                    <p class="text-[10px] font-bold text-military-accent uppercase tracking-widest animate-pulse">Generating Secure PDF Artifacts...</p>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <!-- Header Actions -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-300">
@@ -175,12 +202,15 @@
     @if ($soldiers->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($soldiers as $soldier)
-                <div class="weak-card p-6 shadow-xl transition-all hover:-translate-y-1 relative overflow-hidden group">
+                <div @click="toggleSelection({{ $soldier->id }})" 
+                     class="weak-card p-6 shadow-xl transition-all hover:-translate-y-1 relative overflow-hidden group cursor-pointer"
+                     :class="selectedIds.includes({{ $soldier->id }}) ? 'ring-2 ring-red-600 bg-red-50/10' : ''">
                     <!-- Selection Checkbox -->
                     <div class="absolute left-4 top-4 z-10">
                         <input type="checkbox" 
                                x-model="selectedIds" 
                                value="{{ $soldier->id }}"
+                               @click.stop
                                class="tactical-checkbox">
                     </div>
 
@@ -274,7 +304,9 @@
                                     {{ $soldier->battalion_name }}
                                 </p>
                             </div>
-                            <a href="{{ route('admin.soldiers.show', $soldier) }}" class="p-2 bg-slate-950 text-white hover:bg-red-600 transition-colors shadow-lg active:scale-95">
+                            <a href="{{ route('admin.soldiers.show', $soldier) }}" 
+                               @click.stop
+                               class="p-2 bg-slate-950 text-white hover:bg-red-600 transition-colors shadow-lg active:scale-95">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
                         </div>

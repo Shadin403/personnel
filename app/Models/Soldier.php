@@ -75,12 +75,8 @@ class Soldier extends Model
         'group_trainings',
         'cycle_ending_exercises',
         'height_inch',
-        'waist_inch',
-        'hip_inch',
         'wrist_cm',
         'is_pregnant',
-        'is_athlete',
-        'medical_not_obese',
     ];
 
     public function getAgeAttribute(): int
@@ -230,11 +226,20 @@ class Soldier extends Model
 
     public function getOverallStatusAttribute(): string
     {
+        $isPass = function($val) {
+            if (!$val) return false;
+            $v = strtoupper(trim($val));
+            if ($v === 'PASS' || $v === 'P') return true;
+            // Match any X/4 format where X > 0
+            if (preg_match('/^([1-4])\/4$/', $v, $matches)) return true;
+            return false;
+        };
+
         $checks = [
-            $this->ipft_biannual_1 === 'Pass',
-            $this->ipft_biannual_2 === 'Pass',
-            $this->speed_march === 'Pass',
-            $this->grenade_fire === 'Pass',
+            $isPass($this->ipft_biannual_1),
+            $isPass($this->ipft_biannual_2),
+            $isPass($this->speed_march),
+            $isPass($this->grenade_fire),
         ];
 
         $passed = array_sum($checks);

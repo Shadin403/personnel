@@ -356,6 +356,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="unit_id" :value="finalUnitId">
+                                <input type="hidden" name="unit" :value="allUnits.find(u => u.id == selectedBattalionId)?.name || ''">
                                 <input type="hidden" name="company" :value="selectedCompanyName">
                                 <input type="hidden" name="platoon" :value="selectedPlatoonName">
                                 <input type="hidden" name="section" :value="selectedSectionName">

@@ -2,8 +2,70 @@
 
 @section('title', 'Personnel Directory')
 
+@section('styles')
+<style>
+    .tactical-checkbox {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        background: transparent;
+        border: 2px solid #94a3b8;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .tactical-checkbox:hover {
+        border-color: #f8fafc;
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .tactical-checkbox:checked {
+        background: #f1f5f9;
+        border-color: #f1f5f9;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .tactical-checkbox:checked::after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid #0f172a;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+    /* Custom style for the dark table header */
+    .header-checkbox {
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .header-checkbox:hover {
+        border-color: white;
+    }
+</style>
+@endsection
+
 @section('content')
-<div class="space-y-8 animate-fade-in pb-20">
+<div class="space-y-8 animate-fade-in pb-20" x-data="{ 
+    selectedIds: [], 
+    toggleAll() {
+        if (this.selectedIds.length === {{ $soldiers->count() }}) {
+            this.selectedIds = [];
+        } else {
+            this.selectedIds = Array.from(document.querySelectorAll('.soldier-checkbox')).map(el => el.value);
+        }
+    }
+}">
+
     <!-- Header Actions -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-300">
         <div class="space-y-1">
@@ -11,6 +73,21 @@
             <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Registry Assets &bull; Strategic Database Mode</p>
         </div>
         <div class="flex items-center gap-3">
+            <div x-show="selectedIds.length > 0" x-transition class="flex items-center gap-3 pr-4 border-r border-slate-300">
+                <span class="text-[11px] font-black text-military-primary uppercase tracking-widest" x-text="selectedIds.length + ' Selected'"></span>
+                <form action="{{ route('admin.soldiers.bulk-action') }}" method="POST">
+                    @csrf
+                    <template x-for="id in selectedIds" :key="id">
+                        <input type="hidden" name="ids[]" :value="id">
+                    </template>
+                    <button type="submit" name="action" value="delete" 
+                            @click.prevent="if(confirm('Operational Warning: Are you sure you want to PERMANENTLY remove ' + selectedIds.length + ' soldiers from the registry?')) $el.form.submit()"
+                            class="px-4 py-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-sm flex items-center gap-2 border border-red-500">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        Delete Selected
+                    </button>
+                </form>
+            </div>
             <a href="{{ route('admin.soldiers.create') }}" class="btn-military flex items-center gap-2 shadow-md active:scale-95 px-6">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                 New Enrollment
@@ -66,6 +143,10 @@
             <table class="w-full text-left">
                 <thead class="bg-military-primary text-white">
                     <tr>
+                        <th class="px-4 py-5 border-b border-military-secondary text-center w-12">
+                            <input type="checkbox" @click="toggleAll()" :checked="selectedIds.length === {{ $soldiers->count() }} && {{ $soldiers->count() }} > 0"
+                                   class="tactical-checkbox header-checkbox">
+                        </th>
                         <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-12">Pos</th>
                         <th class="px-4 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-center w-16">Image</th>
                         <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest opacity-90 border-b border-military-secondary text-left">Name [নাম]</th>
@@ -78,6 +159,10 @@
                 <tbody class="divide-y divide-slate-200">
                     @forelse($soldiers as $soldier)
                     <tr class="hover:bg-military-bg/30 transition-colors group">
+                        <td class="px-4 py-5 text-center">
+                            <input type="checkbox" :value="{{ $soldier->id }}" x-model="selectedIds"
+                                   class="tactical-checkbox border-slate-300">
+                        </td>
                         <td class="px-4 py-5 text-center">
                             <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-military-primary text-[11px] font-black border border-slate-200 shadow-inner">
                                 {{ $soldier->sort_order ?? 0 }}

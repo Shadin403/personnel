@@ -205,12 +205,8 @@ class SoldierController extends Controller
             'height_inch' => 'nullable|integer',
             'height_ft' => 'nullable|integer|min:3|max:8',
             'height_in' => 'nullable|integer|min:0|max:11',
-            'waist_inch' => 'nullable|numeric',
-            'hip_inch' => 'nullable|numeric',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
-            'is_athlete' => 'nullable|boolean',
-            'medical_not_obese' => 'nullable|boolean',
         ]);
 
         if ($request->has('height_ft')) {
@@ -335,12 +331,8 @@ class SoldierController extends Controller
             'height_inch' => 'nullable|integer',
             'height_ft' => 'nullable|integer|min:3|max:8',
             'height_in' => 'nullable|integer|min:0|max:11',
-            'waist_inch' => 'nullable|numeric',
-            'hip_inch' => 'nullable|numeric',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
-            'is_athlete' => 'nullable|boolean',
-            'medical_not_obese' => 'nullable|boolean',
         ]);
 
         if ($request->has('height_ft')) {
@@ -431,10 +423,15 @@ class SoldierController extends Controller
     public function bulkAction(\Illuminate\Http\Request $request)
     {
         $ids = $request->input('ids', []);
-        $action = $request->input('action', 'download'); // 'download' or 'print'
+        $action = $request->input('action', 'download');
 
         if (empty($ids)) {
             return back()->with('error', 'No soldiers selected.');
+        }
+
+        if ($action === 'delete') {
+            Soldier::destroy($ids);
+            return back()->with('success', count($ids) . ' soldiers removed successfully.');
         }
 
         $soldiers = Soldier::whereIn('id', $ids)->get();
