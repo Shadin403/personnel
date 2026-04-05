@@ -330,9 +330,9 @@
                                             <td class="px-2 py-3">{{ $rec['hit'] ?? '---' }}</td>
                                             <td class="px-2 py-3">{{ $rec['ets'] ?? '---' }}</td>
                                             <td
-                                                class="px-2 py-3 uppercase {{ ($rec['status'] ?? '') == 'Pass' ? 'text-green-600' : 'text-red-600' }}">
+                                                class="px-2 py-3 uppercase {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">
                                                 {{ $rec['status'] ?? '---' }}</td>
-                                            <td class="px-2 py-3 text-military-danger">{{ $rec['total'] ?? '---' }}</td>
+                                            <td class="px-2 py-3 {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-military-danger' }}">{{ $rec['total'] ?? '---' }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -371,9 +371,9 @@
                                             <td class="px-2 py-3 text-blue-900">{{ $rec['date'] ?? '---' }}</td>
                                             <td class="px-2 py-3">{{ $rec['hit'] ?? '---' }}</td>
                                             <td
-                                                class="px-2 py-3 uppercase {{ ($rec['status'] ?? '') == 'Pass' ? 'text-green-600' : 'text-red-600' }}">
+                                                class="px-2 py-3 uppercase {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">
                                                 {{ $rec['status'] ?? '---' }}</td>
-                                            <td class="px-2 py-3 text-blue-900">{{ $rec['total'] ?? '---' }}</td>
+                                            <td class="px-2 py-3 {{ strtoupper($rec['status'] ?? '') == 'PASS' ? 'text-green-600' : 'text-red-600' }}">{{ $rec['total'] ?? '---' }}</td>
                                         </tr>
                                     @empty
                                         <tr>
