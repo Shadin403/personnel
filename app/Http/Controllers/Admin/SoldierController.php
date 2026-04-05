@@ -71,7 +71,7 @@ class SoldierController extends Controller
         }
 
         // Manual pagination for the filtered collection
-        $perPage = 20;
+        $perPage = 100; // Increased limit for categorized nominal rolls
         $page = $request->get('page', 1);
         $paginatedSoldiers = new \Illuminate\Pagination\LengthAwarePaginator(
             $soldiers->forPage($page, $perPage),
@@ -83,7 +83,32 @@ class SoldierController extends Controller
 
         $soldiers = $paginatedSoldiers;
 
-        return view('admin.soldiers.weak', compact('soldiers', 'category'));
+        // Categorize for grouped display (for ALL view or Registry PDF)
+        $ipft_fails = $soldiers->filter(function($s) {
+            return in_array(strtoupper($s->ipft_biannual_1), ['FAIL', 'FAILED', 'F']) || 
+                   in_array(strtoupper($s->ipft_biannual_2), ['FAIL', 'FAILED', 'F']);
+        });
+
+        $ret_fails = $soldiers->filter(function($s) {
+            $hasFailRecord = false;
+            if (is_array($s->firing_records)) {
+                foreach($s->firing_records as $rec) {
+                    if (isset($rec['status']) && strtoupper($rec['status']) === 'FAIL') $hasFailRecord = true;
+                }
+            }
+            if (is_array($s->night_firing_records)) {
+                foreach($s->night_firing_records as $rec) {
+                    if (isset($rec['status']) && strtoupper($rec['status']) === 'FAIL') $hasFailRecord = true;
+                }
+            }
+            return ((int)$s->shoot_total < 180 && (int)$s->shoot_total > 0) || $hasFailRecord;
+        });
+
+        $overweight_fails = $soldiers->filter(function($s) {
+            return in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']);
+        });
+
+        return view('admin.soldiers.weak', compact('soldiers', 'category', 'ipft_fails', 'ret_fails', 'overweight_fails'));
     }
 
     public function index(Request $request)
@@ -437,9 +462,23 @@ class SoldierController extends Controller
         $soldiers = Soldier::whereIn('id', $ids)->get();
         $printable = ($action === 'print');
 
-        $pdf = \App\Helpers\PdfHelper::generateBulkRecordBooks($soldiers, $printable);
-        
-        $filename = 'bulk-records-' . now()->format('Y-m-d-His') . '.pdf';
+        // Always categorize for failure-based bulk reports
+        $ipft_fails = $soldiers->filter(fn($s) => in_array(strtoupper($s->ipft_biannual_1), ['FAIL', 'FAILED', 'F']) || in_array(strtoupper($s->ipft_biannual_2), ['FAIL', 'FAILED', 'F']));
+        $ret_fails = $soldiers->filter(function($s) {
+            $hasF = false;
+            if (is_array($s->firing_records)) foreach($s->firing_records as $r) if(isset($r['status']) && strtoupper($r['status']) === 'FAIL') $hasF = true;
+            if (is_array($s->night_firing_records)) foreach($s->night_firing_records as $r) if(isset($r['status']) && strtoupper($r['status']) === 'FAIL') $hasF = true;
+            return ((int)$s->shoot_total < 180 && (int)$s->shoot_total > 0) || $hasF;
+        });
+        $overweight_fails = $soldiers->filter(fn($s) => in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']));
+
+        if ($action === 'registry-pdf') {
+            $pdf = \App\Helpers\PdfHelper::generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable);
+            $filename = 'improvement-registry-' . now()->format('Y-m-d-His') . '.pdf';
+        } else {
+            $pdf = \App\Helpers\PdfHelper::generateBulkRecordBooks($soldiers, $printable, $ipft_fails, $ret_fails, $overweight_fails);
+            $filename = 'bulk-records-' . now()->format('Y-m-d-His') . '.pdf';
+        }
 
         if ($printable) {
             return $pdf->stream($filename);

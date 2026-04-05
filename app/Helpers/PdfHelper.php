@@ -50,7 +50,7 @@ class PdfHelper
      * @param bool $printable
      * @return \niklasravnsborg\LaravelPdf\Pdf
      */
-    public static function generateBulkRecordBooks($soldiers, $printable = false)
+    public static function generateBulkRecordBooks($soldiers, $printable = false, $ipft_fails = null, $ret_fails = null, $overweight_fails = null)
     {
         $logoPath = public_path('assets/logos/SAJHSF.png');
 
@@ -75,11 +75,31 @@ class PdfHelper
             }
         ];
 
-        // Increase limits for intense bulk PDF generation
-        ini_set('pcre.backtrack_limit', '10000000');
-        ini_set('pcre.recursion_limit', '2000000');
-        ini_set('memory_limit', '512M');
+        return Pdf::loadView('admin.soldiers.bulk-record-books-pdf', compact('soldiers', 'ipft_fails', 'ret_fails', 'overweight_fails'), [], $options);
+    }
 
-        return Pdf::loadView('admin.soldiers.bulk-record-books-pdf', compact('soldiers'), [], $options);
+    public static function generateRegistryPdf($ipft_fails, $ret_fails, $overweight_fails, $printable = false)
+    {
+        $logoPath = public_path('assets/logos/SAJHSF.png');
+
+        $options = [
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'default_font' => 'nikosh',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 15,
+            'display_mode' => 'fullpage',
+            'instanceConfigurator' => function($mpdf) use ($logoPath, $printable) {
+                if ($printable) {
+                    $mpdf->SetJS('this.print();');
+                }
+                $mpdf->SetHeader('Improvement Registry Nominal Roll|UNCLASSIFIED|{DATE d M Y}');
+                $mpdf->SetFooter('9 E BENGAL|UNCLASSIFIED|Page {PAGENO}');
+            }
+        ];
+
+        return Pdf::loadView('admin.soldiers.improvement-registry-pdf', compact('ipft_fails', 'ret_fails', 'overweight_fails'), [], $options);
     }
 }
