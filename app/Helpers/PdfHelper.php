@@ -28,12 +28,12 @@ class PdfHelper
             'margin_top' => 10,
             'margin_bottom' => 10,
             'display_mode' => 'fullpage',
-            'instanceConfigurator' => function($mpdf) use ($logoPath, $printable) {
+            'instanceConfigurator' => function ($mpdf) use ($logoPath, $printable) {
                 if (file_exists($logoPath)) {
                     $mpdf->SetWatermarkImage($logoPath, 0.05, 'F');
                     $mpdf->showWatermarkImage = true;
                 }
-                
+
                 if ($printable) {
                     $mpdf->SetJS('this.print();');
                 }
@@ -67,12 +67,12 @@ class PdfHelper
             'margin_top' => 10,
             'margin_bottom' => 10,
             'display_mode' => 'fullpage',
-            'instanceConfigurator' => function($mpdf) use ($logoPath, $printable) {
+            'instanceConfigurator' => function ($mpdf) use ($logoPath, $printable) {
                 if (file_exists($logoPath)) {
                     $mpdf->SetWatermarkImage($logoPath, 0.05, 'F');
                     $mpdf->showWatermarkImage = true;
                 }
-                
+
                 if ($printable) {
                     $mpdf->SetJS('this.print();');
                 }
@@ -99,12 +99,10 @@ class PdfHelper
             'margin_top' => 10,
             'margin_bottom' => 15,
             'display_mode' => 'fullpage',
-            'instanceConfigurator' => function($mpdf) use ($logoPath, $printable) {
+            'instanceConfigurator' => function ($mpdf) use ($logoPath, $printable) {
                 if ($printable) {
                     $mpdf->SetJS('this.print();');
                 }
-                $mpdf->SetHeader('Improvement Registry Nominal Roll|UNCLASSIFIED|{DATE d M Y}');
-                $mpdf->SetFooter('9 E BENGAL|UNCLASSIFIED|Page {PAGENO}');
             }
         ];
 
