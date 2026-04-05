@@ -418,17 +418,7 @@
 
                             <!-- Row 7: Weight & Address (10 & 11) -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div class="space-y-2">
-                                    <label
-                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                                        <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১০</span>
-                                        ওজন (Weight - KG)
-                                    </label>
-                                    <input type="text" name="weight" value="{{ old('weight', $soldier->weight) }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 72 KG">
-                                </div>
-                                <div class="space-y-2">
+                                <div class="space-y-2 col-span-full">
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
@@ -519,8 +509,8 @@
                                             class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৬</span>
                                         লিঙ্গ (Gender)
                                     </label>
-                                    <select name="gender"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror">
+                                    <select name="gender" x-model="gender"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror" required>
                                         <option value="">- Select -</option>
                                         <option value="Male"
                                             {{ old('gender', $soldier->gender) == 'Male' ? 'selected' : '' }}>Male [পুরুষ]
@@ -564,9 +554,8 @@
                                             class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৮</span>
                                         জন্ম তারিখ (DOB)
                                     </label>
-                                    <input type="date" name="dob"
-                                        value="{{ old('dob', $soldier->dob ? $soldier->dob->format('Y-m-d') : '') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold">
+                                    <input type="date" name="dob" x-model="dob"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('dob') border-red-500 @enderror" required>
                                 </div>
                             </div>
 
@@ -599,6 +588,123 @@
                         </div>
                     </div>
 
+                    <!-- SEC-08: Physical Measurements (Calculated) -->
+                    <div class="bg-white border border-slate-200 shadow-xl mb-8 overflow-visible">
+                        <div class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-08</span>
+                                <h3 class="card-title-tactical text-white">Physical Measurements [শারীরিক পরিমাপ ও স্থূলতা]</h3>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <template x-if="weightStatus === 'Normal'">
+                                    <span class="px-3 py-1 bg-green-500 text-[10px] font-black uppercase tracking-widest">Normal</span>
+                                </template>
+                                <template x-if="weightStatus === 'Overweight'">
+                                    <span class="px-3 py-1 bg-yellow-500 text-[10px] font-black uppercase tracking-widest">Overweight</span>
+                                </template>
+                                <template x-if="weightStatus === 'Obese' || weightStatus === 'Obese (WHR)'">
+                                    <span class="px-3 py-1 bg-red-600 text-[10px] font-black uppercase tracking-widest animate-pulse">Obese</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="p-8 space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Weight (KG)</label>
+                                    <input type="number" name="weight" x-model="weight_kg"
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 72" required>
+                                </div>
+                                <div class="col-span-2 space-y-2">
+                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Height (Feet & Inches)</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="relative">
+                                            <input type="number" name="height_ft" x-model="height_ft"
+                                                class="w-full p-4 tactical-input text-sm font-bold pr-10" placeholder="FT" required>
+                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">FT</span>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="number" name="height_in" x-model="height_in"
+                                                class="w-full p-4 tactical-input text-sm font-bold pr-10" placeholder="IN">
+                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-300 pointer-events-none">IN</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-slate-400 italic" x-show="height_inch" x-text="'Total: ' + height_inch + ' Inches'"></p>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Wrist (CM)</label>
+                                    <input type="number" step="0.1" name="wrist_cm" x-model="wrist_cm"
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 17.5">
+                                    <p class="text-[10px] font-bold text-military-primary uppercase" x-text="'Frame: ' + bodyFrame"></p>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Waist (Inch)</label>
+                                    <input type="number" step="0.1" name="waist_inch" x-model="waist_inch"
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 34">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Hip (Inch)</label>
+                                    <input type="number" step="0.1" name="hip_inch" x-model="hip_inch"
+                                        class="w-full p-4 tactical-input text-sm font-bold" placeholder="EX: 38">
+                                    <p class="text-[9px] font-bold text-red-600 uppercase" x-show="whr > 1.0" x-text="'WHR: ' + whr + ' (OBESE)'"></p>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase" x-show="whr <= 1.0" x-text="'WHR: ' + (whr || '0.00')"></p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100">
+                                <label class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all">
+                                    <input type="checkbox" name="is_athlete" x-model="is_athlete" class="w-5 h-5 text-military-primary rounded" :checked="is_athlete">
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Athlete (Boxer/Wrestler)</span>
+                                        <span class="text-[9px] text-slate-500">+9.1 KG Allowance</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all">
+                                    <input type="checkbox" name="medical_not_obese" x-model="medical_not_obese" class="w-5 h-5 text-military-primary rounded" :checked="medical_not_obese">
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Medical Board Rec.</span>
+                                        <span class="text-[9px] text-slate-500">+6.8 KG Allowance (Passed PET)</span>
+                                    </div>
+                                </label>
+                                <template x-if="gender === 'Female'">
+                                    <label class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100 transition-all">
+                                        <input type="checkbox" name="is_pregnant" x-model="is_pregnant" class="w-5 h-5 text-military-primary rounded" :checked="is_pregnant">
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] font-black text-slate-700 uppercase tracking-widest">Mother (Pregnant/Lactating)</span>
+                                            <span class="text-[9px] text-slate-500">2 Years Consideration</span>
+                                        </div>
+                                    </label>
+                                </template>
+                            </div>
+
+                            <!-- Live Analysis Result -->
+                            <div class="mt-8 p-6 bg-slate-900 text-white rounded shadow-2xl relative overflow-hidden group">
+                                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-all">
+                                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                                </div>
+                                <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
+                                    <div class="space-y-1">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Standard Weight</p>
+                                        <p class="text-xl font-black text-amber-400" x-text="(standardWeight || '---') + ' KG'"></p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Total Allowance</p>
+                                        <p class="text-xl font-black text-emerald-400" x-text="'+' + weightAllowance + ' KG'"></p>
+                                    </div>
+                                    <div class="space-y-1 border-l border-slate-700 pl-8">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Max Allowed</p>
+                                        <p class="text-xl font-black text-white" x-text="(standardWeight ? (parseFloat(standardWeight) + parseFloat(weightAllowance)).toFixed(1) : '---') + ' KG'"></p>
+                                    </div>
+                                    <div class="space-y-1 border-l border-slate-700 pl-8 text-right lg:text-left">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Calculated Status</p>
+                                        <p class="text-xl font-black uppercase tracking-tighter" 
+                                           :class="weightStatus === 'Normal' ? 'text-green-500' : (weightStatus === 'Overweight' ? 'text-yellow-400' : 'text-red-500')"
+                                           x-text="weightStatus"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- SEC-03.1: IPFT [শারীরিক সক্ষমতা] -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-8">
                         <div
@@ -619,18 +725,10 @@
                                     <select name="ipft_biannual_1"
                                         class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                         <option value="">- Select -</option>
-                                        <option value="Pass"
-                                            {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Pass' ? 'selected' : '' }}>
-                                            Pass</option>
-                                        <option value="Failed"
-                                            {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Failed' ? 'selected' : '' }}>
-                                            Fail</option>
-                                        <option value="not_appeared"
-                                            {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'not_appeared' ? 'selected' : '' }}>
-                                            Not appeared</option>
-                                        <option value="yet_to_appear"
-                                            {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'yet_to_appear' ? 'selected' : '' }}>
-                                            Yet to appear</option>
+                                        <option value="Pass" {{ in_array(strtoupper(old('ipft_biannual_1', $soldier->ipft_biannual_1) ?? ''), ['PASS', 'P']) ? 'selected' : '' }}>Pass</option>
+                                        <option value="Fail" {{ in_array(strtoupper(old('ipft_biannual_1', $soldier->ipft_biannual_1) ?? ''), ['FAIL', 'FAILED', 'F', 'FAIL']) ? 'selected' : '' }}>Fail</option>
+                                        <option value="Not Appeared" {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Not Appeared' ? 'selected' : '' }}>Not appeared</option>
+                                        <option value="Yet to Appear" {{ old('ipft_biannual_1', $soldier->ipft_biannual_1) == 'Yet to Appear' ? 'selected' : '' }}>Yet to appear</option>
                                     </select>
                                 </div>
                                 <div class="space-y-4">
@@ -640,18 +738,10 @@
                                     <select name="ipft_biannual_2"
                                         class="w-full p-3 tactical-input text-xs font-bold uppercase">
                                         <option value="">- Select -</option>
-                                        <option value="Pass"
-                                            {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Pass' ? 'selected' : '' }}>
-                                            Pass</option>
-                                        <option value="Failed"
-                                            {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Failed' ? 'selected' : '' }}>
-                                            Fail</option>
-                                        <option value="not_appeared"
-                                            {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'not_appeared' ? 'selected' : '' }}>
-                                            Not appeared</option>
-                                        <option value="yet_to_appear"
-                                            {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'yet_to_appear' ? 'selected' : '' }}>
-                                            Yet to appear</option>
+                                        <option value="Pass" {{ in_array(strtoupper(old('ipft_biannual_2', $soldier->ipft_biannual_2) ?? ''), ['PASS', 'P']) ? 'selected' : '' }}>Pass</option>
+                                        <option value="Fail" {{ in_array(strtoupper(old('ipft_biannual_2', $soldier->ipft_biannual_2) ?? ''), ['FAIL', 'FAILED', 'F', 'FAIL']) ? 'selected' : '' }}>Fail</option>
+                                        <option value="Not Appeared" {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Not Appeared' ? 'selected' : '' }}>Not appeared</option>
+                                        <option value="Yet to Appear" {{ old('ipft_biannual_2', $soldier->ipft_biannual_2) == 'Yet to Appear' ? 'selected' : '' }}>Yet to appear</option>
                                     </select>
                                 </div>
                             </div>
@@ -943,7 +1033,7 @@
                                         <tr
                                             class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                             <th class="px-4 py-2 text-center w-10">Sl</th>
-                                            <th class="px-4 py-2">Circle (1-4)</th>
+                                            <th class="px-4 py-2">Cycle (1-4)</th>
                                             <th class="px-4 py-2 w-16">Year</th>
                                             <th class="px-4 py-2">Appointment [নিযুক্তি]</th>
                                             <th class="w-8"></th>
@@ -958,10 +1048,10 @@
                                                     <select :name="`group_trainings[${index}][circle]`"
                                                         x-model="record.circle"
                                                         class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0">
-                                                        <option value="1st">1st Circle</option>
-                                                        <option value="2nd">2nd Circle</option>
-                                                        <option value="3rd">3rd Circle</option>
-                                                        <option value="4th">4th Circle</option>
+                                                        <option value="1st">1st Cycle</option>
+                                                        <option value="2nd">2nd Cycle</option>
+                                                        <option value="3rd">3rd Cycle</option>
+                                                        <option value="4th">4th Cycle</option>
                                                     </select>
                                                 </td>
                                                 <td class="px-2 py-1"><input type="text"
@@ -1002,7 +1092,7 @@
                                         <tr
                                             class="bg-slate-50 border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                             <th class="px-4 py-2 text-center w-10">Sl</th>
-                                            <th class="px-4 py-2">Circle (1-4)</th>
+                                            <th class="px-4 py-2">Cycle (1-4)</th>
                                             <th class="px-4 py-2 w-16">Year</th>
                                             <th class="px-4 py-2">Appointment [নিযুক্তি]</th>
                                             <th class="w-8"></th>
@@ -1018,10 +1108,10 @@
                                                     <select :name="`cycle_ending_exercises[${index}][circle]`"
                                                         x-model="record.circle"
                                                         class="w-full p-2 bg-transparent text-xs font-bold border-0 focus:ring-0">
-                                                        <option value="1st">1st Circle</option>
-                                                        <option value="2nd">2nd Circle</option>
-                                                        <option value="3rd">3rd Circle</option>
-                                                        <option value="4th">4th Circle</option>
+                                                        <option value="1st">1st Cycle</option>
+                                                        <option value="2nd">2nd Cycle</option>
+                                                        <option value="3rd">3rd Cycle</option>
+                                                        <option value="4th">4th Cycle</option>
                                                     </select>
                                                 </td>
                                                 <td class="px-2 py-1"><input type="text"
@@ -1813,6 +1903,93 @@
                     status: '',
                     total: ''
                 }],
+
+                // Physical Measurements
+                gender: '{{ old('gender', $soldier->gender) }}',
+                dob: '{{ old('dob', $soldier->dob ? $soldier->dob->format('Y-m-d') : '') }}',
+                height_ft: '{{ old('height_ft', $soldier->height_inch ? floor($soldier->height_inch / 12) : '') }}',
+                height_in: '{{ old('height_in', $soldier->height_inch ? ($soldier->height_inch % 12) : '') }}',
+                weight_kg: '{{ old('weight', $soldier->weight ?: '') }}',
+                waist_inch: '{{ old('waist_inch', $soldier->waist_inch ?: '') }}',
+                hip_inch: '{{ old('hip_inch', $soldier->hip_inch ?: '') }}',
+                wrist_cm: '{{ old('wrist_cm', $soldier->wrist_cm ?: '') }}',
+                is_pregnant: {{ old('is_pregnant', $soldier->is_pregnant) ? 'true' : 'false' }},
+                is_athlete: {{ old('is_athlete', $soldier->is_athlete) ? 'true' : 'false' }},
+                medical_not_obese: {{ old('medical_not_obese', $soldier->medical_not_obese) ? 'true' : 'false' }},
+
+                get height_inch() {
+                    if (!this.height_ft) return 0;
+                    return (parseInt(this.height_ft) * 12) + (parseInt(this.height_in) || 0);
+                },
+
+                get age() {
+                    if (!this.dob) return 0;
+                    const birthDate = new Date(this.dob);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const m = today.getMonth() - birthDate.getMonth();
+                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+                    return age;
+                },
+
+                get bodyFrame() {
+                    if (!this.wrist_cm) return 'Standard';
+                    const threshold = (this.gender === 'Female') ? 15 : 17;
+                    return this.wrist_cm >= threshold ? 'Large' : 'Standard';
+                },
+
+                get whr() {
+                    if (!this.waist_inch || !this.hip_inch || this.hip_inch == 0) return null;
+                    return (this.waist_inch / this.hip_inch).toFixed(2);
+                },
+
+                get weightAllowance() {
+                    let allowance = 0;
+                    if (this.bodyFrame === 'Large') allowance += 4.5;
+                    if (this.is_athlete) allowance += 9.1;
+                    if (this.medical_not_obese) allowance += 6.8;
+                    return allowance;
+                },
+
+                get standardWeight() {
+                    if (!this.height_inch || this.height_inch < 62) return null;
+                    const h = parseInt(this.height_inch);
+                    const age = this.age;
+                    const chart = {
+                        62: [59.4, 63.5, 67.6],
+                        63: [61.2, 65.3, 69.8],
+                        64: [63.5, 67.6, 72.1],
+                        65: [65.3, 69.8, 74.4],
+                        66: [67.1, 71.7, 76.2],
+                        67: [68.5, 73.0, 78.0],
+                        68: [69.4, 73.5, 77.6],
+                        69: [71.7, 76.2, 80.7],
+                        70: [73.5, 78.0, 83.0],
+                        71: [75.3, 80.3, 84.8],
+                        72: [77.6, 82.1, 87.1]
+                    };
+                    const targetH = Math.max(62, Math.min(72, h));
+                    const row = chart[targetH] || chart[62];
+                    if (age <= 30) return row[0];
+                    if (age <= 40) return row[1];
+                    return row[2];
+                },
+
+                get weightStatus() {
+                    if (this.whr > 1.0) return 'Obese (WHR)';
+                    if (!this.weight_kg || !this.standardWeight) return 'N/A';
+                    
+                    const actualWeight = parseFloat(this.weight_kg);
+                    if (isNaN(actualWeight)) return 'N/A';
+                    
+                    const adjustedWeight = actualWeight - 3.2; // 7 lbs approx 3.2kg
+                    const limit = parseFloat(this.standardWeight) + parseFloat(this.weightAllowance);
+
+                    if (adjustedWeight > limit + 6.8) return 'Obese'; // +15 lbs approx 6.8kg
+                    if (adjustedWeight > limit) return 'Overweight';
+                    if (adjustedWeight < 45) return 'Underweight';
+                    return 'Normal';
+                },
 
                 addFiringRecord() {
                     this.firing_records.push({

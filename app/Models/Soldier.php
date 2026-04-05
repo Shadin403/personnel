@@ -74,7 +74,115 @@ class Soldier extends Model
         'night_trainings',
         'group_trainings',
         'cycle_ending_exercises',
+        'height_inch',
+        'waist_inch',
+        'hip_inch',
+        'wrist_cm',
+        'is_pregnant',
+        'is_athlete',
+        'medical_not_obese',
     ];
+
+    public function getAgeAttribute(): int
+    {
+        return $this->dob ? $this->dob->age : 0;
+    }
+
+    public function getBodyFrameAttribute(): string
+    {
+        if (!$this->wrist_cm) return 'Standard';
+        
+        $threshold = ($this->gender === 'Female') ? 15 : 17;
+        return $this->wrist_cm >= $threshold ? 'Large' : 'Standard';
+    }
+
+    public function getWhrAttribute(): ?float
+    {
+        if (!$this->waist_inch || !$this->hip_inch || $this->hip_inch == 0) return null;
+        return round($this->waist_inch / $this->hip_inch, 2);
+    }
+
+    public function getWeightAllowanceAttribute(): int
+    {
+        $allowance = 0;
+        
+        // Body Frame Allowance
+        if ($this->body_frame === 'Large') {
+            $allowance += 4.5; // 10lb approx 4.5kg
+        }
+
+        // Athlete Allowance (Boxer/Wrestler/Weightlifter)
+        if ($this->is_athlete) {
+            $allowance += 9.1; // 20lb approx 9.1kg
+        }
+
+        // Special Medical/PET Allowance
+        if ($this->medical_not_obese) {
+            $allowance += 6.8; // 15lb approx 6.8kg
+        }
+
+        return $allowance;
+    }
+
+    public function getStandardWeightAttribute(): ?int
+    {
+        if (!$this->height_inch) return null;
+
+        $h = (int) $this->height_inch;
+        $age = $this->age;
+
+        // Weight Chart Lookup (Upper limits from manual chart, converted to KG)
+        // Format: Height => [Age<=30, Age 31-40, Age 41-50]
+        $chart = [
+            62 => [59.4, 63.5, 67.6],
+            63 => [61.2, 65.3, 69.8],
+            64 => [63.5, 67.6, 72.1],
+            65 => [65.3, 69.8, 74.4],
+            66 => [67.1, 71.7, 76.2],
+            67 => [68.5, 73.0, 78.0],
+            68 => [69.4, 73.5, 77.6],
+            69 => [71.7, 76.2, 80.7],
+            70 => [73.5, 78.0, 83.0],
+            71 => [75.3, 80.3, 84.8],
+            72 => [77.6, 82.1, 87.1],
+        ];
+
+        // Find closest height or floor to nearest inch
+        $targetH = max(62, min(72, $h));
+        $row = $chart[$targetH] ?? $chart[62];
+
+        if ($age <= 30) return $row[0];
+        if ($age <= 40) return $row[1];
+        return $row[2];
+    }
+
+    public function getWeightStatusAttribute(): string
+    {
+        // 1. WHR Obesity Check (Absolute Override)
+        $whr = $this->whr;
+        if ($whr > 1.0) return 'Obese (WHR)';
+
+        // 2. Weight Check
+        if (!$this->weight || !$this->standard_weight) return 'N/A';
+
+        // Extract numeric weight
+        preg_match('/(\d+)/', $this->weight, $matches);
+        $actualWeight = isset($matches[1]) ? (int) $matches[1] : 0;
+        if ($actualWeight === 0) return 'N/A';
+
+        // Dress subtraction (3.2 KG approx 7 lbs)
+        $adjustedWeight = $actualWeight - 3.2;
+        
+        $std = $this->standard_weight;
+        $allowance = $this->weight_allowance;
+        $limit = $std + $allowance;
+
+        if ($adjustedWeight < 45) return 'Underweight'; // Generic floor (45kg/100lb)
+        if ($adjustedWeight > $limit + 6.8) return 'Obese'; // +15lb approx 6.8kg
+        if ($adjustedWeight > $limit) return 'Overweight';
+        
+        return 'Normal';
+    }
 
     public function unit()
     {

@@ -17,18 +17,75 @@ class SoldierController extends Controller
 {
     public function weak(Request $request)
     {
-        $soldiers = Soldier::where('unit_type', 'soldier')
-            ->where(function ($q) {
+        $category = $request->get('category', 'all');
+        $query = Soldier::query();
+
+        // Base query for test failures
+        if ($category === 'IP50') {
+            $query->where(function($q) {
                 $q->where('ipft_biannual_1', 'Failed')
+                  ->orWhere('ipft_biannual_1', 'Fail')
                   ->orWhere('ipft_biannual_2', 'Failed')
+                  ->orWhere('ipft_biannual_2', 'Fail');
+            });
+        } elseif ($category === 'RT') {
+            $query->where(function($q) {
+                $q->whereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
+                  ->orWhere('firing_records', 'like', '%"status":"Fail"%')
+                  ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
+            });
+        } elseif ($category === 'Overweight') {
+            // Handled after fetching because it's a dynamic attribute
+            $query->whereRaw('1=1'); // Fetch all to filter in collection
+        } else {
+            // Default "Needs Improvement" (all categories)
+            $query->where(function ($q) {
+                $q->whereIn('ipft_biannual_1', ['Failed', 'Fail'])
+                  ->orWhereIn('ipft_biannual_2', ['Failed', 'Fail'])
                   ->orWhere('speed_march', 'Fail')
                   ->orWhere('grenade_fire', 'Fail')
-                  ->orWhereRaw('CAST(shoot_total AS UNSIGNED) < 180');
-            })
-            ->latest()
-            ->paginate(20);
+                  ->orWhereRaw('CAST(shoot_total AS UNSIGNED) < 180 AND CAST(shoot_total AS UNSIGNED) > 0')
+                  ->orWhere('firing_records', 'like', '%"status":"Fail"%')
+                  ->orWhere('night_firing_records', 'like', '%"status":"Fail"%');
+            });
+        }
 
-        return view('admin.soldiers.weak', compact('soldiers'));
+        $soldiers = $query->latest()->get();
+
+        // Filter collection for Weight Status if Overweight is requested, or merge if 'all'
+        $soldiers = $soldiers->filter(function($s) use ($category) {
+            $status = $s->weight_status;
+            $isOverweight = in_array($status, ['Overweight', 'Obese', 'Obese (WHR)']);
+            
+            if ($category === 'Overweight') return $isOverweight;
+            if ($category === 'all' && $isOverweight) return true;
+            if ($category === 'all') return true; // Already filtered by query
+            
+            return true; // Already filtered by query for IP50/RT
+        });
+
+        // If 'all', we must explicitly ensure those who are ONLY overweight are included
+        if ($category === 'all') {
+            $overweights = Soldier::all()->filter(function($s) {
+                return in_array($s->weight_status, ['Overweight', 'Obese', 'Obese (WHR)']);
+            });
+            $soldiers = $soldiers->merge($overweights)->unique('id');
+        }
+
+        // Manual pagination for the filtered collection
+        $perPage = 20;
+        $page = $request->get('page', 1);
+        $paginatedSoldiers = new \Illuminate\Pagination\LengthAwarePaginator(
+            $soldiers->forPage($page, $perPage),
+            $soldiers->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        $soldiers = $paginatedSoldiers;
+
+        return view('admin.soldiers.weak', compact('soldiers', 'category'));
     }
 
     public function index(Request $request)
@@ -147,7 +204,32 @@ class SoldierController extends Controller
             'group_trainings' => 'nullable|array',
             'cycle_ending_exercises' => 'nullable|array',
             'firing_date' => 'nullable|date',
+            'height_inch' => 'nullable|integer',
+            'height_ft' => 'nullable|integer|min:3|max:8',
+            'height_in' => 'nullable|integer|min:0|max:11',
+            'waist_inch' => 'nullable|numeric',
+            'hip_inch' => 'nullable|numeric',
+            'wrist_cm' => 'nullable|numeric',
+            'is_pregnant' => 'nullable|boolean',
+            'is_athlete' => 'nullable|boolean',
+            'medical_not_obese' => 'nullable|boolean',
         ]);
+
+        if ($request->has('height_ft')) {
+            $validated['height_inch'] = ((int)$request->height_ft * 12) + ((int)$request->height_in ?? 0);
+        }
+
+        // Standardize IPFT status to "Pass"/"Fail"
+        if ($request->filled('ipft_biannual_1')) {
+            $val = strtoupper($request->ipft_biannual_1);
+            if (str_starts_with($val, 'P')) $validated['ipft_biannual_1'] = 'Pass';
+            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_1'] = 'Fail';
+        }
+        if ($request->filled('ipft_biannual_2')) {
+            $val = strtoupper($request->ipft_biannual_2);
+            if (str_starts_with($val, 'P')) $validated['ipft_biannual_2'] = 'Pass';
+            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_2'] = 'Fail';
+        }
 
         if ($request->hasFile('photo')) {
             $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
@@ -252,7 +334,32 @@ class SoldierController extends Controller
             'group_trainings' => 'nullable|array',
             'cycle_ending_exercises' => 'nullable|array',
             'firing_date' => 'nullable|date',
+            'height_inch' => 'nullable|integer',
+            'height_ft' => 'nullable|integer|min:3|max:8',
+            'height_in' => 'nullable|integer|min:0|max:11',
+            'waist_inch' => 'nullable|numeric',
+            'hip_inch' => 'nullable|numeric',
+            'wrist_cm' => 'nullable|numeric',
+            'is_pregnant' => 'nullable|boolean',
+            'is_athlete' => 'nullable|boolean',
+            'medical_not_obese' => 'nullable|boolean',
         ]);
+
+        if ($request->has('height_ft')) {
+            $validated['height_inch'] = ((int)$request->height_ft * 12) + ((int)$request->height_in ?? 0);
+        }
+
+        // Standardize IPFT status to "Pass"/"Fail"
+        if ($request->filled('ipft_biannual_1')) {
+            $val = strtoupper($request->ipft_biannual_1);
+            if (str_starts_with($val, 'P')) $validated['ipft_biannual_1'] = 'Pass';
+            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_1'] = 'Fail';
+        }
+        if ($request->filled('ipft_biannual_2')) {
+            $val = strtoupper($request->ipft_biannual_2);
+            if (str_starts_with($val, 'P')) $validated['ipft_biannual_2'] = 'Pass';
+            elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_2'] = 'Fail';
+        }
 
         if ($request->hasFile('photo')) {
             if ($soldier->photo) {
@@ -364,7 +471,7 @@ NI FIRING (STH) RESULTS [ফায়ারিং ফলাফল]
 --------------------------------------------------------------------------------
 Grouping [গ্রুপিং] : {$soldier->shoot_ret}
 Hit [হিট]         : {$soldier->shoot_ap}
-ETS [ইটিএস]       : {$soldier->shoot_ets}
+ETS [イティーエス]       : {$soldier->shoot_ets}
 Total [মোট]       : {$soldier->shoot_total}
 Grade           : {$soldier->shooting_grade}
 

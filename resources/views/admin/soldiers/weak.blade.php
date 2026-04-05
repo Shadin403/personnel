@@ -48,52 +48,118 @@
         </div>
     </div>
 
+    <!-- Category Navigation -->
+    <div class="flex flex-wrap gap-4 border-b border-slate-100 dark:border-slate-800 pb-2">
+        <a href="{{ route('admin.soldiers.weak', ['category' => 'IP50']) }}" 
+           class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'IP50' ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
+            IP50 Fail
+        </a>
+        <a href="{{ route('admin.soldiers.weak', ['category' => 'RT']) }}" 
+           class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'RT' ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
+            RT Fail
+        </a>
+        <a href="{{ route('admin.soldiers.weak', ['category' => 'Overweight']) }}" 
+           class="px-6 py-4 text-[13px] font-black uppercase tracking-widest transition-all border-b-2 {{ request('category') == 'Overweight' || !request('category') ? 'border-red-600 text-red-600 bg-red-50/50' : 'border-transparent text-slate-400 hover:text-slate-600' }}">
+            Overweight/Obese
+        </a>
+    </div>
+
     <!-- Personnel Grid -->
     @if($soldiers->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($soldiers as $soldier)
-                <div class="weak-card p-6 shadow-xl transition-all hover:-translate-y-1">
+                <div class="weak-card p-6 shadow-xl transition-all hover:-translate-y-1 relative overflow-hidden group">
+                    @if($soldier->weight_status == 'Obese' || $soldier->weight_status == 'Obese (WHR)')
+                        <div class="absolute -right-12 -top-12 w-24 h-24 bg-red-600/10 rotate-45 flex items-end justify-center pb-2">
+                            <span class="text-[10px] font-black text-red-600 uppercase tracking-tighter">OBESE</span>
+                        </div>
+                    @endif
+                    
                     <div class="flex items-start gap-4">
-                        <div class="w-20 h-24 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 p-0.5 overflow-hidden">
-                            <img src="{{ $soldier->photo_url }}" class="w-full h-full object-cover grayscale">
+                        <div class="w-20 h-24 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 p-0.5 overflow-hidden ring-4 ring-slate-100 dark:ring-slate-900 group-hover:ring-red-100 transition-all">
+                            <img src="{{ $soldier->photo_url }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                         </div>
                         <div class="flex-1 space-y-4">
                             <div>
-                                <h3 class="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight">{{ $soldier->name }}</h3>
+                                <h3 class="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-red-600 transition-colors">{{ $soldier->name }}</h3>
                                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{{ $soldier->rank }} &bull; {{ $soldier->number }}</p>
                             </div>
                             
                             <!-- Failed Metrics -->
                             <div class="flex flex-wrap gap-2">
-                                @if($soldier->ipft_biannual_1 == 'Fail') <span class="failure-tag">IPFT-1 FAIL</span> @endif
-                                @if($soldier->ipft_biannual_2 == 'Fail') <span class="failure-tag">IPFT-2 FAIL</span> @endif
+                                @if($soldier->ipft_biannual_1 == 'Failed') <span class="failure-tag">IPFT-1 FAIL</span> @endif
+                                @if($soldier->ipft_biannual_2 == 'Failed') <span class="failure-tag">IPFT-2 FAIL</span> @endif
+                                
+                                @php
+                                    $hasRtFail = ((int) $soldier->shoot_total < 180 && (int) $soldier->shoot_total > 0) || 
+                                                 str_contains(json_encode($soldier->firing_records), '"status":"Fail"') ||
+                                                 str_contains(json_encode($soldier->night_firing_records), '"status":"Fail"');
+                                @endphp
+                                @if($hasRtFail) <span class="failure-tag">RT FAIL</span> @endif
+
+                                @if($soldier->weight_status != 'Normal' && $soldier->weight_status != 'N/A')
+                                    <span class="failure-tag {{ str_contains($soldier->weight_status, 'Obese') ? 'bg-red-600 text-white border-0' : '' }}">
+                                        {{ $soldier->weight_status }} ({{ $soldier->weight }} KG)
+                                    </span>
+                                @endif
+
                                 @php
                                     $smVal = (int) substr($soldier->speed_march, 0, 1);
-                                    $gfVal = (int) substr($soldier->grenade_fire, 0, 1);
                                 @endphp
                                 @if($soldier->speed_march == 'Fail' || ($soldier->speed_march && str_contains($soldier->speed_march, '/') && $smVal < 2)) 
-                                    <span class="failure-tag">SPD MARCH FAIL ({{ $soldier->speed_march }})</span> 
-                                @endif
-                                @if($soldier->grenade_fire == 'Fail' || ($soldier->grenade_fire && str_contains($soldier->grenade_fire, '/') && $gfVal < 2)) 
-                                    <span class="failure-tag">GREN FIRE FAIL ({{ $soldier->grenade_fire }})</span> 
-                                @endif
-                                @if((int)$soldier->shoot_total > 0 && (int)$soldier->shoot_total < 210) 
-                                    <span class="failure-tag">LOW FIRE ({{ $soldier->shoot_total }})</span> 
+                                    <span class="failure-tag">SPD MARCH FAIL</span> 
                                 @endif
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <div class="space-y-0.5">
-                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Operational Unit</p>
-                            <p class="text-[10px] font-bold text-military-primary dark:text-military-accent uppercase tracking-tight">
-                                {{ $soldier->unit ? $soldier->unit->name : 'Unassigned' }}
+                    <!-- Obesity Details Row (Auto-calculated) -->
+                    @if($soldier->weight_status != 'Normal')
+                        <div class="mt-6 p-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-2">
+                            <div class="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-slate-400">
+                                <span>Standard: {{ number_format($soldier->standard_weight, 1) }} KG</span>
+                                <span>Allowed: {{ number_format($soldier->standard_weight + $soldier->weight_allowance, 1) }} KG</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                                @php
+                                    $limit = $soldier->standard_weight + $soldier->weight_allowance;
+                                    $percent = min(100, ($soldier->weight / max(1, $limit)) * 100);
+                                @endphp
+                                <div class="h-full bg-red-600" style="width: {{ $percent }}%"></div>
+                            </div>
+                            <p class="text-[9px] font-black text-red-600 text-right uppercase tracking-tighter">
+                                Excess: {{ number_format($soldier->weight - $limit, 1) }} KG
                             </p>
                         </div>
-                        <a href="{{ route('admin.soldiers.show', $soldier) }}" class="p-2 bg-slate-950 text-white hover:bg-red-600 transition-colors shadow-lg active:scale-95">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
+                    @endif
+
+                    <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div class="bg-slate-50 dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800 text-center">
+                                <p class="text-[8px] font-black text-slate-400 uppercase leading-none mb-1">Company</p>
+                                <p class="text-[10px] font-black text-slate-700 dark:text-slate-300 uppercase truncate" title="{{ $soldier->company }}">{{ $soldier->company ?: '---' }}</p>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800 text-center">
+                                <p class="text-[8px] font-black text-slate-400 uppercase leading-none mb-1">Platoon</p>
+                                <p class="text-[10px] font-black text-slate-700 dark:text-slate-300 uppercase truncate" title="{{ $soldier->platoon }}">{{ $soldier->platoon ?: '---' }}</p>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800 text-center">
+                                <p class="text-[8px] font-black text-slate-400 uppercase leading-none mb-1">Section</p>
+                                <p class="text-[10px] font-black text-slate-700 dark:text-slate-300 uppercase truncate" title="{{ $soldier->section }}">{{ $soldier->section ?: '---' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="space-y-0.5">
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Operational Unit</p>
+                                <p class="text-[10px] font-bold text-military-primary dark:text-military-accent uppercase tracking-tight">
+                                    {{ $soldier->unit ? $soldier->unit->name : 'Unassigned' }}
+                                </p>
+                            </div>
+                            <a href="{{ route('admin.soldiers.show', $soldier) }}" class="p-2 bg-slate-950 text-white hover:bg-red-600 transition-colors shadow-lg active:scale-95">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
             @endforeach
