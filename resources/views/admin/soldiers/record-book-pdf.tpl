@@ -198,12 +198,12 @@
     </table>
 
 
-    <!-- SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য] -->
-    <!--<div class="section-header">SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য]</div>-->
+    <!-- SEC-02: Individual Chain of Command [ব্যক্তিগত তথ্য] -->
+    <!--<div class="section-header">SEC-02: Individual Chain of Command [ব্যক্তিগত তথ্য]</div>-->
 
 
     <!-- SEC-03: Tactical Training Records -->
-    <div class="section-header">SEC-03: Tactical Training Records [প্রশিক্ষণ রেকর্ড]</div>
+    <div class="section-header">SEC-03: Individual Training Records [ব্যক্তিগত প্রশিক্ষণ রেকর্ড]</div>
 
     <div class="section-block">
         <!-- 3.1 & 3.2: IPFT & RET Firing -->
