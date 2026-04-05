@@ -751,7 +751,7 @@
         <div class="bg-white border border-slate-200 shadow-lg p-8">
             <div class="flex items-center gap-3 mb-4">
                 <span class="section-tag !bg-green-600">SEC-07</span>
-                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Physical & Extra Curricular
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Games & Extra Curricular
                     Activities</h3>
             </div>
             <div class="p-6 bg-slate-50 border border-slate-200 rounded-sm">
