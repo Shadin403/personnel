@@ -471,9 +471,9 @@
             <tr>
                 <th style="width: 30px;">Sl</th>
                 <th>Year</th>
-                <th>Leave</th>
+                <th>P/Leave</th>
                 <th>Unit Trg</th>
-                <th>Personal</th>
+                <th>Personal Trg</th>
                 <th>Admin</th>
                 <th>MOOTW</th>
                 <th>Sign</th>

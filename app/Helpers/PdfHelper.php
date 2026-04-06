@@ -100,6 +100,11 @@ class PdfHelper
             'margin_bottom' => 15,
             'display_mode' => 'fullpage',
             'instanceConfigurator' => function ($mpdf) use ($logoPath, $printable) {
+                if (file_exists($logoPath)) {
+                    $mpdf->SetWatermarkImage($logoPath, 0.05, 'F');
+                    $mpdf->showWatermarkImage = true;
+                }
+
                 if ($printable) {
                     $mpdf->SetJS('this.print();');
                 }

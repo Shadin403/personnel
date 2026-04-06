@@ -1600,13 +1600,13 @@
                                             বছর (Year)</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            ছুটি (Leave)</th>
+                                            ছুটি (P/Leave)</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                             ইউনিট প্রশিক্ষণ</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                            ব্যক্তিগত প্রশিক্ষণ</th>
+                                            ব্যক্তিগত প্রশিক্ষণ (Personal Trg)</th>
                                         <th
                                             class="px-4 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                             প্রশাসন (Admin)</th>

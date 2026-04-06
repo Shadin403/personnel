@@ -716,9 +716,9 @@
                         <tr class="bg-slate-50 border-b border-slate-200">
                             <th class="px-4 py-3 font-black text-slate-400 uppercase text-center w-12">Sl</th>
                             <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Year</th>
-                            <th class="px-4 py-3 font-black text-slate-400 uppercase">Leave</th>
+                            <th class="px-4 py-3 font-black text-slate-400 uppercase">P/Leave</th>
                             <th class="px-4 py-3 font-black text-slate-400 uppercase">Unit Trg</th>
-                            <th class="px-4 py-3 font-black text-slate-400 uppercase">Personal</th>
+                            <th class="px-4 py-3 font-black text-slate-400 uppercase">Personal Trg</th>
                             <th class="px-4 py-3 font-black text-slate-400 uppercase">Admin</th>
                             <th class="px-4 py-3 font-black text-slate-400 uppercase text-center">Sign</th>
                         </tr>
