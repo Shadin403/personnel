@@ -15,9 +15,10 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Helpers\PdfHelper;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class SoldierController extends Controller
 {
@@ -318,8 +319,8 @@ class SoldierController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'name_bn' => 'nullable|string|max:255',
-            'number' => 'nullable|string|unique:soldiers,number,' . $soldier->id,
-            'personal_no' => 'nullable|string|max:255|unique:soldiers,personal_no,' . $soldier->id,
+            'number' => ['nullable', 'string', Rule::unique('soldiers', 'number')->ignore($soldier->id)],
+            'personal_no' => ['nullable', 'string', 'max:255', Rule::unique('soldiers', 'personal_no')->ignore($soldier->id)],
             'user_type' => 'required|string',
             'rank' => 'nullable|string',
             'rank_bn' => 'nullable|string',
@@ -369,7 +370,13 @@ class SoldierController extends Controller
             'religion' => 'nullable|string',
             'marital_status' => 'nullable|string',
             'gender' => 'nullable|string',
-            'email' => 'nullable|email|max:255|unique:users,email,' . ($soldier->user->id ?? 'NULL') . '|unique:soldiers,email,' . $soldier->id,
+            'email' => [
+                'nullable',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($soldier->user->id ?? null),
+                Rule::unique('soldiers', 'email')->ignore($soldier->id),
+            ],
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
