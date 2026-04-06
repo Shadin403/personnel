@@ -129,7 +129,8 @@
                                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                             </path>
                         </svg>
-                        <h3 class="text-sm font-black text-red-800 uppercase tracking-widest text-[11px]">Tactical Validation Failure [তথ্যগত ত্রুটি]</h3>
+                        <h3 class="text-sm font-black text-red-800 uppercase tracking-widest text-[11px]">Tactical
+                            Validation Failure [তথ্যগত ত্রুটি]</h3>
                     </div>
                     <ul class="list-disc list-inside space-y-1">
                         @foreach ($errors->all() as $error)
@@ -163,19 +164,38 @@
                                         class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror"
                                         required>
                                         <option value="">Select User Type</option>
-                                        <option value="CO" {{ old('user_type', $soldier->user_type) == 'CO' ? 'selected' : '' }}>CO</option>
-                                        <option value="2IC" {{ old('user_type', $soldier->user_type) == '2IC' ? 'selected' : '' }}>2IC</option>
-                                        <option value="ADJT" {{ old('user_type', $soldier->user_type) == 'ADJT' ? 'selected' : '' }}>ADJT</option>
-                                        <option value="COY COMD" {{ old('user_type', $soldier->user_type) == 'COY COMD' ? 'selected' : '' }}>COY COMD</option>
-                                        <option value="COY Clk" {{ old('user_type', $soldier->user_type) == 'COY Clk' ? 'selected' : '' }}>COY Clk</option>
-                                        <option value="SNK" {{ in_array(old('user_type', $soldier->user_type), ['SNK', 'SOLDIER', 'JCO/OR']) ? 'selected' : '' }}>SNK (সৈনিক)</option>
+                                        <option value="CO"
+                                            {{ old('user_type', $soldier->user_type) == 'CO' ? 'selected' : '' }}>CO
+                                        </option>
+                                        <option value="2IC"
+                                            {{ old('user_type', $soldier->user_type) == '2IC' ? 'selected' : '' }}>2IC
+                                        </option>
+                                        <option value="ADJT"
+                                            {{ old('user_type', $soldier->user_type) == 'ADJT' ? 'selected' : '' }}>ADJT
+                                        </option>
+                                        <option value="COY COMD"
+                                            {{ old('user_type', $soldier->user_type) == 'COY COMD' ? 'selected' : '' }}>COY
+                                            COMD</option>
+                                        <option value="COY Clk"
+                                            {{ old('user_type', $soldier->user_type) == 'COY Clk' ? 'selected' : '' }}>COY
+                                            Clk</option>
+                                        <option value="Officer"
+                                            {{ old('user_type', $soldier->user_type) == 'Officer' ? 'selected' : '' }}>
+                                            Officer</option>
+                                        <option value="Jco"
+                                            {{ old('user_type', $soldier->user_type) == 'Jco' ? 'selected' : '' }}>Jco
+                                        </option>
+                                        <option value="SNK"
+                                            {{ in_array(old('user_type', $soldier->user_type), ['SNK', 'SOLDIER', 'JCO/OR']) ? 'selected' : '' }}>
+                                            SNK (সৈনিক)</option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="hidden">
-                                    <input type="email" name="email" value="{{ old('email', $soldier->email) }}" autocomplete="off">
+                                    <input type="email" name="email" value="{{ old('email', $soldier->email) }}"
+                                        autocomplete="off">
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -1737,7 +1757,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-06</span>
-                                <h3 class="card-title-tactical text-white">Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
+                                <h3 class="card-title-tactical text-white">Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]
+                                </h3>
                             </div>
                             <button type="button" @click="addPlan" :disabled="plans.length >= 13"
                                 :class="plans.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"

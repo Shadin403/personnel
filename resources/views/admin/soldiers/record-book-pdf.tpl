@@ -126,7 +126,7 @@
     </style>
 </head>
 <body>
-    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">RESTRICTED</div>
+    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">Person in Confidence</div>
 
     <table style="width: 100%; margin-bottom: 20px; border: none;">
         <tr>
@@ -529,7 +529,7 @@
     </div>
 
     <div style="position: fixed; bottom: 0px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: #dc3545;">
-        RESTRICTED
+        Person in Confidence
     </div>
 </body>
 </html>

@@ -168,49 +168,47 @@
                                         class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror"
                                         required>
                                         <option value="">Select User Type</option>
-                                        <option value="CO">CO</option>
-                                        <option value="2IC">2IC</option>
-                                        <option value="ADJT">ADJT</option>
-                                        <option value="COY COMD">COY COMD</option>
-                                        <option value="COY Clk">COY Clk</option>
+                                        <option value="Officer">Officer</option>
+                                        <option value="Jco">Jco</option>
                                         <option value="SNK">SNK (সৈনিক)</option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
-                                <div class="hidden">
-                                    <input type="email" name="email" value="chargingnine+system@gmail.com">
-                                </div>
-                                <div class="space-y-2">
-                                    <label
-                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                                        Access Password (পাসওয়ার্ড)
-                                    </label>
-                                    <input type="password" name="password" x-model="password"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
-                                        placeholder="••••••••">
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password for
-                                        this user's strategic access. Default: 123456</p>
-                                    @error('password')
-                                        <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-span-12">
-                                    <div class="p-4 bg-slate-50 border border-slate-200 flex items-center gap-4">
-                                        <div
-                                            class="w-10 h-10 rounded-full bg-military-accent/10 flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-military-accent" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                                </path>
-                                            </svg>
-                                        </div>
-                                        <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">
-                                            Email identities are automatically generated using unique strategic patterns.
-                                        </p>
+                                    <div class="hidden">
+                                        <input type="email" name="email" value="chargingnine+system@gmail.com">
                                     </div>
-                                </div>
+                                    <div class="space-y-2">
+                                        <label
+                                            class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                            Access Password (পাসওয়ার্ড)
+                                        </label>
+                                        <input type="password" name="password" x-model="password"
+                                            class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
+                                            placeholder="••••••••">
+                                        <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password for
+                                            this user's strategic access. Default: 123456</p>
+                                        @error('password')
+                                            <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="col-span-12">
+                                        <div class="p-4 bg-slate-50 border border-slate-200 flex items-center gap-4">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-military-accent/10 flex items-center justify-center">
+                                                <svg class="w-5 h-5 text-military-accent" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                                                Email identities are automatically generated using unique strategic
+                                                patterns.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
