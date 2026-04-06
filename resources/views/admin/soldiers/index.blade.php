@@ -130,12 +130,12 @@
                 <label class="text-[11px] font-bold text-military-secondary uppercase tracking-widest mb-2 block opacity-70">Classification</label>
                 <select name="user_type" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[13px] font-medium tracking-tight focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
                     <option value="">All Classifications</option>
-                    <option value="Co" {{ request('user_type') == 'Co' ? 'selected' : '' }}>Co (Command Officer)</option>
-                    <option value="2ic" {{ request('user_type') == '2ic' ? 'selected' : '' }}>2ic (Second Officer)</option>
-                    <option value="Adjt" {{ request('user_type') == 'Adjt' ? 'selected' : '' }}>Adjt (Adjutant)</option>
-                    <option value="Coy Comd" {{ request('user_type') == 'Coy Comd' ? 'selected' : '' }}>Coy Comd (Company Commander)</option>
-                    <option value="Coy clk" {{ request('user_type') == 'Coy clk' ? 'selected' : '' }}>Coy clk (Company Clerk)</option>
-                    <option value="Jco/OR" {{ request('user_type') == 'Jco/OR' ? 'selected' : '' }}>Jco/OR (Soldier/Registry)</option>
+                    <option value="CO" {{ request('user_type') == 'CO' ? 'selected' : '' }}>CO</option>
+                    <option value="2IC" {{ request('user_type') == '2IC' ? 'selected' : '' }}>2IC</option>
+                    <option value="ADJT" {{ request('user_type') == 'ADJT' ? 'selected' : '' }}>ADJT</option>
+                    <option value="COY COMD" {{ request('user_type') == 'COY COMD' ? 'selected' : '' }}>COY COMD</option>
+                    <option value="COY Clk" {{ request('user_type') == 'COY Clk' ? 'selected' : '' }}>COY Clk</option>
+                    <option value="JCO/OR" {{ request('user_type') == 'JCO/OR' ? 'selected' : '' }}>JCO/OR</option>
                 </select>
             </div>
 

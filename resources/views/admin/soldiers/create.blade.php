@@ -164,28 +164,36 @@
                                         class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror"
                                         required>
                                         <option value="">Select User Type</option>
-                                        <option value="Co">Co (Commanding Officer)</option>
-                                        <option value="2ic">2ic (Second-in-Command)</option>
-                                        <option value="Adjt">Adjt (Adjutant)</option>
-                                        <option value="Coy Comd">Coy Comd (Company Commander)</option>
-                                        <option value="Coy clk">Coy clk (Company Clerk)</option>
-                                        <option value="Jco/OR">Jco/OR (Soldier/View-Only)</option>
+                                        <option value="CO">CO</option>
+                                        <option value="2IC">2IC</option>
+                                        <option value="ADJT">ADJT</option>
+                                        <option value="COY COMD">COY COMD</option>
+                                        <option value="COY Clk">COY Clk</option>
+                                        <option value="JCO/OR">JCO/OR</option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                <div class="space-y-2" x-show="['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type)">
+                                <div class="space-y-2">
+                                    <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                        Email Address (ইমেইল)
+                                    </label>
+                                    <input type="email" name="email" value="{{ old('email') }}"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('email') border-red-500 @enderror"
+                                        placeholder="EX: soldier@system.mil">
+                                    @error('email')
+                                        <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="space-y-2" x-show="user_type && user_type !== 'JCO/OR'">
                                     <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         Access Password (পাসওয়ার্ড)
                                     </label>
                                     <input type="password" name="password" x-model="password"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
-                                        placeholder="••••••••" :required="['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type)">
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">This password is required to unlock the entry form.</p>
-                                    <template x-if="user_type && ['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length < 6">
-                                        <p class="text-[9px] font-bold text-amber-600 uppercase mt-1 italic">Enter at least 6 characters to proceed.</p>
-                                    </template>
+                                        placeholder="••••••••" :required="user_type && user_type !== 'JCO/OR'">
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password for this user's strategic access.</p>
                                     @error('password')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
@@ -195,14 +203,15 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-8 space-y-8" x-show="user_type === 'Jco/OR' || (['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length >= 6)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="lg:col-span-8 space-y-8" x-show="user_type" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
                     <!-- Strategic Identity Section (Image Reference 1-11) -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-visible">
-                        <div class="px-8 py-6 section-header-tactical flex items-center justify-between text-white">
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white bg-slate-900 border-l-8 border-military-accent shadow-lg">
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-01</span>
-                                <h3 class="card-title-tactical text-white">Personnel Identity [মৌলিক তথ্য]</h3>
+                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personnel Identity [মৌলিক তথ্য]</h3>
                             </div>
                         </div>
 
@@ -520,10 +529,15 @@
                         </div>
                     </div>
 
-                    <!-- SEC-02: Personal Information (12-19) -->
-                    <div class="bg-white border border-slate-200 shadow-xl">
-                        <div class="px-8 py-5 bg-slate-800 flex items-center justify-between text-white">
-                            <h3 class="card-title-tactical">SEC-02: Personal Details [ব্যক্তিগত তথ্য ১২-১৯]</h3>
+                    <!-- SEC-02: Personal Information (12-20) -->
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
+                        <div
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white bg-slate-900 border-l-8 border-emerald-500 shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="px-3 py-1 bg-emerald-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-02</span>
+                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personal Profile & Bio-data</h3>
+                            </div>
                         </div>
                         <div class="p-8 space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -555,7 +569,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-slate-100">
                                 <div class="space-y-2">
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
@@ -566,14 +580,10 @@
                                     <select name="religion"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('religion') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Islam" {{ old('religion') == 'Islam' ? 'selected' : '' }}>Islam
-                                        </option>
-                                        <option value="Hinduism" {{ old('religion') == 'Hinduism' ? 'selected' : '' }}>
-                                            Hinduism</option>
-                                        <option value="Christianity"
-                                            {{ old('religion') == 'Christianity' ? 'selected' : '' }}>Christianity</option>
-                                        <option value="Buddhism" {{ old('religion') == 'Buddhism' ? 'selected' : '' }}>
-                                            Buddhism</option>
+                                        <option value="Islam" {{ old('religion') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                        <option value="Hinduism" {{ old('religion') == 'Hinduism' ? 'selected' : '' }}>Hinduism</option>
+                                        <option value="Christianity" {{ old('religion') == 'Christianity' ? 'selected' : '' }}>Christianity</option>
+                                        <option value="Buddhism" {{ old('religion') == 'Buddhism' ? 'selected' : '' }}>Buddhism</option>
                                     </select>
                                     @error('religion')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -583,19 +593,15 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৬</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৫</span>
                                         লিঙ্গ (Gender)
                                     </label>
                                     <select name="gender" x-model="gender"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male
-                                            [পুরুষ]
-                                        </option>
-                                        <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female
-                                            [মহিলা]</option>
-                                        <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other
-                                            [অন্যান্য]</option>
+                                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male [পুরুষ]</option>
+                                        <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female [মহিলা]</option>
+                                        <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other [অন্যান্য]</option>
                                     </select>
                                     @error('gender')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -605,26 +611,27 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৭</span>
-                                        বৈবাহিক অবস্থা
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৬</span>
+                                        বৈবাহিক অবস্থা (Marital Status)
                                     </label>
                                     <select name="marital_status"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('marital_status') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Married"
-                                            {{ old('marital_status') == 'Married' ? 'selected' : '' }}>Married</option>
-                                        <option value="Unmarried"
-                                            {{ old('marital_status') == 'Unmarried' ? 'selected' : '' }}>Unmarried</option>
+                                        <option value="Married" {{ old('marital_status') == 'Married' ? 'selected' : '' }}>Married</option>
+                                        <option value="Unmarried" {{ old('marital_status') == 'Unmarried' ? 'selected' : '' }}>Unmarried</option>
                                     </select>
                                     @error('marital_status')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
                                 </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-slate-100">
                                 <div class="space-y-2">
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৮</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৭</span>
                                         জন্ম তারিখ (DOB)
                                     </label>
                                     <input type="date" name="dob" x-model="dob"
@@ -633,14 +640,11 @@
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
                                 </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-slate-100">
                                 <div class="space-y-2">
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৯</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৮</span>
                                         জাতীয় পরিচয়পত্র নং (NID)
                                     </label>
                                     <input type="text" name="nid" value="{{ old('nid') }}"
@@ -653,7 +657,7 @@
                                     <label
                                         class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         <span
-                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">২০</span>
+                                            class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">১৯</span>
                                         স্ত্রীর নাম (Spouse)
                                     </label>
                                     <input type="text" name="spouse_name" value="{{ old('spouse_name') }}"
@@ -1735,12 +1739,11 @@
                     <!-- SEC-07: Sports Participation [খেলাধুলা ও অন্যান্য] -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
                         <div
-                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                            class="px-8 py-6 section-header-tactical flex items-center justify-between text-white bg-slate-900 border-l-8 border-green-500 shadow-lg">
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-green-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Physical & Extra
-                                    Curricular Activities</h3>
+                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Physical & Extra Curricular Activities</h3>
                             </div>
                         </div>
                         <div class="p-8">
@@ -1750,7 +1753,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 space-y-8" x-show="user_type === 'Jco/OR' || (['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length >= 6)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="lg:col-span-4 space-y-8" x-show="user_type" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
                     <div class="bg-white border border-slate-200 shadow-xl p-8 sticky top-10">
                         <div class="text-center space-y-8">
                             <div>

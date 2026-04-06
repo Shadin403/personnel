@@ -22,10 +22,11 @@ class AppServiceProvider extends ServiceProvider
         // Register .tpl extension for Blade templates
         \Illuminate\Support\Facades\View::addExtension('tpl', 'blade');
 
-        // Define Gate for Soldier Management (Admins vs View-Only JCO/OR)
+        // Define Gate for Soldier Management (View-Only Admins vs Clerical Entry)
         \Illuminate\Support\Facades\Gate::define('manage-soldiers', function ($user) {
             $type = strtoupper($user->user_type ?? '');
-            return $type !== 'JCO/OR' && $type !== 'JCO';
+            // Admins are now VIEW ONLY; Clerical roles (JCO/OR, etc.) can Manage
+            return !in_array($type, ['CO', '2IC', 'ADJT', 'COY COMD', 'COY CLK']);
         });
     }
 }

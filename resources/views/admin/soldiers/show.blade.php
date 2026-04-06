@@ -123,15 +123,15 @@
                     Record Book [PDF]
                 </a>
                 @can('manage-soldiers')
-                <a href="{{ route('admin.soldiers.edit', $soldier) }}"
-                    class="px-6 py-3 bg-military-accent text-slate-900 text-[10px] font-black uppercase tracking-widest hover:bg-white border border-transparent hover:border-slate-200 transition-all flex items-center gap-3 shadow-lg group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                            d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                        </path>
-                    </svg>
-                    Modify Records
-                </a>
+                    <a href="{{ route('admin.soldiers.edit', $soldier) }}"
+                        class="px-6 py-3 bg-military-accent text-slate-900 text-[10px] font-black uppercase tracking-widest hover:bg-white border border-transparent hover:border-slate-200 transition-all flex items-center gap-3 shadow-lg group">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                            </path>
+                        </svg>
+                        Modify Records
+                    </a>
                 @endcan
             </div>
         </div>
@@ -141,11 +141,12 @@
             <div class="col-span-12 lg:col-span-4 space-y-8">
                 <!-- SEC-01: Personal Identity [গোপনীয় তথ্য] -->
                 <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
-                    <div class="px-6 py-4 tactical-header flex items-center justify-between text-white">
-                        <div class="flex items-center gap-3">
-                            <span class="section-tag">SEC-01</span>
-                            <h3 class="text-[11px] font-black uppercase tracking-widest text-white">Personal Identity
-                                [গোপনীয় তথ্য]</h3>
+                    <div
+                        class="px-8 py-6 section-header-tactical flex items-center justify-between text-white bg-slate-900 border-l-8 border-military-accent shadow-lg mb-6">
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-01</span>
+                            <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personnel Identity [গোপনীয় তথ্য]</h3>
                         </div>
                     </div>
 
@@ -191,10 +192,13 @@
 
                 <!-- SEC-02: Tactical Chain of Command [ব্যক্তিগত তথ্য] -->
                 <div class="bg-white border border-slate-200 shadow-lg overflow-hidden">
-                    <div class="px-6 py-3 bg-military-bg border-b border-slate-200 flex items-center gap-3">
-                        <span class="section-tag">SEC-02</span>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-600">Personal Profile &
-                            Bio-data [ব্যক্তিগত তথ্য]</h3>
+                    <div
+                        class="px-8 py-6 section-header-tactical flex items-center justify-between text-white bg-slate-900 border-l-8 border-emerald-500 shadow-lg">
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="px-3 py-1 bg-emerald-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-02</span>
+                            <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personal Profile & Bio-data</h3>
+                        </div>
                     </div>
                     <div class="p-6 space-y-4">
                         <div class="grid grid-cols-2 gap-6 pb-4 border-b border-slate-100">
@@ -249,6 +253,11 @@
                                 <span class="data-label !mb-0">Marital Status</span>
                                 <span
                                     class="text-[13px] font-black text-slate-700">{{ $soldier->marital_status ?? 'N/A' }}</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-slate-50 p-3 border border-slate-200">
+                                <span class="data-label !mb-0">Email Address [ইমেইল]</span>
+                                <span
+                                    class="text-[13px] font-black text-military-primary">{{ $soldier->email ?? 'N/A' }}</span>
                             </div>
                             <div class="flex justify-between items-center bg-slate-50 p-3 border border-slate-200">
                                 <span class="data-label !mb-0">National ID (NID)</span>
@@ -751,10 +760,13 @@
 
         <!-- SEC-07: Sports Participation [খেলাধুলা ও অন্যান্য] -->
         <div class="bg-white border border-slate-200 shadow-lg p-8">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="section-tag !bg-green-600">SEC-07</span>
-                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-800">Games & Extra Curricular
-                    Activities</h3>
+            <div
+                class="px-8 py-6 section-header-tactical flex items-center justify-between text-white bg-slate-900 border-l-8 border-green-500 shadow-lg mb-6">
+                <div class="flex items-center gap-4">
+                    <span
+                        class="px-3 py-1 bg-green-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
+                    <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Physical & Extra Curricular Activities</h3>
+                </div>
             </div>
             <div class="p-6 bg-slate-50 border border-slate-200 rounded-sm">
                 <p class="text-xs font-bold text-slate-700 uppercase leading-relaxed text-left">
@@ -839,7 +851,96 @@
                 </div>
             </div>
         </div>
+
+        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
+            <div class="px-8 py-4 bg-slate-900 flex items-center justify-between text-white border-l-8 border-emerald-500">
+                <div class="flex items-center gap-4">
+                    <span
+                        class="px-2 py-0.5 bg-emerald-500 text-slate-900 text-[10px] font-black uppercase rounded-sm">AUDIT</span>
+                    <h3 class="card-title-tactical text-white uppercase tracking-widest">Tactical Audit Progression [রেকর্ড
+                        ইতিহাস]</h3>
+                </div>
+            </div>
+            <div class="p-10">
+                <div class="relative">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-6 top-2 bottom-2 w-0.5 bg-slate-100"></div>
+
+                    <div class="space-y-12">
+                        <!-- Initialization Node -->
+                        <div class="relative flex items-start gap-8">
+                            <div
+                                class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 z-10 shadow-lg shadow-emerald-200 ring-4 ring-white">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-6 rounded-sm flex-1">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                    <div>
+                                        <p class="text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-1">
+                                            Record Initialized [সিস্টেম অরিজিন]</p>
+                                        <h4 class="text-lg font-black text-slate-800 tracking-tight">
+                                            {{ $soldier->creator->name ?? 'SYSTEM ORIGIN' }}</h4>
+                                    </div>
+                                    <div class="text-right">
+                                        <span
+                                            class="px-3 py-1 bg-white border border-slate-200 text-[10px] font-bold text-slate-500 rounded-full shadow-sm italic">
+                                            {{ $soldier->created_at->format('d M Y | H:i') }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase leading-relaxed tracking-wide">
+                                    Strategic asset entry successfully committed to the primary personnel database nodes.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Update Node (Conditional) -->
+                        <div class="relative flex items-start gap-8">
+                            <div
+                                class="w-12 h-12 rounded-full {{ $soldier->updated_at > $soldier->created_at ? 'bg-blue-600 shadow-blue-200' : 'bg-slate-300 shadow-slate-100' }} flex items-center justify-center flex-shrink-0 z-10 shadow-lg ring-4 ring-white">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-6 rounded-sm flex-1">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                    <div>
+                                        <p
+                                            class="text-[9px] font-black {{ $soldier->updated_at > $soldier->created_at ? 'text-blue-600' : 'text-slate-400' }} uppercase tracking-[0.2em] mb-1">
+                                            Last Strategic Update [সর্বশেষ আপডেট]</p>
+                                        <h4 class="text-lg font-black text-slate-800 tracking-tight">
+                                            {{ $soldier->updater->name ?? ($soldier->updated_at > $soldier->created_at ? 'AUTHORIZED PERSONNEL' : 'NO STRATEGIC UPDATES') }}
+                                        </h4>
+                                    </div>
+                                    <div class="text-right">
+                                        <span
+                                            class="px-3 py-1 bg-white border border-slate-200 text-[10px] font-bold text-slate-500 rounded-full shadow-sm italic">
+                                            {{ $soldier->updated_at->format('d M Y | H:i') }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase leading-relaxed tracking-wide">
+                                    {{ $soldier->updated_at > $soldier->created_at ? 'System parameters and identity status verified during the latest tactical refinement.' : 'Permanent record integrity maintained with no post-initialization modifications detected.' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     </div>
+    <!-- SEC-09: Tactical Audit History [রেকর্ড ইতিহাস] -->
+    {{-- <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8 no-print">
+
+
+    </div> --}}
     </div>
 @endsection

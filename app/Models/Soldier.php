@@ -63,6 +63,7 @@ class Soldier extends Model
         'religion',
         'gender',
         'marital_status',
+        'email',
         'dob',
         'nid',
         'special_courses',
@@ -78,6 +79,8 @@ class Soldier extends Model
         'height_inch',
         'wrist_cm',
         'is_pregnant',
+        'created_by',
+        'updated_by',
     ];
 
     public function getAgeAttribute(): int
@@ -275,5 +278,21 @@ class Soldier extends Model
     public function unitTrainings()
     {
         return $this->hasMany(UnitTraining::class);
+    }
+
+    /**
+     * Strategic Audit: Record Creator.
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Strategic Audit: Record Updater.
+     */
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

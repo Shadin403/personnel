@@ -16,6 +16,8 @@ use App\Models\User;
 use App\Helpers\PdfHelper;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class SoldierController extends Controller
 {
@@ -166,7 +168,6 @@ class SoldierController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'name_bn' => 'nullable|string|max:255',
@@ -220,6 +221,7 @@ class SoldierController extends Controller
             'spouse_name' => 'nullable|string|max:255',
             'religion' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
@@ -250,21 +252,19 @@ class SoldierController extends Controller
             }
 
             // Standardize IPFT status to "Pass"/"Fail"
-            if ($request->filled('ipft_biannual_1')) {
-                $val = strtoupper($request->ipft_biannual_1);
-                if (str_starts_with($val, 'P')) $validated['ipft_biannual_1'] = 'Pass';
-                elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_1'] = 'Fail';
-            }
-            if ($request->filled('ipft_biannual_2')) {
-                $val = strtoupper($request->ipft_biannual_2);
-                if (str_starts_with($val, 'P')) $validated['ipft_biannual_2'] = 'Pass';
-                elseif (str_starts_with($val, 'F')) $validated['ipft_biannual_2'] = 'Fail';
+            foreach (['ipft_biannual_1', 'ipft_biannual_2'] as $field) {
+                if ($request->filled($field)) {
+                    $val = strtoupper($request->$field);
+                    if (str_starts_with($val, 'P')) $validated[$field] = 'Pass';
+                    elseif (str_starts_with($val, 'F')) $validated[$field] = 'Fail';
+                }
             }
 
             if ($request->hasFile('photo')) {
                 $validated['photo'] = $request->file('photo')->store('soldiers', 'public');
             }
 
+            $validated['created_by'] = Auth::id();
             $soldier = Soldier::create($validated);
 
             // Save Relationships
@@ -279,7 +279,7 @@ class SoldierController extends Controller
             // Create User Account
             User::create([
                 'name' => $soldier->name,
-                'email' => strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com',
+                'email' => $request->email ?: (strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com'),
                 'password' => Hash::make($request->password ?: 'password123'),
                 'user_type' => $soldier->user_type,
                 'soldier_id' => $soldier->id,
@@ -297,9 +297,9 @@ class SoldierController extends Controller
 
     public function edit(Soldier $soldier)
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');
+        Gate::authorize('manage-soldiers');
 
-        $units = \App\Models\Unit::all();
+        $units = Unit::all();
         $groupedUnits = [
             'battalion' => $units->where('type', 'battalion'),
             'company' => $units->where('type', 'company'),
@@ -364,6 +364,7 @@ class SoldierController extends Controller
             'spouse_name' => 'nullable|string|max:255',
             'religion' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
             'special_courses' => 'nullable|array',
@@ -384,7 +385,7 @@ class SoldierController extends Controller
             'password' => 'required_if:user_type,CO,2IC,ADJT,COY COMD,COY Clk|nullable|string|min:6',
         ]);
 
-        \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');
+        Gate::authorize('manage-soldiers');
 
         return DB::transaction(function () use ($request, $soldier, $validated) {
             if (empty($validated['number']) && !empty($validated['personal_no'])) {
@@ -412,6 +413,7 @@ class SoldierController extends Controller
             }
 
             $validated['is_active'] = $request->has('is_active') ? true : false;
+            $validated['updated_by'] = Auth::id();
             $soldier->update($validated);
 
             // Sync Relationships
@@ -437,10 +439,14 @@ class SoldierController extends Controller
 
             if ($user) {
                 $user->update($userData);
+                
+                // Keep login email in sync with soldier email if provided
+                if ($request->filled('email')) {
+                    $user->update(['email' => $request->email]);
+                }
             } else {
-                // Handle legacy records without associated users
                 User::create(array_merge($userData, [
-                    'email' => strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com',
+                    'email' => $request->email ?: (strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com'),
                     'password' => Hash::make($request->password ?: 'password123'),
                     'soldier_id' => $soldier->id,
                 ]));
@@ -453,7 +459,7 @@ class SoldierController extends Controller
 
     public function destroy(Soldier $soldier)
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');
+        Gate::authorize('manage-soldiers');
 
         if ($soldier->photo) {
             Storage::disk('public')->delete($soldier->photo);
@@ -466,7 +472,6 @@ class SoldierController extends Controller
 
     public function downloadTrg(Soldier $soldier)
     {
-        // Generate a simple text-based TRG report
         $content = $this->generateTrgContent($soldier);
         $filename = 'TRG_' . str_replace(' ', '_', $soldier->name) . '_' . $soldier->number . '.txt';
 
@@ -477,28 +482,18 @@ class SoldierController extends Controller
 
     public function downloadRecordBook(Soldier $soldier)
     {
-        // Delegate PDF generation to the strategic helper
         $pdf = PdfHelper::generateRecordBook($soldier);
-
         $filename = 'Record_Book_' . str_replace(' ', '_', $soldier->number) . '.pdf';
         return $pdf->download($filename);
     }
 
     public function printRecordBook(Soldier $soldier)
     {
-        // Generate PDF with tactical helper and auto-print enabled
         $pdf = PdfHelper::generateRecordBook($soldier, true);
-
         return $pdf->stream('Record_Book_' . $soldier->number . '.pdf');
     }
 
-    /**
-     * Handle bulk actions for selected soldiers in the Improvement Registry.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
-    public function bulkAction(\Illuminate\Http\Request $request)
+    public function bulkAction(Request $request)
     {
         $ids = $request->input('ids', []);
         $action = $request->input('action', 'download');
@@ -516,7 +511,6 @@ class SoldierController extends Controller
         $soldiers = Soldier::whereIn('id', $ids)->get();
         $printable = ($action === 'print');
 
-        // Always categorize for failure-based bulk reports
         $ipft_fails = $soldiers->filter(fn($s) => in_array(strtoupper($s->ipft_biannual_1), ['FAIL', 'FAILED', 'F']) || in_array(strtoupper($s->ipft_biannual_2), ['FAIL', 'FAILED', 'F']));
         $ret_fails = $soldiers->filter(function ($s) {
             $hasF = false;
@@ -540,7 +534,6 @@ class SoldierController extends Controller
 
         return $pdf->download($filename);
     }
-
 
     private function generateTrgContent(Soldier $soldier): string
     {
@@ -612,4 +605,6 @@ Ni firing       : {$soldier->nil_fire}
 ================================================================================
 TEXT;
     }
+
+
 }
