@@ -37,7 +37,9 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            return $userType !== 'SNK' && !empty($userType);
+            // All types EXCEPT 'SNK' are allowed administrative access
+            // This includes legacy admins (empty user_type) and higher ranks in the soldiers table
+            return $userType !== 'SNK';
         });
     }
 }

@@ -20,14 +20,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web,soldiers')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 use App\Http\Controllers\Admin\UnitController;
 
 // Admin Routes (protected)
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('auth:web,soldiers')->prefix('admin')->name('admin.')->group(function () {
     
     Route::middleware('admin-only')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

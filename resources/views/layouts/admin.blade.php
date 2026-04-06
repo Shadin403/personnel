@@ -211,21 +211,27 @@
                 <!-- User Info -->
                 <div class="px-6 py-6 border-b border-white/5 bg-black/20">
                     <div class="flex items-center gap-3">
+                        @php
+                            $user = Auth::guard('web')->user() ?? Auth::guard('soldiers')->user();
+                            $name = $user->name ?? 'System Admin';
+                            $userType = ($user instanceof \App\Models\Soldier) ? ($user->user_type ?? 'SNK') : 'Authorized Administrator';
+                        @endphp
                         <div
                             class="w-10 h-10 rounded-none bg-military-primary flex items-center justify-center text-white font-bold border border-white/10 shadow-lg text-base">
-                            {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
+                            {{ substr($name, 0, 1) }}
                         </div>
                         <div>
                             <p class="text-[13px] font-bold text-gray-100 tracking-tight">
-                                {{ Auth::user()->name ?? 'System Admin' }}</p>
+                                {{ $name }}</p>
                             <p class="text-[11px] text-military-accent font-bold tracking-wide uppercase opacity-70">
-                                Authorized Administrator</p>
+                                {{ $userType }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Navigation -->
                 <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto custom-scrollbar">
+                    @can('manage-soldiers')
                     <p class="px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-3 opacity-40">
                         Operational Center</p>
                     <a href="{{ route('admin.dashboard') }}"
@@ -238,7 +244,6 @@
                         Dashboard
                     </a>
 
-                    @can('manage-soldiers')
                     <a href="{{ route('admin.units.index') }}"
                         class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.units.*') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,6 +255,7 @@
                     </a>
                     @endcan
 
+                    @can('manage-soldiers')
                     <p class="px-4 pt-8 text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-3 opacity-40">
                         Force Management</p>
                     <a href="{{ route('admin.soldiers.index') }}"
@@ -272,7 +278,6 @@
                         Needs Improvement
                     </a>
 
-                    @can('manage-soldiers')
                     <a href="{{ route('admin.soldiers.create') }}"
                         class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.soldiers.create') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -296,7 +301,7 @@
                                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
                                 </path>
                             </svg>
-                            Terminate Connection
+                            Logout
                         </button>
                     </form>
                 </div>

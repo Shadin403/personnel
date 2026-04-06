@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminAccess
@@ -16,7 +17,13 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
+        // Try to get user from web guard first, then soldiers guard
+        $user = Auth::guard('web')->user() ?? Auth::guard('soldiers')->user();
+        
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         $userType = '';
 
         if ($user instanceof \App\Models\Soldier) {
@@ -34,7 +41,12 @@ class AdminAccess
         }
 
         if (Gate::denies('manage-soldiers')) {
-            return redirect()->route('admin.dashboard')->with('error', 'Unauthorized access. Only administrative accounts are permitted to perform this action.');
+            // Prevent circular redirect: only redirect to dashboard if we're not ALREADY there
+            if ($request->routeIs('admin.dashboard')) {
+                // If on dashboard and denied, it means this user has no admin rights at all
+                return abort(403, 'Unauthorized access to administrative area.');
+            }
+            return redirect()->route('admin.dashboard')->with('error', 'Unauthorized access.');
         }
 
         return $next($request);
