@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Unit;
+use App\Models\User;
 use App\Helpers\PdfHelper;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use Illuminate\Support\Facades\Hash;
 
 class SoldierController extends Controller
 {
@@ -235,6 +237,7 @@ class SoldierController extends Controller
             'height_in' => 'nullable|integer|min:0|max:11',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
+            'password' => 'required_if:user_type,Co,2ic,Adjt,Coy Comd,Coy clk|nullable|string|min:6',
         ]);
 
         return DB::transaction(function () use ($request, $validated) {
@@ -273,6 +276,15 @@ class SoldierController extends Controller
                 }
             }
 
+            // Create User Account
+            User::create([
+                'name' => $soldier->name,
+                'email' => strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com',
+                'password' => Hash::make($request->password ?: 'password123'),
+                'user_type' => $soldier->user_type,
+                'soldier_id' => $soldier->id,
+            ]);
+
             return redirect()->route('admin.soldiers.index')
                 ->with('success', 'Strategic node enrolled successfully!');
         });
@@ -285,6 +297,9 @@ class SoldierController extends Controller
 
     public function edit(Soldier $soldier)
     {
+        if (auth()->user()->user_type === 'Jco/OR') {
+            return redirect()->route('admin.soldiers.index')->with('error', 'Unauthorized access. Jco/OR users cannot edit records.');
+        }
         $units = \App\Models\Unit::all();
         $groupedUnits = [
             'battalion' => $units->where('type', 'battalion'),
@@ -367,7 +382,12 @@ class SoldierController extends Controller
             'height_in' => 'nullable|integer|min:0|max:11',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
+            'password' => 'required_if:user_type,Co,2ic,Adjt,Coy Comd,Coy clk|nullable|string|min:6',
         ]);
+
+        if (auth()->user()->user_type === 'Jco/OR') {
+            return redirect()->route('admin.soldiers.index')->with('error', 'Unauthorized access. Jco/OR users cannot modify records.');
+        }
 
         return DB::transaction(function () use ($request, $soldier, $validated) {
             if (empty($validated['number']) && !empty($validated['personal_no'])) {
@@ -407,6 +427,28 @@ class SoldierController extends Controller
                 }
             }
 
+            // Update associated User account
+            $user = User::where('soldier_id', $soldier->id)->first();
+            $userData = [
+                'name' => $soldier->name,
+                'user_type' => $soldier->user_type,
+            ];
+            
+            if ($request->filled('password')) {
+                $userData['password'] = Hash::make($request->password);
+            }
+
+            if ($user) {
+                $user->update($userData);
+            } else {
+                // Handle legacy records without associated users
+                User::create(array_merge($userData, [
+                    'email' => strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com',
+                    'password' => Hash::make($request->password ?: 'password123'),
+                    'soldier_id' => $soldier->id,
+                ]));
+            }
+
             return redirect()->route('admin.soldiers.index')
                 ->with('success', 'Profile updated successfully!');
         });
@@ -414,6 +456,9 @@ class SoldierController extends Controller
 
     public function destroy(Soldier $soldier)
     {
+        if (auth()->user()->user_type === 'Jco/OR') {
+            return redirect()->route('admin.soldiers.index')->with('error', 'Unauthorized access. Jco/OR users cannot delete records.');
+        }
         if ($soldier->photo) {
             Storage::disk('public')->delete($soldier->photo);
         }

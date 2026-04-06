@@ -238,6 +238,7 @@
                         Dashboard
                     </a>
 
+                    @if(auth()->user()->user_type !== 'Jco/OR')
                     <a href="{{ route('admin.units.index') }}"
                         class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.units.*') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,6 +248,7 @@
                         </svg>
                         Unit Management
                     </a>
+                    @endif
 
                     <p class="px-4 pt-8 text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-3 opacity-40">
                         Force Management</p>
@@ -270,6 +272,7 @@
                         Needs Improvement
                     </a>
 
+                    @if(auth()->user()->user_type !== 'Jco/OR')
                     <a href="{{ route('admin.soldiers.create') }}"
                         class="flex items-center gap-3 px-4 py-3 text-[13px] font-medium transition-all duration-200 group {{ request()->routeIs('admin.soldiers.create') ? 'bg-military-primary text-white shadow-lg translate-x-1' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -279,6 +282,7 @@
                         </svg>
                         New Enrollment
                     </a>
+                    @endif
                 </nav>
 
                 <!-- Sidebar Footer -->

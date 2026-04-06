@@ -121,7 +121,57 @@
             @method('PUT')
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-8 space-y-8">
+                <!-- User Type & Access Configuration -->
+                <div class="lg:col-span-12">
+                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                        <div class="px-8 py-4 bg-military-primary flex items-center justify-between text-white border-l-8 border-amber-500 shadow-lg">
+                            <div class="flex items-center gap-4">
+                                <span class="px-2 py-0.5 bg-amber-500 text-military-primary text-[10px] font-black uppercase rounded-sm">AUTH</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Update Access Configuration</h3>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
+                                    <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                        User Type (ইউজার টাইপ)
+                                    </label>
+                                    <select name="user_type" x-model="user_type"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror"
+                                        required>
+                                        <option value="">Select User Type</option>
+                                        <option value="Co">Co (Commanding Officer)</option>
+                                        <option value="2ic">2ic (Second-in-Command)</option>
+                                        <option value="Adjt">Adjt (Adjutant)</option>
+                                        <option value="Coy Comd">Coy Comd (Company Commander)</option>
+                                        <option value="Coy clk">Coy clk (Company Clerk)</option>
+                                        <option value="Jco/OR">Jco/OR (Soldier/View-Only)</option>
+                                    </select>
+                                    @error('user_type')
+                                        <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="space-y-2" x-show="['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type)">
+                                    <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                        Confirm/Reset Password (পাসওয়ার্ড)
+                                    </label>
+                                    <input type="password" name="password" x-model="password"
+                                        class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
+                                        placeholder="••••••••">
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password to unlock synchronization.</p>
+                                    <template x-if="user_type && ['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length < 6">
+                                        <p class="text-[9px] font-bold text-amber-600 uppercase mt-1 italic">Enter at least 6 characters to unlock the form.</p>
+                                    </template>
+                                    @error('password')
+                                        <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-8" x-show="user_type === 'Jco/OR' || (['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length >= 6)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
                     <!-- Strategic Identity Section (Image Reference 1-11) -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-visible">
                         <div
@@ -134,24 +184,7 @@
                         </div>
 
                         <div class="p-8 space-y-8">
-                            <!-- Row 0: User Type -->
-                            <div class="space-y-2">
-                                <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                                    <span class="w-6 h-6 bg-military-primary text-white flex items-center justify-center text-[10px]">০</span>
-                                    ইউজার টাইপ (User Type)
-                                </label>
-                                <select name="user_type" class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror" required>
-                                    <option value="">Select User Type</option>
-                                    <option value="CO" {{ old('user_type', $soldier->user_type) == 'CO' ? 'selected' : '' }}>CO</option>
-                                    <option value="2IC" {{ old('user_type', $soldier->user_type) == '2IC' ? 'selected' : '' }}>2IC</option>
-                                    <option value="Adjt" {{ old('user_type', $soldier->user_type) == 'Adjt' ? 'selected' : '' }}>Adjt</option>
-                                    <option value="Coy clk" {{ old('user_type', $soldier->user_type) == 'Coy clk' ? 'selected' : '' }}>Coy clk</option>
-                                    <option value="Snk" {{ old('user_type', $soldier->user_type) == 'Snk' ? 'selected' : '' }}>Snk</option>
-                                </select>
-                                @error('user_type')
-                                    <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
-                                @enderror
-                            </div>
+
 
                             <!-- Row 1: Personal No & Rank (1 & 2) -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1729,7 +1762,7 @@
                 </div>
 
                 <!-- Sidebar (Photo & Status) -->
-                <div class="lg:col-span-4 space-y-8">
+                <div class="lg:col-span-4 space-y-8" x-show="user_type === 'Jco/OR' || (['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length >= 6)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
                     <div class="bg-white border border-slate-200 shadow-xl p-8 sticky top-10">
                         <div class="text-center space-y-8">
                             <div>
@@ -1864,6 +1897,8 @@
 
             return {
                 loading: false,
+                user_type: '{{ old('user_type', $soldier->user_type) }}',
+                password: '',
                 allUnits: allUnits,
                 selectedBattalionId: bId,
                 selectedCompanyId: cId,

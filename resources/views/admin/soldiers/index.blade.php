@@ -73,6 +73,7 @@
             <p class="text-[12px] font-semibold text-slate-500 tracking-wide">Registry Assets &bull; Strategic Database Mode</p>
         </div>
         <div class="flex items-center gap-3">
+            @if(auth()->user()->user_type !== 'Jco/OR')
             <div x-show="selectedIds.length > 0" x-transition class="flex items-center gap-3 pr-4 border-r border-slate-300">
                 <span class="text-[11px] font-black text-military-primary uppercase tracking-widest" x-text="selectedIds.length + ' Selected'"></span>
                 <form action="{{ route('admin.soldiers.bulk-action') }}" method="POST">
@@ -107,6 +108,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                 New Enrollment
             </a>
+            @endif
         </div>
     </div>
 
@@ -128,9 +130,12 @@
                 <label class="text-[11px] font-bold text-military-secondary uppercase tracking-widest mb-2 block opacity-70">Classification</label>
                 <select name="user_type" class="w-full px-4 py-2.5 bg-military-bg border border-slate-200 rounded-none text-[13px] font-medium tracking-tight focus:outline-none focus:ring-1 focus:ring-military-primary focus:bg-white transition-all appearance-none cursor-pointer shadow-inner">
                     <option value="">All Classifications</option>
-                    <option value="CO" {{ request('user_type') == 'CO' ? 'selected' : '' }}>Command Officer (CO)</option>
-                    <option value="JCO" {{ request('user_type') == 'JCO' ? 'selected' : '' }}>Junior Officer (JCO)</option>
-                    <option value="Staff" {{ request('user_type') == 'Staff' ? 'selected' : '' }}>Staff Personnel</option>
+                    <option value="Co" {{ request('user_type') == 'Co' ? 'selected' : '' }}>Co (Command Officer)</option>
+                    <option value="2ic" {{ request('user_type') == '2ic' ? 'selected' : '' }}>2ic (Second Officer)</option>
+                    <option value="Adjt" {{ request('user_type') == 'Adjt' ? 'selected' : '' }}>Adjt (Adjutant)</option>
+                    <option value="Coy Comd" {{ request('user_type') == 'Coy Comd' ? 'selected' : '' }}>Coy Comd (Company Commander)</option>
+                    <option value="Coy clk" {{ request('user_type') == 'Coy clk' ? 'selected' : '' }}>Coy clk (Company Clerk)</option>
+                    <option value="Jco/OR" {{ request('user_type') == 'Jco/OR' ? 'selected' : '' }}>Jco/OR (Soldier/Registry)</option>
                 </select>
             </div>
 
@@ -216,6 +221,7 @@
                                 <a href="{{ route('admin.soldiers.show', $soldier) }}" class="px-4 py-2 bg-military-primary/5 border border-military-primary/20 text-military-primary text-[10px] font-black uppercase tracking-widest hover:bg-military-primary hover:text-white transition-all shadow-sm">
                                     View Personnel
                                 </a>
+                                @if(auth()->user()->user_type !== 'Jco/OR')
                                 <a href="{{ route('admin.soldiers.edit', $soldier) }}" class="px-4 py-2 bg-amber-500/5 border border-amber-500/20 text-amber-600 text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm">
                                     Edit Profile
                                 </a>
@@ -242,6 +248,7 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
