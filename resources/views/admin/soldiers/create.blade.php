@@ -173,7 +173,7 @@
                                         <option value="ADJT">ADJT</option>
                                         <option value="COY COMD">COY COMD</option>
                                         <option value="COY Clk">COY Clk</option>
-                                        <option value="SOLDIER">SOLDIER</option>
+                                        <option value="SNK">SNK (সৈনিক)</option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>

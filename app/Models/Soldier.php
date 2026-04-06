@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Soldier extends Model
+class Soldier extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'unit_id',
@@ -81,6 +82,7 @@ class Soldier extends Model
         'is_pregnant',
         'created_by',
         'updated_by',
+        'password',
     ];
 
     public function getAgeAttribute(): int
@@ -182,6 +184,7 @@ class Soldier extends Model
         'night_trainings' => 'array',
         'group_trainings' => 'array',
         'cycle_ending_exercises' => 'array',
+        'password' => 'hashed',
     ];
 
     public function getPhotoUrlAttribute(): string

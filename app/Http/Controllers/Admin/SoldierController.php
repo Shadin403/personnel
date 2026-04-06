@@ -145,7 +145,7 @@ class SoldierController extends Controller
             'total' => Soldier::count(),
             'active' => Soldier::where('is_active', true)->count(),
             'co' => Soldier::where('user_type', 'CO')->count(),
-            'staff' => Soldier::where('user_type', 'Staff')->count(),
+            'snk' => Soldier::where('user_type', 'SNK')->count(),
         ];
 
         return view('admin.soldiers.index', compact('soldiers', 'stats', 'companies'));
@@ -267,6 +267,11 @@ class SoldierController extends Controller
             }
 
             $validated['created_by'] = Auth::id();
+            
+            if ($request->filled('password')) {
+                $validated['password'] = Hash::make($request->password);
+            }
+
             $soldier = Soldier::create($validated);
 
             // Save Relationships
@@ -278,18 +283,6 @@ class SoldierController extends Controller
                 }
             }
 
-            // Create User Account (Automated Credentials)
-            $personalNo = $soldier->personal_no ?: $soldier->number;
-            $cleanNo = str_replace([' ', '-'], '_', $personalNo);
-            
-            User::create([
-                'name' => $soldier->name,
-                'email' => "chargingnine+{$cleanNo}@gmail.com",
-                'password' => Hash::make($request->password ?: '123456'),
-                'user_type' => $soldier->user_type,
-                'soldier_id' => $soldier->id,
-            ]);
-
             return redirect()->route('admin.soldiers.index')
                 ->with('success', 'Strategic node enrolled successfully!');
         });
@@ -297,6 +290,20 @@ class SoldierController extends Controller
 
     public function show(Soldier $soldier)
     {
+        // Security check: SNK users can only view their own record
+        $user = auth()->user();
+        if ($user instanceof Soldier && $user->id !== $soldier->id) {
+            return redirect()->route('admin.soldiers.show', $user->id)
+                ->with('error', 'Unauthorized access to other personnel records.');
+        }
+
+        if ($user instanceof \App\Models\User && $user->soldier_id && strtoupper($user->soldier->user_type ?? '') === 'SNK') {
+            if ($user->soldier_id !== $soldier->id) {
+                return redirect()->route('admin.soldiers.show', $user->soldier_id)
+                    ->with('error', 'Unauthorized access to other personnel records.');
+            }
+        }
+
         return view('admin.soldiers.show', compact('soldier'));
     }
 
@@ -426,6 +433,11 @@ class SoldierController extends Controller
 
             $validated['is_active'] = $request->has('is_active') ? true : false;
             $validated['updated_by'] = Auth::id();
+
+            if ($request->filled('password')) {
+                $validated['password'] = Hash::make($request->password);
+            }
+
             $soldier->update($validated);
 
             // Sync Relationships
@@ -436,35 +448,6 @@ class SoldierController extends Controller
                         $soldier->courses()->create($course);
                     }
                 }
-            }
-
-            // Update or Create associated User account
-            $user = User::where('soldier_id', $soldier->id)->first();
-            $personalNo = $soldier->personal_no ?: $soldier->number;
-            $cleanNo = str_replace([' ', '-'], '_', $personalNo);
-            
-            $userData = [
-                'name' => $soldier->name,
-                'user_type' => $soldier->user_type,
-            ];
-            
-            if ($request->filled('password')) {
-                $userData['password'] = Hash::make($request->password);
-            }
-
-            if ($user) {
-                // Update existing user
-                if ($request->filled('email')) {
-                    $userData['email'] = $request->email;
-                }
-                $user->update($userData);
-            } else {
-                // Create new user if missing
-                User::create(array_merge($userData, [
-                    'email' => $request->email ?: "chargingnine+{$cleanNo}@gmail.com",
-                    'password' => Hash::make($request->password ?: '123456'),
-                    'soldier_id' => $soldier->id,
-                ]));
             }
 
             return redirect()->route('admin.soldiers.index')

@@ -168,7 +168,7 @@
                                         <option value="ADJT" {{ old('user_type', $soldier->user_type) == 'ADJT' ? 'selected' : '' }}>ADJT</option>
                                         <option value="COY COMD" {{ old('user_type', $soldier->user_type) == 'COY COMD' ? 'selected' : '' }}>COY COMD</option>
                                         <option value="COY Clk" {{ old('user_type', $soldier->user_type) == 'COY Clk' ? 'selected' : '' }}>COY Clk</option>
-                                        <option value="SOLDIER" {{ in_array(old('user_type', $soldier->user_type), ['SOLDIER', 'JCO/OR']) ? 'selected' : '' }}>SOLDIER</option>
+                                        <option value="SNK" {{ in_array(old('user_type', $soldier->user_type), ['SNK', 'SOLDIER', 'JCO/OR']) ? 'selected' : '' }}>SNK (সৈনিক)</option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>

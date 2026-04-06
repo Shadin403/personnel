@@ -28,16 +28,15 @@ use App\Http\Controllers\Admin\UnitController;
 
 // Admin Routes (protected)
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Units CRUD
-    Route::resource('units', UnitController::class);
-
-    // Soldiers CRUD
-    Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
-
-    // Admin-only Soldier Actions (Static paths first)
+    
     Route::middleware('admin-only')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Units CRUD
+        Route::resource('units', UnitController::class);
+
+        // Soldiers CRUD (List & Management)
+        Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
         Route::get('/soldiers/weak', [SoldierController::class, 'weak'])->name('soldiers.weak');
         Route::get('/soldiers/create', [SoldierController::class, 'create'])->name('soldiers.create');
         Route::post('/soldiers', [SoldierController::class, 'store'])->name('soldiers.store');
@@ -47,7 +46,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/soldiers/bulk-action', [SoldierController::class, 'bulkAction'])->name('soldiers.bulk-action');
     });
 
-    // Dynamic paths last
+    // Dynamic paths last (accessible to SNK if they are the owner)
     Route::get('/soldiers/{soldier}', [SoldierController::class, 'show'])->name('soldiers.show');
     Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
     Route::get('/soldiers/{soldier}/download-record-book', [SoldierController::class, 'downloadRecordBook'])->name('soldiers.download-record-book');

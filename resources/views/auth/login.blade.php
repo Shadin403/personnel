@@ -139,17 +139,16 @@
             <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-military-accent shadow-[0_0_15px_#84cc16]"></div>
 
             <div class="mb-8">
-                <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Admin Login</h3>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Authorize Core Sector
-                    Access</p>
+                <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Personnel Login</h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Authorize Strategic Access</p>
             </div>
 
             <form action="{{ route('login.post') }}" method="POST" class="space-y-6">
                 @csrf
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">User ID</label>
-                    <input type="email" name="email" value="{{ old('email', 'admin@gmail.com') }}" required
+                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">User ID (Email / Personal ID)</label>
+                    <input type="text" name="email" value="{{ old('email') }}" required
                         class="w-full px-4 py-3.5 rounded-lg input-tactical text-sm font-medium focus:outline-none transition-all"
                         placeholder="service.no@9ebengal.gov">
                     @error('email')

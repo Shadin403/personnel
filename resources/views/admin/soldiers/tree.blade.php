@@ -95,7 +95,7 @@
         </div>
         <div class="flex items-center gap-2">
             <span class="w-3 h-3 bg-slate-500"></span>
-            <span class="text-[11px] font-bold text-military-secondary">SOLDIER</span>
+            <span class="text-[11px] font-bold text-military-secondary">SNK</span>
         </div>
     </div>
 </div>
