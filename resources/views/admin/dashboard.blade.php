@@ -152,7 +152,7 @@
                         class="tactical-glass px-2 py-10 text-center cursor-pointer card-zoom flex flex-col items-center justify-center space-y-6 min-h-[300px] border-t-4 border-t-military-primary group rounded-none">
                         <div
                             class="w-20 h-20 bg-military-primary/5 rounded-none flex items-center justify-center text-military-primary group-hover:bg-military-primary group-hover:text-white transition-all duration-500 shadow-inner">
-                            <span class="text-2xl font-black" x-text="coy.name.split(' ')[0][0]"></span>
+                            <span class="text-2xl font-black" x-text="coy.name.split(' ')[0]"></span>
                         </div>
                         <div>
                             <h3 class="text-xl font-black text-military-secondary dark:text-white uppercase tracking-tight"
