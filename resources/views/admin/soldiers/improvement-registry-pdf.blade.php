@@ -94,7 +94,7 @@
 
     {{-- 1. IPFT FAIL Nominal Roll --}}
     @if ($category === 'all' || $category === 'IP50')
-        <div class="section-title">IPFT Fail Nominal Roll [আইপিএফটি ফেল তালিকা]</div>
+        <div class="section-title">IPFT Fail Nominal Roll</div>
         @if ($ipft_fails->count() > 0)
             <table>
                 <thead>
@@ -135,7 +135,7 @@
 
     {{-- 2. RET FAIL Nominal Roll --}}
     @if ($category === 'all' || $category === 'RT')
-        <div class="section-title">RET Fail Nominal Roll [আরইটি ফেল তালিকা]</div>
+        <div class="section-title">RET Fail Nominal Roll </div>
         @if ($ret_fails->count() > 0)
             <table>
                 <thead>
@@ -171,7 +171,7 @@
 
     {{-- 3. Overweight Nominal Roll --}}
     @if ($category === 'all' || $category === 'Overweight')
-        <div class="section-title">Overweight Nominal Roll [অতিরিক্ত ওজন তালিকা]</div>
+        <div class="section-title">Overweight Nominal Roll</div>
         @if ($overweight_fails->count() > 0)
             <table>
                 <thead>
