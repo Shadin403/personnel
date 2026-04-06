@@ -237,7 +237,7 @@ class SoldierController extends Controller
             'height_in' => 'nullable|integer|min:0|max:11',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
-            'password' => 'required_if:user_type,Co,2ic,Adjt,Coy Comd,Coy clk|nullable|string|min:6',
+            'password' => 'required_if:user_type,CO,2IC,ADJT,COY COMD,COY Clk|nullable|string|min:6',
         ]);
 
         return DB::transaction(function () use ($request, $validated) {
@@ -381,7 +381,7 @@ class SoldierController extends Controller
             'height_in' => 'nullable|integer|min:0|max:11',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
-            'password' => 'required_if:user_type,Co,2ic,Adjt,Coy Comd,Coy clk|nullable|string|min:6',
+            'password' => 'required_if:user_type,CO,2IC,ADJT,COY COMD,COY Clk|nullable|string|min:6',
         ]);
 
         \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');

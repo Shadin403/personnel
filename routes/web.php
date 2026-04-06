@@ -33,12 +33,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // Soldiers CRUD
     Route::get('/soldiers', [SoldierController::class, 'index'])->name('soldiers.index');
-    Route::get('/soldiers/{soldier}', [SoldierController::class, 'show'])->name('soldiers.show');
-    Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
-    Route::get('/soldiers/{soldier}/download-record-book', [SoldierController::class, 'downloadRecordBook'])->name('soldiers.download-record-book');
-    Route::get('/soldiers/{soldier}/print-record-book', [SoldierController::class, 'printRecordBook'])->name('soldiers.print-record-book');
 
-    // Admin-only Soldier Actions
+    // Admin-only Soldier Actions (Static paths first)
     Route::middleware('admin-only')->group(function () {
         Route::get('/soldiers/weak', [SoldierController::class, 'weak'])->name('soldiers.weak');
         Route::get('/soldiers/create', [SoldierController::class, 'create'])->name('soldiers.create');
@@ -48,4 +44,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::delete('/soldiers/{soldier}', [SoldierController::class, 'destroy'])->name('soldiers.destroy');
         Route::post('/soldiers/bulk-action', [SoldierController::class, 'bulkAction'])->name('soldiers.bulk-action');
     });
+
+    // Dynamic paths last
+    Route::get('/soldiers/{soldier}', [SoldierController::class, 'show'])->name('soldiers.show');
+    Route::get('/soldiers/{soldier}/download-trg', [SoldierController::class, 'downloadTrg'])->name('soldiers.download-trg');
+    Route::get('/soldiers/{soldier}/download-record-book', [SoldierController::class, 'downloadRecordBook'])->name('soldiers.download-record-book');
+    Route::get('/soldiers/{soldier}/print-record-book', [SoldierController::class, 'printRecordBook'])->name('soldiers.print-record-book');
 });
