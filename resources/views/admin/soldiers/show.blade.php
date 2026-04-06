@@ -122,7 +122,7 @@
                     </svg>
                     Record Book [PDF]
                 </a>
-                @if(auth()->user()->user_type !== 'Jco/OR')
+                @can('manage-soldiers')
                 <a href="{{ route('admin.soldiers.edit', $soldier) }}"
                     class="px-6 py-3 bg-military-accent text-slate-900 text-[10px] font-black uppercase tracking-widest hover:bg-white border border-transparent hover:border-slate-200 transition-all flex items-center gap-3 shadow-lg group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +132,7 @@
                     </svg>
                     Modify Records
                 </a>
-                @endif
+                @endcan
             </div>
         </div>
 

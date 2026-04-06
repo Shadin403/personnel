@@ -297,9 +297,8 @@ class SoldierController extends Controller
 
     public function edit(Soldier $soldier)
     {
-        if (auth()->user()->user_type === 'Jco/OR') {
-            return redirect()->route('admin.soldiers.index')->with('error', 'Unauthorized access. Jco/OR users cannot edit records.');
-        }
+        \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');
+
         $units = \App\Models\Unit::all();
         $groupedUnits = [
             'battalion' => $units->where('type', 'battalion'),
@@ -385,9 +384,7 @@ class SoldierController extends Controller
             'password' => 'required_if:user_type,Co,2ic,Adjt,Coy Comd,Coy clk|nullable|string|min:6',
         ]);
 
-        if (auth()->user()->user_type === 'Jco/OR') {
-            return redirect()->route('admin.soldiers.index')->with('error', 'Unauthorized access. Jco/OR users cannot modify records.');
-        }
+        \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');
 
         return DB::transaction(function () use ($request, $soldier, $validated) {
             if (empty($validated['number']) && !empty($validated['personal_no'])) {
@@ -456,9 +453,8 @@ class SoldierController extends Controller
 
     public function destroy(Soldier $soldier)
     {
-        if (auth()->user()->user_type === 'Jco/OR') {
-            return redirect()->route('admin.soldiers.index')->with('error', 'Unauthorized access. Jco/OR users cannot delete records.');
-        }
+        \Illuminate\Support\Facades\Gate::authorize('manage-soldiers');
+
         if ($soldier->photo) {
             Storage::disk('public')->delete($soldier->photo);
         }
