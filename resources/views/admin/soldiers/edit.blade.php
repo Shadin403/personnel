@@ -164,7 +164,7 @@
                                         class="w-full p-4 tactical-input text-sm font-bold @error('user_type') border-red-500 @enderror"
                                         required>
                                         <option value="">Select User Type</option>
-                                        <option value="CO"
+                                        {{-- <option value="CO"
                                             {{ old('user_type', $soldier->user_type) == 'CO' ? 'selected' : '' }}>CO
                                         </option>
                                         <option value="2IC"
@@ -178,7 +178,7 @@
                                             COMD</option>
                                         <option value="COY Clk"
                                             {{ old('user_type', $soldier->user_type) == 'COY Clk' ? 'selected' : '' }}>COY
-                                            Clk</option>
+                                            Clk</option> --}}
                                         <option value="Officer"
                                             {{ old('user_type', $soldier->user_type) == 'Officer' ? 'selected' : '' }}>
                                             Officer</option>
