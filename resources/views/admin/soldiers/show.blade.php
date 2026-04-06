@@ -852,7 +852,7 @@
             </div>
         </div>
 
-        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
+        {{-- <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mt-8">
             <div class="px-8 py-4 bg-slate-900 flex items-center justify-between text-white border-l-8 border-emerald-500">
                 <div class="flex items-center gap-4">
                     <span
@@ -934,7 +934,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     </div>
     <!-- SEC-09: Tactical Audit History [রেকর্ড ইতিহাস] -->

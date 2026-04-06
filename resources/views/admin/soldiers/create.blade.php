@@ -173,37 +173,32 @@
                                         <option value="ADJT">ADJT</option>
                                         <option value="COY COMD">COY COMD</option>
                                         <option value="COY Clk">COY Clk</option>
-                                        <option value="JCO/OR">JCO/OR</option>
+                                        <option value="SOLDIER">SOLDIER</option>
                                     </select>
                                     @error('user_type')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
-                                </div>
-                                <div class="space-y-2">
-                                    <label
-                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                                        Email Address (ইমেইল)
-                                    </label>
-                                    <input type="email" name="email" value="{{ old('email') }}"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('email') border-red-500 @enderror"
-                                        placeholder="EX: soldier@system.mil" autocomplete="off">
-                                    @error('email')
-                                        <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="space-y-2" x-show="user_type && user_type !== 'JCO/OR'">
-                                    <label
-                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                                        Access Password (পাসওয়ার্ড)
-                                    </label>
-                                    <input type="password" name="password" x-model="password"
-                                        class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
-                                        placeholder="••••••••" :required="user_type && user_type !== 'JCO/OR'">
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password for
-                                        this user's strategic access.</p>
-                                    @error('password')
-                                        <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
-                                    @enderror
+                                    <div class="hidden">
+                                        <input type="email" name="email" value="chargingnine+system@gmail.com">
+                                        <input type="password" name="password" value="123456">
+                                    </div>
+                                    <div class="col-span-12">
+                                        <div class="p-4 bg-slate-50 border border-slate-200 flex items-center gap-4">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-military-accent/10 flex items-center justify-center">
+                                                <svg class="w-5 h-5 text-military-accent" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                                                Access credentials will be automatically generated upon enrollment
+                                                completion.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -840,12 +835,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">RET FIRING [আরইটি
                                     ফায়ারিং প্রোফাইল]</h3>
                             </div>
-                             <button type="button" @click="if (firing_records.length < 13) addFiringRecord()"
-                                 :disabled="firing_records.length >= 13"
-                                 :class="firing_records.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="firing_records.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
-                             </button>
+                            <button type="button" @click="if (firing_records.length < 13) addFiringRecord()"
+                                :disabled="firing_records.length >= 13"
+                                :class="firing_records.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span x-text="firing_records.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -935,12 +930,13 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Firing [নাইট
                                     ফায়ারিং]</h3>
                             </div>
-                             <button type="button" @click="if (night_firing_records.length < 13) addNightFiringRecord()"
-                                 :disabled="night_firing_records.length >= 13"
-                                 :class="night_firing_records.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="night_firing_records.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
-                             </button>
+                            <button type="button" @click="if (night_firing_records.length < 13) addNightFiringRecord()"
+                                :disabled="night_firing_records.length >= 13"
+                                :class="night_firing_records.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span
+                                    x-text="night_firing_records.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1052,12 +1048,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training
                                     [রাত্রীকালীন প্রশিক্ষণ]</h3>
                             </div>
-                             <button type="button" @click="if (night_trainings.length < 13) addNightTraining()"
-                                 :disabled="night_trainings.length >= 13"
-                                 :class="night_trainings.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="night_trainings.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
-                             </button>
+                            <button type="button" @click="if (night_trainings.length < 13) addNightTraining()"
+                                :disabled="night_trainings.length >= 13"
+                                :class="night_trainings.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span x-text="night_trainings.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1127,7 +1123,9 @@
                                     <template x-if="group_trainings.length < 13"><span>+</span></template>
                                     <template x-if="group_trainings.length >= 13">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke_width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke_width="2"
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                            </path>
                                         </svg>
                                     </template>
                                 </button>
@@ -1188,7 +1186,8 @@
                                     <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending
                                         Exercise [চক্র সমাপনী অনুশীলন]</h3>
                                 </div>
-                                <button type="button" @click="if (cycle_ending_exercises.length < 13) addCycleEndingExercise()"
+                                <button type="button"
+                                    @click="if (cycle_ending_exercises.length < 13) addCycleEndingExercise()"
                                     :disabled="cycle_ending_exercises.length >= 13"
                                     :class="cycle_ending_exercises.length >= 13 ? 'opacity-30 cursor-not-allowed' : ''"
                                     class="text-white hover:text-amber-500 font-bold transition-all"
@@ -1196,7 +1195,9 @@
                                     <template x-if="cycle_ending_exercises.length < 13"><span>+</span></template>
                                     <template x-if="cycle_ending_exercises.length >= 13">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke_width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke_width="2"
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                            </path>
                                         </svg>
                                     </template>
                                 </button>
@@ -1260,12 +1261,13 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Summer Training Record
                                     [গ্রীষ্মকালীন প্রশিক্ষণ]</h3>
                             </div>
-                             <button type="button" @click="if (field_trainings_summer.length < 13) addSummerTrg()"
-                                 :disabled="field_trainings_summer.length >= 13"
-                                 :class="field_trainings_summer.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="field_trainings_summer.length >= 13 ? 'Limit Reached (13)' : '+ Add Year'"></span>
-                             </button>
+                            <button type="button" @click="if (field_trainings_summer.length < 13) addSummerTrg()"
+                                :disabled="field_trainings_summer.length >= 13"
+                                :class="field_trainings_summer.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span
+                                    x-text="field_trainings_summer.length >= 13 ? 'Limit Reached (13)' : '+ Add Year'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1347,12 +1349,13 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Winter Training Record
                                     [শীতকালীন প্রশিক্ষণ]</h3>
                             </div>
-                             <button type="button" @click="if (field_trainings_winter.length < 13) addWinterTrg()"
-                                 :disabled="field_trainings_winter.length >= 13"
-                                 :class="field_trainings_winter.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="field_trainings_winter.length >= 13 ? 'Limit Reached (13)' : '+ Add Year'"></span>
-                             </button>
+                            <button type="button" @click="if (field_trainings_winter.length < 13) addWinterTrg()"
+                                :disabled="field_trainings_winter.length >= 13"
+                                :class="field_trainings_winter.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span
+                                    x-text="field_trainings_winter.length >= 13 ? 'Limit Reached (13)' : '+ Add Year'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1470,8 +1473,7 @@
                                     class="px-3 py-1 bg-amber-500 text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-04</span>
                                 <h3 class="card-title-tactical text-white">Promotion Training Course / Cadre</h3>
                             </div>
-                            <button type="button" @click="addCourse"
-                                :disabled="courses.length >= 13"
+                            <button type="button" @click="addCourse" :disabled="courses.length >= 13"
                                 :class="courses.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
                                 <span x-text="courses.length >= 13 ? 'Limit Reached (13)' : '+ Add Other Course'"></span>
@@ -1577,12 +1579,13 @@
                                     [বিশেষ
                                     প্রশিক্ষণ]</h3>
                             </div>
-                             <button type="button" @click="if (special_courses.length < 13) addSpecialCourse()"
-                                 :disabled="special_courses.length >= 13"
-                                 :class="special_courses.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="special_courses.length >= 13 ? 'Limit Reached (13)' : 'Add Training Record'"></span>
-                             </button>
+                            <button type="button" @click="if (special_courses.length < 13) addSpecialCourse()"
+                                :disabled="special_courses.length >= 13"
+                                :class="special_courses.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span
+                                    x-text="special_courses.length >= 13 ? 'Limit Reached (13)' : 'Add Training Record'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1680,12 +1683,12 @@
                                     class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-06</span>
                                 <h3 class="card-title-tactical text-white">Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
                             </div>
-                             <button type="button" @click="if (plans.length < 13) addPlan()"
-                                 :disabled="plans.length >= 13"
-                                 :class="plans.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
-                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                 <span x-text="plans.length >= 13 ? 'Limit Reached (13)' : 'Add Yearly Plan'"></span>
-                             </button>
+                            <button type="button" @click="if (plans.length < 13) addPlan()"
+                                :disabled="plans.length >= 13"
+                                :class="plans.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                <span x-text="plans.length >= 13 ? 'Limit Reached (13)' : 'Add Yearly Plan'"></span>
+                            </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">

@@ -135,7 +135,7 @@
                     <option value="ADJT" {{ request('user_type') == 'ADJT' ? 'selected' : '' }}>ADJT</option>
                     <option value="COY COMD" {{ request('user_type') == 'COY COMD' ? 'selected' : '' }}>COY COMD</option>
                     <option value="COY Clk" {{ request('user_type') == 'COY Clk' ? 'selected' : '' }}>COY Clk</option>
-                    <option value="JCO/OR" {{ request('user_type') == 'JCO/OR' ? 'selected' : '' }}>JCO/OR</option>
+                    <option value="SOLDIER" {{ request('user_type') == 'SOLDIER' ? 'selected' : '' }}>SOLDIER</option>
                 </select>
             </div>
 

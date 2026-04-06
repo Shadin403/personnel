@@ -229,7 +229,7 @@
                 <p class="text-military-primary text-xs font-black level-indicator tracking-[0.5em] uppercase opacity-50"
                     x-text="'Level 05 &bull; ' + selectedSec?.name"></p>
                 <h2 class="text-4xl font-black text-military-secondary dark:text-white uppercase tracking-tight">Section
-                    Nominalroll</h2>
+                    Nominal Roll</h2>
                 <div class="flex items-center justify-center gap-3">
                     <span
                         class="px-3 py-1 bg-military-primary/10 text-military-primary text-[10px] font-bold uppercase tracking-widest"

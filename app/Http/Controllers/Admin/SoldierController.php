@@ -221,6 +221,7 @@ class SoldierController extends Controller
             'spouse_name' => 'nullable|string|max:255',
             'religion' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'gender' => 'nullable|string',
             'email' => 'nullable|email|max:255|unique:users,email|unique:soldiers,email',
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
@@ -239,7 +240,7 @@ class SoldierController extends Controller
             'height_in' => 'nullable|integer|min:0|max:11',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
-            'password' => 'required_if:user_type,CO,2IC,ADJT,COY COMD,COY Clk|nullable|string|min:6',
+            'password' => 'nullable|string|min:6',
         ]);
 
         return DB::transaction(function () use ($request, $validated) {
@@ -276,11 +277,14 @@ class SoldierController extends Controller
                 }
             }
 
-            // Create User Account
+            // Create User Account (Automated Credentials)
+            $personalNo = $soldier->personal_no ?: $soldier->number;
+            $cleanNo = str_replace([' ', '-'], '_', $personalNo);
+            
             User::create([
                 'name' => $soldier->name,
-                'email' => $request->email ?: (strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com'),
-                'password' => Hash::make($request->password ?: 'password123'),
+                'email' => "chargingnine+{$cleanNo}@gmail.com",
+                'password' => Hash::make('123456'),
                 'user_type' => $soldier->user_type,
                 'soldier_id' => $soldier->id,
             ]);
@@ -364,6 +368,7 @@ class SoldierController extends Controller
             'spouse_name' => 'nullable|string|max:255',
             'religion' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'gender' => 'nullable|string',
             'email' => 'nullable|email|max:255|unique:users,email,' . ($soldier->user->id ?? 'NULL') . '|unique:soldiers,email,' . $soldier->id,
             'dob' => 'nullable|date',
             'nid' => 'nullable|string|max:255',
@@ -382,7 +387,7 @@ class SoldierController extends Controller
             'height_in' => 'nullable|integer|min:0|max:11',
             'wrist_cm' => 'nullable|numeric',
             'is_pregnant' => 'nullable|boolean',
-            'password' => 'required_if:user_type,CO,2IC,ADJT,COY COMD,COY Clk|nullable|string|min:6',
+            'password' => 'nullable|string|min:6',
         ]);
 
         Gate::authorize('manage-soldiers');
@@ -444,10 +449,12 @@ class SoldierController extends Controller
                 if ($request->filled('email')) {
                     $user->update(['email' => $request->email]);
                 }
-            } else {
+                $personalNo = $soldier->personal_no ?: $soldier->number;
+                $cleanNo = str_replace([' ', '-'], '_', $personalNo);
+                
                 User::create(array_merge($userData, [
-                    'email' => $request->email ?: (strtolower(str_replace([' ', '-'], '_', $soldier->personal_no ?: $soldier->number)) . '@system.com'),
-                    'password' => Hash::make($request->password ?: 'password123'),
+                    'email' => "chargingnine+{$cleanNo}@gmail.com",
+                    'password' => Hash::make('123456'),
                     'soldier_id' => $soldier->id,
                 ]));
             }

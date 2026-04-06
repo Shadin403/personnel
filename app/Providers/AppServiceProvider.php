@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         // Define Gate for Soldier Management (View-Only Admins vs Clerical Entry)
         \Illuminate\Support\Facades\Gate::define('manage-soldiers', function ($user) {
             $type = strtoupper($user->user_type ?? '');
-            // Admins are now VIEW ONLY; Clerical roles (JCO/OR, etc.) can Manage
+            // Admins are now VIEW ONLY; Clerical roles (SOLDIER, etc.) can Manage
             return !in_array($type, ['CO', '2IC', 'ADJT', 'COY COMD', 'COY CLK']);
         });
     }
