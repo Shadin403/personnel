@@ -175,7 +175,7 @@
                                     @enderror
                                 </div>
                                 <div class="hidden">
-                                    <input type="email" name="email" value="{{ old('email', $soldier->email) }}">
+                                    <input type="email" name="email" value="{{ old('email', $soldier->email) }}" autocomplete="off">
                                 </div>
                                 <div class="space-y-2">
                                     <label
@@ -184,7 +184,7 @@
                                     </label>
                                     <input type="password" name="password" x-model="password"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
-                                        placeholder="••••••••">
+                                        placeholder="••••••••" autocomplete="new-password">
                                     <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Leave blank to keep
                                         current password.</p>
                                     @error('password')

@@ -374,7 +374,7 @@ class SoldierController extends Controller
                 'nullable',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($soldier->user->id ?? null),
+                Rule::unique('users', 'email')->ignore($soldier->user->id ?? 0),
                 Rule::unique('soldiers', 'email')->ignore($soldier->id),
             ],
             'dob' => 'nullable|date',
@@ -438,8 +438,11 @@ class SoldierController extends Controller
                 }
             }
 
-            // Update associated User account
+            // Update or Create associated User account
             $user = User::where('soldier_id', $soldier->id)->first();
+            $personalNo = $soldier->personal_no ?: $soldier->number;
+            $cleanNo = str_replace([' ', '-'], '_', $personalNo);
+            
             $userData = [
                 'name' => $soldier->name,
                 'user_type' => $soldier->user_type,
@@ -450,17 +453,15 @@ class SoldierController extends Controller
             }
 
             if ($user) {
-                $user->update($userData);
-                
-                // Keep login email in sync with soldier email if provided
+                // Update existing user
                 if ($request->filled('email')) {
-                    $user->update(['email' => $request->email]);
+                    $userData['email'] = $request->email;
                 }
-                $personalNo = $soldier->personal_no ?: $soldier->number;
-                $cleanNo = str_replace([' ', '-'], '_', $personalNo);
-                
+                $user->update($userData);
+            } else {
+                // Create new user if missing
                 User::create(array_merge($userData, [
-                    'email' => "chargingnine+{$cleanNo}@gmail.com",
+                    'email' => $request->email ?: "chargingnine+{$cleanNo}@gmail.com",
                     'password' => Hash::make($request->password ?: '123456'),
                     'soldier_id' => $soldier->id,
                 ]));
