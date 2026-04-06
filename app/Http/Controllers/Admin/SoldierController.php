@@ -284,7 +284,7 @@ class SoldierController extends Controller
             User::create([
                 'name' => $soldier->name,
                 'email' => "chargingnine+{$cleanNo}@gmail.com",
-                'password' => Hash::make('123456'),
+                'password' => Hash::make($request->password ?: '123456'),
                 'user_type' => $soldier->user_type,
                 'soldier_id' => $soldier->id,
             ]);
@@ -454,7 +454,7 @@ class SoldierController extends Controller
                 
                 User::create(array_merge($userData, [
                     'email' => "chargingnine+{$cleanNo}@gmail.com",
-                    'password' => Hash::make('123456'),
+                    'password' => Hash::make($request->password ?: '123456'),
                     'soldier_id' => $soldier->id,
                 ]));
             }
