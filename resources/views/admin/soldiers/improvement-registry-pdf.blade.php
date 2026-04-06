@@ -39,6 +39,7 @@
             font-weight: bold;
             text-transform: uppercase;
             color: #333;
+            text-align: center;
         }
 
         table {

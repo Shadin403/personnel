@@ -115,10 +115,24 @@
             font-size: 8px;
             margin-right: 5px;
         }
+        .section-title {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-left: 6px solid #ef4444;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #1e293b;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
+        <div class="section-title">
+            Improvement Registry Record Books [ইমপ্রুভমেন্ট রেজিস্ট্রি রেকর্ড বুক]
+        </div>
         <table class="card-table">
             @php $count = 0; @endphp
             @foreach($soldiers as $soldier)
