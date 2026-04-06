@@ -235,7 +235,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($soldier->firing_records ?? [] as $index => $record)
+            @forelse(collect($soldier->firing_records ?? [])->take(13) as $index => $record)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $record['date'] ?? '---' }}</td>
@@ -265,7 +265,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($soldier->night_firing_records ?? [] as $index => $record)
+            @forelse(collect($soldier->night_firing_records ?? [])->take(13) as $index => $record)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $record['date'] ?? '---' }}</td>
@@ -305,7 +305,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($soldier->night_trainings ?? [] as $index => $nt)
+            @forelse(collect($soldier->night_trainings ?? [])->take(13) as $index => $nt)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $nt['date'] ?? '---' }}</td>
@@ -326,7 +326,7 @@
                 <div style="font-weight: bold; margin-bottom: 5px;">3.7 Group Training</div>
                 <table class="grid-table">
                     <tr><th>Cycle</th><th>Year</th><th>Appointment</th></tr>
-                    @forelse($soldier->group_trainings ?? [] as $gt)
+                    @forelse(collect($soldier->group_trainings ?? [])->take(13) as $gt)
                         <tr>
                             <td>{{ $gt['circle'] ?? '---' }} Cycle</td>
                             <td>{{ $gt['year'] ?? '---' }}</td>
@@ -341,7 +341,7 @@
                 <div style="font-weight: bold; margin-bottom: 5px;">3.8 Cycle Ending Exercise</div>
                 <table class="grid-table">
                     <tr><th>Cycle</th><th>Year</th><th>Appointment</th></tr>
-                    @forelse($soldier->cycle_ending_exercises ?? [] as $ce)
+                    @forelse(collect($soldier->cycle_ending_exercises ?? [])->take(13) as $ce)
                         <tr>
                             <td>{{ $ce['circle'] ?? '---' }} Cycle</td>
                             <td>{{ $ce['year'] ?? '---' }}</td>
@@ -370,7 +370,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($soldier->field_trainings_summer ?? [] as $index => $trg)
+            @forelse(collect($soldier->field_trainings_summer ?? [])->take(13) as $index => $trg)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $trg['year'] ?? '---' }}</td>
@@ -400,7 +400,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($soldier->field_trainings_winter ?? [] as $index => $trg)
+            @forelse(collect($soldier->field_trainings_winter ?? [])->take(13) as $index => $trg)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $trg['year'] ?? '---' }}</td>
@@ -422,7 +422,7 @@
     <table class="grid-table" style="font-size: 10px;">
         <thead><tr><th style="width: 30px;">Sl</th><th>Course Name</th><th>Chance</th><th>Year</th><th>Details</th></tr></thead>
         <tbody>
-            @forelse($soldier->courses ?? [] as $index => $course)
+            @forelse(collect($soldier->courses ?? [])->take(13) as $index => $course)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td style="text-align: left;">
@@ -448,7 +448,7 @@
     <table class="grid-table" style="font-size: 10px;">
         <thead><tr><th style="width: 30px;">Sl</th><th>Year</th><th>Course/Cadre</th><th>Inst/Unit</th><th>Details</th></tr></thead>
         <tbody>
-            @forelse($soldier->special_courses ?? [] as $index => $scourse)
+            @forelse(collect($soldier->special_courses ?? [])->take(13) as $index => $scourse)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $scourse['year'] ?? '---' }}</td>
@@ -480,7 +480,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($soldier->annual_career_plans ?? [] as $index => $plan)
+            @forelse(collect($soldier->annual_career_plans ?? [])->take(13) as $index => $plan)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $plan['year'] ?? '---' }}</td>

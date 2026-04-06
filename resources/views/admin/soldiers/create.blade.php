@@ -840,9 +840,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">RET FIRING [আরইটি
                                     ফায়ারিং প্রোফাইল]</h3>
                             </div>
-                            <button type="button" @click="addFiringRecord"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Record</button>
+                             <button type="button" @click="if (firing_records.length < 13) addFiringRecord()"
+                                 :disabled="firing_records.length >= 13"
+                                 :class="firing_records.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="firing_records.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -932,9 +935,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Firing [নাইট
                                     ফায়ারিং]</h3>
                             </div>
-                            <button type="button" @click="addNightFiringRecord"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Record</button>
+                             <button type="button" @click="if (night_firing_records.length < 13) addNightFiringRecord()"
+                                 :disabled="night_firing_records.length >= 13"
+                                 :class="night_firing_records.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="night_firing_records.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1046,9 +1052,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Night Training
                                     [রাত্রীকালীন প্রশিক্ষণ]</h3>
                             </div>
-                            <button type="button" @click="addNightTraining"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Record</button>
+                             <button type="button" @click="if (night_trainings.length < 13) addNightTraining()"
+                                 :disabled="night_trainings.length >= 13"
+                                 :class="night_trainings.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="night_trainings.length >= 13 ? 'Limit Reached (13)' : '+ Add Record'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1110,8 +1119,18 @@
                                     <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Group Training
                                         [দলগত প্রশিক্ষণ]</h3>
                                 </div>
-                                <button type="button" @click="addGroupTraining"
-                                    class="text-white hover:text-amber-500 font-bold">+</button>
+                                <button type="button" @click="if (group_trainings.length < 13) addGroupTraining()"
+                                    :disabled="group_trainings.length >= 13"
+                                    :class="group_trainings.length >= 13 ? 'opacity-30 cursor-not-allowed' : ''"
+                                    class="text-white hover:text-amber-500 font-bold transition-all"
+                                    :title="group_trainings.length >= 13 ? 'Limit reached (13/13)' : '+ Add Record'">
+                                    <template x-if="group_trainings.length < 13"><span>+</span></template>
+                                    <template x-if="group_trainings.length >= 13">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke_width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    </template>
+                                </button>
                             </div>
                             <div class="p-0">
                                 <table class="w-full border-collapse">
@@ -1169,8 +1188,18 @@
                                     <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Cycle Ending
                                         Exercise [চক্র সমাপনী অনুশীলন]</h3>
                                 </div>
-                                <button type="button" @click="addCycleEndingExercise"
-                                    class="text-white hover:text-amber-500 font-bold">+</button>
+                                <button type="button" @click="if (cycle_ending_exercises.length < 13) addCycleEndingExercise()"
+                                    :disabled="cycle_ending_exercises.length >= 13"
+                                    :class="cycle_ending_exercises.length >= 13 ? 'opacity-30 cursor-not-allowed' : ''"
+                                    class="text-white hover:text-amber-500 font-bold transition-all"
+                                    :title="cycle_ending_exercises.length >= 13 ? 'Limit reached (13/13)' : '+ Add Record'">
+                                    <template x-if="cycle_ending_exercises.length < 13"><span>+</span></template>
+                                    <template x-if="cycle_ending_exercises.length >= 13">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke_width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    </template>
+                                </button>
                             </div>
                             <div class="p-0">
                                 <table class="w-full border-collapse">
@@ -1231,9 +1260,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Summer Training Record
                                     [গ্রীষ্মকালীন প্রশিক্ষণ]</h3>
                             </div>
-                            <button type="button" @click="addSummerTrg"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Year</button>
+                             <button type="button" @click="if (field_trainings_summer.length < 13) addSummerTrg()"
+                                 :disabled="field_trainings_summer.length >= 13"
+                                 :class="field_trainings_summer.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="field_trainings_summer.length >= 13 ? 'Limit Reached (13)' : '+ Add Year'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1315,9 +1347,12 @@
                                 <h3 class="card-title-tactical text-white uppercase tracking-widest">Winter Training Record
                                     [শীতকালীন প্রশিক্ষণ]</h3>
                             </div>
-                            <button type="button" @click="addWinterTrg"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">+
-                                Add Year</button>
+                             <button type="button" @click="if (field_trainings_winter.length < 13) addWinterTrg()"
+                                 :disabled="field_trainings_winter.length >= 13"
+                                 :class="field_trainings_winter.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="field_trainings_winter.length >= 13 ? 'Limit Reached (13)' : '+ Add Year'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1405,8 +1440,7 @@
                                 { name: 'সার্জেন্ট\'স কোর্স', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
                                 { name: 'পিই', chance: '', year: '', authority: '', group: 'কর্পোরাল' },
                                 { name: 'ওয়ারেন্ট অফিসার্স কোর্স', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
-                                { name: 'পিই', chance: '', year: '', authority: '', group: 'সার্জেন্ট' },
-                                { name: 'পিই', chance: '', year: '', authority: '', group: 'ওয়ারেন্ট অফিসার' }
+                                { name: 'পিই', chance: '', year: '', authority: '', group: 'সার্জেন্ট' }
                             ];
                             const existing = {{ json_encode(old('courses', [])) }};
                             if (existing && existing.length > 0) {
@@ -1421,7 +1455,9 @@
                             }
                         },
                         addCourse() {
-                            this.courses.push({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' });
+                            if (this.courses.length < 13) {
+                                this.courses.push({ name: '', chance: '', year: '', authority: '', group: 'সাধারণ' });
+                            }
                         },
                         removeCourse(index) {
                             this.courses.splice(index, 1);
@@ -1435,8 +1471,10 @@
                                 <h3 class="card-title-tactical text-white">Promotion Training Course / Cadre</h3>
                             </div>
                             <button type="button" @click="addCourse"
+                                :disabled="courses.length >= 13"
+                                :class="courses.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
-                                + Add Other Course
+                                <span x-text="courses.length >= 13 ? 'Limit Reached (13)' : '+ Add Other Course'"></span>
                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
@@ -1539,9 +1577,12 @@
                                     [বিশেষ
                                     প্রশিক্ষণ]</h3>
                             </div>
-                            <button type="button" @click="addSpecialCourse"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add
-                                Training Record</button>
+                             <button type="button" @click="if (special_courses.length < 13) addSpecialCourse()"
+                                 :disabled="special_courses.length >= 13"
+                                 :class="special_courses.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="special_courses.length >= 13 ? 'Limit Reached (13)' : 'Add Training Record'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -1639,9 +1680,12 @@
                                     class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-06</span>
                                 <h3 class="card-title-tactical text-white">Annual Career Plan [বাৎসরিক পেশা পরিকল্পনা]</h3>
                             </div>
-                            <button type="button" @click="addPlan"
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">Add
-                                Yearly Plan</button>
+                             <button type="button" @click="if (plans.length < 13) addPlan()"
+                                 :disabled="plans.length >= 13"
+                                 :class="plans.length >= 13 ? 'opacity-50 cursor-not-allowed' : ''"
+                                 class="px-4 py-2 bg-white/20 hover:bg-white/30 text-[10px] font-black uppercase tracking-widest transition-all">
+                                 <span x-text="plans.length >= 13 ? 'Limit Reached (13)' : 'Add Yearly Plan'"></span>
+                             </button>
                         </div>
                         <div class="p-0 overflow-x-auto">
                             <table class="w-full text-left border-collapse">
