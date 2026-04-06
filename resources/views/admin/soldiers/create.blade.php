@@ -148,16 +148,20 @@
                 <!-- User Type & Access Configuration -->
                 <div class="lg:col-span-12">
                     <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
-                        <div class="px-8 py-4 bg-military-primary flex items-center justify-between text-white border-l-8 border-amber-500">
+                        <div
+                            class="px-8 py-4 bg-military-primary flex items-center justify-between text-white border-l-8 border-amber-500">
                             <div class="flex items-center gap-4">
-                                <span class="px-2 py-0.5 bg-amber-500 text-military-primary text-[10px] font-black uppercase rounded-sm">AUTH</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">User Access Configuration</h3>
+                                <span
+                                    class="px-2 py-0.5 bg-amber-500 text-military-primary text-[10px] font-black uppercase rounded-sm">AUTH</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">User Access
+                                    Configuration</h3>
                             </div>
                         </div>
                         <div class="p-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="space-y-2">
-                                    <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <label
+                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         User Type (ইউজার টাইপ)
                                     </label>
                                     <select name="user_type" x-model="user_type"
@@ -176,24 +180,27 @@
                                     @enderror
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <label
+                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         Email Address (ইমেইল)
                                     </label>
                                     <input type="email" name="email" value="{{ old('email') }}"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('email') border-red-500 @enderror"
-                                        placeholder="EX: soldier@system.mil">
+                                        placeholder="EX: soldier@system.mil" autocomplete="off">
                                     @error('email')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="space-y-2" x-show="user_type && user_type !== 'JCO/OR'">
-                                    <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <label
+                                        class="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                         Access Password (পাসওয়ার্ড)
                                     </label>
                                     <input type="password" name="password" x-model="password"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('password') border-red-500 @enderror"
                                         placeholder="••••••••" :required="user_type && user_type !== 'JCO/OR'">
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password for this user's strategic access.</p>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase mt-1">Provide a password for
+                                        this user's strategic access.</p>
                                     @error('password')
                                         <p class="text-[10px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
                                     @enderror
@@ -203,7 +210,10 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-8 space-y-8" x-show="user_type" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="lg:col-span-8 space-y-8" x-show="user_type"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translate-y-4"
+                    x-transition:enter-end="opacity-100 transform translate-y-0">
                     <!-- Strategic Identity Section (Image Reference 1-11) -->
                     <div class="bg-white border border-slate-200 shadow-xl overflow-visible">
                         <div
@@ -211,7 +221,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-military-accent text-military-primary text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-01</span>
-                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personnel Identity [মৌলিক তথ্য]</h3>
+                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personnel
+                                    Identity [মৌলিক তথ্য]</h3>
                             </div>
                         </div>
 
@@ -263,7 +274,8 @@
                                                 class="w-full p-4 tactical-input text-sm font-bold @error('rank') border-red-500 @enderror"
                                                 placeholder="RANK (EN)">
                                             @error('rank')
-                                                <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}
+                                                <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">
+                                                    {{ $message }}
                                                 </p>
                                             @enderror
                                         </div>
@@ -536,7 +548,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-emerald-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-02</span>
-                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personal Profile & Bio-data</h3>
+                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Personal
+                                    Profile & Bio-data</h3>
                             </div>
                         </div>
                         <div class="p-8 space-y-8">
@@ -580,10 +593,14 @@
                                     <select name="religion"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('religion') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Islam" {{ old('religion') == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                        <option value="Hinduism" {{ old('religion') == 'Hinduism' ? 'selected' : '' }}>Hinduism</option>
-                                        <option value="Christianity" {{ old('religion') == 'Christianity' ? 'selected' : '' }}>Christianity</option>
-                                        <option value="Buddhism" {{ old('religion') == 'Buddhism' ? 'selected' : '' }}>Buddhism</option>
+                                        <option value="Islam" {{ old('religion') == 'Islam' ? 'selected' : '' }}>Islam
+                                        </option>
+                                        <option value="Hinduism" {{ old('religion') == 'Hinduism' ? 'selected' : '' }}>
+                                            Hinduism</option>
+                                        <option value="Christianity"
+                                            {{ old('religion') == 'Christianity' ? 'selected' : '' }}>Christianity</option>
+                                        <option value="Buddhism" {{ old('religion') == 'Buddhism' ? 'selected' : '' }}>
+                                            Buddhism</option>
                                     </select>
                                     @error('religion')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -599,9 +616,12 @@
                                     <select name="gender" x-model="gender"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('gender') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male [পুরুষ]</option>
-                                        <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female [মহিলা]</option>
-                                        <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other [অন্যান্য]</option>
+                                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male
+                                            [পুরুষ]</option>
+                                        <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female
+                                            [মহিলা]</option>
+                                        <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other
+                                            [অন্যান্য]</option>
                                     </select>
                                     @error('gender')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -617,8 +637,10 @@
                                     <select name="marital_status"
                                         class="w-full p-4 tactical-input text-sm font-bold @error('marital_status') border-red-500 @enderror">
                                         <option value="">- Select -</option>
-                                        <option value="Married" {{ old('marital_status') == 'Married' ? 'selected' : '' }}>Married</option>
-                                        <option value="Unmarried" {{ old('marital_status') == 'Unmarried' ? 'selected' : '' }}>Unmarried</option>
+                                        <option value="Married"
+                                            {{ old('marital_status') == 'Married' ? 'selected' : '' }}>Married</option>
+                                        <option value="Unmarried"
+                                            {{ old('marital_status') == 'Unmarried' ? 'selected' : '' }}>Unmarried</option>
                                     </select>
                                     @error('marital_status')
                                         <p class="text-[9px] font-bold text-red-500 mt-1 uppercase">{{ $message }}</p>
@@ -983,25 +1005,33 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <!-- Speed March -->
                         <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
-                            <div class="px-8 py-4 section-header-tactical flex items-center gap-4 text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
-                                <span class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.4</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Speed March [স্পিড মার্চ]</h3>
+                            <div
+                                class="px-8 py-4 section-header-tactical flex items-center gap-4 text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.4</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Speed March [স্পিড
+                                    মার্চ]</h3>
                             </div>
                             <div class="p-6">
                                 <input type="text" name="speed_march" value="{{ old('speed_march') }}"
-                                    placeholder="Enter Result" class="w-full p-4 tactical-input text-sm font-bold uppercase transition-all focus:ring-2 focus:ring-military-primary/20">
+                                    placeholder="Enter Result"
+                                    class="w-full p-4 tactical-input text-sm font-bold uppercase transition-all focus:ring-2 focus:ring-military-primary/20">
                             </div>
                         </div>
 
                         <!-- Grenade Fire -->
                         <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
-                            <div class="px-8 py-4 section-header-tactical flex items-center gap-4 text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
-                                <span class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.5</span>
-                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Grenade Fire [গ্রেনেড ফায়ার]</h3>
+                            <div
+                                class="px-8 py-4 section-header-tactical flex items-center gap-4 text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                                <span
+                                    class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.5</span>
+                                <h3 class="card-title-tactical text-white uppercase tracking-widest">Grenade Fire [গ্রেনেড
+                                    ফায়ার]</h3>
                             </div>
                             <div class="p-6">
                                 <input type="text" name="grenade_fire" value="{{ old('grenade_fire') }}"
-                                    placeholder="Enter Result" class="w-full p-4 tactical-input text-sm font-bold uppercase transition-all focus:ring-2 focus:ring-military-primary/20">
+                                    placeholder="Enter Result"
+                                    class="w-full p-4 tactical-input text-sm font-bold uppercase transition-all focus:ring-2 focus:ring-military-primary/20">
                             </div>
                         </div>
                     </div>
@@ -1744,7 +1774,8 @@
                             <div class="flex items-center gap-4">
                                 <span
                                     class="px-3 py-1 bg-green-500 text-white text-[11px] font-black uppercase tracking-tighter rounded-sm shadow-sm ring-2 ring-white/20">SEC-07</span>
-                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Physical & Extra Curricular Activities</h3>
+                                <h3 class="card-title-tactical text-white font-black uppercase tracking-widest">Physical &
+                                    Extra Curricular Activities</h3>
                             </div>
                         </div>
                         <div class="p-8">
@@ -1754,7 +1785,10 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 space-y-8" x-show="user_type" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                <div class="lg:col-span-4 space-y-8" x-show="user_type"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translate-y-4"
+                    x-transition:enter-end="opacity-100 transform translate-y-0">
                     <div class="bg-white border border-slate-200 shadow-xl p-8 sticky top-10">
                         <div class="text-center space-y-8">
                             <div>
@@ -1812,7 +1846,8 @@
             </div>
 
             <!-- Footer Actions -->
-            <div class="flex flex-col md:flex-row items-center justify-between py-10 border-t-2 border-slate-100 gap-8" x-show="user_type === 'Jco/OR' || (['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length >= 6)">
+            <div class="flex flex-col md:flex-row items-center justify-between py-10 border-t-2 border-slate-100 gap-8"
+                x-show="user_type === 'Jco/OR' || (['Co', '2ic', 'Adjt', 'Coy Comd', 'Coy clk'].includes(user_type) && password.length >= 6)">
                 <div class="flex items-center gap-6 w-full md:w-auto">
                     <a href="{{ route('admin.soldiers.index') }}"
                         class="flex-1 md:flex-none px-12 py-5 bg-white border border-slate-300 text-slate-500 text-[11px] font-black uppercase tracking-widest hover:border-red-500 hover:text-red-500 transition-all text-center">Dashboard</a>
