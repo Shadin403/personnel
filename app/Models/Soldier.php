@@ -275,6 +275,11 @@ class Soldier extends Model
         return $this->hasMany(TrainingPlan::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'soldier_id');
+    }
+
     public function unitTrainings()
     {
         return $this->hasMany(UnitTraining::class);

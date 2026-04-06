@@ -982,28 +982,37 @@
                     </div>
 
                     <!-- SEC-03.4 & SEC-03.5: Speed March & Grenade Fire -->
-                    <div class="bg-white border border-slate-200 shadow-xl overflow-hidden mb-8 p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <!-- Speed March -->
+                        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                            <div
+                                class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                                <div class="flex items-center gap-4">
                                     <span
                                         class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.4</span>
-                                    <p class="text-[10px] font-black text-military-primary uppercase tracking-widest">Speed
-                                        March [স্পিড মার্চ]</p>
+                                    <h3 class="card-title-tactical text-white uppercase tracking-widest">Speed March [স্পিড মার্চ]</h3>
                                 </div>
+                            </div>
+                            <div class="p-6">
                                 <input type="text" name="speed_march"
-                                    value="{{ old('speed_march', $soldier->speed_march) }}" placeholder=" "
+                                    value="{{ old('speed_march', $soldier->speed_march) }}" placeholder="ENTER RESULT"
                                     class="w-full p-3 tactical-input text-xs font-bold uppercase">
                             </div>
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 mb-4">
+                        </div>
+
+                        <!-- Grenade Fire -->
+                        <div class="bg-white border border-slate-200 shadow-xl overflow-hidden">
+                            <div
+                                class="px-8 py-4 section-header-tactical flex items-center justify-between text-white shadow-lg bg-gradient-to-r from-military-primary to-military-primary/90">
+                                <div class="flex items-center gap-4">
                                     <span
                                         class="px-3 py-1 bg-amber-500 text-military-primary text-[10px] font-black uppercase tracking-tighter rounded-sm">SEC-03.5</span>
-                                    <p class="text-[10px] font-black text-military-primary uppercase tracking-widest">
-                                        Grenade Fire [গ্রেনেড ফায়ার]</p>
+                                    <h3 class="card-title-tactical text-white uppercase tracking-widest">Grenade Fire [গ্রেনেড ফায়ার]</h3>
                                 </div>
+                            </div>
+                            <div class="p-6">
                                 <input type="text" name="grenade_fire"
-                                    value="{{ old('grenade_fire', $soldier->grenade_fire) }}" placeholder=" "
+                                    value="{{ old('grenade_fire', $soldier->grenade_fire) }}" placeholder="ENTER RESULT"
                                     class="w-full p-3 tactical-input text-xs font-bold uppercase">
                             </div>
                         </div>
