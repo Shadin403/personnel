@@ -126,7 +126,7 @@
     </style>
 </head>
 <body>
-    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">Person in Confidence</div>
+    <div style="text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 15px; color: #dc3545;">PERSON IN CONFIDENCE</div>
 
     <table style="width: 100%; margin-bottom: 20px; border: none;">
         <tr>
@@ -211,11 +211,15 @@
         <table class="data-table">
             <tr>
                 <th style="width: 50%;">Biannual 01 (জানুয়ারি - জুন):</th>
-                <td>{{ $soldier->ipft_biannual_1 ?? '---' }}</td>
+                <td style="{{ strtolower($soldier->ipft_biannual_1 ?? '') == 'fail' ? 'color: #dc3545;' : (strtolower($soldier->ipft_biannual_1 ?? '') == 'pass' ? 'color: #198754;' : '') }}">
+                    {{ $soldier->ipft_biannual_1 ?? '---' }}
+                </td>
             </tr>
             <tr>
                 <th>Biannual 02 (জুলাই - ডিসেম্বর):</th>
-                <td>{{ $soldier->ipft_biannual_2 ?? '---' }}</td>
+                <td style="{{ strtolower($soldier->ipft_biannual_2 ?? '') == 'fail' ? 'color: #dc3545;' : (strtolower($soldier->ipft_biannual_2 ?? '') == 'pass' ? 'color: #198754;' : '') }}">
+                    {{ $soldier->ipft_biannual_2 ?? '---' }}
+                </td>
             </tr>
         </table>
     </div>
@@ -242,7 +246,9 @@
                     <td>{{ $record['grouping'] ?? '---' }}</td>
                     <td>{{ $record['hit'] ?? '---' }}</td>
                     <td>{{ $record['ets'] ?? '---' }}</td>
-                    <td style="text-transform: uppercase;">{{ $record['status'] ?? '---' }}</td>
+                    <td style="text-transform: uppercase; {{ strtolower($record['status'] ?? '') == 'fail' ? 'color: #dc3545;' : (strtolower($record['status'] ?? '') == 'pass' ? 'color: #198754;' : '') }}">
+                        {{ $record['status'] ?? '---' }}
+                    </td>
                     <td style="font-weight: bold;">{{ $record['total'] ?? '---' }}</td>
                 </tr>
             @empty
@@ -270,7 +276,9 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $record['date'] ?? '---' }}</td>
                     <td>{{ $record['hit'] ?? '---' }}</td>
-                    <td style="text-transform: uppercase;">{{ $record['status'] ?? '---' }}</td>
+                    <td style="text-transform: uppercase; {{ strtolower($record['status'] ?? '') == 'fail' ? 'color: #dc3545;' : (strtolower($record['status'] ?? '') == 'pass' ? 'color: #198754;' : '') }}">
+                        {{ $record['status'] ?? '---' }}
+                    </td>
                     <td style="font-weight: bold;">{{ $record['total'] ?? '---' }}</td>
                 </tr>
             @empty
@@ -520,7 +528,7 @@
             <th style="font-weight: bold; background: #f1f3f5;">স্ট্যান্ডার্ড ওজন (Standard):</th>
             <td>{{ number_format($soldier->standard_weight, 1) }} KG</td>
             <th style="font-weight: bold; background: #f1f3f5;">বর্তমান অবস্থা (Status):</th>
-            <td style="text-transform: uppercase; font-weight: 900; font-size: 14px; {{ in_array($soldier->weight_status, ['Obese', 'Obese (WHR)']) ? 'color: #dc3545;' : ($soldier->weight_status == 'Overweight' ? 'color: #ffc107;' : 'color: #198754;') }}">
+            <td style="text-transform: uppercase; font-weight: 900; font-size: 14px; {{ in_array($soldier->weight_status, ['Obese', 'Obese (WHR)', 'Overweight']) ? 'color: #dc3545;' : 'color: #198754;' }}">
                 {{ $soldier->weight_status }}
             </td>
         </tr>
@@ -529,7 +537,7 @@
     </div>
 
     <div style="position: fixed; bottom: 0px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: #dc3545;">
-        Person in Confidence
+        PERSON IN CONFIDENCE
     </div>
 </body>
 </html>
